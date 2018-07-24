@@ -1,0 +1,32 @@
+#gal_bg {
+    background:url(https://www.flor.cz/blog/wp-content/plugins/lightbox-plus/css/elegant/images/overlay.png);
+    width: 100%;
+    position: fixed;
+    min-height: 100%;
+    z-index: 99998;
+    top: 0;
+}
+
+#gallery {
+    position: absolute;
+    top: 0;
+    z-index: 99999;
+    width: 100%;
+}
+
+
+#gallery img {
+    display: block;
+    margin:6em auto 1em auto; 
+    border: 1px solid black;
+}
+
+#gallery p { 
+    display:block; 
+    margin: auto; 
+    color:#FFFFFF; 
+    font-family:"open sans", Helvetica, sans-serif; 
+    text-align:center; 
+    background: #222222; 
+    padding: 0.5em;
+}
