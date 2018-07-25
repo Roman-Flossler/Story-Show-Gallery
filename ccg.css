@@ -3,21 +3,23 @@
     width: 100%;
     position: fixed;
     min-height: 100%;
-    z-index: 99998;
+    z-index: 99990;
     top: 0;
 }
 
 #gallery {
     position: absolute;
-    top: 0;
-    z-index: 99999;
+    top: 0px;
+    z-index: 99991;
     width: 100%;
 }
 
 
 #gallery img {
+    max-width: 88%;
+    max-height: 90vh;
     display: block;
-    margin:6em auto 1em auto; 
+    margin:2em auto 0.5em auto; 
     border: 1px solid black;
 }
 
@@ -29,4 +31,75 @@
     text-align:center; 
     background: #222222; 
     padding: 0.5em;
+    margin-bottom: 6em;
+}
+
+#exit {
+    position: fixed;
+    top: -13px;
+    right: -13px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: rgba(0, 0, 0, 0.5);    
+    cursor: pointer;
+    z-index: 99993;
+}
+
+#exit span {
+    color: rgb(161, 161, 161);    
+    font-size: 25px;
+    font-weight: lighter;    
+    position: absolute;
+    bottom: 5px;
+    left: 12px;
+    font-family: Calibri, 'Times New Roman', 'Courier New', sans-serif;
+}
+
+#help {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 110px;
+    height: 140px;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: help;
+}
+
+#mouse {
+    height: 70px;
+    width: 40px;
+    position: absolute;
+    right:20px;
+    bottom:16px;
+    border-radius: 20px;
+    border: 3px solid #696969;
+}
+
+#scroll {
+    height: 16px;
+    width: 8px;
+    position: absolute;
+    left:13px;
+    top:8px;
+    border-radius: 4px;
+    background: white;
+}
+
+@keyframes move {
+    from {top: 23px;}
+    to { top: 33px;}
+}
+
+#down {
+     position: absolute;
+     left:12px;
+     top:30px;
+     font-size: 25px;
+     transform: rotate(90.0deg);
+     color: white;
+     animation-name: move;
+     animation-duration: 0.7s;     
+     animation-iteration-count: infinite;
 }
