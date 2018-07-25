@@ -1,4 +1,4 @@
-#gal_bg {
+#SSG_galBg {
     background:url(https://www.flor.cz/blog/wp-content/plugins/lightbox-plus/css/elegant/images/overlay.png);
     width: 100%;
     position: fixed;
@@ -7,7 +7,7 @@
     top: 0;
 }
 
-#gallery {
+#SSG_gallery {
     position: absolute;
     top: 0px;
     z-index: 99991;
@@ -15,7 +15,7 @@
 }
 
 
-#gallery img {
+#SSG_gallery img {
     max-width: 88%;
     max-height: 90vh;
     display: block;
@@ -23,7 +23,7 @@
     border: 1px solid black;
 }
 
-#gallery p { 
+#SSG_gallery p { 
     display:block; 
     margin: auto; 
     color:#FFFFFF; 
@@ -34,7 +34,7 @@
     margin-bottom: 6em;
 }
 
-#exit {
+#SSG_exit {
     position: fixed;
     top: -13px;
     right: -13px;
@@ -46,7 +46,7 @@
     z-index: 99993;
 }
 
-#exit span {
+#SSG_exit span {
     color: rgb(161, 161, 161);    
     font-size: 25px;
     font-weight: lighter;    
@@ -56,7 +56,7 @@
     font-family: Calibri, 'Times New Roman', 'Courier New', sans-serif;
 }
 
-#help {
+#SSG_gallery #help {
     position: absolute;
     top: -30px;
     left: -30px;
@@ -67,7 +67,7 @@
     cursor: help;
 }
 
-#mouse {
+#SSG_gallery #mouse {
     height: 70px;
     width: 40px;
     position: absolute;
@@ -77,7 +77,7 @@
     border: 3px solid #696969;
 }
 
-#scroll {
+#SSG_gallery #scroll {
     height: 16px;
     width: 8px;
     position: absolute;
@@ -92,7 +92,7 @@
     to { top: 33px;}
 }
 
-#down {
+#SSG_gallery #down {
      position: absolute;
      left:12px;
      top:30px;
