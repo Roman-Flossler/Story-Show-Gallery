@@ -13,12 +13,14 @@ SSG.initGallery = function initGallery(tag) {
 
 SSG.getImgList = function (clickedHref, clickedAlt) {
     SSG.imgs = jQuery("a[href$='.jpg']").toArray().map(function (el) { // search for A tags which points to .jpg file and returns it in array 
-        return { href: el.href, alt: el.children[0].alt } // callback function gets a-href and img-alg property and returns them in object
+        var alt;
+        if (el.children[0].alt.length > el.children[0].title.length ) {alt=el.children[0].alt} else {alt=el.children[0].title};
+        return { href: el.href, alt: alt } // callback function gets a-href and img-alg property and returns them in object
     });
     if (clickedHref) {
         var i;
-        var max = SSG.imgs.length > 6 ? 5 : SSG.imgs.length;
-        for (i = 0; i <= max; i++) {
+        var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length-1;
+        for (i = 0; i < max; i++) {
             SSG.imgs[i].href == clickedHref && SSG.imgs.splice(i, 1);  // remove the image that the user clicked, it will be added on begining of the gallery
         }
     }
@@ -39,7 +41,7 @@ SSG.addImage = function () {
     var newOne = SSG.actual + 1; // newone is index of image which will be load
 
     if (newOne < SSG.imgs.length) {
-        jQuery("#SSG_gallery").append("<img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
+        jQuery("#SSG_gallery").append("<span class='wrap'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span><p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
         jQuery("#i" + newOne).load(function (event) {
             SSG.imgs[newOne].pos = Math.round(jQuery("#i" + newOne).offset().top); // when img is loaded his offset from top of the page is saved
         });
@@ -48,7 +50,7 @@ SSG.addImage = function () {
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
-    return url.slice(url.lastIndexOf("/") + 1, -4);
+    return url.slice(url.lastIndexOf("/") + 1);
 }
 
 SSG.checkLoading = function () {
@@ -63,9 +65,10 @@ SSG.checkLoading = function () {
 
     for (var i = 0; i <= SSG.actual; i++) {
         var topPos = 0;
-        if (SSG.actual < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight }
+        if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight }
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
-            SSG.displayed != i && console.log(SSG.getName(SSG.imgs[i].href)); // sends pageview of actual image to Google Analytics
+//            SSG.displayed != i && ga('send', 'pageview', location.pathname+'/'+SSG.getName(SSG.imgs[i].href)); // sends pageview of actual image to Google Analytics
+            SSG.displayed != i && console.log(location.pathname+'/'+SSG.getName(SSG.imgs[i].href)); 
             SSG.displayed = i;
             //            ga('send', 'pageview', '/' + SSG.imgs[i].href);
         }
@@ -74,13 +77,17 @@ SSG.checkLoading = function () {
 
 SSG.destroyGallery = function () {
     clearInterval(SSG.loading);
+    ga('send', 'pageview', location.pathname);
+    console.log(location.pathname);
     jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit").remove();
     window.scrollTo(0, SSG.pos); // sets the original (before initGallery) vertical scroll of page    
 }
 
 SSG.run = function (event) {
     SSG.initGallery(event.currentTarget.parentNode.tagName); // event pass a lot of data about clicked A tag
-    SSG.getImgList(event.currentTarget.href, event.currentTarget.firstChild.alt);
+    var alt;
+    if (event.currentTarget.firstChild.alt.length > event.currentTarget.firstChild.title.length) {alt=event.currentTarget.firstChild.alt} else {alt=event.currentTarget.firstChild.title};
+    SSG.getImgList(event.currentTarget.href, alt);
     SSG.setVariables();
     SSG.loading = setInterval(SSG.checkLoading, 300); // every 300 ms check if more images should be loaded
     return false;
