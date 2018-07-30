@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Simple Scroll Gallery</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
+    <link rel='stylesheet' href='ssg-sample.css' type='text/css' media='all' />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main class="row">
+        <article class="column">
+            <h1>Simple Scroll Gallery</h1>
+            <p>
+                <em>Javascript gallery created by Roman Flössler</em>
+            </p>
+
+            <p>I've made Simple scroll gallery for my blog about photography. I wanted simple gallery which is easy to navigate.
+                The user only needs to scroll down - just like on Facebook. You can try it on sample gallery on this page.
+            </p>
+            <p>Main features of Simple Scroll Gallery:</p>
+
+            <ul>
+                <li>Gallery is fully responsive</li>
+                <li>Images are gradually loaded as the user scrolls down</li>
+                <li>There can be a caption under each image</li>
+                <li>You can put your logo with copyright over images</li>
+                <li>Gallery supports Google analytics. When user views image it is counted as virtual pageview.</li>
+            </ul>
+
+
+            <h2>How to implement gallery</h2>
+
+
+            <p>Simple scroll gallery is very easy to implement on your website. You just need to add two lines of code somewhere
+                before &lt;/body&gt; tag:</p>
+
+            <code>
+                    &lt;link rel="stylesheet" href="ssg.css" type="text/css"&gt;<br/>
+                    &lt;script type="text/javascript" src="ssg.js"&gt;&lt;/script&gt;
+                    </code>
+
+
+            <p>If you don't already use jQuery you also have to include jQuery.js at least in version 1.5. Gallery is compatible
+                with Wordpress and its version of jQuery. If you want to adjust how gallery looks or behave you have to edit
+                css or js file.
+                <p>
+
+                    <h2>How gallery works</h2>
+
+                    <p>Simple scroll gallery looks for all &lt;a&gt; tags on the page that points to image file (jpg, png, gif).
+                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery.</p>
+
+                    <p>The image the user clicked on is displayed first, then follows other images in the order they appear
+                        on the page.</p>
+
+                    <p>Text caption under images is taken from alt atribute. If there is no alt atribute gallery shows just
+                        empty stripe.</p>
+
+
+
+                    <br style="clear: both" />
+        </article>
+
+        <article class="column">
+            <div class="topimg">
+                <a href="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram.jpg">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram-650x342.jpg" style="filter: brightness(1.1);" 
+                    alt="The Uluwat Temple - you can only see it from afar. Temple can access only believers" />
+                </a>
+            </div>
+
+            <h1>Bali &amp; Lombok
+                <br/> sample gallery</h1>
+
+
+            <p class="bigger">
+                Now I fully understand the travelers who have decided to move to Bali. If I had to describe Bali in one word, then it's well-being.
+                <br/> There is
+                <a href="https://www.flor.cz/blog/cestovani-a-foceni-na-bali-a-lomboku/" target="_blank"> whole text and more photos</a> on my blog.
+            </p>
+
+            <section class="gallery">
+                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>                    
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="
+                    Waterfall Sekumpul - it is possible to bathe under it" />
+                </a>
+                <a href="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice.jpg">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice-200x200.jpg" alt="
+                    Ubud - The center of cultural and spiritual life in Bali" />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="
+                    Tegalalang rice terraces" />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="" />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli-200x200.jpg" alt="
+                    Selong Belanak Beach - Ideal Waves to surf for total beginners" />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad-200x200.jpg" alt="
+                    Sendang Gile waterfall - the way here is not too marked, you have to cross the river twice. Locals will recommend you to rent a guide :)"
+                    />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-policka.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields"
+                    />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn-200x200.jpg" alt="
+                    Bangkang - a cave full of bats. Great place, but something more dense than the water drops from the ceiling :)"
+                    />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="
+                    Mangku Sakti canyon with crystal clear water" />
+                </a>
+
+            </section>
+            <br style="clear: both" />
+        </article>
+    </main>
+
+    <footer>&nbsp;</footer>
+
+    <link rel="stylesheet" href="ssg.css" type="text/css" media="all">
+    <script type="text/javascript" src="ssg.js"></script>
+</body>
+</html>

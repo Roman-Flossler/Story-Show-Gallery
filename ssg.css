@@ -1,10 +1,13 @@
+
 #SSG_galBg {
-    background:url(https://www.flor.cz/blog/wp-content/plugins/lightbox-plus/css/elegant/images/overlay.png);
+    background: #0e0e0e;
+    background-image:url(https://www.flor.cz/img/ssg-bg.png);
     width: 100%;
     position: fixed;
-    min-height: 100%;
+    height: 200%;
     z-index: 99990;
-    top: 0;
+    top: -50%;
+    left: 0px;
 }
 
 #SSG_gallery {
@@ -13,15 +16,16 @@
     z-index: 99991;
     width: 100%;
     text-align: center;
+    left: 0px;
 }
 
 
 #SSG_gallery img {
-    max-width: 88%;
+    max-width: 96%;
     max-height: 90vh;
     display: inline;
     margin:2em 0 0.5em 0; 
-    border: 1px solid black;
+    border: 1px solid black;    
 }
 
 #SSG_gallery span.wrap {
@@ -29,7 +33,7 @@
 }
 
 #SSG_gallery span.logo {
-    background: url("florcz.png") ;
+    /** background: url("https://add your logo and © over images") ;  **/
     display: inline-block;
     width: 147px;
     height: 47px;
@@ -83,6 +87,10 @@
     z-index: 3;
 }
 
+#SSG_gallery a.link {
+	cursor:pointer;
+	}
+
 #SSG_gallery #mouse {
     height: 70px;
     width: 40px;
@@ -118,4 +126,39 @@
      animation-name: move;
      animation-duration: 0.7s;     
      animation-iteration-count: infinite;
+}
+
+
+@media (max-width: 777px) {
+#SSG_gallery img {
+    max-width: 100%;
+    max-height: 90vh;
+
+}
+
+#SSG_gallery #help {
+	display:none;
+}
+
+#SSG_gallery span.logo {    
+	background-size: 100%;
+    width: 100px;
+    height: 33px;
+    bottom: 0px;
+    left: 0px;
+}
+
+#SSG_gallery p { 
+    margin-bottom: 3em;
+}	
+}
+
+@media (orientation: portrait) {
+#SSG_gallery #help {
+	display:none;
+}
+
+#SSG_gallery img {
+    max-width: 100%;
+}
 }

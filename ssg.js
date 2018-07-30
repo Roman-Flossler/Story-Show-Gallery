@@ -1,5 +1,9 @@
+// Simple Scroll Gallery
+// Created by Roman Flössler flor@flor.cz
+// You can see how gallery works on my blog - https://www.flor.cz/blog/hrbitov-vlaku/
 
-var SSG = {};
+var SSG = {};  // main object - namespace
+SSG.imgs = [];  // array of objects where image attributes are stored
 
 SSG.initGallery = function initGallery(tag) {
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
@@ -12,14 +16,14 @@ SSG.initGallery = function initGallery(tag) {
 }
 
 SSG.getImgList = function (clickedHref, clickedAlt) {
-    SSG.imgs = jQuery("a[href$='.jpg']").toArray().map(function (el) { // search for A tags which points to .jpg file and returns it in array 
-        var alt;
-        if (el.children[0].alt.length > el.children[0].title.length ) {alt=el.children[0].alt} else {alt=el.children[0].title};
-        return { href: el.href, alt: alt } // callback function gets a-href and img-alg property and returns them in object
+    Array.prototype.forEach.call(jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").toArray(), function (el) { // call invokes forEach method in context of jQuery output
+        if (el.children[0]) SSG.imgs.push({ href: el.href, alt: el.children[0].alt }); // if A tag has children (img tag) its atributes are pushed into SSG.imgs array
+        // text legend under image apears only if A tag's children[0] has alt attribute (is image) - it should be fixed, maybe :)
     });
+
     if (clickedHref) {
         var i;
-        var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length-1;
+        var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length - 1;
         for (i = 0; i < max; i++) {
             SSG.imgs[i].href == clickedHref && SSG.imgs.splice(i, 1);  // remove the image that the user clicked, it will be added on begining of the gallery
         }
@@ -37,16 +41,28 @@ SSG.setVariables = function () {
     SSG.addImage();
 }
 
+
+SSG.countResize = function () {
+    SSG.scrHeight = jQuery(window).height();
+    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
+    for (var i = 0; i <= SSG.actual; i++) {
+        SSG.imgs[i].pos = Math.round(jQuery("#i" + i).offset().top);
+    }
+}
+
 SSG.addImage = function () {
     var newOne = SSG.actual + 1; // newone is index of image which will be load
 
     if (newOne < SSG.imgs.length) {
-        jQuery("#SSG_gallery").append("<span class='wrap'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span><p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
+        jQuery("#SSG_gallery").append("<span class='wrap'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span>");
+        if (!SSG.imgs[newOne].alt) SSG.imgs[newOne].alt = "";
+        jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
         jQuery("#i" + newOne).load(function (event) {
             SSG.imgs[newOne].pos = Math.round(jQuery("#i" + newOne).offset().top); // when img is loaded his offset from top of the page is saved
         });
         SSG.actual = newOne; // index of newest loaded image
     }
+    newOne == SSG.imgs.length - 1 && jQuery("#SSG_gallery").append("<p><a class='link'>Back to website</a></p>").click(SSG.destroyGallery);
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
@@ -67,30 +83,31 @@ SSG.checkLoading = function () {
         var topPos = 0;
         if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight }
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
-//            SSG.displayed != i && ga('send', 'pageview', location.pathname+'/'+SSG.getName(SSG.imgs[i].href)); // sends pageview of actual image to Google Analytics
-            SSG.displayed != i && console.log(location.pathname+'/'+SSG.getName(SSG.imgs[i].href)); 
+            if (typeof ga !== 'undefined') {
+                SSG.displayed != i && ga('send', 'pageview', location.pathname + '/' + SSG.getName(SSG.imgs[i].href));
+            } // sends pageview of actual image to Google Analytics
+            //  SSG.displayed != i && console.log(location.pathname + '/' + SSG.getName(SSG.imgs[i].href));
             SSG.displayed = i;
-            //            ga('send', 'pageview', '/' + SSG.imgs[i].href);
         }
     }
 }
 
 SSG.destroyGallery = function () {
     clearInterval(SSG.loading);
-    ga('send', 'pageview', location.pathname);
-    console.log(location.pathname);
+    if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
+    //    console.log(location.pathname);
     jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit").remove();
+    jQuery(window).off("resize", SSG.countResize);
     window.scrollTo(0, SSG.pos); // sets the original (before initGallery) vertical scroll of page    
 }
 
 SSG.run = function (event) {
     SSG.initGallery(event.currentTarget.parentNode.tagName); // event pass a lot of data about clicked A tag
-    var alt;
-    if (event.currentTarget.firstChild.alt.length > event.currentTarget.firstChild.title.length) {alt=event.currentTarget.firstChild.alt} else {alt=event.currentTarget.firstChild.title};
-    SSG.getImgList(event.currentTarget.href, alt);
+    SSG.getImgList(event.currentTarget.href, event.currentTarget.children["0"].alt);
     SSG.setVariables();
     SSG.loading = setInterval(SSG.checkLoading, 300); // every 300 ms check if more images should be loaded
+    jQuery(window).resize(SSG.countResize);
     return false;
 }
 
-jQuery(document).ready(function () { jQuery("a[href$='.jpg']").click(SSG.run) });
+jQuery(document).ready(function () { jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").click(SSG.run) });
