@@ -3,9 +3,9 @@
 // You can see how gallery works on my blog - https://www.flor.cz/blog/hrbitov-vlaku/
 
 var SSG = {};  // main object - namespace
-SSG.imgs = [];  // array of objects where image attributes are stored
 
 SSG.initGallery = function initGallery(tag) {
+    SSG.imgs = [];  // array of objects where image attributes are stored
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
     if (tag == "DT") jQuery("#SSG_gallery").append("<a title='rolujte dolů'><div id='help'><div id='mouse'> <div id='scroll'></div> <div id='down'>&raquo;</div> </div></div></a>");
     // if gallery thumbnail is wrapped in DT tag user will see visual help how to use gallery - Wordpress use a DT tag in its gallery
@@ -27,8 +27,8 @@ SSG.getImgList = function (clickedHref, clickedAlt) {
         for (i = 0; i < max; i++) {
             SSG.imgs[i].href == clickedHref && SSG.imgs.splice(i, 1);  // remove the image that the user clicked, it will be added on begining of the gallery
         }
+        SSG.imgs.unshift({ href: clickedHref, alt: clickedAlt }); //  the image that the user clicked is added to beginning of the gallery
     }
-    SSG.imgs.unshift({ href: clickedHref, alt: clickedAlt }); //  the image that the user clicked is added to beginning of the gallery
 }
 
 SSG.setVariables = function () {
@@ -84,9 +84,9 @@ SSG.checkLoading = function () {
         if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight }
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
             if (typeof ga !== 'undefined') {
-                SSG.displayed != i && ga('send', 'pageview', location.pathname + '/' + SSG.getName(SSG.imgs[i].href));
+                SSG.displayed != i && ga('send', 'pageview', '/img'+location.pathname+SSG.getName(SSG.imgs[i].href));
             } // sends pageview of actual image to Google Analytics
-            //  SSG.displayed != i && console.log(location.pathname + '/' + SSG.getName(SSG.imgs[i].href));
+            //      SSG.displayed != i && console.log('/img'+location.pathname+SSG.getName(SSG.imgs[i].href));
             SSG.displayed = i;
         }
     }
