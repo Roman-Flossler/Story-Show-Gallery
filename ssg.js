@@ -12,6 +12,11 @@ SSG.initGallery = function initGallery(tag) {
     jQuery(document).keydown(function (event) {
         if (event.which == 27) SSG.destroyGallery(); //ESC key destroys gallery
     });
+    jQuery(document).keydown(function (event) {
+        if (event.which == 32) SSG.isSpaceBarPressed = true; // SpaceBar set a property that causes jumping on next photo
+        event.preventDefault();
+        event.stopPropagation();
+    });
     jQuery("#SSG_exit").click(SSG.destroyGallery);
 }
 
@@ -38,6 +43,7 @@ SSG.setVariables = function () {
     window.scrollTo(0, 0);
     SSG.scrHeight = jQuery(window).height();
     jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;  // different screen fraction for different screen aspect ratios
+    SSG.isSpaceBarPressed = false;
     SSG.addImage();
 }
 
@@ -62,7 +68,7 @@ SSG.addImage = function () {
         });
         SSG.actual = newOne; // index of newest loaded image
     }
-    newOne == SSG.imgs.length - 1 && jQuery("#SSG_gallery").append("<p><a class='link'>Back to website</a></p>").click(SSG.destroyGallery);
+    newOne == SSG.imgs.length - 1 && jQuery("#SSG_gallery").append("<p id='back'><a class='link'>Back to website</a></p>").click(SSG.destroyGallery);
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
@@ -90,6 +96,12 @@ SSG.checkLoading = function () {
             SSG.displayed = i;
         }
     }
+    if (SSG.displayed+1 < SSG.imgs.length) {
+        if (SSG.isSpaceBarPressed && SSG.imgs[SSG.displayed+1].pos) window.scrollTo(0, SSG.imgs[SSG.displayed+1].pos-20);
+    } else {
+        SSG.isSpaceBarPressed && window.scrollTo(0, jQuery("#back").offset().top+100);
+    }
+    SSG.isSpaceBarPressed = false;
 }
 
 SSG.destroyGallery = function () {
