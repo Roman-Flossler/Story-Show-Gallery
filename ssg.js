@@ -12,9 +12,6 @@ SSG.initGallery = function initGallery(tag) {
     jQuery(document).keydown(function (event) {
         if (event.which == 27) SSG.destroyGallery(); //ESC key destroys gallery
     });
-    jQuery(document).keydown(function (event) {
-        if (event.which == 32) SSG.isSpaceBarPressed = true; // SpaceBar set a property, that cause jumping on next photo
-    });    
     jQuery("#SSG_exit").click(SSG.destroyGallery);
 }
 
