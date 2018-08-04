@@ -34,7 +34,7 @@
 }
 
 #SSG_gallery span.logo {
-    /** background: url("https://add your logo and © over images") ;  **/
+    /* background: url(https://www.flor.cz/img/florcz.png); add your own logo over images */ 
     display: inline-block;
     width: 147px;
     height: 47px;
@@ -46,12 +46,15 @@
 #SSG_gallery p { 
     display:block; 
     margin: auto; 
-    color:#FFFFFF; 
-    font-family:"open sans", Helvetica, sans-serif; 
+	line-height: 1.3em;
+    color:#cecece; 
     text-align:center; 
     background: #222222; 
-    padding: 0.5em;
-    margin-bottom: 8em;
+    padding: 0.4em;
+	padding-bottom: 0.2em;
+    margin-bottom: 11em;
+	font-weight: lighter;
+	font-size: 100%;
 }
 
 #SSG_exit {
@@ -67,94 +70,177 @@
 }
 
 #SSG_exit span {
-    color: rgb(161, 161, 161);    
-    font-size: 25px;
+    color: #888888;
+    font-size: 30px;
     font-weight: lighter;    
     position: absolute;
-    bottom: 5px;
+    bottom: 3px;
     right: 12px;
-    font-family: Calibri, 'Times New Roman', 'Courier New', sans-serif;
+    font-family: 'Times New Roman', 'Courier New', sans-serif;
 }
 
-#SSG_arrows span {
-    height: 30px;    
-    position: absolute;    
-    right: 12px;    
-}
+/* >>>>>>>>>>>>>>>>>>>>>  Styles for arrows */
 
 #SSG_arrows {
     position: fixed;
     top: -13px;
-    right: -13px;
+    right: -16px;
     width: 50px;
-    height: 110px;
+    height: 116px;
     border-radius: 25px;
     background: rgba(0, 0, 0, 0.8);    
     cursor: pointer;
     z-index: 99996;
 }
 
+#SSG_arrows span {
+    height: 50px;    
+    position: absolute;    
+    right: 12px;
+    left: -10px;
+    background-position-y: 66%;
+    background-position-x: center;
+}
+
 #SSG_arrows span.up {
-    top: 25px;
-    left: 6px;
+    top: 11px;
 }
 
 #SSG_arrows span.down {
-    top: 65px;
-    left: 6px;
-    animation-name: move;
-    animation-duration: 0.7s;     
-    animation-iteration-count: infinite;
+    top: 69px;
+    transform: scaleY(-1);    
 }
 
-#SSG_arrows:hover span.down {
-    animation: none;
-}
+#SSG_arrows span.up, #SSG_arrows span.down {
+    background-size: 20px;
+    background-repeat: no-repeat;
+}    
 
 #SSG_arrows #tip {
-    background: rgba(0, 0, 0, 0.8);    
-    color: rgb(161, 161, 161);    
-    right: 255px;
-    top:16px;
+    background: rgb(55, 55, 55);
+    color: #ffffff;
+    right: 55px;
+    top: 20px;
     border-radius: 5px;
-    padding: 3px 0 3px 10px;
-    position: relative;
-    width: 250px;
-    visibility: hidden;
-}
-
-#SSG_arrows:hover #tip {
+    padding: 3px 8px;
+    position: fixed;
+    white-space: nowrap;
+    opacity: 0;
+    display: inline;
     animation-name: disappear;
-    animation-duration: 5s;  
+    animation-duration: 20s;  
     animation-iteration-count: 1;
 }
 
-@keyframes move {
-    from {top: 44px;}
-    to { top: 66px;}
+#SSG_arrows #tip strong {
+    font-family: monospace;
+    color: rgb(208, 255, 0);
+    font-size: 121%;
+}
+
+@media (pointer: coarse) {
+    #SSG_arrows #tip {
+        font-size: 0;
+    }
+
+    #tip::after {
+        content:  'For fast scrolling use this arrows:';
+        font-size: 16px;
+       }    
 }
 
 @keyframes disappear {
-    0%  {visibility: hidden}    
-    1%   {visibility: visible}
-    50%  {visibility: hidden}    
-    100% {visibility: hidden}
+    0%  {opacity: 0}
+    13%  {opacity: 0}    
+    20%   {opacity: 1}
+    60%  {opacity: 1}
+    66%  {opacity: 0}
+    100% {opacity: 0}
 }
 
 
 #SSG_gallery a.link {
 	cursor:pointer;
-	}
+    }
+    
+
+/* >>>>>>>>>>>>>>>>>>>>>  Arrow for bigger resolution */    
+
+@media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {
+
+    #SSG_arrows span.up, #SSG_arrows span.down {
+        background-size: 24px;
+    }
+    #SSG_arrows {
+        width: 55px;
+        height: 122px;
+    }
+    #SSG_arrows span.down {
+        top: 69px;
+    }
+    #SSG_arrows span.up {
+        top: 13px;
+    }    
+    #SSG_arrows span {
+        height: 55px;
+        left: -11px;
+    }
+    #SSG_exit span {
+        font-size: 36px;
+        bottom: 2px;
+        right: 12px;
+    }   
+    #SSG_exit {
+        top: -6px;
+        left: -6px;    
+    }
+}
+
+
+
+    /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
 
 @media (max-width: 777px) {
 #SSG_gallery img {
     max-width: 100%;
     max-height: 90vh;
-
+    margin: 0.1em 0 0.1em 0; 
 }
 
-#SSG_gallery #help {
-	display:none;
+#SSG_gallery {
+   padding-top: 5em;
+}
+
+#SSG_arrows {
+    right: -26px;
+    top: -23px;
+	border-radius: 20px;
+    height: 111px;
+    }
+
+    #SSG_arrows span {
+        left: -14px;    
+    }  
+
+#SSG_arrows span.up {
+        top: 16px;
+    }    
+    
+#SSG_arrows #tip {
+    right: 33px;
+    top: 3px;    
+}    
+	
+#SSG_exit {
+    top: -20px;
+    left: -21px;	
+    border-radius: 20px;
+}	
+
+#SSG_exit span {
+    bottom: -1px;
+    right: 8px;
+    font-size: 27px;
 }
 
 #SSG_gallery span.logo {    
@@ -166,12 +252,21 @@
 }
 
 #SSG_gallery p { 
-    margin-bottom: 3em;
+	margin-bottom: 6em;
+    line-height: 1.1em;
+	font-size: 90%;
+    margin-top: -0.2em;
+	padding-top: 0.2em;
 }	
+
+#SSG_arrows span.down {
+	animation: none;
+	}
+
 }
 
 @media (orientation: portrait) {
-#SSG_gallery #help {
+#SSG_arrows {
 	display:none;
 }
 
@@ -181,11 +276,21 @@
 }
 
 #SSG_arrows span.up, #SSG_arrows span.down {
-background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.2' baseProfile='tiny' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='138.726px' height='161.78px' viewBox='0 0 138.726 161.78' xml:space='preserve'%3e%3cg%3e%3cpath fill='%23D1D0CF' d='M64.128,15.897c-8.789,9.111-17.787,18.417-26.996,27.917c-9.208,9.499-18.789,19.225-28.74,29.176 c-0.388,0.388-0.792,0.679-1.211,0.873c-0.42,0.193-0.889,0.258-1.406,0.193s-1.066-0.291-1.648-0.679S2.9,72.44,2.189,71.729 s-1.244-1.357-1.599-1.938c-0.355-0.582-0.549-1.115-0.582-1.6c-0.032-0.484,0.033-0.921,0.194-1.309 c0.162-0.388,0.404-0.743,0.727-1.066L64.322,2.423c0.711-0.711,1.406-1.292,2.084-1.745C67.085,0.226,68.07,0,69.363,0 c0.969,0,1.826,0.178,2.569,0.533c0.742,0.355,1.566,0.985,2.471,1.89l63.395,63.393c0.322,0.323,0.564,0.679,0.727,1.066 c0.161,0.388,0.227,0.824,0.193,1.309c-0.032,0.484-0.227,1.018-0.582,1.6c-0.354,0.581-0.888,1.228-1.599,1.938 s-1.356,1.26-1.938,1.647s-1.131,0.614-1.648,0.679c-0.517,0.064-0.984,0-1.405-0.193c-0.42-0.194-0.823-0.485-1.212-0.873 c-9.951-9.951-19.531-19.677-28.74-29.176c-9.208-9.5-18.207-18.805-26.995-27.917v142.877c0,0.453-0.113,0.857-0.339,1.213 c-0.227,0.355-0.566,0.662-1.018,0.92c-0.453,0.258-1.002,0.469-1.648,0.631c-0.646,0.16-1.39,0.242-2.229,0.242 c-0.84,0-1.583-0.082-2.229-0.242c-0.646-0.162-1.195-0.373-1.648-0.631c-0.452-0.258-0.792-0.564-1.018-0.92 s-0.339-0.76-0.339-1.213V15.897z'/%3e%3c/g%3e%3c/svg%3e");
-background-size: 20px;
-background-repeat: no-repeat;
+background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.2' baseProfile='tiny' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='138.726px' height='161.78px' viewBox='0 0 138.726 161.78' xml:space='preserve'%3e%3cg%3e%3cpath fill='%23888888' d='M64.128,15.897c-8.789,9.111-17.787,18.417-26.996,27.917c-9.208,9.499-18.789,19.225-28.74,29.176 c-0.388,0.388-0.792,0.679-1.211,0.873c-0.42,0.193-0.889,0.258-1.406,0.193s-1.066-0.291-1.648-0.679S2.9,72.44,2.189,71.729 s-1.244-1.357-1.599-1.938c-0.355-0.582-0.549-1.115-0.582-1.6c-0.032-0.484,0.033-0.921,0.194-1.309 c0.162-0.388,0.404-0.743,0.727-1.066L64.322,2.423c0.711-0.711,1.406-1.292,2.084-1.745C67.085,0.226,68.07,0,69.363,0 c0.969,0,1.826,0.178,2.569,0.533c0.742,0.355,1.566,0.985,2.471,1.89l63.395,63.393c0.322,0.323,0.564,0.679,0.727,1.066 c0.161,0.388,0.227,0.824,0.193,1.309c-0.032,0.484-0.227,1.018-0.582,1.6c-0.354,0.581-0.888,1.228-1.599,1.938 s-1.356,1.26-1.938,1.647s-1.131,0.614-1.648,0.679c-0.517,0.064-0.984,0-1.405-0.193c-0.42-0.194-0.823-0.485-1.212-0.873 c-9.951-9.951-19.531-19.677-28.74-29.176c-9.208-9.5-18.207-18.805-26.995-27.917v142.877c0,0.453-0.113,0.857-0.339,1.213 c-0.227,0.355-0.566,0.662-1.018,0.92c-0.453,0.258-1.002,0.469-1.648,0.631c-0.646,0.16-1.39,0.242-2.229,0.242 c-0.84,0-1.583-0.082-2.229-0.242c-0.646-0.162-1.195-0.373-1.648-0.631c-0.452-0.258-0.792-0.564-1.018-0.92 s-0.339-0.76-0.339-1.213V15.897z'/%3e%3c/g%3e%3c/svg%3e");
 }
 
+/*
 #SSG_arrows span.down {
-    transform: scaleY(-1);
+    animation-name: move;
+    animation-duration: 0.7s;     
+    animation-iteration-count: infinite;
 }
+
+#SSG_arrows:hover span.down {
+    animation: none;
+}
+
+@keyframes move {
+    from {top: 55px;}
+    to { top: 73px;}
+}*/

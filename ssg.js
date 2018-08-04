@@ -7,11 +7,12 @@ var SSG = {};  // main object - namespace
 SSG.initGallery = function initGallery() {
     SSG.imgs = [];  // array of objects where image attributes are stored
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
-    jQuery("body").append("<div id='SSG_arrows'><div id='tip'>You can use also arrow keys</div><span class='up'></span><span class='down'></span></div>"); // gallery's arrows
+    jQuery("body").append("<div id='SSG_arrows'><div id='tip'>For fast scrolling use arrow keys <strong>↑↓</strong> or this arrows:</div><span class='up'></span><span class='down'></span></div>"); // gallery's arrows
+    jQuery("body").append( '<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
     jQuery(document).keydown(SSG.keyFunction);
     jQuery("#SSG_exit").click(SSG.destroyGallery);
-    jQuery("#SSG_arrows .up").click(function () { SSG.imageUp = true });
-    jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true });
+    jQuery("#SSG_arrows .up").click(function () { SSG.imageUp = true; });
+    jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true; jQuery('#SSG_arrows #tip').remove(); });
 }
 
 SSG.keyFunction = function (event) {
@@ -108,12 +109,12 @@ SSG.checkLoading = function () {
     }
 
     if (SSG.imageUp && SSG.displayed - 1 >= 0)
-        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed - 1].pos - SSG.countImageIndent(SSG.displayed) + "px" }, 300, "swing");
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed - 1].pos - SSG.countImageIndent(SSG.displayed-1) + "px" }, 300, "swing");
 
         
     if (SSG.displayed + 1 < SSG.imgs.length) {
         if (SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos)
-            jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed) + "px" }, 300, "swing");
+            jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed+1) + "px" }, 300, "swing");
     } else {
         SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top + 100 }, 200, "swing");
     }
@@ -135,7 +136,7 @@ SSG.destroyGallery = function () {
     clearInterval(SSG.loading);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_arrows").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_arrows, #scrollstyle").remove();
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
     window.scrollTo(0, SSG.pos); // sets the original (before initGallery) vertical scroll of page    
