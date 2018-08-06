@@ -55,13 +55,26 @@
                     <h2>How gallery works</h2>
 
                     <p>Simple scroll gallery looks for all &lt;a&gt; tags on the page that points to image file (jpg, png, gif).
-                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery.</p>
+                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery. Gallery can not be
+                        started from just some selected images yet. I&nbsp;plan to implement gallery configuration.</p>
 
                     <p>The image the user clicked on is displayed first, then follows other images in the order they appear
                         on the page.</p>
 
                     <p>Text caption under images is taken from alt atribute. If there is no alt atribute gallery shows just
                         empty stripe.</p>
+
+
+                    <h2>Navigation in gallery ~ speed scroll</h2>
+
+                    <p>There are two options. Classic scrolling by mouse wheel, scrollbar of fingers. And then speed scrool
+                        from image to next image. For speed scroll there are navigation arrows on right side or arrow keys
+                        on keyboard &darr;&rarr;&uarr;&larr;. Up and left arrow key does the same thing (previous image)
+                        as well as down and right key navigate to next image. For some users can be more comfortable use
+                        left and right arrow instead of up and down arrow.
+                    </p>
+
+                    <p></p>
 
 
 
@@ -71,8 +84,8 @@
         <article class="column">
             <div class="topimg">
                 <a href="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram.jpg">
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram-650x342.jpg" style="filter: brightness(1.1);" 
-                    alt="The Uluwat Temple - you can only see it from afar. Temple can access only believers" />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram-650x342.jpg" style="filter: brightness(1.1);" alt="The Uluwat Temple - you can only see it from afar. Temple can access only believers"
+                    />
                 </a>
             </div>
 
@@ -84,48 +97,107 @@
                 Now I fully understand the travelers who have decided to move to Bali. If I had to describe Bali in one word, then it's well-being.
                 <br/> There is
                 <a href="https://www.flor.cz/blog/cestovani-a-foceni-na-bali-a-lomboku/" target="_blank"> whole text and more photos</a> on my blog.
+
+            </p>
+            <br/>
+
+            <p>Navigation in gallery:
+                <strong>scroll wheell</strong> or
+                <strong>arrow keys
+                    <span style="font-family:monospace; font-size:150%">&darr;&rarr;&uarr;&larr;</span>
+                </strong>
             </p>
 
             <section class="gallery">
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>                    
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="
                     Waterfall Sekumpul - it is possible to bathe under it" />
-                </a>
-                <a href="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice.jpg">
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice-200x200.jpg" alt="
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice.jpg">
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice-200x200.jpg" alt="
                     Ubud - The center of cultural and spiritual life in Bali" />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="
-                    Tegalalang rice terraces" />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="" />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli-200x200.jpg" alt="
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="
+                    Tegalalang rice terraces - This image thumbnail is wrapped in DT tag just - like in Wordpress gallery."
+                            />
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="" />
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli-200x200.jpg" alt="
                     Selong Belanak Beach - Ideal Waves to surf for total beginners" />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad-200x200.jpg" alt="
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad-200x200.jpg" alt="
                     Sendang Gile waterfall - the way here is not too marked, you have to cross the river twice. Locals will recommend you to rent a guide :)"
-                    />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-policka.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields"
-                    />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn-200x200.jpg" alt="
+                            />
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-policka.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields"
+                            />
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn-200x200.jpg" alt="
                     Bangkang - a cave full of bats. Great place, but something more dense than the water drops from the ceiling :)"
-                    />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="
+                            />
+                        </a>
+                    </dt>
+                </dl>
+                <dl>
+                    <dt>
+                        <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek.jpg'>
+                            <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="
                     Mangku Sakti canyon with crystal clear water" />
-                </a>
+                        </a>
+                    </dt>
+                </dl>
 
             </section>
+            <br style="clear: both" />
+            <p>This nine image thumbnails are wrapped in &ltdl&gt&ltdt&gt&lt/dt&gt&lt/dl&gt tags, Wordpress gallery use the
+                same tags around thumbnails. When the DT tag is used (images are in gallery), SSGalery shows tooltip how
+                to navigate in gallery. When user clicks on a single image without DT tag, no tooltip is shown. Tooltip disappear
+                immediately after user use speed scrolling.
+
+            </p>
+            <p>
+                <a id="showgal" onclick="SSG.run('gmode');" style="cursor:pointer; text-decoration:underline">
+                    <span>֎</span>Run gallery</a>
+                <br/> by calling SSG.run('gmode'). Gmode shows tooltip how to use speed scroll</p>
+
+
             <br style="clear: both" />
         </article>
     </main>
@@ -135,4 +207,5 @@
     <link rel="stylesheet" href="ssg.css" type="text/css" media="all">
     <script type="text/javascript" src="ssg.js"></script>
 </body>
+
 </html>
