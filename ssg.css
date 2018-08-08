@@ -111,6 +111,21 @@
     transform: scaleY(-1);    
 }
 
+#SSG_arrows span.down {
+    animation-name: move;
+    animation-duration: 0.7s;     
+    animation-iteration-count: infinite;
+}
+
+/*#SSG_arrows:hover span.down {
+    animation: none;
+}*/
+
+@keyframes move {
+    from {top: 55px;}
+    to { top: 69px;}
+}
+
 #SSG_arrows span.up, #SSG_arrows span.down {
     background-size: 20px;
     background-repeat: no-repeat;
@@ -197,6 +212,11 @@
         top: -6px;
         left: -6px;    
     }
+
+    @keyframes move {
+        from {top: 61px;}
+        to { top: 81px;}
+    }
 }
 
 @media (min-width: 1380px) {
@@ -226,13 +246,13 @@
     height: 111px;
     }
 
-    #SSG_arrows span {
+#SSG_arrows span {
         left: -14px;    
     }  
 
 #SSG_arrows span.up {
         top: 16px;
-    }    
+    }
     
 #SSG_arrows #tip {
     right: 33px;
@@ -266,11 +286,6 @@
     margin-top: -0.2em;
 	padding-top: 0.2em;
 }	
-
-#SSG_arrows span.down {
-	animation: none;
-	}
-
 }
 
 @media (orientation: portrait) {
@@ -287,18 +302,3 @@
 background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg version='1.2' baseProfile='tiny' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='138.726px' height='161.78px' viewBox='0 0 138.726 161.78' xml:space='preserve'%3e%3cg%3e%3cpath fill='%23888888' d='M64.128,15.897c-8.789,9.111-17.787,18.417-26.996,27.917c-9.208,9.499-18.789,19.225-28.74,29.176 c-0.388,0.388-0.792,0.679-1.211,0.873c-0.42,0.193-0.889,0.258-1.406,0.193s-1.066-0.291-1.648-0.679S2.9,72.44,2.189,71.729 s-1.244-1.357-1.599-1.938c-0.355-0.582-0.549-1.115-0.582-1.6c-0.032-0.484,0.033-0.921,0.194-1.309 c0.162-0.388,0.404-0.743,0.727-1.066L64.322,2.423c0.711-0.711,1.406-1.292,2.084-1.745C67.085,0.226,68.07,0,69.363,0 c0.969,0,1.826,0.178,2.569,0.533c0.742,0.355,1.566,0.985,2.471,1.89l63.395,63.393c0.322,0.323,0.564,0.679,0.727,1.066 c0.161,0.388,0.227,0.824,0.193,1.309c-0.032,0.484-0.227,1.018-0.582,1.6c-0.354,0.581-0.888,1.228-1.599,1.938 s-1.356,1.26-1.938,1.647s-1.131,0.614-1.648,0.679c-0.517,0.064-0.984,0-1.405-0.193c-0.42-0.194-0.823-0.485-1.212-0.873 c-9.951-9.951-19.531-19.677-28.74-29.176c-9.208-9.5-18.207-18.805-26.995-27.917v142.877c0,0.453-0.113,0.857-0.339,1.213 c-0.227,0.355-0.566,0.662-1.018,0.92c-0.453,0.258-1.002,0.469-1.648,0.631c-0.646,0.16-1.39,0.242-2.229,0.242 c-0.84,0-1.583-0.082-2.229-0.242c-0.646-0.162-1.195-0.373-1.648-0.631c-0.452-0.258-0.792-0.564-1.018-0.92 s-0.339-0.76-0.339-1.213V15.897z'/%3e%3c/g%3e%3c/svg%3e");
 }
 
-/*
-#SSG_arrows span.down {
-    animation-name: move;
-    animation-duration: 0.7s;     
-    animation-iteration-count: infinite;
-}
-
-#SSG_arrows:hover span.down {
-    animation: none;
-}
-
-@keyframes move {
-    from {top: 55px;}
-    to { top: 73px;}
-}*/

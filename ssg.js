@@ -8,27 +8,40 @@ SSG.initGallery = function initGallery(event) {
     SSG.imgs = [];  // array of objects where image attributes are stored
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
     jQuery("body").append("<div id='SSG_arrows'><span class='up'></span><span class='down'></span></div>"); // gallery's arrows navigation
-    if (arguments[0] == 'gmode' || event.currentTarget.parentNode.tagName == "DT") {  //Wordpress use a DT tag in its gallery
-        jQuery("#SSG_arrows").append("<div id='tip'>For fast scrolling use arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong> or arrows on the right:</div>"); // tip how to use gallery
-    }
     jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
+    // if (arguments[0] == 'gmode' || event.currentTarget.parentNode.tagName == "DT")
     jQuery(document).keydown(SSG.keyFunction);
     jQuery("#SSG_exit").click(SSG.destroyGallery);
     jQuery("#SSG_arrows .up").click(function () { SSG.imageUp = true; });
-    jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true; jQuery('#SSG_arrows #tip').remove(); });
+    jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true; jQuery('#SSG_arrows .down').css('animation', 'none'); });
+    jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);
 }
 
 SSG.keyFunction = function (event) {
     if (event.which == 27) SSG.destroyGallery(); //ESC key destroys gallery
-    if (event.which == 40 || event.which == 39) { SSG.imageDown = true; jQuery("#SSG_arrows").remove(); } // Arrow down or right sets a property that causes jumping on next photo
-    if (event.which == 38 || event.which == 37) { SSG.imageUp = true; jQuery("#SSG_arrows").remove(); } // Arrow up or left sets a property that causes jumping on next photo        
+    if (event.which == 40 || event.which == 39) {
+        SSG.imageDown = true; // Arrow down or left sets the property that causes jumping on next photo        
+        SSG.removeArrows();
+    }
+    if (event.which == 38 || event.which == 37) {
+        SSG.imageUp = true; // Arrow up or right sets the property that causes jumping on previos photo        
+        SSG.removeArrows();
+    }
     event.preventDefault();
     event.stopPropagation();
 }
 
+SSG.removeArrows = function () {
+    if (SSG.arrowsExist) {
+        jQuery("#SSG_arrows").remove();
+        SSG.arrowsExist = false;
+    }
+}
+
 SSG.getImgList = function (clickedHref, clickedAlt) {
     Array.prototype.forEach.call(jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").toArray(), function (el) { // call invokes forEach method in context of jQuery output
-        if (el.children[0]) SSG.imgs.push({ href: el.href, alt: el.children[0].alt }); // if A tag has children (img tag) its atributes are pushed into SSG.imgs array
+        if (el.children[0])
+            SSG.imgs.push({ href: el.href, alt: el.children[0].alt }); // if A tag has children (img tag) its atributes are pushed into SSG.imgs array
         // text legend under image apears only if A tag's children[0] has alt attribute (is image) - it should be fixed, maybe :)
     });
 
@@ -52,6 +65,8 @@ SSG.setVariables = function () {
     SSG.imageDown = false;
     SSG.imageUp = false;
     SSG.firstImage = true;
+    SSG.scrollActive = true;
+    SSG.arrowsExist = true;
     SSG.addImage();
 }
 
@@ -104,12 +119,10 @@ SSG.metronome = function () {
             SSG.displayed = i;
         }
     }
-
-    SSG.speedScroll();
+    SSG.jumpScroll();
 }
 
-
-SSG.speedScroll = function () {
+SSG.jumpScroll = function () {
     if (SSG.displayed == 0 && SSG.imgs[0].pos && SSG.firstImage) {   // center first image
         window.scrollTo(0, SSG.imgs[0].pos - SSG.countImageIndent(0));
         SSG.firstImage = false;
@@ -129,7 +142,6 @@ SSG.speedScroll = function () {
     SSG.imageUp = false;
 }
 
-
 SSG.countImageIndent = function (index) {  // function count how much indent image from the top of the screen to center image
     var screen = jQuery(window).height();;
     var img = jQuery("#i" + index).outerHeight(true);
@@ -140,11 +152,55 @@ SSG.countImageIndent = function (index) {  // function count how much indent ima
     return centerPos > pMargin ? pMargin : centerPos;  // it prevents fraction of previous image appears above centered image
 }
 
+SSG.seizeScrolling = function (scroll) {
+    //console.log(scroll);
+
+    if (scroll == 1 && SSG.scrollActive) {
+        setScroll();
+        SSG.imageDown = true;
+    } else if (scroll == -1 && SSG.scrollActive) {
+        setScroll();
+        SSG.imageUp = true;
+    }
+
+    function setScroll() {
+        jQuery(window).bind("mousewheel DOMMouseScroll", SSG.preventDef);
+        SSG.scrollTimeout = setTimeout(SSG.setScrollActive, 666);  // it will renew ability to scroll in 666ms
+        scroll = 0;        
+        SSG.scrollActive = false;
+        SSG.removeArrows();
+    }
+}
+
+SSG.preventDef = function (event) {
+    event.preventDefault();
+}
+
+SSG.setScrollActive = function () { SSG.scrollActive = true; clearTimeout(SSG.scrollTimeout); jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); }
+
+SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll wheel and then calls seize scrolling
+    if (typeof e.originalEvent.detail == 'number' && e.originalEvent.detail !== 0) {
+        if (e.originalEvent.detail > 0) {
+            SSG.seizeScrolling(+1);
+        } else if (e.originalEvent.detail < 0) {
+            SSG.seizeScrolling(-1);
+        }
+    } else if (typeof e.originalEvent.wheelDelta == 'number') {
+        if (e.originalEvent.wheelDelta < 0) {
+            SSG.seizeScrolling(+1);
+        } else if (e.originalEvent.wheelDelta > 0) {
+            SSG.seizeScrolling(-1);
+        }
+    }
+}
+
 SSG.destroyGallery = function () {
-    clearInterval(SSG.loading);
+    clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_arrows, #scrollstyle").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle").remove();
+    SSG.removeArrows();
+    jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
     window.scrollTo(0, SSG.pos); // sets the original (before initGallery) vertical scroll of page    
@@ -152,9 +208,9 @@ SSG.destroyGallery = function () {
 
 SSG.run = function (event) {
     SSG.initGallery(event); // pass onlick event
-    event.currentTarget ? SSG.getImgList(event.currentTarget.href, event.currentTarget.children["0"].alt) : SSG.getImgList(); // pass href and alt of clicked image
+    event && event.currentTarget ? SSG.getImgList(event.currentTarget.href, event.currentTarget.children["0"].alt) : SSG.getImgList(); // pass href and alt of clicked image
     SSG.setVariables();
-    SSG.loading = setInterval(SSG.metronome, 300); // every 300 ms check if more images should be loaded and logged into Google Analytics, Speed scrolling
+    SSG.metronomInterval = setInterval(SSG.metronome, 300); // every 300 ms check if more images should be loaded and logged into Google Analytics, Speed scrolling
     jQuery(window).resize(SSG.countResize);
     return false;
 }
