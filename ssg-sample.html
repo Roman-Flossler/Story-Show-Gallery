@@ -25,8 +25,8 @@
                 <em>Javascript gallery created by Roman Flössler</em>
             </p>
 
-            <p>I've made Simple Scroll Gallery for my blog about photography</a>. I wanted simple gallery which is easy to navigate. The user only needs to
-                scroll down - just like on Facebook. You can try it on sample gallery on this page.
+            <p>I've made Simple Scroll Gallery for my blog about photography</a>. I wanted simple gallery which is easy to navigate.
+                The user only needs to scroll down - just like on Facebook. But SSG uses “jump scroll”. You can try it on sample gallery on this page.
             </p>
             <p>
                 <a href="#gallery" class="seegal bigger">See the sample Simple Scroll Gallery</a>
@@ -34,22 +34,23 @@
             <h2>Main features</h2>
 
             <ul>
-                <li>Gallery is fully responsive - works on desktop, tablets and smartphones</li>
+                <li>SSG is fully responsive - works on desktop, tablets and smartphones</li>
+                <li>Minimalist and unobtrusive - it gives max. space to images</li>
                 <li>Images are gradually loaded as the user scrolls down</li>
                 <li>There can be a caption under each image</li>
                 <li>You can put your logo with copyright over images</li>
-                <li>Gallery supports Google analytics. When user views image it is counted as virtual pageview.</li>
+                <li>SSG supports Google analytics. When user views an image it is counted as virtual pageview.</li>
             </ul>
 
             <h2>License</h2>
-            <p>Simple scroll gallery is licensed under Mozilla Public License 2.0. There is one more condition added to license:
-                do not develop a Wordpress plugin based on Simple scroll gallery. I am planning to do it.</p>
+            <p>Simple Scroll Gallery is licensed under Mozilla Public License 2.0. There is one exception added in license.
+                It is not granted to develop a Wordpress plugin that includes SSG. I am planning to do it.</p>
 
 
             <h2>How to implement gallery</h2>
 
 
-            <p>Simple scroll gallery is very easy to implement on your website. You just need to add two lines of code somewhere
+            <p>Simple Scroll Gallery is very easy to implement on your website. You just need to add two lines of code somewhere
                 before &lt;/body&gt; tag:</p>
 
             <code>
@@ -65,9 +66,13 @@
 
                     <h2>How gallery works</h2>
 
-                    <p>Simple scroll gallery looks for all &lt;a&gt; tags on the page that points to image file (jpg, png, gif).
-                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery. Gallery can not be
-                        started from just some selected images yet. I&nbsp;plan to implement gallery configuration.</p>
+                    <p>Simple Scroll Gallery looks for all &lt;a&gt; tags on the page that points to image file (jpg, png, gif).
+                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery. You can also run gallery
+                        by calling SSG.run method:</p>
+
+                    <code>
+                        &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
+                    </code>
 
                     <p>The image the user clicked on is displayed first, then follows other images in the order they appear
                         on the page.</p>
