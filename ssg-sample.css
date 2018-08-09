@@ -8,7 +8,7 @@
 
 h1, h2 {
     font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 432%;
+    font-size: 464%;
     font-weight: 300;
     color: #076a7d;
 }
@@ -16,6 +16,7 @@ h1, h2 {
 .secol h1 {
     margin-left: 0px;
     line-height: 1.1em;
+    font-size: 432%;    
 }
 
 body {
@@ -47,6 +48,15 @@ ul {
 
 a {
     color: #e60049;
+}
+
+.seegal { 
+    display: none;    
+}
+
+.icons {
+    color: #e60049;
+    font-weight: 600;
 }
 
 a img {
@@ -97,6 +107,8 @@ ul li {
     list-style-type: square;
     padding-bottom: 0.8em;
 }
+
+
 
 /* Clear floats after the columns */
 
@@ -158,7 +170,7 @@ ul li {
 }
 
 
-footer {
+footer {    
     height: 3em;
     background: linear-gradient(90deg, #C2C2C2 0%, #F7F7F7 11%, #E0E0E0 22%, #EDEDED 33%, #FAFAFA 47%, #E6E6E6 58%, #EDEDED 67%, #D9D9D9 79%, #F0F0F0 90%, #C2C2C2 100%); /* w3c */
 }
@@ -213,5 +225,9 @@ footer {
 
     .gallery .topimg {
         height: 21vw;    
+    }
+
+    .seegal { 
+        display: block;    
     }
 }

@@ -296,6 +296,15 @@
 #SSG_gallery img {
     max-width: 100%;
 }
+
+#SSG_gallery::before {
+    content: 'photos look better in landscape mode ;-)';
+    color: #f2ffd2;
+    padding-bottom: 3em;
+    display: block;
+    margin-top:2em;
+}
+
 }
 
 #SSG_arrows span.up, #SSG_arrows span.down {

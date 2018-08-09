@@ -1,6 +1,12 @@
-// Simple Scroll Gallery
-// Created by Roman Flössler flor@flor.cz
-// You can see how gallery works on my blog - https://www.flor.cz/blog/hrbitov-vlaku/
+
+
+// Simple Scroll Gallery (SSG)
+// Copyright (C) 2018 Roman Flössler - flor@flor.cz
+//
+// licensed under Mozilla Public License 2.0 with one more condition: do not develop a Wordpress plugin based on SSG
+// Here you can see how gallery works - http://ssg.flor.cz/
+// SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+
 
 var SSG = {};  // main object - namespace
 
@@ -73,6 +79,7 @@ SSG.setVariables = function () {
 
 SSG.countResize = function () {
     SSG.scrHeight = jQuery(window).height();
+    SSG.firstImage = true;
     jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
     for (var i = 0; i <= SSG.actual; i++) {
         SSG.imgs[i].pos = Math.round(jQuery("#i" + i).offset().top);
@@ -136,7 +143,7 @@ SSG.jumpScroll = function () {
         if (SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos)  // if imageDown is true and next image is loaded (pos exists) then scroll on next image
             jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) + "px" }, 500, "swing");
     } else {
-        SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top + 100 }, 200, "swing");  // scroll to back to website button
+        SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - 500 }, 200, "swing");  // scroll to back to website button
     }
     SSG.imageDown = false;
     SSG.imageUp = false;
