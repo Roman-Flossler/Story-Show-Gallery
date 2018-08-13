@@ -3,7 +3,7 @@
 // Simple Scroll Gallery (SSG)
 // Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
-// licensed under Mozilla Public License 2.0 with one more condition: do not develop a Wordpress plugin based on SSG
+// licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
 // Here you can see how gallery works - http://ssg.flor.cz/
 // SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
 
@@ -15,12 +15,15 @@ SSG.initGallery = function initGallery(event) {
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
     jQuery("body").append("<div id='SSG_arrows'><span class='up'></span><span class='down'></span></div>"); // gallery's arrows navigation
     jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
-    // if (arguments[0] == 'gmode' || event.currentTarget.parentNode.tagName == "DT")
+    if ((event && event.currentTarget) && (event.currentTarget.parentElement.classList[0] == 'fs' ||  event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.classList[0] == 'fs')) {
+        SSG.fullscreen = true;  }    // when event exists it checks also event.currentTarget and if some of fs flag is set it sets fullscreen to true
+    if (event.fs) SSG.fullscreen = true;
     jQuery(document).keydown(SSG.keyFunction);
     jQuery("#SSG_exit").click(SSG.destroyGallery);
     jQuery("#SSG_arrows .up").click(function () { SSG.imageUp = true; });
     jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true; jQuery('#SSG_arrows .down').css('animation', 'none'); });
     jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);
+    SSG.fullscreen && SSG.openFullscreen();
 }
 
 SSG.keyFunction = function (event) {
@@ -73,7 +76,7 @@ SSG.setVariables = function () {
     SSG.firstImage = true;
     SSG.scrollActive = true;
     SSG.arrowsExist = true;
-    SSG.addImage();
+    SSG.fullscreen = false;
 }
 
 
@@ -143,19 +146,20 @@ SSG.jumpScroll = function () {
         if (SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos)  // if imageDown is true and next image is loaded (pos exists) then scroll on next image
             jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) + "px" }, 500, "swing");
     } else {
-        SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - 500 }, 200, "swing");  // scroll to back to website button
+        SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight/2)}, 200, "swing");  // scroll to back to website button
     }
     SSG.imageDown = false;
     SSG.imageUp = false;
 }
 
 SSG.countImageIndent = function (index) {  // function count how much indent image from the top of the screen to center image
-    var screen = jQuery(window).height();;
+    var screen = jQuery(window).height();
     var img = jQuery("#i" + index).outerHeight(true);
     var pIn = jQuery("#p" + index).innerHeight();
     var pOut = jQuery("#p" + index).outerHeight(true);
     var pMargin = pOut - pIn;
     var centerPos = Math.round((screen - (img + pIn)) / 2);
+    if(centerPos < 0) centerPos = 0;
     return centerPos > pMargin ? pMargin : centerPos;  // it prevents fraction of previous image appears above centered image
 }
 
@@ -201,6 +205,29 @@ SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll w
     }
 }
 
+SSG.openFullscreen = function() {
+    var elem = document.documentElement;
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      elem.webkitRequestFullscreen();
+    } 
+  }
+  
+  /* Close fullscreen */
+SSG.closeFullscreen = function() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      document.webkitExitFullscreen();
+    }
+  }
+
 SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
@@ -210,13 +237,15 @@ SSG.destroyGallery = function () {
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
+    SSG.fullscreen && SSG.closeFullscreen();
     window.scrollTo(0, SSG.pos); // sets the original (before initGallery) vertical scroll of page    
 }
 
 SSG.run = function (event) {
+    SSG.setVariables();
     SSG.initGallery(event); // pass onlick event
     event && event.currentTarget ? SSG.getImgList(event.currentTarget.href, event.currentTarget.children["0"].alt) : SSG.getImgList(); // pass href and alt of clicked image
-    SSG.setVariables();
+    SSG.addImage(); // load first image
     SSG.metronomInterval = setInterval(SSG.metronome, 300); // every 300 ms check if more images should be loaded and logged into Google Analytics, Speed scrolling
     jQuery(window).resize(SSG.countResize);
     return false;

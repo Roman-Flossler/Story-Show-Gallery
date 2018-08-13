@@ -13,6 +13,13 @@ h1, h2 {
     color: #076a7d;
 }
 
+strong {
+    font-weight: normal;
+    background: #daf6ff;
+    color: black;
+    font-size: 106%;
+}
+
 .secol h1 {
     margin-left: 0px;
     line-height: 1.1em;
@@ -27,27 +34,29 @@ body {
 }
 
 h2 {
-    font-size: 222%;    
+    font-size: 252%;    
     line-height: 1em;
     margin-bottom: 0.6em;
     margin-top: 1.2em;
 }        
 
 h2::before {
-    content: '#';
     font-size: 81%;
     vertical-align: bottom;
     margin-right: 10px;
 }
 
+
+.ficol h2::before {
+    content: '#';
+}    
     
 ul {
-    padding: 0 2em 0 1em;
+    padding: 0 1em 0 1em;
 }
 
-
 a {
-    color: #e60049;
+    color: #d40039;
 }
 
 .seegal { 
@@ -55,7 +64,7 @@ a {
 }
 
 .icons {
-    color: #e60049;
+    color: #d40039;
     font-weight: 600;
 }
 
@@ -107,10 +116,6 @@ ul li {
     list-style-type: square;
     padding-bottom: 0.8em;
 }
-
-
-
-/* Clear floats after the columns */
 
 .row:after {
     content: "";
@@ -203,8 +208,8 @@ footer {
         padding-left: 10%;
     }
 
-    h1, h2 {
-        margin-left: -23px;
+    .ficol h1, .ficol h2 {
+        margin-left: -25px;
     }
 
     .column .first {

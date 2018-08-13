@@ -15,7 +15,7 @@
 
 <body>
     <main class="row">
-        <article class="column">
+        <article class="column ficol">
             <div class="first">
                 <img src="https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg" alt="Simple Scroll Gallery" />
             </div>
@@ -25,26 +25,39 @@
                 <em>Javascript gallery created by Roman Flössler</em>
             </p>
 
-            <p>I've made Simple Scroll Gallery for my blog about photography</a>. I wanted simple gallery which is easy to navigate.
-                The user only needs to scroll down - just like on Facebook. But SSG uses “jump scroll”. You can try it on sample gallery on this page.
+            <p>I've made Simple Scroll Gallery for my blog about photography. I wanted simple gallery, which works similarly
+                like a presentation. The user only needs to scroll down and sees image by image. Try it in sample gallery
+                on this page.
             </p>
             <p>
-                <a href="#gallery" class="seegal bigger">See the sample Simple Scroll Gallery</a>
+                <a href="#gallery" class="seegal bigger">Try sample Simple Scroll Gallery</a>
             </p>
+            <p>
+                <a class="bigger" href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">Download Simple Scroll Gallery from GitHub</a>
+            </p>
+
             <h2>Main features</h2>
 
             <ul>
-                <li>SSG is fully responsive - works on desktop, tablets and smartphones</li>
-                <li>Minimalist and unobtrusive - it gives max. space to images</li>
+                <li>SSG is fully
+                    <strong>responsive</strong> - works on desktop, tablets and smartphones</li>
+                <li>Minimalist and
+                    <strong>unobtrusive</strong> - it gives max. space to images</li>
+                <li>
+                    <strong>Fullscreen</strong> mode with unobtrusive scrollbar and cursor</li>
+                <li>
+                    <strong>Jump scroll</strong> automatically scrolls from image to image</li>
                 <li>Images are gradually loaded as the user scrolls down</li>
-                <li>There can be a caption under each image</li>
-                <li>You can put your logo with copyright over images</li>
-                <li>SSG supports Google analytics. When user views an image it is counted as virtual pageview.</li>
+                <li>There can be a caption under each image and
+                    <strong>your logo</strong> over image</li>
+                <li>SSG supports
+                    <strong>Google analytics</strong>. When user views an image it is counted as virtual pageview.</li>
             </ul>
 
             <h2>License</h2>
-            <p>Simple Scroll Gallery is licensed under Mozilla Public License 2.0. There is one exception added in license.
-                It is not granted to develop a Wordpress plugin that includes SSG. I am planning to do it.</p>
+            <p>Simple Scroll Gallery is licensed under Mozilla Public License 2.0.
+                <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">You can use SSG freely as long as you include copyright and source</a>. There is one exception added in license.
+                It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.</p>
 
 
             <h2>How to implement gallery</h2>
@@ -74,27 +87,48 @@
                         &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
                     </code>
 
-                    <p>The image the user clicked on is displayed first, then follows other images in the order they appear
-                        on the page.</p>
+                    <p>The image the user clicked on is displayed first, then follow other images in the order they appear on
+                        the page.</p>
 
                     <p>Text caption under images is taken from alt atribute. If there is no alt atribute gallery shows just
                         empty stripe.</p>
 
 
-                    <h2>Navigation in gallery ~ jump scroll</h2>
+                    <h2>Fullscreen mode</h2>
 
-                    <p> There are two options. Classic scrolling with scrollbar or fingers. And then jump scroll. Mouse wheel
-                        and arrow keys have altered function - they scroll from one image to next image. The same functionality
-                        have navigation arrows on the right side. They are mainly for touch screens. Up and left arrow key
-                        does the same thing (previous image) as well as down and right key navigate to next image. For some
-                        users can be more comfortable use left and right arrow instead of up and down arrow.
-                    </p>
+                    <p>Fullscreen mode can be activated four ways.
 
-                    <p></p>
+                        <p>Adding the fs class to parrent tag of &lt;a&gt; tags. Fs class must be the first class. All images
+                            inside mygallery activate fullscreen mode:
+                            <p/>
+                            <code>
+                                &lt;div class='fs mygallery'&gt;<br/> &lt;a href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;<br/>
+                                &lt;a href='big-image2.jpg'&gt; &lt;img src='thumbnail2.jpg'&gt;&lt;/a&gt;<br/>&lt;/div&gt;                           
+                        </code>
+
+                            <p>Running gallery by calling SSG.run method with fs:true parameter.
+                                <p/>
+                                <code>
+                            &lt;a onclick='SSG.run({fs:true})'&gt; Show gallery&lt;/a&gt;                              
+                        </code>
+
+                                <p> Wrap the image in a DT tag as it is in a Wordpress gallery. This single image activates fullscreen
+                                    mode:
+                                </p>
+                                <code>
+                            &lt;dt&gt;&lt;a href='big-image.jpg'&gt;&lt;img src='thumbnail.jpg'&gt; &lt;/a&gt;&lt;/dt&gt;
+                            <br/>
+                    </code>
+
+                                <p> Adding the fs class to &lt;a&gt; tag, fs class must be the first class. This single image
+                                    activates fullscreen mode:</p>
+                                <code>
+                        &lt;a class='fs'  href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;
+                        <br/>
+                    </code>
 
 
-
-                    <br style="clear: both" />
+                                <br style="clear: both" />
         </article>
 
         <article class="column secol">
@@ -128,7 +162,7 @@
 
 
 
-            <section class="gallery">
+            <section class="fs gallery">
 
                 <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>
                     <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="Waterfall Sekumpul - it is possible to bathe under it"
@@ -182,9 +216,21 @@
             <br style="clear: both" />
             <br />
             <p class="bigger">
-                <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
-                    <span>֎</span>Run gallery</a> from text link by calling SSG.run()</p>
+                <a id="showgal" onclick="SSG.run({fs:true});" style="cursor:pointer; text-decoration:underline">
+                    <span>֎</span>Run gallery</a> from text link by calling SSG.run({fs:true})</p>
 
+            <br/>
+            <h2>Navigation in gallery ~ jump scroll</h2>
+
+            <p> There are two options. Classic scrolling with scrollbar or fingers. And then jump scroll. Mouse wheel and arrow
+                keys have altered function - they scroll from one image to next image. </p>
+
+            <p>The same functionality have navigation arrows on the right side. They are mainly for touch screens. If you use
+                mouse wheel or arrow keys navigation arrows dissapear.</p>
+
+            <p>Up and left arrow key does the same thing (previous image) as well as down and right key navigate to next image.
+                For some users can be more comfortable use left and right arrow instead of up and down arrow.</p>
+            </p>
 
             <br style="clear: both" />
         </article>

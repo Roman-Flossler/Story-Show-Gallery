@@ -17,7 +17,7 @@
     width: 100%;
     text-align: center;
     left: 0px;
-    padding-top: 8em;
+    padding-top: 13em;
 }
 
 
@@ -52,7 +52,7 @@
     background: #222222; 
     padding: 0.4em;
 	padding-bottom: 0.2em;
-    margin-bottom: 11em;
+    margin-bottom: 13em;
 	font-weight: lighter;
 	font-size: 100%;
 }
@@ -83,10 +83,11 @@
 
 #SSG_arrows {
     position: fixed;
-    top: -13px;
+    top: -9px;
+    top: 6vh;
     right: -16px;
     width: 50px;
-    height: 116px;
+    height: 122px;
     border-radius: 25px;
     background: rgba(0, 0, 0, 0.8);    
     cursor: pointer;
@@ -96,8 +97,8 @@
 #SSG_arrows span {
     height: 50px;    
     position: absolute;    
-    right: 12px;
-    left: -10px;
+    width: 40px;
+    left: -4px;
     background-position-y: 66%;
     background-position-x: center;
 }
@@ -107,7 +108,7 @@
 }
 
 #SSG_arrows span.down {
-    top: 69px;
+    top: 73px;
     transform: scaleY(-1);    
 }
 
@@ -123,7 +124,7 @@
 
 @keyframes move {
     from {top: 55px;}
-    to { top: 69px;}
+    to { top: 73px;}
 }
 
 #SSG_arrows span.up, #SSG_arrows span.down {
@@ -191,17 +192,17 @@
     }
     #SSG_arrows {
         width: 55px;
-        height: 131px;
+        height: 131px;        
     }
     #SSG_arrows span.down {
         top: 76px;
     }
     #SSG_arrows span.up {
-        top: 18px;
+        top: 6px;
     }    
     #SSG_arrows span {
         height: 55px;
-        left: -11px;
+        left: -3px;
     }
     #SSG_exit span {
         font-size: 36px;
@@ -219,9 +220,11 @@
     }
 }
 
+/* >>>>>>>>>>>>>>>>>>>>>  Arrow indent for bigger resolution */    
+
 @media (min-width: 1380px) {
     #SSG_arrows {
-		top: 6vh;
+        top: 6vh;
     }
 }
 
@@ -240,19 +243,28 @@
 }
 
 #SSG_arrows {
-    right: -26px;
-    top: -23px;
+    top: -9px;
+    left: -23px;
 	border-radius: 20px;
-    height: 111px;
+    height: 111px;    
     }
 
 #SSG_arrows span {
-        left: -14px;    
+    left: 17px;
     }  
 
 #SSG_arrows span.up {
-        top: 16px;
+     top: 5px;
     }
+
+#SSG_arrows span.down {
+    top: 69px;
+}
+
+@keyframes move {
+    from {top: 41px;}
+    to { top: 69px;}
+}
     
 #SSG_arrows #tip {
     right: 33px;
@@ -261,13 +273,14 @@
 	
 #SSG_exit {
     top: -20px;
-    left: -21px;	
+    left: auto;
+    right: -21px !important;	
     border-radius: 20px;
-}	
+}
 
 #SSG_exit span {
     bottom: -1px;
-    right: 8px;
+    left: 8px;
     font-size: 27px;
 }
 
