@@ -15,10 +15,10 @@ SSG.initGallery = function initGallery(event) {
     jQuery("body").append("<div id='SSG_galBg'></div> <div id='SSG_gallery'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
     jQuery("body").append("<div id='SSG_arrows'><span class='up'></span><span class='down'></span></div>"); // gallery's arrows navigation
     jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
-    if ((event && event.currentTarget) && (event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.classList[0] == 'fs')) {
+    if ((event && event.currentTarget) && (event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.classList[0] == 'fs')) {
         SSG.fullscreen = true;
     }    // when event exists it checks also event.currentTarget and if some of fs flag is set it sets fullscreen to true
-    if (event.fs) SSG.fullscreen = true;
+    if (event && event.fs) SSG.fullscreen = true;
     jQuery(document).keydown(SSG.keyFunction);
     jQuery("#SSG_exit").click(SSG.destroyGallery);
     jQuery("#SSG_arrows .up").click(function () { SSG.imageUp = true; });
@@ -48,12 +48,20 @@ SSG.removeArrows = function () {
     }
 }
 
-SSG.getImgList = function (clickedHref, clickedAlt) {
+SSG.getImgList = function (event) {
     Array.prototype.forEach.call(jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").toArray(), function (el) { // call invokes forEach method in context of jQuery output
         if (el.children[0])
             SSG.imgs.push({ href: el.href, alt: el.children[0].alt }); // if A tag has children (img tag) its atributes are pushed into SSG.imgs array
         // text legend under image apears only if A tag's children[0] has alt attribute (is image) - it should be fixed, maybe :)
     });
+
+    if (event && event.currentTarget) {
+        var clickedHref = event.currentTarget.href;
+        var clickedAlt = event.currentTarget.children["0"].alt;
+    } else if (event && event.img) {
+        var clickedHref = event.img.href;
+        var clickedAlt = event.img.alt;
+    }
 
     if (clickedHref) {
         var i;
@@ -247,10 +255,27 @@ SSG.destroyGallery = function () {
     // sets the original (before initGallery) vertical scroll of page. SetTimeout solves problem with return from Fullscreen, when simple scrollTo didn't work
 }
 
+SSG.getHash = function () {
+    var hash = window.location.hash;
+    if (hash != '') {
+        hash = hash.substring(1, hash.length);
+        var target = jQuery('a[href*=' + hash + ']').toArray();
+
+        if (target[0] && target[0].children[0]) {
+            var href = target[0].href;
+            var alt = target[0].children[0].alt;
+
+            var event = {};
+            event.img = { href: href, alt: alt }
+            SSG.run(event);
+        }
+    }
+}
+
 SSG.run = function (event) {
     SSG.setVariables();
-    SSG.initGallery(event); // pass onlick event
-    event && event.currentTarget ? SSG.getImgList(event.currentTarget.href, event.currentTarget.children["0"].alt) : SSG.getImgList(); // pass href and alt of clicked image
+    SSG.initGallery(event); // pass onlick event    
+    SSG.getImgList(event);
     SSG.addImage(); // load first image
     SSG.metronomInterval = setInterval(SSG.metronome, 300); // every 300 ms check if more images should be loaded and logged into Google Analytics, Speed scrolling
     jQuery(window).resize(SSG.countResize);
@@ -258,3 +283,4 @@ SSG.run = function (event) {
 }
 
 jQuery(document).ready(function () { jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").click(SSG.run) });
+jQuery(document).ready(SSG.getHash);

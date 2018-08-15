@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Simple Scroll Gallery</title>
+    <title>Simple Scroll Gallery - JavaScript image web gallery - responsive and unobtrusive</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <link rel='stylesheet' href='ssg-sample.css' type='text/css' media='all' />
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -52,6 +52,7 @@
                     <strong>your logo</strong> over image</li>
                 <li>SSG supports
                     <strong>Google analytics</strong>. When user views an image it is counted as virtual pageview.</li>
+                <li>You can <strong>link inside gallery</strong> to show particular photo.</li>
             </ul>
 
             <h2>License</h2>
@@ -80,18 +81,25 @@
                     <h2>How gallery works</h2>
 
                     <p>Simple Scroll Gallery looks for all &lt;a&gt; tags on the page that points to image file (jpg, png, gif).
-                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery. You can also run gallery
-                        by calling SSG.run method:</p>
-
-                    <code>
-                        &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
-                    </code>
+                        SSG adds to all these &lt;a&gt; tags onclick function which runs the gallery. </p>
 
                     <p>The image the user clicked on is displayed first, then follow other images in the order they appear on
                         the page.</p>
 
                     <p>Text caption under images is taken from alt atribute. If there is no alt atribute gallery shows just
                         empty stripe.</p>
+
+                    <p>You can also run gallery by calling SSG.run method:</p>
+
+                    <code>
+                        &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
+                    </code>
+
+                    <p>You can link inside gallery to show particular photo. Just add a hashtag with name of the photo after
+                        url. For example this link <a href="http://ssg.flor.cz/#ba\ngkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows a photo lombok-bangkang-jeskyn.jpg. It is enough to have in
+                        hashtag crucial part of the name.
+                    </p>
+
 
 
                     <h2>Fullscreen mode</h2>
@@ -218,6 +226,9 @@
             <p class="bigger">
                 <a id="showgal" onclick="SSG.run({fs:true});" style="cursor:pointer; text-decoration:underline">
                     <span>֎</span>Run gallery</a> from text link by calling SSG.run({fs:true})</p>
+            <p class="bigger">
+                <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
+                    <span>֎</span>Run gallery</a> from text link by calling SSG.run()</p>
 
             <br/>
             <h2>Navigation in gallery ~ jump scroll</h2>
