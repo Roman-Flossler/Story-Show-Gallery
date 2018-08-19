@@ -2,6 +2,19 @@
 <html lang="en">
 
 <head>
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-832000-17', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,7 +65,8 @@
                     <strong>your logo</strong> over image</li>
                 <li>SSG supports
                     <strong>Google analytics</strong>. When user views an image it is counted as virtual pageview.</li>
-                <li>You can <strong>link inside gallery</strong> to show particular photo.</li>
+                <li>You can
+                    <strong>link inside gallery</strong> to show particular photo.</li>
             </ul>
 
             <h2>License</h2>
@@ -90,13 +104,17 @@
                         empty stripe.</p>
 
                     <p>You can also run gallery by calling SSG.run method:</p>
-
                     <code>
                         &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
                     </code>
+                    <p>And use arguments - any image url and any text caption.</p>
+                    <code>
+                        &lt;a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});"&gt;<br/>Show gallery&lt;/a&gt;
+                    </code>
 
                     <p>You can link inside gallery to show particular photo. Just add a hashtag with name of the photo after
-                        url. For example this link <a href="http://ssg.flor.cz/#ba\ngkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows a photo lombok-bangkang-jeskyn.jpg. It is enough to have in
+                        url. For example this link
+                        <a href="http://ssg.flor.cz/#ba\ngkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows a photo lombok-bangkang-jeskyn.jpg. It is enough to have in
                         hashtag crucial part of the name.
                     </p>
 
@@ -224,12 +242,14 @@
             <br style="clear: both" />
             <br />
             <p class="bigger">
-                <a id="showgal" onclick="SSG.run({fs:true});" style="cursor:pointer; text-decoration:underline">
-                    <span>֎</span>Run gallery</a> from text link by calling SSG.run({fs:true})</p>
-            <p class="bigger">
-                <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
-                    <span>֎</span>Run gallery</a> from text link by calling SSG.run()</p>
+                    <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
+                        <span>֎</span>Run gallery</a> from text link by calling SSG.run()</p>
 
+            <p class="bigger">
+                <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/polarni-zare-zezadu.jpg', alt: 'Some text' }});"
+                    style="cursor:pointer; text-decoration:underline">
+                    <span>֎</span>Run gallery</a> from text link by calling<br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})</p>
+            
             <br/>
             <h2>Navigation in gallery ~ jump scroll</h2>
 

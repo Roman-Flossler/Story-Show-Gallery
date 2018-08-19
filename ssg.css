@@ -1,13 +1,25 @@
 
 #SSG_galBg {
-    background: #0e0e0e;
-    background-image:url(https://www.flor.cz/img/ssg-bg.png);
+    background: #0e0e0e;    
     width: 100%;
     position: fixed;
-    height: 200%;
+    height: 100%;
     z-index: 99990;
-    top: -50%;
+    top: 0;
     left: 0px;
+}
+
+#SSG_up, #SSG_down {
+    position: fixed;
+    height: 50%;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 99992;
+}
+
+#SSG_up {
+    top:0;
 }
 
 #SSG_gallery {
@@ -41,9 +53,10 @@
     position: absolute;
     bottom: 4px;
     left: 0px;
+    opacity: 0.69;
 }
 
-#SSG_gallery p { 
+#SSG_gallery p, #SSG_lastone p { 
     display:block; 
     margin: auto; 
 	line-height: 1.3em;
@@ -55,6 +68,18 @@
     margin-bottom: 13em;
 	font-weight: lighter;
 	font-size: 100%;
+}
+
+#SSG_lastone p {
+    margin-top: 16vw;
+    margin-bottom: 16vw;
+}
+
+#SSG_lastone {
+    position: absolute;
+    z-index: 99996;
+    width: 100%;
+    left: 0;
 }
 
 #SSG_exit {
@@ -79,9 +104,9 @@
     font-family: 'Times New Roman', 'Courier New', sans-serif;
 }
 
-/* >>>>>>>>>>>>>>>>>>>>>  Styles for arrows */
 
-#SSG_arrows {
+
+#SSG_arrows {           /* >>>>>>>>>>>>>>>>>>>>>  Styles for arrows */
     position: fixed;
     top: -9px;
     top: 6vh;
@@ -178,14 +203,14 @@
 }
 
 
-#SSG_gallery a.link {
+#SSG_gallery a.link, #SSG_lastone a.link {
 	cursor:pointer;
     }
     
 
-/* >>>>>>>>>>>>>>>>>>>>>  Arrow for bigger resolution */    
 
-@media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {
+
+@media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {    /* >>>>>>>>>>>>>>>>>>>>>  Arrow for bigger resolution */    
 
     #SSG_arrows span.up, #SSG_arrows span.down {
         background-size: 24px;
@@ -220,18 +245,18 @@
     }
 }
 
-/* >>>>>>>>>>>>>>>>>>>>>  Arrow indent for bigger resolution */    
 
-@media (min-width: 1380px) {
+
+@media (min-width: 1380px) {  /* >>>>>>>>>>>>>>>>>>>>>  Arrow indent for bigger resolution */    
     #SSG_arrows {
         top: 6vh;
     }
 }
 
 
-    /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
+    
 
-@media (max-width: 777px) {
+@media (max-width: 777px) and (orientation: landscape), (max-width: 750px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
 #SSG_gallery img {
     max-width: 100%;
     max-height: 90vh;
@@ -300,6 +325,8 @@
 	padding-top: 0.2em;
 }	
 }
+
+    
 
 @media (orientation: portrait) {
 #SSG_arrows {
