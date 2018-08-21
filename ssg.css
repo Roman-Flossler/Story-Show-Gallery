@@ -53,7 +53,7 @@
     position: absolute;
     bottom: 4px;
     left: 0px;
-    opacity: 0.69;
+    opacity: 0.6;
 }
 
 #SSG_gallery p, #SSG_lastone p { 
@@ -71,8 +71,7 @@
 }
 
 #SSG_lastone p {
-    margin-top: 16vw;
-    margin-bottom: 16vw;
+    margin-bottom: 1em;
 }
 
 #SSG_lastone {
@@ -80,6 +79,8 @@
     z-index: 99996;
     width: 100%;
     left: 0;
+    margin-top: 16vw;
+    margin-bottom: 36vw;
 }
 
 #SSG_exit {
@@ -157,48 +158,66 @@
     background-repeat: no-repeat;
 }    
 
-#SSG_arrows #tip {
-    background: rgb(51, 51, 51);
-    color: #ffffff;
-    right: 55px;
-    top: 2vh;
-    border: 1px solid black;
-    border-radius: 5px;
+#SSG_tip {
+    left: 0vw;
+    top: 44vh;
+    width: 96vw;
     padding: 0.33em 1em;
     position: fixed;
-    white-space: nowrap;
+    z-index: 99992;    
     opacity: 0;
-    display: inline;
     animation-name: disappear;
-    animation-duration: 20s;
+    animation-duration: 21s;
     animation-iteration-count: 1;
-    font-weight:300;
+    font-weight:300;    
+    text-align: center;
 }
 
-#SSG_arrows #tip strong {
-    font-family: monospace;
-    color: rgb(208, 255, 0);
-    font-size: 121%;
+#SSG_tip a {
+    text-decoration: underline;
+    color:  #FFEB3B;
+    background: none;
+    font-weight: bold;
+    letter-spacing: 0.07em;
 }
 
-@media (pointer: coarse) {
-    #SSG_arrows #tip {
-        font-size: 0;
-    }
-
-    #tip::after {
-        content:  'For fast scrolling use this arrows:';
-        font-size: 16px;
-        padding: 0.4em;
-       }    
+#SSG_tip hr {
+    opacity: 0.5;
 }
+
+#SSG_tip strong {
+    color: #6bddff;
+    background: none;
+}
+
+#SSG_tip #close {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    font-family: 'Times New Roman', monospace;
+    font-size: 131%;
+    color: #d3d3d3
+}
+
+#SSG_tip span {
+    padding: 0.5em 2em;
+    background: rgb(51, 51, 51);
+    color: #ffffff;
+    border: 1px solid black;
+    border-radius: 5px;
+    line-height: 2em;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
 
 @keyframes disappear {
     0%  {opacity: 0}
-    30%  {opacity: 0}    
-    36%   {opacity: 1}
-    80%  {opacity: 1}
-    86%  {opacity: 0}
+    5%  {opacity: 0}    
+    9%   {opacity: 1}
+    90%  {opacity: 1}
+    96%  {opacity: 0}
     100% {opacity: 0}
 }
 
@@ -207,8 +226,6 @@
 	cursor:pointer;
     }
     
-
-
 
 @media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {    /* >>>>>>>>>>>>>>>>>>>>>  Arrow for bigger resolution */    
 
@@ -291,11 +308,6 @@
     to { top: 69px;}
 }
     
-#SSG_arrows #tip {
-    right: 33px;
-    top: 3px;    
-}    
-	
 #SSG_exit {
     top: -20px;
     left: auto;

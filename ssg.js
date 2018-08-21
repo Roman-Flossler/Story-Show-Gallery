@@ -14,35 +14,37 @@ SSG.setVariables = function () {
     SSG.imgs = [];  // array of objects where image attributes are stored
     SSG.loaded = -1; // index of newest loaded image
     SSG.displayed = -1;  // index of image displayed in viewport
-    SSG.pos = window.pageYOffset || document.documentElement.scrollTop; // save actual vertical scroll of page
+    SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop; // save actual vertical scroll of page
     SSG.scrHeight = jQuery(window).height();
     jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;  // different screen fraction for different screen aspect ratios
     SSG.imageDown = false;   // if it was pressed arrow down
     SSG.imageUp = false;    // if it was pressed arrow up
-    SSG.firstImage = true;  // if it is displayed first image
-    SSG.scrollActive = true;  // if it is true scrolling is allowed
+    SSG.firstImageCentered = false;  // if it is centered first image
+    SSG.scrollingAllowed = true;  // when true, scrolling is allowed
     SSG.arrowsExist = true;  // if there are are navigation arrows displayed
-    SSG.fullscreen = false;  // if fullscreen mode is active
+    SSG.fullscreenMode = false;  // if fullscreen mode is active
     SSG.exitFullscreen = false; // true when exiting from fullscreen mode
     SSG.finito = false;  // if all images are loaded
+    SSG.lastone = false; // if it was scrolled to last element in the gallery - go back button
+    SSG.exitClicked = false; // set to true when user clicks exit button, prevents call SSG.destroyGallery twice
 }
 
 SSG.initGallery = function initGallery(event) {
     window.scrollTo(0, 0);
     jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div> <div id='SSG_lastone'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
-    jQuery("body").append("<div id='SSG_up'></div><div id='SSG_down'></div> <div id='SSG_arrows'><span class='up'></span><span class='down'></span></div>"); // gallery's arrows navigation
+    jQuery("body").append("<div id='SSG_up'></div><div id='SSG_down'></div> <div id='SSG_arrows'><span class='up'></span><span class='down'></span></div>"); // gallery's arrows navigation    
     jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
     if ((event && event.currentTarget) && (event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.classList[0] == 'fs')) {
-        SSG.fullscreen = true;
+        SSG.fullscreenMode = true;
     }    // when event exists it checks also event.currentTarget and if some of fs flag is set it sets fullscreen to true
-    if (event && event.fs) SSG.fullscreen = true;
+    if (event && event.fs) SSG.fullscreenMode = true;
     jQuery(document).keydown(SSG.keyFunction);
-    jQuery("#SSG_exit").click(SSG.destroyGallery);
+    jQuery("#SSG_exit").click(function () {SSG.exitClicked=true; SSG.destroyGallery()});
     jQuery("#SSG_arrows .up, #SSG_up").click(function () { SSG.imageUp = true; });
     jQuery("#SSG_arrows .down").click(function () { SSG.imageDown = true; jQuery('#SSG_arrows .down').css('animation', 'none'); });
     jQuery("#SSG_down").click(function () { SSG.imageDown = true; SSG.removeArrows(); });
     jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);
-    SSG.fullscreen && SSG.openFullscreen();
+    SSG.fullscreenMode && SSG.openFullscreen();
 }
 
 SSG.keyFunction = function (event) {
@@ -91,21 +93,23 @@ SSG.getImgList = function (event) {
     }
 }
 
-$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (event) {
-    if (SSG.fullscreen && SSG.exitFullscreen) {
+jQuery(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function () {
+    if (SSG.fullscreenMode && SSG.exitFullscreen && !SSG.exitClicked) {  // if exit from fullscreen mode detected, close gallery
         SSG.destroyGallery();
-        SSG.fullscreen = false;
     }
-    if (!SSG.exitFullscreen) SSG.exitFullscreen = !SSG.exitFullscreen;
+    if (!SSG.exitFullscreen) SSG.exitFullscreen = true;
 });
 
-SSG.countResize = function () {
-    SSG.scrHeight = jQuery(window).height();
-    SSG.firstImage = true;
-    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
+SSG.refreshPos = function () {  // recalculate all loaded images positions after new image is loaded
     for (var i = 0; i <= SSG.loaded; i++) {
         SSG.imgs[i].pos = Math.round(jQuery("#i" + i).offset().top);
     }
+}
+
+SSG.countResize = function () {
+    SSG.scrHeight = jQuery(window).height();
+    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
+    SSG.firstImageCentered && SSG.refreshPos(); // only if first image is already centered. Prevents problems when gallery is initiate in fullscreen mode (it activates onresize event)
     SSG.finito && jQuery("#SSG_lastone").css('top', jQuery('#p' + SSG.loaded).offset().top + 100 + 'px');
 }
 
@@ -116,15 +120,15 @@ SSG.addImage = function () {
         jQuery("#SSG_gallery").append("<span class='wrap'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span>");
         if (!SSG.imgs[newOne].alt) SSG.imgs[newOne].alt = "";
         jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
-        jQuery("#i" + newOne).load(function (event) {
-            SSG.countResize(); // when img is loaded positions of images a recalculated
+        jQuery("#i" + newOne).on('load', function (event) {
+            SSG.refreshPos(); // when img is loaded positions of images a recalculated
         });
         SSG.loaded = newOne; // index of newest loaded image
     }
-    if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index
+    if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
         jQuery("#SSG_lastone").css('top', jQuery('#p' + SSG.loaded).offset().top + 100 + 'px');
         jQuery("#SSG_lastone").append("<p id='back'><a class='link'>Back to website</a></p><div id='more'></div>");
-        jQuery("#back").click(SSG.destroyGallery);
+        jQuery("#back").click(function () {SSG.exitClicked=true; SSG.destroyGallery()} );
         //		jQuery("#more").load( "https://www.flor.cz/js/SSG/more.html" ); load html file with links to next galleries
         SSG.finito = true; //  all images are already loaded
     }
@@ -135,18 +139,24 @@ SSG.getName = function (url) {  // acquire image name from url address
 }
 
 SSG.metronome = function () {
-    var actual = window.pageYOffset || document.documentElement.scrollTop; // actual offset from top of the page            
+    var actual = window.pageYOffset || document.documentElement.scrollTop; // actual offset from top of the page
 
     if (SSG.imgs[SSG.loaded].pos && !SSG.finito) {  // if imgs.pos exists image is already loaded and not all images are loaded
         var Faraway = SSG.imgs[SSG.loaded].pos; // the newest loaded image offset from top of the page        
         (Faraway - actual < SSG.scrHeight * 3) && SSG.addImage();  // when actual offset is three screen near from faraway gallery loads next image
     }
 
+    if ((SSG.loaded > 0 && (SSG.imgs[SSG.loaded - 1].pos - actual < SSG.scrHeight * 0.5) && !SSG.finito) || !SSG.imgs[0].pos) {  // if user is close enough to last loaded image
+        jQuery(document.body).addClass("wait");  //wait cursor will appear 
+    } else {
+        jQuery(document.body).removeClass("wait");
+    }
+
     actual += Math.round(SSG.scrHeight / SSG.scrFraction);  // actual + some screen fractions, determinates exactly when image pageview is logged into GA
 
     for (var i = 0; i <= SSG.loaded; i++) {
         var topPos = 0;
-        if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight } // get topPos behind the last image
+        if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight } // get topPos of last image bottom side
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
             if (typeof ga !== 'undefined') {
                 SSG.displayed != i && ga('send', 'pageview', '/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
@@ -159,26 +169,34 @@ SSG.metronome = function () {
 }
 
 SSG.jumpScroll = function () {
-    if (SSG.displayed == 0 && SSG.imgs[0].pos && SSG.firstImage) {   // center first image
-        window.scrollTo(0, SSG.imgs[0].pos - SSG.countImageIndent(0));
-        SSG.firstImage = false;
-    }
-
-    if (SSG.imageUp && SSG.displayed - 1 >= 0)  // if imageUp is true then scroll on previous image
+    if (SSG.imageUp && SSG.displayed - 1 >= 0 && !SSG.lastone)  // if imageUp is true then scroll on previous image
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed - 1].pos - SSG.countImageIndent(SSG.displayed - 1) + "px" }, 500, "swing");
 
-
-    if (SSG.displayed + 1 < SSG.imgs.length) {
-        if (SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos)  // if imageDown is true and next image is loaded (pos exists) then scroll on next image
-            jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) + "px" }, 500, "swing");
-    } else {
-        SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10) }, 500, "swing");  // scroll to back to website button
+    if (SSG.imageUp && SSG.lastone) { // if lastone is true, i am out of index, so scroll on last image in index. I know, this lastone element should be part of SSG.imgs array
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed].pos - SSG.countImageIndent(SSG.displayed) + "px" }, 500, "swing");
+        SSG.lastone = false;
     }
+
+
+    if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) + "px" }, 500, "swing");
+    } else {
+        if (typeof jQuery("#back").offset() !== 'undefined') { // if back button exists scroll to it
+            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
+        }        
+    }
+
+
+    if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery
+        window.scrollTo(0, SSG.imgs[0].pos - SSG.countImageIndent(0));
+        if (!SSG.firstImageCentered) SSG.firstImageCentered = true;
+    }
+
     SSG.imageDown = false;
     SSG.imageUp = false;
 }
 
-SSG.countImageIndent = function (index) {  // function count how much indent image from the top of the screen to center image
+SSG.countImageIndent = function (index) {  // function count how much indent image from the top of the screen to center image    
     var screen = jQuery(window).height();
     var img = jQuery("#i" + index).outerHeight(true);
     var pIn = jQuery("#p" + index).innerHeight();
@@ -190,12 +208,10 @@ SSG.countImageIndent = function (index) {  // function count how much indent ima
 }
 
 SSG.seizeScrolling = function (scroll) {
-    //console.log(scroll);
-
-    if (scroll == 1 && SSG.scrollActive) {
+    if (scroll == 1 && SSG.scrollingAllowed) {
         setScroll();
         SSG.imageDown = true;
-    } else if (scroll == -1 && SSG.scrollActive) {
+    } else if (scroll == -1 && SSG.scrollingAllowed) {
         setScroll();
         SSG.imageUp = true;
     }
@@ -204,7 +220,7 @@ SSG.seizeScrolling = function (scroll) {
         jQuery(window).bind("mousewheel DOMMouseScroll", SSG.preventDef);
         SSG.scrollTimeout = setTimeout(SSG.setScrollActive, 666);  // it will renew ability to scroll in 666ms
         scroll = 0;
-        SSG.scrollActive = false;
+        SSG.scrollingAllowed = false;
         SSG.removeArrows();
     }
 }
@@ -213,7 +229,7 @@ SSG.preventDef = function (event) {
     event.preventDefault();
 }
 
-SSG.setScrollActive = function () { SSG.scrollActive = true; clearTimeout(SSG.scrollTimeout); jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); }
+SSG.setScrollActive = function () { SSG.scrollingAllowed = true; clearTimeout(SSG.scrollTimeout); jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); }
 
 SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll wheel and then calls seize scrolling
     if (typeof e.originalEvent.detail == 'number' && e.originalEvent.detail !== 0) {
@@ -258,15 +274,26 @@ SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle,#SSG_up,#SSG_down,#SSG_lastone").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip").remove();
     SSG.removeArrows();
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
-    SSG.fullscreen && SSG.closeFullscreen();
-    SSG.fullscreen ? window.setTimeout(function () { window.scrollTo(0, SSG.pos) }, 100) : window.scrollTo(0, SSG.pos);
+    SSG.fullscreenMode && SSG.closeFullscreen();
+    SSG.fullscreenMode ? window.setTimeout(function () { window.scrollTo(0, SSG.originalPos) }, 100) : window.scrollTo(0, SSG.originalPos);
     // sets the original (before initGallery) vertical scroll of page. SetTimeout solves problem with return from Fullscreen, when simple scrollTo didn't work
 }
+
+SSG.showFSTip = function () {
+    var l1 = "<div id='SSG_tip'><span><div id='close'>&times;</div>For better experience <a>click for fullscreen mode</a><br/>";
+    var l2 = "<hr/>navigation: mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br/>";
+    var l3 = "or <strong>TAP</strong> on bottom (upper) part of screen</span></div>";
+    
+    jQuery("body").append(l1+l2+l3); // gallery's arrows navigation
+    jQuery('#SSG_tip').click(function () { SSG.openFullscreen(); SSG.fullscreenMode = true; jQuery('#SSG_tip').remove(); SSG.firstImageCentered = false; });
+    jQuery('#SSG_tip #close').click(function () { jQuery('#SSG_tip').remove(); });
+}
+
 
 SSG.getHash = function () {
     var hash = window.location.hash;
@@ -281,6 +308,7 @@ SSG.getHash = function () {
             var event = {};
             event.img = { href: href, alt: alt }
             SSG.run(event);
+            SSG.showFSTip();
         }
     }
 }
