@@ -135,7 +135,7 @@ ul li {
     opacity: 0.83;
 }
 
-.gallery img:hover, .topimg img:hover {
+.gallery img:hover {
     opacity: 1;
 }
 
