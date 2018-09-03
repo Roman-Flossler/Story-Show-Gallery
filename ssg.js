@@ -9,6 +9,8 @@
 var SSG = {};  // main object - namespace
 
 SSG.setVariables = function () {
+    SSG.fileToLoad = null; // don't load anything behind the gallery.
+    //  SSG.fileToLoad = 'http://ssg.flor.cz/ssg-loaded.html';  // load a HTML file behind gallery, it has to be on the same domain as SSG due to a security reasons    
     SSG.imgs = [];  // array of objects where image attributes are stored
     SSG.loaded = -1; // index of newest loaded image
     SSG.displayed = -1;  // index of image displayed in viewport
@@ -29,7 +31,7 @@ SSG.setVariables = function () {
 SSG.initGallery = function initGallery(event) {
     window.scrollTo(0, 0);
     jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div><div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
-    jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
+    jQuery('html').addClass('ssg');
     if ((event && event.currentTarget) && (event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.classList[0] == 'fs')) {
         SSG.fullscreenMode = true;
     }    // when event exists it checks also event.currentTarget and if some of fs flag is set it sets fullscreen to true
@@ -53,8 +55,8 @@ SSG.keyFunction = function (event) {
     event.stopPropagation();
 }
 
-SSG.touchScroll = function(event) {
-    event.clientY < SSG.scrHeight/2 ?  SSG.imageUp = true : SSG.imageDown = true;
+SSG.touchScroll = function (event) {
+    event.clientY < SSG.scrHeight / 2 ? SSG.imageUp = true : SSG.imageDown = true;
 }
 
 SSG.getHrefAlt = function (el) {
@@ -124,13 +126,13 @@ SSG.addImage = function () {
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
         jQuery("#SSG_gallery").append("<div id='SSG_lastone'><p id='back'><a class='link'>Back to website</a></p><div id='more'></div></div>");
         jQuery("#back").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
-        jQuery("#more").load("ssg-loaded.html");   // load html file with links to next galleries
+        SSG.fileToLoad && jQuery("#more").load(SSG.fileToLoad);   // load html file with links to other galleries
         SSG.finito = true; //  all images are already loaded
     }
     if (newOne == 0) {  // append a little help to the first image
         jQuery('#p0').append('<a id="tipCall">more photos are below</a> <span id="arrowdown">&darr;</span>');
-        jQuery('#tipCall').click(function(event) { SSG.showFsTip(); event.stopPropagation();});
-    }     
+        jQuery('#tipCall').click(function (event) { SSG.showFsTip(); event.stopPropagation(); });
+    }
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
@@ -144,7 +146,6 @@ SSG.metronome = function () {
         var Faraway = SSG.imgs[SSG.loaded].pos; // the newest loaded image offset from top of the page        
         (Faraway - actual < SSG.scrHeight * 3) && SSG.addImage();  // when actual offset is three screen near from faraway gallery loads next image
     }
-
     if ((SSG.loaded > 0 && (SSG.imgs[SSG.loaded - 1].pos - actual < SSG.scrHeight * 0.5) && !SSG.finito) || !SSG.imgs[0].pos) {  // if user is close enough to last loaded image
         jQuery(document.body).addClass("wait");  //wait cursor will appear 
     } else {
@@ -152,8 +153,8 @@ SSG.metronome = function () {
     }
 
     actual += Math.round(SSG.scrHeight / SSG.scrFraction);  // actual + some screen fractions, determinates exactly when image pageview is logged into GA
-	SSG.onEachSecondTick = !SSG.onEachSecondTick;
-    if(SSG.onEachSecondTick) SSG.afterScroll = false;    // set afterScroll to false on every second tick, it enables scroll move again
+    SSG.onEachSecondTick = !SSG.onEachSecondTick;
+    if (SSG.onEachSecondTick) SSG.afterScroll = false;    // set afterScroll to false on every second tick, it enables scroll move again
 
     for (var i = 0; i <= SSG.loaded; i++) {
         var topPos = 0;
@@ -171,23 +172,23 @@ SSG.metronome = function () {
 
 SSG.jumpScroll = function () {
     if (SSG.imageUp && SSG.displayed - 1 >= 0 && !SSG.lastone)  // if imageUp is true then scroll on previous image
-        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed - 1].pos - SSG.countImageIndent(SSG.displayed - 1)}, 500, "swing");
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed - 1].pos - SSG.countImageIndent(SSG.displayed - 1) }, 500, "swing");
 
     if (SSG.imageUp && SSG.lastone) { // if lastone is true, i am out of index, so scroll on last image in index. I know, this lastone element should be part of SSG.imgs array
-        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed].pos - SSG.countImageIndent(SSG.displayed)}, 500, "swing");
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed].pos - SSG.countImageIndent(SSG.displayed) }, 500, "swing");
         SSG.lastone = false;
     }
 
     if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
-        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1)}, 500, "swing");
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) }, 500, "swing");
     } else {
         if (typeof jQuery("#back").offset() !== 'undefined') { // if back button exists scroll to it
-            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10)}, 500, "swing", function () { SSG.lastone = true; });
+            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
         }
     }
 
     if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery
-        jQuery("html, body").animate({ scrollTop: SSG.imgs[0].pos - SSG.countImageIndent(0)}, 200, "swing");
+        jQuery("html, body").animate({ scrollTop: SSG.imgs[0].pos - SSG.countImageIndent(0) }, 200, "swing");
         if (!SSG.firstImageCentered) SSG.firstImageCentered = true;
         SSG.countResize();
     }
@@ -215,7 +216,6 @@ SSG.seizeScrolling = function (scroll) {
         banScroll();
         if (!SSG.afterScroll) SSG.imageUp = true;
     }
-
     function banScroll() {
         jQuery(window).bind("mousewheel DOMMouseScroll", SSG.preventDef); // ban default behaviour
         SSG.scrollTimeout = setTimeout(SSG.setScrollActive, 482);  // it will renew ability to scroll in 482ms
@@ -228,11 +228,11 @@ SSG.preventDef = function (event) {
     event.preventDefault();
 }
 
-SSG.setScrollActive = function () { 
-    SSG.scrollingAllowed = true; 
-    SSG.afterScroll = true; 
-    clearTimeout(SSG.scrollTimeout); 
-    jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); 
+SSG.setScrollActive = function () {
+    SSG.scrollingAllowed = true;
+    SSG.afterScroll = true;
+    clearTimeout(SSG.scrollTimeout);
+    jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef);
 }
 
 SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll wheel and then calls seize scrolling
@@ -277,7 +277,8 @@ SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip").remove();
+    jQuery('html').removeClass('ssg');
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
