@@ -81,7 +81,6 @@ SSG.getImgList = function (event) {
         var clickedHref = event.img.href;
         var clickedAlt = event.img.alt;
     }
-
     if (clickedHref) {
         var i;
         var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length - 1;
@@ -178,7 +177,6 @@ SSG.jumpScroll = function () {
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed].pos - SSG.countImageIndent(SSG.displayed) }, 500, "swing");
         SSG.lastone = false;
     }
-
     if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) }, 500, "swing");
     } else {
@@ -186,13 +184,11 @@ SSG.jumpScroll = function () {
             SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
         }
     }
-
     if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery
         jQuery("html, body").animate({ scrollTop: SSG.imgs[0].pos - SSG.countImageIndent(0) }, 200, "swing");
         if (!SSG.firstImageCentered) SSG.firstImageCentered = true;
         SSG.countResize();
     }
-
     SSG.imageDown = false;
     SSG.imageUp = false;
 }
@@ -253,7 +249,6 @@ SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll w
 
 SSG.openFullscreen = function () {
     var elem = document.documentElement;
-
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -283,8 +278,9 @@ SSG.destroyGallery = function () {
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
     SSG.fullscreenMode && SSG.closeFullscreen();
-    SSG.fullscreenMode ? window.setTimeout(function () { window.scrollTo(0, SSG.originalPos) }, 100) : window.scrollTo(0, SSG.originalPos);
-    // sets the original (before initGallery) vertical scroll of page. SetTimeout solves problem with return from Fullscreen, when simple scrollTo didn't work
+    SSG.fullscreenMode ?
+        window.setTimeout(function () { window.scrollTo(0, SSG.originalPos) }, 100)
+        : window.scrollTo(0, SSG.originalPos); // sets the original vertical scroll of page. SetTimeout solves problem with return from Fullscreen, when simple scrollTo didn't work
 }
 
 SSG.showFsTip = function () {
@@ -293,10 +289,14 @@ SSG.showFsTip = function () {
         var l1 = "For better experience <a>click for fullscreen mode</a><br/><hr/>";
         var l2 = "Navigation in gallery:<br/> mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br/>";
         var l3 = "or <strong>TAP</strong> on bottom (upper) part of screen</span></div>";
-
         SSG.fullscreenMode && jQuery("body").append(l0 + l2 + l3);
         !SSG.fullscreenMode && jQuery("body").append(l0 + l1 + l2 + l3);
-        !SSG.fullscreenMode && jQuery('#SSG_tip').click(function () { SSG.openFullscreen(); SSG.fullscreenMode = true; jQuery('#SSG_tip').remove(); SSG.firstImageCentered = false; });
+        !SSG.fullscreenMode && jQuery('#SSG_tip').click(function () {
+            SSG.openFullscreen();
+            SSG.fullscreenMode = true;
+            jQuery('#SSG_tip').remove();
+            SSG.firstImageCentered = false;
+        });
         jQuery('#SSG_tip #close').click(function () { jQuery('#SSG_tip').remove(); });
     } else {
         jQuery('#SSG_tip').remove();

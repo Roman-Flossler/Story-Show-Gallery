@@ -10,7 +10,6 @@
             }, i[r].l = 1 * new Date(); a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
         ga('create', 'UA-832000-17', 'auto');
         ga('send', 'pageview');
     </script>
@@ -18,12 +17,10 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Simple Scroll Gallery - JavaScript image web gallery - responsive and unobtrusive</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -34,146 +31,136 @@
             </div>
 
             <h1>Simple Scroll Gallery</h1>
+            <!-- ---------------------------- -->
             <p>
                 <em>Javascript gallery created by Roman Flössler</em>
             </p>
 
-            <p>I've made Simple Scroll Gallery for my Wordpress blog about photography. I&nbsp;wanted a simple gallery (without
-                disturbing elements) which works similarly like a presentation. A user only needs to scroll down and sees
-                image by image. Try it in the sample gallery on this page.
+            <p>I've made Simple Scroll Gallery for my Wordpress blog about photography. I&nbsp;wanted a simple gallery (without disturbing elements) which
+                works similarly like a presentation. A user only needs to scroll down and sees image by image. Try it in the sample gallery on this page.
             </p>
             <p>
-                <a href="#see-gallery" class="seegal bigger">
-                    <span style="text-decoration:none">&#1422;</span> Try sample Simple Scroll Gallery</a>
+                <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#1422;</span>
+                    Try sample Simple Scroll Gallery</a>
             </p>
             <p>
-                <a class="bigger" href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">Download Simple Scroll Gallery from GitHub</a>
+                <a class="bigger" href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">
+                    Download Simple Scroll Gallery from GitHub</a>
             </p>
 
             <h2>Main features</h2>
+            <!-- ---------------------------- -->
 
             <ul>
-                <li>SSG is fully
-                    <strong>responsive</strong> - works on a desktop, tablets and smartphones</li>
-                <li>Minimalist and
-                    <strong>unobtrusive</strong> - SSG gives max. space to images</li>
-                <li>
-                    <strong>Fullscreen</strong> mode with an unobtrusive scrollbar and cursor</li>
-                <li>
-                    <strong>Jump scroll</strong> automatically scrolls from image to image</li>
+                <li>SSG is fully <strong>responsive</strong> - works on a desktop, tablets and smartphones</li>
+                <li>Minimalist and <strong>unobtrusive</strong> - SSG gives max. space to images</li>
+                <li><strong>Fullscreen</strong> mode with an unobtrusive scrollbar and cursor</li>
+                <li><strong>Jump scroll</strong> automatically scrolls from image to image</li>
                 <li>Images are gradually loaded as a user scrolls down</li>
-                <li>There can be a caption under each image and
-                    <strong>your logo</strong> over the image</li>
-                <li>SSG supports
-                    <strong>Google analytics</strong>. When a user views an image it is counted as a virtual pageview.</li>
-                <li>You can
-                    <strong>link inside the gallery</strong> to show a particular photo.</li>
-                <li>After the last photo SSG can load a
-                    <strong>signpost</strong> to other galleries</li>
+                <li>There can be a caption under each image and <strong>your logo</strong> over the image</li>
+                <li>SSG supports <strong>Google analytics</strong>. When a user views an image it is counted as a virtual pageview.</li>
+                <li>You can <strong>link inside the gallery</strong> to show a
+                    <a href='http://ssg.flor.cz/#bangkang' target="_blank">particular photo</a>.</li>
+                <li>After the last photo SSG can load a <strong>signpost</strong> to other galleries</li>
+                <li>Just <strong>333 lines</strong> of JS code, all icons and cursor inside the code</li>
             </ul>
 
             <h2>License</h2>
+            <!-- ---------------------------- -->
             <p>
                 You can use SSG freely
                 <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">under Mozilla Public License 2.0.</a>
-                There is one exception added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning
-                to do it.
+                There is one exception added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.
             </p>
 
+            <h2>SSG is easy to implement</h2>
+            <!-- ---------------------------- -->
 
-            <h2>How to implement the gallery</h2>
-
-
-            <p>Simple Scroll Gallery is very easy to implement on your website. You just need to add two lines of code somewhere
-                before &lt;/body&gt; tag:</p>
+            <p>Simple Scroll Gallery is easy to implement on your website. You just need to add two lines of code somewhere before &lt;/body&gt; tag:
+            </p>
 
             <code>
                     &lt;link rel="stylesheet" href="https://.../ssg.css" type="text/css"&gt;<br/>
                     &lt;script type="text/javascript" src="https://.../ssg.js"&gt;&lt;/script&gt;
-                    </code>
-            <p>SSG also requires jQuery at least in version 1.5. Wordpress already includes jQuery.</p>
+            </code>
+            <p>SSG requires jQuery library at least in version 1.5. Wordpress already includes jQuery.</p>
 
-            <p>SSG consists of three files:
-                <br/>
-                <strong>ssg.js</strong> - the gallery code
-                <br/>
-                <strong>ssg.css</strong> - the gallery styles
-                <br/>
-                <strong>ssg-loaded.html</strong> - a html file to load behind the last photo, usually a signpost
+            <p>Simple Scroll Gallery consists of three files:
+                <ul>
+                    <li><strong>ssg.js</strong> - the gallery code</li>
+                    <li><strong>ssg.css</strong> - the gallery styles</li>
+                    <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries.
+                    </li>
+                </ul>
             </p>
 
-            <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. If you want a
-                signpost after the gallery, you have to create your own or edit mine.<p>
+            <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. If you want a signpost after the gallery,
+                you have to create your own or edit mine and enter its URL on line 13 in ssg.js file
+            </p>
 
-                    <h2>How the gallery works</h2>
+            <h2>How the gallery works</h2>
+            <!-- ---------------------------- -->
 
-                    <p>Simple Scroll Gallery looks for all hyperlinks (&lt;a&gt; tags) on a page that points to an image file
-                        (jpg, png, gif). SSG adds to all these hyperlinks onclick function which runs the gallery.</p>
-                    <p>SGG excellently cooperates with the
-                        <strong>Wordpress built-in gallery</strong>. Wordpress creates image thumbnails with hyperlinks, and SGG
-                        assembles them into a fullscreen image presentation.</p>
+            <p>Simple Scroll Gallery looks for all hyperlinks (&lt;a&gt; tags) on a page that points to an image file (jpg, png, gif). SSG adds to all
+                these hyperlinks onclick function which runs the gallery.</p>
+            <p>SGG excellently cooperates with the
+                <strong>Wordpress built-in gallery</strong>. Wordpress creates image thumbnails with hyperlinks, and SGG assembles them into a fullscreen
+                image presentation.
+            </p>
 
-                    <p>The image the user clicked on is displayed first, then follow other images in the order they appear on
-                        the page. If the clicked image is sixth in order or highter (7th, 8th,..), then the image is displayed
-                        twice. On the first place and on its original place. Becouse that image can be part of some image
-                        series and it would be missing there.</p>
+            <p>The image the user clicked on is displayed first, then follow other images in the order they appear on the page. <br/> If the clicked image
+                is sixth in order or higher (7th, 8th,..), then the image is displayed twice. On the first place and on its original place. Because that
+                image can be part of some image series and it would be missing there.
+            </p>
 
-                    <p>The text caption below images is taken from the alt atribute. If there is no alt atribute, the gallery
-                        shows just an empty stripe.</p>
+            <p>The text caption below images is taken from the alt attribute. If there is no alt attribute, the gallery shows just an empty stripe.</p>
 
-                    <p>You can also run the gallery by calling SSG.run method:</p>
-                    <code>
-                        &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
-                    </code>
-                    <p>And use arguments - any image url and any text caption.</p>
-                    <code>
-                        &lt;a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});"&gt;<br/>Show gallery&lt;/a&gt;
-                    </code>
+            <p>You can also run the gallery by calling SSG.run method:</p>
+            <code>
+                &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
+            </code>
+            <p>And use arguments - any image url and any text caption.</p>
+            <code>
+                &lt;a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});"&gt;<br/>Show gallery&lt;/a&gt;
+            </code>
 
-                    <p>You can link inside the gallery to show a particular photo. Just add a hashtag with photo's name after
-                        url. For example this link
-                        <a href="http://ssg.flor.cz/#bangkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows the photo lombok-bangkang-cave.jpg. It is enough to have in
-                        the hashtag crucial part of the name.
-                    </p>
+            <p>You can link inside the gallery to show a particular photo. Just add a hashtag with photo's name after url. For example this link
+                <a href="http://ssg.flor.cz/#bangkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows the photo lombok-bangkang-cave.jpg.
+                It is enough to have in the hashtag crucial part of the name.
+            </p>
 
+            <h2>Fullscreen mode</h2>
+            <!-- ---------------------------- -->
 
+            <p>Fullscreen mode can be activated four ways.</p>
 
-                    <h2>Fullscreen mode</h2>
+            <p>Adding the fs class to the parent tag of &lt;a&gt; tags. The fs class must be the first class. All images inside mygallery activate fullscreen
+                mode:
+            </p>
+            <code>
+                &lt;div class='fs mygallery'&gt;<br/> &lt;a href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;<br/>
+                &lt;a href='big-image2.jpg'&gt; &lt;img src='thumbnail2.jpg'&gt;&lt;/a&gt;<br/>&lt;/div&gt;                           
+            </code>
 
-                    <p>Fullscreen mode can be activated four ways.
+            <p>Running the gallery by calling the SSG.run method with the fs:true parameter.</p>
+            <code>
+                &lt;a onclick='SSG.run({fs:true})'&gt; Show gallery&lt;/a&gt;                              
+            </code>
 
-                        <p>Adding the fs class to the parrent tag of &lt;a&gt; tags. The fs class must be the first class. All
-                            images inside mygallery activate fullscreen mode:
-                        </p>
-                        <code>
-                                &lt;div class='fs mygallery'&gt;<br/> &lt;a href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;<br/>
-                                &lt;a href='big-image2.jpg'&gt; &lt;img src='thumbnail2.jpg'&gt;&lt;/a&gt;<br/>&lt;/div&gt;                           
-                        </code>
+            <p> Wrap the image in a DT tag as it is in a Wordpress gallery. This single image activates fullscreen mode: </p>
+            <code>
+                &lt;dt&gt;&lt;a href='big-image.jpg'&gt;&lt;img src='thumbnail.jpg'&gt; &lt;/a&gt;&lt;/dt&gt;
+            </code>
 
-                        <p>Running the gallery by calling the SSG.run method with the fs:true parameter.
-                        </p>
-                        <code>
-                            &lt;a onclick='SSG.run({fs:true})'&gt; Show gallery&lt;/a&gt;                              
-                        </code>
+            <p> Adding the fs class to &lt;a&gt; tag. The fs class must be the first class. This single image activates fullscreen mode:</p>
+            <code>
+                &lt;a class='fs'  href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;
+            </code>
 
-                        <p> Wrap the image in a DT tag as it is in a Wordpress gallery. This single image activates fullscreen
-                            mode:
-                        </p>
-                        <code>
-                            &lt;dt&gt;&lt;a href='big-image.jpg'&gt;&lt;img src='thumbnail.jpg'&gt; &lt;/a&gt;&lt;/dt&gt;
-                            <br/>
-                    </code>
-
-                        <p> Adding the fs class to &lt;a&gt; tag. The fs class must be the first class. This single image activates
-                            fullscreen mode:</p>
-                        <code>
-                        &lt;a class='fs'  href='big-image.jpg'&gt; &lt;img src='thumbnail.jpg'&gt;&lt;/a&gt;
-                        <br/>
-                    </code>
-
-
-                        <br style="clear: both" />
+            <br style="clear: both" />
         </article>
+
+        <!-- ---------------------------- column-article division --------------------------------------------------- -->
 
         <article class="column secol">
             <a name="see-gallery"></a>
@@ -182,8 +169,9 @@
             </div>
 
             <h1>See SSG Sample:</h1>
+            <!-- ---------------------------- -->
             <p>
-                <strong>SSG controls:</strong> a scroll wheell
+                <strong>SSG controls:</strong> a scroll wheel
                 <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
                 <span class="icons" style="font-family:monospace; font-size:150%">&darr;&rarr;&uarr;&larr;</span>
                 <br/> On a tablet
@@ -191,23 +179,20 @@
             </p>
 
             <section class="fs gallery">
-
                 <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="Sekumpul Waterfall - it is possible to bath under it"
-                    />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="Sekumpul Waterfall - it is possible to bath under it" />
                 </a>
                 <a href="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice.jpg">
                     <img src="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice-200x200.jpg" alt="Ubud - The center of cultural and spiritual life in Bali"
                     />
                 </a>
                 <a href='https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="Tegalalang rice terraces "
-                    />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="Tegalalang rice terraces " />
                 </a>
 
 
                 <a href='https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="Tukad Cepung Waterfall IS hidden in a narrow canyon"
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="Tukad Cepung Waterfall is hidden in a narrow canyon"
                     />
                 </a>
                 <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli.jpg'>
@@ -228,57 +213,56 @@
                 </dt>
 
                 <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-policka.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields"
-                    />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields" />
                 </a>
                 <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg'>
                     <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn-200x200.jpg" alt="
-                    Bangkang - a cave full of bats. Great place, but something more dense than water drops from the ceiling :)"
-                    />
+                    Bangkang - a cave full of bats. Great place, but something more dense than water drops from the ceiling :)" />
                 </a>
                 <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="Mangku Sakti canyon with crystal clear water"
-                    />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="Mangku Sakti canyon with crystal clear water" />
                 </a>
             </section>
+
             <br style="clear: both" />
             <p>
-                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/bali-monkey-forrest-tesaky.jpg'>Monkey forrest in Ubud</a> - a text link to an image.
-                <br/>
-                <a href="https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg"></a> &lArr; an empty (invisible) link to the image with SSG logo.
-                <br/> Both target images will appear in the gallery.
+                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/bali-monkey-forrest-tesaky.jpg'>Monkey forrest in Ubud</a> - a text link
+                to an image. <br/>
+                <a href="https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg"></a> &lArr; an empty (invisible) link to the image with
+                SSG logo. <br/> Both target images will appear in the gallery.
             </p>
             <br/>
             <p>
                 <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
                     <span>&#1422;</span> Run the gallery</a> by calling SSG.run()</p>
-
             <p>
                 <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/polarni-zare-zezadu.jpg', alt: 'Oh, this photo is not from Bali. It is possible to run gallery with any initial photo' }});"
                     style="cursor:pointer; text-decoration:underline">
-                    <span>&#1422;</span> Run the gallery</a> by calling
-                <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})</p>
+                    <span>&#1422;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
+            </p>
 
             <br/>
             <h2>Navigation in the gallery ~ jump scroll</h2>
+            <!-- ------------------------------------------------- -->
 
-            <p> There are two options. Classic scrolling with a scrollbar or fingers. And then jump scroll. A mouse wheel and
-                arrow keys have an altered function - they scroll from one image to next image. </p>
+            <p> There are two options. Classic scrolling with a scrollbar or fingers. And then jump scroll. A mouse wheel and arrow keys have an altered
+                function, they scroll from one image to next image. </p>
 
-            <p>Move to the next image:
-                <br/> down arrow key, right arrow, PgDn key or spacebar.
-                <br/> Move to the previous image:
-                <br/> press up arrow key, left arrow, or PgUP key.</p>
+            <p>
+                <strong>Move to the next image:</strong><br/> mouse wheel, down arrow key, right arrow, PgDn key or spacebar.<br/>
+                <strong>Move to the previous image:</strong><br/> mouse wheel, press up arrow key, left arrow, or PgUP key.
+            </p>
 
-            <p>For touch screens there are two invisible areas - the top and bottom half of the screen. After tapping somewhere
-                into the bottom half, SSG jump scroll to the next image.</p>
+            <p>For touch screens there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half,
+                SSG jump scroll to the next (previous) image.</p>
 
             <h2>About Photos</h2>
+            <!-- ---------------------------- -->
 
-            <p>Photos in the gallery are from Bali and Lombok. Most likely the best places I have ever traveled. If you want
-                to see more photos, there is an article on my blog
-                <a href="https://translate.google.com/translate?hl=en&sl=cs&tl=en&u=https%3A%2F%2Fwww.flor.cz%2Fblog%2Fcestovani-a-foceni-na-bali-a-lomboku%2F"
-                    target="_blank">about traveling and shooting on Bali and Lombok</a>. Maybe it will inspire you for your own journey.
+            <p>Photos in the gallery are from Bali and Lombok. Most likely the best places I have ever traveled. If you want to see more photos, there
+                is an article on my blog
+                <a href="https://translate.google.com/translate?hl=en&sl=cs&tl=en&u=https%3A%2F%2Fwww.flor.cz%2Fblog%2Fcestovani-a-foceni-na-bali-a-lomboku%2F" target="_blank">about
+                    traveling and shooting on Bali and Lombok</a>. Maybe it will inspire you for your own journey.
             </p>
 
             <br style="clear: both" />
