@@ -1,12 +1,10 @@
 
-
 // Simple Scroll Gallery (SSG)
 // Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 // licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
 // Here you can see how gallery works - http://ssg.flor.cz/
 // SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
-
 
 var SSG = {};  // main object - namespace
 
@@ -30,8 +28,7 @@ SSG.setVariables = function () {
 
 SSG.initGallery = function initGallery(event) {
     window.scrollTo(0, 0);
-    jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div> <div id='SSG_lastone'></div> <div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
-    jQuery("body").append("<div id='SSG_up'></div><div id='SSG_down'></div>"); // gallery's touch navigation    
+    jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div><div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
     jQuery("body").append('<link rel="stylesheet" id="scrollstyle" href="scrollbar.css" type="text/css" />');  // scrollbar style
     if ((event && event.currentTarget) && (event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.classList[0] == 'fs')) {
         SSG.fullscreenMode = true;
@@ -39,8 +36,7 @@ SSG.initGallery = function initGallery(event) {
     if (event && event.fs) SSG.fullscreenMode = true;
     jQuery(document).keydown(SSG.keyFunction);
     jQuery("#SSG_exit").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
-    jQuery("#SSG_up").click(function () { SSG.imageUp = true; });
-    jQuery("#SSG_down").click(function () { SSG.imageDown = true; });
+    jQuery('#SSG_gallery').click(SSG.touchScroll);
     jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);
     SSG.fullscreenMode && SSG.openFullscreen();
 }
@@ -57,6 +53,9 @@ SSG.keyFunction = function (event) {
     event.stopPropagation();
 }
 
+SSG.touchScroll = function(event) {
+    event.clientY < SSG.scrHeight/2 ?  SSG.imageUp = true : SSG.imageDown = true;
+}
 
 SSG.getHrefAlt = function (el) {
     if (el.children[0] && el.children[0].alt)  // if A tag has children (img tag) with an alt atribute
@@ -66,7 +65,6 @@ SSG.getHrefAlt = function (el) {
     else
         return { href: el.href, alt: '' }; // else there is no caption under image
 }
-
 
 SSG.getImgList = function (event) {
     Array.prototype.forEach.call(jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").toArray(), function (el) { // call invokes forEach method in context of jQuery output
@@ -109,47 +107,30 @@ SSG.countResize = function () { // recount variables on resize event
     SSG.scrHeight = jQuery(window).height();
     jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
     SSG.firstImageCentered && SSG.refreshPos(); // only if first image is already centered. Prevents problems when gallery is initiate in fullscreen mode (it activates onresize event)
-    SSG.finito && jQuery("#SSG_lastone").css('top', jQuery('#p' + SSG.loaded).offset().top + 77 + 'px');
-    SSG.placeOverlay(false);
 }
-
-SSG.placeOverlay = function (create) { // place an overlay over up and down div (for touch control). It's a workaround, it makes possible to click on text under up and down div
-    if (create) {
-        jQuery("body").append("<div id='tipCallOverlay'></div>");
-        jQuery('#tipCallOverlay').click(SSG.showFsTip);
-    }
-    var top = jQuery("#tipCall").offset().top;
-    var left = jQuery("#tipCall").offset().left;
-    var width = jQuery("#tipCall").outerWidth(true);
-    var height = jQuery("#tipCall").outerHeight(true);
-    jQuery('#tipCallOverlay').css({ 'top': top + 'px', 'left': left + 'px', 'width': width + 'px', 'height': height + 'px' });
-}
-
 
 SSG.addImage = function () {
     var newOne = SSG.loaded + 1; // newone is index of image which will be load
-    if (newOne == 0) {
-        var tipCall = '<a id="tipCall">more photos are below</a> <span id="arrowdown">&darr;</span>'
-    } else { tipCall = '' }
 
     if (newOne < SSG.imgs.length) {
-        jQuery("#SSG_gallery").append("<span class='wrap'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span>");
+        jQuery("#SSG_gallery").append("<div class='wrapper'><span class='forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span></div>");
         if (!SSG.imgs[newOne].alt) SSG.imgs[newOne].alt = "";
-        jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + tipCall + "</p>");
+        jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
         jQuery("#i" + newOne).on('load', function (event) {
             SSG.refreshPos(); // when img is loaded positions of images a recalculated
-            SSG.loaded == 0 && SSG.placeOverlay(true); // place overlay to activate hint
         });
         SSG.loaded = newOne; // index of newest loaded image
     }
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
-        jQuery("#SSG_lastone").css('top', jQuery('#p' + SSG.loaded).offset().top + 77 + 'px');
-        jQuery("#SSG_lastone").css('display', 'block');
-        jQuery("#SSG_lastone").append("<p id='back'><a class='link'>Back to website</a></p><div id='more'></div>");
+        jQuery("#SSG_gallery").append("<div id='SSG_lastone'><p id='back'><a class='link'>Back to website</a></p><div id='more'></div></div>");
         jQuery("#back").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
         jQuery("#more").load("ssg-loaded.html");   // load html file with links to next galleries
         SSG.finito = true; //  all images are already loaded
     }
+    if (newOne == 0) {  // append a little help to the first image
+        jQuery('#p0').append('<a id="tipCall">more photos are below</a> <span id="arrowdown">&darr;</span>');
+        jQuery('#tipCall').click(function(event) { SSG.showFsTip(); event.stopPropagation();});
+    }     
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
@@ -247,7 +228,12 @@ SSG.preventDef = function (event) {
     event.preventDefault();
 }
 
-SSG.setScrollActive = function () { SSG.scrollingAllowed = true; SSG.afterScroll = true; clearTimeout(SSG.scrollTimeout); jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); }
+SSG.setScrollActive = function () { 
+    SSG.scrollingAllowed = true; 
+    SSG.afterScroll = true; 
+    clearTimeout(SSG.scrollTimeout); 
+    jQuery(window).off("mousewheel DOMMouseScroll", SSG.preventDef); 
+}
 
 SSG.revealScrolling = function (e) {  // finds out if it is beeing used scroll wheel and then calls seize scrolling
     if (typeof e.originalEvent.detail == 'number' && e.originalEvent.detail !== 0) {
@@ -291,7 +277,7 @@ SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip,#tipCallOverlay").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#scrollstyle,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip").remove();
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
     jQuery(document).off("keydown", SSG.keyFunction);
