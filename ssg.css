@@ -1,6 +1,16 @@
 
+ /*
+    Simple Scroll Gallery (SSG)
+    Copyright (C) 2018 Roman Flössler - flor@flor.cz
+
+    licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
+    Here you can see how gallery works - http://ssg.flor.cz/
+    SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+*/
+
+
 #SSG_galBg {
-    background: #0e0e0e;    
+    background: #0e0e0e;
     width: 100%;
     position: fixed;
     height: 100%;
@@ -10,6 +20,7 @@
 }
 
 #SSG_gallery {
+    background: #0e0e0e;
     position: absolute;
     top: 0px;
     z-index: 99991;
@@ -19,24 +30,23 @@
     padding-top: 13em;
 }
 
-
 #SSG_gallery img {
     max-width: 96%;
     max-height: 90vh;
     display: inline;
     margin: 0.1em 0 0.5em 0; 
-    border: 1px solid black;    
+    border: 1px solid black;
 }
 
-#SSG_gallery span.forlogo {
+#SSG_gallery span.SSG_forlogo {
     position: relative;
 }
 
-#SSG_gallery div.wrapper {
+#SSG_gallery div.SSG_imgWrap {
     position: relative;
 }
 
-#SSG_gallery div.wrapper::after {
+#SSG_gallery div.SSG_imgWrap::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -45,7 +55,7 @@
     top:0;
 }
 
-#SSG_gallery span.logo {
+#SSG_gallery span.SSG_logo {
     /* background: url(https://www.flor.cz/img/florcz.png); add your own logo over images */ 
     display: inline-block;
     width: 147px;
@@ -80,7 +90,7 @@
     padding-bottom: 6vw;
 }
 
-#back a:hover {
+#SSG_back a:hover {
     text-decoration: underline;
 }
 
@@ -106,7 +116,7 @@
     font-family: 'Times New Roman', 'Courier New', sans-serif;
 }
 
-#SSG_gallery #tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */    
+#SSG_gallery #SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */    
     padding-left: 3em;
     color: #989898;
     white-space: nowrap;
@@ -117,13 +127,7 @@
     position: relative;
 }  
 
-#tipCallOverlay {
-    cursor:pointer;
-    position:absolute;
-    z-index:99996;    
-}
-
-#SSG_gallery #arrowdown {
+#SSG_gallery #SSG_arrowdown {
     font-size: 181%;
     font-family: monospace;
     color: #989898;
@@ -161,7 +165,7 @@
     font-weight: normal;
 }
 
-#SSG_tip #close {
+#SSG_tip #SSG_tipClose {
     position: absolute;
     top: -5px;
     right: 5px;
@@ -182,7 +186,6 @@
     position: relative;
     margin-top: -50%;
 }
-
 
 #SSG_gallery a.link, #SSG_lastone a.link {
     cursor:pointer;
@@ -209,7 +212,6 @@
 }
 
 
-
 @media (min-width: 1380px) {  /* >>>>>>>>>>>>>>>>>>>>>  Arrow indent for bigger resolution */    
     #SSG_exit span {
         font-size: 36px;
@@ -221,8 +223,6 @@
         left: -9px;    
     }
 }
-
-
     
 
 @media (max-width: 860px) and (orientation: landscape), (max-width: 750px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
@@ -248,7 +248,7 @@
     font-size: 27px;
 }
 
-#SSG_gallery span.logo {    
+#SSG_gallery span.SSG_logo {    
 	background-size: 100%;
     width: 100px;
     height: 33px;
@@ -264,7 +264,6 @@
 	padding-top: 0.2em;
 }	
 }
-
     
 
 @media (orientation: portrait) {
@@ -281,10 +280,9 @@
     margin-top:2em;
 }
 
-#tipCallOverlay, #tipCall, #arrowdown {
+#SSG_tipCall, #SSG_arrowdown {
     display: none;}
 }
-
 
 html.ssg ::-webkit-scrollbar {   /* >>>>>>>>>>>>>>>>>>>>>  scrollbar and cursor styles */    
     background: #191919;
@@ -311,3 +309,13 @@ html.ssg body {
 }
 
 html.ssg .wait {cursor: wait !important;}
+
+html.ssg {
+    scrollbar-base-color: #505050;    
+    scrollbar-3dlight-color: #505050;
+    scrollbar-highlight-color: #505050;
+    scrollbar-track-color: #191919;
+    scrollbar-arrow-color: #191919;
+    scrollbar-shadow-color: black;
+    scrollbar-dark-shadow-color: black;
+  }

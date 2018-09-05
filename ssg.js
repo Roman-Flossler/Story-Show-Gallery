@@ -114,7 +114,7 @@ SSG.addImage = function () {
     var newOne = SSG.loaded + 1; // newone is index of image which will be load
 
     if (newOne < SSG.imgs.length) {
-        jQuery("#SSG_gallery").append("<div class='wrapper'><span class='forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='logo'></span></span></div>");
+        jQuery("#SSG_gallery").append("<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='SSG_logo'></span></span></div>");
         if (!SSG.imgs[newOne].alt) SSG.imgs[newOne].alt = "";
         jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
         jQuery("#i" + newOne).on('load', function (event) {
@@ -123,14 +123,14 @@ SSG.addImage = function () {
         SSG.loaded = newOne; // index of newest loaded image
     }
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
-        jQuery("#SSG_gallery").append("<div id='SSG_lastone'><p id='back'><a class='link'>Back to website</a></p><div id='more'></div></div>");
-        jQuery("#back").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
-        SSG.fileToLoad && jQuery("#more").load(SSG.fileToLoad);   // load html file with links to other galleries
+        jQuery("#SSG_gallery").append("<div id='SSG_lastone'><p id='SSG_back'><a class='link'>Back to website</a></p><div id='SSG_loadInto'></div></div>");
+        jQuery("#SSG_back").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
+        SSG.fileToLoad && jQuery("#SSG_loadInto").load(SSG.fileToLoad);   // load html file with links to other galleries
         SSG.finito = true; //  all images are already loaded
     }
     if (newOne == 0) {  // append a little help to the first image
-        jQuery('#p0').append('<a id="tipCall">more photos are below</a> <span id="arrowdown">&darr;</span>');
-        jQuery('#tipCall').click(function (event) { SSG.showFsTip(); event.stopPropagation(); });
+        jQuery('#p0').append('<a id="SSG_tipCall">more photos are below</a> <span id="SSG_arrowdown">&darr;</span>');
+        jQuery('#SSG_tipCall').click(function (event) { SSG.showFsTip(); event.stopPropagation(); });
     }
 }
 
@@ -180,8 +180,8 @@ SSG.jumpScroll = function () {
     if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) }, 500, "swing");
     } else {
-        if (typeof jQuery("#back").offset() !== 'undefined') { // if back button exists scroll to it
-            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
+        if (typeof jQuery("#SSG_back").offset() !== 'undefined') { // if back button exists scroll to it
+            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#SSG_back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
         }
     }
     if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery
@@ -272,7 +272,7 @@ SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     console.log(location.pathname);
-    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_up,#SSG_down,#SSG_lastone,#SSG_tip").remove();
+    jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_lastone,#SSG_tip").remove();
     jQuery('html').removeClass('ssg');
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
     jQuery(window).off("resize", SSG.countResize);
@@ -285,7 +285,7 @@ SSG.destroyGallery = function () {
 
 SSG.showFsTip = function () {
     if (jQuery('#SSG_tip').length == 0) {
-        var l0 = "<div id='SSG_tip'><span><div id='close'>&times;</div>";
+        var l0 = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
         var l1 = "For better experience <a>click for fullscreen mode</a><br/><hr/>";
         var l2 = "Navigation in gallery:<br/> mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br/>";
         var l3 = "or <strong>TAP</strong> on bottom (upper) part of screen</span></div>";
@@ -297,7 +297,7 @@ SSG.showFsTip = function () {
             jQuery('#SSG_tip').remove();
             SSG.firstImageCentered = false;
         });
-        jQuery('#SSG_tip #close').click(function () { jQuery('#SSG_tip').remove(); });
+        jQuery('#SSG_tipClose').click(function () { jQuery('#SSG_tip').remove(); });
     } else {
         jQuery('#SSG_tip').remove();
     }

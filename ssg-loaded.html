@@ -1,134 +1,175 @@
+<!-- 
+    Simple Scroll Gallery (SSG)
+    Copyright (C) 2018 Roman Flössler - flor@flor.cz
+
+    licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
+    Here you can see how gallery works - http://ssg.flor.cz/
+    SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+ -->
 
 <!-- if you want to load this file behind gallery, put it online and write its URL at line 13 in ssg.js. JS cannot load local file due to a security reasons. -->
 
 <style type='text/css' media='all'>
-    #SSG_lastone {    
+    #SSG_lastone {
         margin-bottom: 16vw;
-    }        
+    }
 
-    #SSG_lastone #more {
+    #SSG_lastone #SSG_loadInto {
         margin-top: 2em;
         text-align: center;
     }
 
-    #SSG_lastone h1 {
-        font-size: 300%;        
-        color: #505050;  
-        margin: 0em;      
+    #SSG_lastone .SSG_signpostH1 {
+        font-size: 220%;
+        color: #888888;
+        margin: 0em;
+        font-weight: lighter;
     }
 
-    #SSG_lastone p.text {
+    #SSG_lastone p.SSG_signpostText {
         background: none;
         line-height: 1.6em;
         color: #888888;
     }
 
-    #SSG_lastone .icell .capt {
+    #SSG_lastone .SSG_icell .SSG_icapt {
         transform: rotate(7deg);
         display: block;
-        margin: 6px 10px 0 0;
+        margin: 4px 10px 0 0;
         color: #b9b9b9;
+        font-weight: lighter;
     }
 
     #SSG_lastone a {
         text-decoration: none;
-    } 
+    }
 
-    #SSG_lastone .icell:hover > a {
+    #SSG_lastone .SSG_icell:hover>a {
         text-decoration: underline;
-    } 
+    }
 
-    #SSG_lastone .icell {
-        margin-bottom: 2em;
+    #SSG_lastone .SSG_icell {
+        margin-bottom: 2vh;
         max-height: 222px;
-        height: 14vmax;
-        margin-left: 4vmax;
-        margin-top: 3vmax;
-        width: 19vmax;
+        height: 36vh;
+        margin-left: 3vw;
+        margin-top: 5vh;
+        width: 20vw;
         background: none;
         float: left;
         text-align: center;
     }
 
-    #SSG_lastone .icell img {
-        width: 12vmax;
+    #SSG_lastone .SSG_icell img {
+        width: 12vw;
         max-width: 150px;
         border: none;
         opacity: 1;
         border-radius: 100px;
     }
 
-    #SSG_lastone .icell:hover img{
+    #SSG_lastone .SSG_icell:hover img {
         border-radius: 11px;
     }
 
 
+    @media (max-width: 860px) and (orientation: landscape),
+    (max-width: 750px) and (orientation: portrait) {
+        #SSG_lastone .SSG_icell .SSG_icapt {
+            font-size: 90%;
+        }
+
+        #SSG_lastone .SSG_signpostH1 {
+            font-size: 180%;
+        }
+    }
+
+    @media (orientation: portrait) and (max-width: 600px) {
+
+        #SSG_lastone .SSG_icell {
+            height: 22vh;
+            margin-left: 8vw;
+            margin-top: 3vh;
+            width: 39vw;
+        }
+
+        #SSG_lastone .SSG_icell img {
+            width: 14vh;
+        }
+    }
+
+    @media (orientation: portrait) and (min-width: 601px) {
+
+        #SSG_lastone .SSG_icell {
+            margin-bottom: 0;
+            margin-left: 4vh;
+            width: 19vh;
+        }
+
+        #SSG_lastone .SSG_icell img {
+            width: 14vh;
+        }
+    }
 </style>
 
-<h1>See other galleries</h1>
-<p class="text">After last image SSG can load a html file where can be hyperlinks to other galleries:
-</p>
 
+<span class="SSG_signpostH1">See other galleries</span><br clear='all' />
+<p class="SSG_signpostText">After last image SSG can load a html file where can be hyperlinks to other galleries:</p>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/foceni-akt/">
         <img src="https://www.flor.cz/blog/img/photos/akt.jpg">
-        <span class="capt">Shooting<br/> an Act</span>
+        <span class="SSG_icapt">Shooting<br/> an Act</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/ceske-svycarsko-podzimni-fotosklizen/">
         <img src="https://www.flor.cz/blog/img/photos/g-cs.jpg">
-        <span class="capt">Bohemian
-            <br />Switzerland</span>
+        <span class="SSG_icapt">Bohemian <br />Switzerland</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/urbex-ostrava-a-foceni-modelek-v-dole-michal/">
         <img src="https://www.flor.cz/blog/img/photos/ostrava-urbex.jpg">
-        <span class="capt">Models shooting
-            <br />in Michal mine</span>
+        <span class="SSG_icapt">Models shooting <br />in Michal mine</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/foto-vylet-na-island/">
         <img src="https://www.flor.cz/blog/img/photos/island.jpg">
-        <span class="capt">Iceland
-            <br />Aurora</span>
+        <span class="SSG_icapt">Iceland <br />Aurora</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/nevidane-fotky-hradce-kralove/">
         <img src="https://www.flor.cz/blog/img/photos/hradec-kralove.jpg">
-        <span class="capt">Hradec Kralove
-            <br />Unseen photos
-        </span>
+        <span class="SSG_icapt">Hradec Kralove <br />Unseen photos</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/cestovani-a-foceni-na-bali-a-lomboku/">
         <img src="https://www.flor.cz/blog/img/photos/bali-sopky.jpg">
-        <span class="capt">Bali &amp; Lombok</span>
+        <span class="SSG_icapt">Bali &amp; Lombok</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/hrbitov-vlaku/">
         <img src="https://www.flor.cz/blog/img/photos/hrbitov_vlaku.jpg">
-        <span class="capt">Train cemetery</span>
+        <span class="SSG_icapt">Train cemetery</span>
     </a>
 </div>
 
-<div class="icell">
+<div class="SSG_icell">
     <a href="https://www.flor.cz/blog/mesto-most-a-uhelne-safari/">
         <img src="https://www.flor.cz/blog/img/photos/uhelne-safari.jpg">
-        <span class="capt">Coal safari</span>
+        <span class="SSG_icapt">Coal safari</span>
     </a>
 </div>
 
-<br clear='all'/>
+<br clear='all' />
