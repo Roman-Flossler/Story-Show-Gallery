@@ -60,9 +60,9 @@
                 <li>There can be a caption under each image and <strong>your logo</strong> over the image</li>
                 <li>SSG supports <strong>Google analytics</strong>. When a user views an image it is counted as a virtual pageview.</li>
                 <li>You can <strong>link inside the gallery</strong> to show a
-                    <a href='http://ssg.flor.cz/#bangkang' target="_blank">particular photo</a>.</li>
-                <li>After the last photo SSG can load a <strong>signpost</strong> to other galleries</li>
+                    <a href='http://ssg.flor.cz/#cerna' target="_blank">particular photo</a>.</li>
                 <li>Just <strong>333 lines</strong> of JS code, all icons and cursor inside the code</li>
+                <li>SSG can load a <strong>signpost</strong> to other galleries behind the last photo. <a href='http://gal.brno.me/#haku' target="_blank">See the sample</a>.</li>
             </ul>
 
             <h2>License</h2>
@@ -81,9 +81,13 @@
 
             <code>
                     &lt;link rel="stylesheet" href="https://.../ssg.css" type="text/css"&gt;<br/>
-                    &lt;script type="text/javascript" src="https://.../ssg.js"&gt;&lt;/script&gt;
+                    &lt;script type="text/javascript" src="https://.../ssg.js"&gt; &lt;/script&gt;
             </code>
-            <p>SSG requires jQuery library at least in version 1.5. Wordpress already includes jQuery.</p>
+
+            <p>SSG requires jQuery library at least in version 1.5. Wordpress already includes jQuery. jQuery code should be inside &lt;/head&gt; tag: </p>
+            <code>
+                    &lt;script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"&gt; &lt;/script&gt;
+            </code>
 
             <p>Simple Scroll Gallery consists of three files:
                 <ul>
@@ -94,15 +98,15 @@
                 </ul>
             </p>
 
-            <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. If you want a signpost after the gallery,
-                you have to create your own or edit mine and enter its URL on line 13 in ssg.js file
+            <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. The gallery loads a signpost behind the last photo. 
+                You have to edit the signpost to contain your hyperlinks. Deactivate the signpost or write its new URL on <strong>line 13 in ssg.js file</strong>.
             </p>
 
             <h2>How the gallery works</h2>
             <!-- ---------------------------- -->
 
-            <p>Simple Scroll Gallery looks for all hyperlinks (&lt;a&gt; tags) on a page that points to an image file (jpg, png, gif). SSG adds to all
-                these hyperlinks onclick function which runs the gallery.</p>
+            <p>Simple Scroll Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to an image file 
+               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery.</p>
             <p>SGG excellently cooperates with the
                 <strong>Wordpress built-in gallery</strong>. Wordpress creates image thumbnails with hyperlinks, and SGG assembles them into a fullscreen
                 image presentation.
@@ -113,7 +117,7 @@
                 image can be part of some image series and it would be missing there.
             </p>
 
-            <p>The text caption below images is taken from the alt attribute. If there is no alt attribute, the gallery shows just an empty stripe.</p>
+            <p>The <strong>text caption</strong> below images is taken from the alt attribute. If there is no alt attribute, the gallery shows just an empty stripe.</p>
 
             <p>You can also run the gallery by calling SSG.run method:</p>
             <code>
@@ -124,8 +128,8 @@
                 &lt;a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});"&gt;<br/>Show gallery&lt;/a&gt;
             </code>
 
-            <p>You can link inside the gallery to show a particular photo. Just add a hashtag with photo's name after url. For example this link
-                <a href="http://ssg.flor.cz/#bangkang" target="_blank" href>http://ssg.flor.cz/#bangkang</a> shows the photo lombok-bangkang-cave.jpg.
+            <p>You can <strong>link inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
+                <a href="http://ssg.flor.cz/#element" target="_blank" href>http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
                 It is enough to have in the hashtag crucial part of the name.
             </p>
 
@@ -173,62 +177,46 @@
             <p>
                 <strong>SSG controls:</strong> a scroll wheel
                 <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
-                <span class="icons" style="font-family:monospace; font-size:150%">&darr;&rarr;&uarr;&larr;</span>
+                <span class="icons" style="font-family: Consolas, Menlo, 'Lucida Console', monospace; font-size:130%">&darr;&rarr;&uarr;&larr;</span>
                 <br/> On a tablet
                 <span class="icons" style="font-size:100%">TAP</span> on the bottom (upper) part of the screen
             </p>
 
             <section class="fs gallery">
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-sekumpul-vodopad-200x200.jpg" alt="Sekumpul Waterfall - it is possible to bath under it" />
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" alt="Models shooting in Coal Mine Michal" />
                 </a>
-                <a href="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice.jpg">
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-ubud-nocni-ulice-200x200.jpg" alt="Ubud - The center of cultural and spiritual life in Bali"
+                <a href="https://www.flor.cz/blog/wp-content/uploads/na-haku.jpg">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" alt="On the hook"
                     />
                 </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-Tegalalang-ryzoviste-200x200.jpg" alt="Tegalalang rice terraces " />
-                </a>
-
-
-                <a href='https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/bali-tukad-cepung-vodopad-200x200.jpg" alt="Tukad Cepung Waterfall is hidden in a narrow canyon"
-                    />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-selong-belanak-buvoli-200x200.jpg" alt="Selong Belanak Beach - Ideal waves to surf for total beginners"
-                    />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-sendang-gile-vodopad-200x200.jpg" alt="
-                    Sendang Gile waterfall - the way here is not too marked, you have to cross the river twice. Locals will recommend you to rent a guide :)"
-                    />
-                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-navijak.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-navijak-200x200.jpg" alt="In the engine room" />
+                </a>                
 
                 <dt class="topimg">
-                    <a href="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram.jpg">
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/bali-uluwatu-chram-650x342.jpg" alt="Uluwatu Temple - you can only see it from afar. The temple can access only believers"
+                    <a href="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo.jpg">
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo-650x398.jpg" alt=""
                         />
                     </a>
                 </dt>
 
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-policka.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-policka-200x200.jpg" alt="Amazing views of the vegetable fields" />
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-dilna.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" alt="It's time" />
                 </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn-200x200.jpg" alt="
-                    Bangkang - a cave full of bats. Great place, but something more dense than water drops from the ceiling :)" />
+                <a href='https://www.flor.cz/blog/wp-content/uploads/paty-element.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" alt="The Fifth Element style" />
                 </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/lombok-mangku-sakti-vodopadek-200x200.jpg" alt="Mangku Sakti canyon with crystal clear water" />
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-telefon.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-telefon-200x200.jpg" alt="" />
                 </a>
             </section>
 
             <br style="clear: both" />
             <p>
-                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/bali-monkey-forrest-tesaky.jpg'>Monkey forrest in Ubud</a> - a text link
+                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna-helmy.jpg'>Coal Mine Michal  - chain cloakroom</a> - a text link
                 to an image. <br/>
-                <a href="https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg"></a> &lArr; an empty (invisible) link to the image with
+                <a href="https://www.flor.cz/js/SSG/simple-scroll-gallery.JPG"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with
                 SSG logo. <br/> Both target images will appear in the gallery.
             </p>
             <br/>
@@ -236,7 +224,7 @@
                 <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
                     <span>&#1422;</span> Run the gallery</a> by calling SSG.run()</p>
             <p>
-                <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/polarni-zare-zezadu.jpg', alt: 'Oh, this photo is not from Bali. It is possible to run gallery with any initial photo' }});"
+                <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'It is possible to run the gallery with any initial photo' }});"
                     style="cursor:pointer; text-decoration:underline">
                     <span>&#1422;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
             </p>
@@ -255,15 +243,7 @@
 
             <p>For touch screens there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half,
                 SSG jump scroll to the next (previous) image.</p>
-
-            <h2>About Photos</h2>
-            <!-- ---------------------------- -->
-
-            <p>Photos in the gallery are from Bali and Lombok. Most likely the best places I have ever traveled. If you want to see more photos, there
-                is an article on my blog
-                <a href="https://translate.google.com/translate?hl=en&sl=cs&tl=en&u=https%3A%2F%2Fwww.flor.cz%2Fblog%2Fcestovani-a-foceni-na-bali-a-lomboku%2F" target="_blank">about
-                    traveling and shooting on Bali and Lombok</a>. Maybe it will inspire you for your own journey.
-            </p>
+         
 
             <br style="clear: both" />
         </article>

@@ -70,7 +70,7 @@
     display:block; 
     margin: auto; 
 	line-height: 1.3em;
-    color:#cecece; 
+    color:#bbbbbb; 
     text-align:center; 
     background: #222222; 
     padding: 0.4em;
@@ -90,8 +90,37 @@
     padding-bottom: 6vw;
 }
 
-#SSG_back a:hover {
+#SSG_lastone #SSG_menu a:hover {
     text-decoration: underline;
+}
+
+#SSG_lastone #SSG_menu {
+    overflow: auto;
+}
+
+#SSG_menu a.SSG_link {
+    display: inherit;
+    width: 33%;
+    float: left;
+    cursor: pointer;
+    color: #FF706C; 
+    padding-top: 0.2em;   
+    line-height: 1.4;
+}
+
+#SSG_menu #SSGL {
+    color: #989898;
+    text-decoration: none;
+}
+
+#SSG_first span {
+    display: inline-block;
+    font-size: 121%;
+    font-family: Consolas, Menlo, "Lucida Console", monospace;
+    vertical-align: middle;
+    transform: rotate(90deg);
+    margin-right: -2px;
+    margin-top: -3px;
 }
 
 #SSG_exit {
@@ -128,10 +157,13 @@
 }  
 
 #SSG_gallery #SSG_arrowdown {
+    display: inline-block;
     font-size: 181%;
-    font-family: monospace;
+    font-family: Consolas, Menlo, "Lucida Console", monospace;
     color: #989898;
     vertical-align: middle;
+    transform: rotate(90deg);
+    margin-left: 3px;
 }
 
 #SSG_tip {
@@ -160,7 +192,7 @@
 #SSG_tip strong {
     color: #6bddff;
     background: none;
-    font-family: monospace;
+    font-family: Consolas, Menlo, "Lucida Console", monospace;
     font-size: 141%;
     font-weight: normal;
 }
@@ -186,14 +218,9 @@
     position: relative;
     margin-top: -50%;
 }
-
-#SSG_gallery a.link, #SSG_lastone a.link {
-    cursor:pointer;
-    color: #FF706C;
-    }
     
 
-@media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {    /* >>>>>>>>>>>>>>>>>>>>>  Arrow for bigger resolution */    
+@media (min-width: 1380px), (min-width: 1000px) and (min-resolution: 1.2dppx) {    /* >>>>>>>>>>>>>>>>>>>>>  icon for bigger resolution */    
 
     #SSG_exit span {
         font-size: 36px;
@@ -204,15 +231,10 @@
         top: -13px;
         left: -16px;    
     }
-
-    @keyframes move {
-        from {top: 61px;}
-        to { top: 81px;}
-    }
 }
 
 
-@media (min-width: 1380px) {  /* >>>>>>>>>>>>>>>>>>>>>  Arrow indent for bigger resolution */    
+@media (min-width: 1380px) {  /* >>>>>>>>>>>>>>>>>>>>>  icon for bigger resolution */    
     #SSG_exit span {
         font-size: 36px;
         bottom: -2px;
@@ -225,9 +247,9 @@
 }
     
 
-@media (max-width: 860px) and (orientation: landscape), (max-width: 750px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
+@media (max-width: 860px) and (orientation: landscape), (max-width: 550px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smaller screens */    
 #SSG_gallery img {
-    max-width: 100%;
+    max-width: 99%;
     max-height: 90vh;
     margin: 0.1em 0 0.1em 0; 
 }
@@ -262,27 +284,13 @@
 	font-size: 90%;
     margin-top: -0.2em;
 	padding-top: 0.2em;
-}	
-}
-    
-
-@media (orientation: portrait) {
-
-#SSG_gallery img {
-    max-width: 100%;
 }
 
 #SSG_gallery::before {
-    content: 'photos look better in landscape mode ;-)';
-    color: #f2ffd2;
-    padding-bottom: 3em;
-    display: block;
-    margin-top:2em;
+   	font-size: 90%;
 }
-
-#SSG_tipCall, #SSG_arrowdown {
-    display: none;}
 }
+    
 
 html.ssg ::-webkit-scrollbar {   /* >>>>>>>>>>>>>>>>>>>>>  scrollbar and cursor styles */    
     background: #191919;
@@ -304,8 +312,8 @@ html.ssg ::-webkit-scrollbar-button {
     height: 2px;
 }        
 
-html.ssg body {
-    cursor: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMiIgYmFzZVByb2ZpbGU9InRpbnkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMTlweCIgaGVpZ2h0PSIxOXB4IiB2aWV3Qm94PSIwIDAgMTkgMTkiPjxnIGlkPSJMYXllcl8yX2NvcHkiPjxwb2x5Z29uIGZpbGw9IiMwMDAwMDAiIHBvaW50cz0iMTAsMTkgOSwxOSA4LDE4IDgsMTEgMSwxMSAwLDEwIDAsOSAxLDggOCw4IDgsMSA5LDAgMTAsMCAxMSwxIDExLDggMTgsOCAxOSw5IDE5LDEwIDE4LDExIDExLDExIDExLDE4IDEwLDE5ICIvPjwvZz48ZyBpZD0iTGF5ZXJfMiI+PHBvbHlnb24gZmlsbD0iIzU2NTY1NiIgcG9pbnRzPSIxOCw5IDEwLDkgMTAsMSA5LDEgOSw5IDEsOSAxLDEwIDksMTAgOSwxOCAxMCwxOCAxMCwxMCAxOCwxMCAiLz48L2c+PC9zdmc+),text;
+html.ssg body {    
+    cursor:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFAAAAhYWFAAAAbp8VQAAAAAN0Uk5T//8A18oNQQAAAB5JREFUeNpiYIIBBiwsRryyA6aOgREDMgxBfwAEGADvGQKaYOgjsQAAAABJRU5ErkJggg=='),url(https://www.flor.cz/js/SSG/cross-ssg.cur),text;
 }
 
 html.ssg .wait {cursor: wait !important;}
@@ -319,3 +327,41 @@ html.ssg {
     scrollbar-shadow-color: black;
     scrollbar-dark-shadow-color: black;
   }
+
+html.ssg body { overflow-x: hidden; }
+
+@supports (-ms-ime-align:auto) {
+	html.ssg body { overflow: hidden; }
+}
+@supports (-moz-appearance:none) {
+	html.ssg body { overflow: hidden; }
+}
+
+
+@media (orientation: portrait) {  /* >>>>>>>>>>>>>>>>>>>>>  portrait mode */    
+
+    #SSG_gallery img {
+        max-width: 99%;
+    }
+    
+    #SSG_gallery::before {
+        content: 'photos look better in landscape mode ;-)';
+        color: #bbbbbb;
+        padding-bottom: 3em;
+        display: block;
+        margin-top:2em;
+        font-style: italic;        
+    }
+    
+    #SSG_tipCall, #SSG_arrowdown {
+        display: none !important;
+    }
+
+    html.ssg body {
+        overflow-y: auto; 
+    }
+}
+
+@media (any-pointer: coarse) {   /* >>>>>>>>>>>>>>>>>>>>>  when device has some touch control */
+    html.ssg body { overflow-y: auto; }
+}

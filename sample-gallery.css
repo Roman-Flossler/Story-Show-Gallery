@@ -1,10 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 100%;
 }
-
-/* Create two equal columns that floats next to each other */
 
 h1, h2 {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -31,6 +27,8 @@ body {
     margin: 0;
     overflow-x: hidden;
     color: #202020;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 100%;
 }
 
 h2 {
@@ -79,10 +77,13 @@ em {
 }
 
 code {
-    font-family: monospace;
+    font-family: Consolas, Menlo, "Lucida Console", monospace;
     padding: 1em;    
     background: #efefef;
     display: block;
+    font-size: 90%;
+    line-height: 1.8em;
+    overflow: auto;    
 }
 
 .column {
@@ -93,9 +94,7 @@ code {
     height: auto;
     border-top:  21px solid #efefef;    
     margin-top: 0.6em;
-    /* Should be removed. Only for demonstration */
 }
-
 
 .column .first {
     display: none;
@@ -132,7 +131,7 @@ ul li {
     height: auto;
     max-width: 200px;
     border-radius: 6px;
-    opacity: 0.83;
+    opacity: 0.90;
 }
 
 .gallery img:hover {
@@ -164,11 +163,12 @@ ul li {
 
 .gallery .topimg {
     max-width: 646px;
-    height: 10vw;
+    height: 12vw;
     width: 96%;
     border-radius: 6px;
     opacity: 1;
     margin-bottom: 3%;
+    background: #00e5ff;
 }
 
 
@@ -185,13 +185,24 @@ footer {
     }
 
     h1 {
-        font-size: 396%;
+        font-size: 396% !important;
     }    
 }    
 
-@media screen and (max-width: 1100px) {    
+@media screen and (max-width: 1100px) {
+    .column {
+        width: 48%;
+        padding-left: 8%;
+    }
+}    
+
+@media screen and (max-width: 950px) {    
     * {
         font-size: 99%;
+    }
+
+    .row {
+        overflow: hidden;
     }
 
     .column {
@@ -226,7 +237,7 @@ footer {
     }
 
     .gallery .topimg {
-        height: 21vw;    
+        height: 30vw;    
     }
 
     .seegal { 

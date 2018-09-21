@@ -7,25 +7,25 @@
 // SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
 
 var SSG = {};  // main object - namespace
+SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF']";
 
-SSG.setVariables = function () {
-    SSG.fileToLoad = null; // don't load anything behind the gallery.
-    //  SSG.fileToLoad = 'http://ssg.flor.cz/ssg-loaded.html';  // load a HTML file behind gallery, it has to be on the same domain as SSG due to a security reasons    
+SSG.setVariables = function () {    
+    SSG.fileToLoad = 'ssg-loaded.html'; // load a HTML file behind the gallery (better to use absolute URL http://), or set SSG.fileToLoad = null; if you don't want it
     SSG.imgs = [];  // array of objects where image attributes are stored
-    SSG.loaded = -1; // index of newest loaded image
-    SSG.displayed = -1;  // index of image displayed in viewport
-    SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop; // save actual vertical scroll of page
+    SSG.loaded = -1; // index of the newest loaded(loading) image
+    SSG.displayed = -1;  // index of an image displayed in viewport
+    SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop; // save actual vertical scroll of a page
     SSG.scrHeight = jQuery(window).height();
-    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;  // different screen fraction for different screen aspect ratios
-    SSG.imageDown = false;   // if it was pressed arrow down
-    SSG.imageUp = false;    // if it was pressed arrow up
-    SSG.firstImageCentered = false;  // if it is centered first image
+    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 3.5;  // different screen fraction for different screen aspect ratios
+    SSG.imageDown = false;   // a user wants next photo
+    SSG.imageUp = false;    // a user wants previous photo
+    SSG.firstImageCentered = false;  // if the first image is already centered 
     SSG.scrollingAllowed = true;  // when true, scrolling is allowed
     SSG.fullscreenMode = false;  // if fullscreen mode is active
     SSG.exitFullscreen = false; // true when exiting from fullscreen mode
     SSG.finito = false;  // if all images are loaded
-    SSG.lastone = false; // if it was scrolled to last element in the gallery - go back button
-    SSG.exitClicked = false; // set to true when user clicks exit button, prevents call SSG.destroyGallery twice
+    SSG.lastone = false; // if it was scrolled to the last element in the gallery - exit gallery link
+    SSG.exitClicked = false; // set to true when a user clicks the exit button, prevents call SSG.destroyGallery twice
 }
 
 SSG.initGallery = function initGallery(event) {
@@ -51,8 +51,7 @@ SSG.keyFunction = function (event) {
     if (event.which == 38 || event.which == 37 || event.which == 33) {
         SSG.imageUp = true; // Arrow up or right sets the property that causes jumping on previos photo
     }
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault();    
 }
 
 SSG.touchScroll = function (event) {
@@ -60,7 +59,7 @@ SSG.touchScroll = function (event) {
 }
 
 SSG.getHrefAlt = function (el) {
-    if (el.children[0] && el.children[0].alt)  // if A tag has children (img tag) with an alt atribute
+    if (el.children[0] && el.children[0].alt)  // if A tag has a children (img tag) with an alt atribute
         return { href: el.href, alt: el.children[0].alt };
     else if (el.innerText)  // if A tag has inner text
         return { href: el.href, alt: el.innerText };
@@ -69,8 +68,8 @@ SSG.getHrefAlt = function (el) {
 }
 
 SSG.getImgList = function (event) {
-    Array.prototype.forEach.call(jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").toArray(), function (el) { // call invokes forEach method in context of jQuery output
-        SSG.imgs.push(SSG.getHrefAlt(el));
+    Array.prototype.forEach.call(jQuery(SSG.jQueryImgSelector).toArray(), function (el) { // call invokes forEach method in the context of jQuery output
+        SSG.imgs.push(SSG.getHrefAlt(el));  
     });
 
     if (event && event.currentTarget) {
@@ -81,13 +80,14 @@ SSG.getImgList = function (event) {
         var clickedHref = event.img.href;
         var clickedAlt = event.img.alt;
     }
-    if (clickedHref) {
-        var i;
-        var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length - 1;
-        for (i = 0; i < max; i++) {
-            SSG.imgs[i].href == clickedHref && SSG.imgs.splice(i, 1);  // remove the image that the user clicked, it will be added on begining of the gallery
+    if (clickedHref && SSG.imgs.length > 1) {
+        var max = SSG.imgs.length >= 6 ? 5 : SSG.imgs.length;
+        for (var i = 0; i < max; i++) {
+           if(SSG.imgs[i].href == clickedHref) { 
+               SSG.imgs.splice(i, 1); break;  // remove the image that a user clicked
+            }
         }
-        SSG.imgs.unshift({ href: clickedHref, alt: clickedAlt }); //  the image that the user clicked is added to beginning of the gallery
+        SSG.imgs.unshift({ href: clickedHref, alt: clickedAlt }); //  the image that a user clicked is added to the beginning of the gallery
     }
 }
 
@@ -106,7 +106,7 @@ SSG.refreshPos = function () {  // recalculate all loaded images positions after
 
 SSG.countResize = function () { // recount variables on resize event
     SSG.scrHeight = jQuery(window).height();
-    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 4;
+    jQuery(window).width() / SSG.scrHeight >= 1 ? SSG.scrFraction = 2 : SSG.scrFraction = 3.5;
     SSG.firstImageCentered && SSG.refreshPos(); // only if first image is already centered. Prevents problems when gallery is initiate in fullscreen mode (it activates onresize event)
 }
 
@@ -123,13 +123,15 @@ SSG.addImage = function () {
         SSG.loaded = newOne; // index of newest loaded image
     }
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
-        jQuery("#SSG_gallery").append("<div id='SSG_lastone'><p id='SSG_back'><a class='link'>Back to website</a></p><div id='SSG_loadInto'></div></div>");
-        jQuery("#SSG_back").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
+        var menuItems = "<a id='SSG_first' class='SSG_link'><span>&larr;</span> Scroll to top</a> <a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a> <a id='SSGL' target='_blank' href='http://ssg.flor.cz/' class='SSG_link'>&#9910; SSG</a>";
+        jQuery("#SSG_gallery").append("<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItems + "</p> <div id='SSG_loadInto'></div></div>");
+        jQuery("#SSG_exit2").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
+        jQuery("#SSG_first").click(function (event) { SSG.firstImageCentered = false; event.stopPropagation(); });
         SSG.fileToLoad && jQuery("#SSG_loadInto").load(SSG.fileToLoad);   // load html file with links to other galleries
         SSG.finito = true; //  all images are already loaded
     }
     if (newOne == 0) {  // append a little help to the first image
-        jQuery('#p0').append('<a id="SSG_tipCall">more photos are below</a> <span id="SSG_arrowdown">&darr;</span>');
+        jQuery('#p0').append('<a id="SSG_tipCall">more photos are below</a> <span id="SSG_arrowdown">&rarr;</span>');
         jQuery('#SSG_tipCall').click(function (event) { SSG.showFsTip(); event.stopPropagation(); });
     }
 }
@@ -161,8 +163,7 @@ SSG.metronome = function () {
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
             if (typeof ga !== 'undefined') {
                 SSG.displayed != i && ga('send', 'pageview', '/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
-            } // sends pageview of actual image to Google Analytics
-            SSG.displayed != i && console.log('/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
+            } // sends pageview of actual image to Google Analytics. Verify it in the console: SSG.displayed != i && console.log('/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
             SSG.displayed = i;
         }
     }
@@ -180,14 +181,14 @@ SSG.jumpScroll = function () {
     if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) }, 500, "swing");
     } else {
-        if (typeof jQuery("#SSG_back").offset() !== 'undefined') { // if back button exists scroll to it
-            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#SSG_back").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
+        if (typeof jQuery("#SSG_menu").offset() !== 'undefined') { // if back button exists scroll to it
+            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#SSG_menu").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
         }
     }
     if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery
         jQuery("html, body").animate({ scrollTop: SSG.imgs[0].pos - SSG.countImageIndent(0) }, 200, "swing");
-        if (!SSG.firstImageCentered) SSG.firstImageCentered = true;
-        SSG.countResize();
+        SSG.firstImageCentered = true;
+        SSG.countResize();  // important when linking into gallery. Galery shows and a user clicks FS mode (should run refreshPos). But firstImageCentered is false to center image, so no refreshPos happens
     }
     SSG.imageDown = false;
     SSG.imageUp = false;
@@ -200,7 +201,7 @@ SSG.countImageIndent = function (index) {  // function count how much indent ima
     var pOut = jQuery("#p" + index).outerHeight(true);
     var pMargin = pOut - pIn;
     var centerPos = Math.round((screen - (img + pIn)) / 2);
-    if (centerPos < 0) centerPos = 0;
+    if (centerPos < 0) centerPos *= 2;
     return centerPos > pMargin ? pMargin : centerPos;  // it prevents fraction of previous image appears above centered image
 }
 
@@ -271,7 +272,7 @@ SSG.closeFullscreen = function () {
 SSG.destroyGallery = function () {
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
-    console.log(location.pathname);
+    // console.log(location.pathname);
     jQuery("#SSG_galBg,#SSG_gallery,#SSG_exit,#SSG_lastone,#SSG_tip").remove();
     jQuery('html').removeClass('ssg');
     jQuery('body').off('mousewheel DOMMouseScroll', SSG.revealScrolling);
@@ -304,11 +305,10 @@ SSG.showFsTip = function () {
 }
 
 SSG.getHash = function () {
-    var hash = window.location.hash;
+    var hash = window.location.hash;    
     if (hash != '') {
         hash = hash.substring(1, hash.length);
-        var target = jQuery("a[href*='" + hash + "'][href$='.jpg'],a[href*='" + hash + "'][href$='.png'],a[href*='" + hash + "'][href$='.gif']").toArray();
-
+        var target = jQuery("a[href*='" + hash + "'][href$='.jpg'],a[href*='" + hash + "'][href$='.JPG'],a[href*='" + hash + "'][href$='.jpeg'],a[href*='" + hash + "'][href$='.png'],a[href*='" + hash + "'][href$='.gif']").toArray();
         if (target[0]) {
             var result = SSG.getHrefAlt(target[0]);
             var event = {};
@@ -329,5 +329,5 @@ SSG.run = function (event) {
     return false;
 }
 
-jQuery(document).ready(function () { jQuery("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").click(SSG.run) });
+jQuery(document).ready(function () { jQuery(SSG.jQueryImgSelector).click(SSG.run) });
 jQuery(document).ready(SSG.getHash);
