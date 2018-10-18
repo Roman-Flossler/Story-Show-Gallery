@@ -35,29 +35,35 @@ SSG requires jQuery library at least in version 1.5. Wordpress already includes 
 Simple Scroll Gallery consists of three files: 
 - **ssg.js** - the gallery code 
 - **ssg.css** - the gallery styles 
-- **ssg-loaded.html (optional)** -  a html file to load behind the last photo, typically a signpost to other galleries.
+- **ssg-loaded.html (optional)** -  a html file to load behind the last photo, typically a signpost to other galleries. Edit it to contain your links.
 
-If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. The gallery loads a signpost behind the last photo. You have to edit the signpost to contain your hyperlinks. Deactivate the signpost or write its new URL on **line 13 in ssg.js file**.
+If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. The gallery loads a signpost behind the last photo. The signpost URL is defined on **line 13 in ssg.js file**. Or you can deactivate it there.
 
 ## How the gallery works
-Simple Scroll Gallery looks for all hyperlinks (<a> tags) on the page that points to an image file  (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery.
+Simple Scroll Gallery looks for all hyperlinks (<a> tags) on the page that points to an image file  (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery. The image the user clicked on is displayed first, then follow other images in the order they appear on the page.
 
 SGG excellently cooperates with the **Wordpress built-in gallery**. Wordpress creates image thumbnails with hyperlinks, and SGG assembles them into a fullscreen image presentation.
 
-The image the user clicked on is displayed first, then follow other images in the order they appear on the page. If the clicked image is sixth in order or higher (7th, 8th,..), then the image is displayed twice. On the first place and on its original place. Because that image can be part of some image series and it would be missing there.
+ 
 
-The **text caption** below images is taken from the alt attribute. If there is no alt attribute, the gallery shows just an empty stripe.
-
-You can also run the gallery by calling SSG.run method:
+The **text caption** below images is taken from a thumbnail's alt attribute or a link text. SSG will create the gallery from all theese three images (BigImage1~3):
 
 ```sh
-<a onclick="SSG.run();">Show gallery</a>
+<a href='BigImage1.jpg'> <img alt='text caption' src='thumb.jpg'> </a>
+<a href='BigImage2.jpg'> Another text caption </a>
+<a href='BigImage3.jpg'></a> (an empty link, no caption)
 ```
 
-And use arguments - any image url and any text caption.
+The gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling SSG.run method. 
+Example: the body's onload event activates the gallery immediately after a page is loaded:
+
 ```sh
-<a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});">
-Show gallery</a>
+<body onload='SSG.run()'>
+```
+Use arguments to show any image before the rest of images:
+
+```sh
+<body onload="SSG.run({img: {href: 'url', alt: 'some text' }})">
 ```
 
 You can **link inside the gallery** to show a particular photo. Just add a hashtag with photo's name after url. For example this link http://ssg.flor.cz/#element shows the photo paty-element.jpg. It is enough to have in the hashtag crucial part of the name.

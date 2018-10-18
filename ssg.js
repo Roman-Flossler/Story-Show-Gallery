@@ -30,7 +30,7 @@ SSG.setVariables = function () {
 
 SSG.initGallery = function initGallery(event) {
     window.scrollTo(0, 0);
-    jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div><div id='SSG_exit'><span>&times;</span></div>"); // gallery's divs
+    jQuery("body").append("<div id='SSG_galBg'></div><div id='SSG_gallery'></div><div id='SSG_exit'></div>"); // gallery's divs
     jQuery('html').addClass('ssg');
     if ((event && event.currentTarget) && (event.currentTarget.parentNode.tagName == "DT" || event.currentTarget.parentElement.classList[0] == 'fs' || event.currentTarget.classList[0] == 'fs')) {
         SSG.fullscreenMode = true;
@@ -123,15 +123,17 @@ SSG.addImage = function () {
         SSG.loaded = newOne; // index of newest loaded image
     }
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
-        var menuItems = "<a id='SSG_first' class='SSG_link'><span>&larr;</span> Scroll to top</a> <a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a> <a id='SSGL' target='_blank' href='http://ssg.flor.cz/' class='SSG_link'>&#9910; SSG</a>";
+        var menuItems = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> Scroll to top</a> <a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a> <a id='SSGL' target='_blank' href='http://ssg.flor.cz/' class='SSG_link'>&#9910; SSG</a>";
         jQuery("#SSG_gallery").append("<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItems + "</p> <div id='SSG_loadInto'></div></div>");
+        jQuery('#SSG_menu').click(function (event) { event.stopPropagation(); });
         jQuery("#SSG_exit2").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
-        jQuery("#SSG_first").click(function (event) { SSG.firstImageCentered = false; event.stopPropagation(); });
-        SSG.fileToLoad && jQuery("#SSG_loadInto").load(SSG.fileToLoad);   // load html file with links to other galleries
+        jQuery("#SSG_first").click(function () { SSG.firstImageCentered = false; });        
+        SSG.fileToLoad && jQuery("#SSG_loadInto").load(SSG.fileToLoad, function() { // load html file with links to other galleries
+            jQuery('.SSG_icell').click(function (event) { event.stopPropagation(); });  });
         SSG.finito = true; //  all images are already loaded
     }
     if (newOne == 0) {  // append a little help to the first image
-        jQuery('#p0').append('<a id="SSG_tipCall">more photos are below</a> <span id="SSG_arrowdown">&rarr;</span>');
+        jQuery('#p0').append('<a id="SSG_tipCall">more photos are below</a>');
         jQuery('#SSG_tipCall').click(function (event) { SSG.showFsTip(); event.stopPropagation(); });
     }
 }
@@ -287,9 +289,9 @@ SSG.destroyGallery = function () {
 SSG.showFsTip = function () {
     if (jQuery('#SSG_tip').length == 0) {
         var l0 = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
-        var l1 = "For better experience <a>click for fullscreen mode</a><br/><hr/>";
-        var l2 = "Navigation in gallery:<br/> mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br/>";
-        var l3 = "or <strong>TAP</strong> on bottom (upper) part of screen</span></div>";
+        var l1 = "For a better experience <a>click for fullscreen mode</a><br/><hr/>";
+        var l2 = "You can browse through the gallery by:<br/>a mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br/>";
+        var l3 = "or <strong>TAP</strong> on the bottom (top) of the screen</span></div>";
         SSG.fullscreenMode && jQuery("body").append(l0 + l2 + l3);
         !SSG.fullscreenMode && jQuery("body").append(l0 + l1 + l2 + l3);
         !SSG.fullscreenMode && jQuery('#SSG_tip').click(function () {
@@ -305,15 +307,13 @@ SSG.showFsTip = function () {
 }
 
 SSG.getHash = function () {
-    var hash = window.location.hash;    
+    var hash = window.location.hash;
     if (hash != '') {
         hash = hash.substring(1, hash.length);
         var target = jQuery("a[href*='" + hash + "'][href$='.jpg'],a[href*='" + hash + "'][href$='.JPG'],a[href*='" + hash + "'][href$='.jpeg'],a[href*='" + hash + "'][href$='.png'],a[href*='" + hash + "'][href$='.gif']").toArray();
         if (target[0]) {
             var result = SSG.getHrefAlt(target[0]);
-            var event = {};
-            event.img = { href: result.href, alt: result.alt }
-            SSG.run(event);
+            SSG.run({img:{ href: result.href, alt: result.alt }});
             SSG.showFsTip();
         }
     }

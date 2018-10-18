@@ -15,6 +15,7 @@
     </script>
     <!-- End Google Analytics -->
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Scroll Gallery - JavaScript image web gallery - responsive and unobtrusive</title>
@@ -40,7 +41,7 @@
                 works similarly like a presentation. A user only needs to scroll down and sees image by image. Try it in the sample gallery on this page.
             </p>
             <p>
-                <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#1422;</span>
+                <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#8984</span>
                     Try sample Simple Scroll Gallery</a>
             </p>
             <p>
@@ -93,45 +94,44 @@
                 <ul>
                     <li><strong>ssg.js</strong> - the gallery code</li>
                     <li><strong>ssg.css</strong> - the gallery styles</li>
-                    <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries.
+                    <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
+                        Edit it to contain your links.
                     </li>
                 </ul>
             </p>
 
             <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. The gallery loads a signpost behind the last photo. 
-                You have to edit the signpost to contain your hyperlinks. Deactivate the signpost or write its new URL on <strong>line 13 in ssg.js file</strong>.
+                The signpost URL is defined on <strong>line 13 in ssg.js file</strong>. Or you can deactivate it there.
             </p>
 
             <h2>How the gallery works</h2>
             <!-- ---------------------------- -->
 
             <p>Simple Scroll Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to an image file 
-               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery.</p>
+               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks an onclick function which runs the gallery.</p>
             <p>SGG excellently cooperates with the
-                <strong>Wordpress built-in gallery</strong>. Wordpress creates image thumbnails with hyperlinks, and SGG assembles them into a fullscreen
+                <strong>Wordpress built-in gallery</strong>. Wordpress creates image thumbnails with hyperlinks, and SGG will assemble them into a fullscreen
                 image presentation.
             </p>
-
-            <p>The image the user clicked on is displayed first, then follow other images in the order they appear on the page. <br/> If the clicked image
-                is sixth in order or higher (7th, 8th,..), then the image is displayed twice. On the first place and on its original place. Because that
-                image can be part of some image series and it would be missing there.
-            </p>
-
-            <p>The <strong>text caption</strong> below images is taken from the alt attribute. If there is no alt attribute, the gallery shows just an empty stripe.</p>
-
-            <p>You can also run the gallery by calling SSG.run method:</p>
+            <p>The <strong>text caption</strong> below images is taken from a thumbnail's alt attribute or a link text. 
+               SSG will create the gallery from all theese three images (BigImage1~3):</p>
+            
             <code>
-                &lt;a onclick='SSG.run();'&gt;Show gallery&lt;/a&gt;                              
-            </code>
-            <p>And use arguments - any image url and any text caption.</p>
-            <code>
-                &lt;a onclick="SSG.run({img: {href: 'url', alt: 'some text' }});"&gt;<br/>Show gallery&lt;/a&gt;
+                &lt;a href='BigImage1.jpg'&gt; &lt;img alt='text caption' src='thumb.jpg'&gt; &lt;/a&gt;<br/>
+                &lt;a href='BigImage2.jpg'&gt; Another text caption &lt;/a&gt;<br/>
+                &lt;a href='BigImage3.jpg'&gt;&lt;/a&gt;   (an empty link, no caption)
             </code>
 
-            <p>You can <strong>link inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
-                <a href="http://ssg.flor.cz/#element" target="_blank" href>http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
-                It is enough to have in the hashtag crucial part of the name.
-            </p>
+            <p>The gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling SSG.run method. <br/> 
+               Example: the body's onload event activates the gallery immediately after a page is loaded:</p>
+            <code>                
+                &lt;body onload='SSG.run()'&gt; 
+            </code>
+            <p>Use arguments to show any image before the rest of images:</p>
+            <code>
+                &lt;body onload="SSG.run({img: {href: 'url', alt: 'some text' }})"&gt;
+            </code>
+            
 
             <h2>Fullscreen mode</h2>
             <!-- ---------------------------- -->
@@ -175,16 +175,16 @@
             <h1>See SSG Sample:</h1>
             <!-- ---------------------------- -->
             <p>
-                <strong>SSG controls:</strong> a scroll wheel
+                Click a thumbnail and <strong>browse through the gallery by:</strong> </br> a mouse wheel
                 <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
                 <span class="icons" style="font-family: Consolas, Menlo, 'Lucida Console', monospace; font-size:130%">&darr;&rarr;&uarr;&larr;</span>
-                <br/> On a tablet
+                <br/> or
                 <span class="icons" style="font-size:100%">TAP</span> on the bottom (upper) part of the screen
             </p>
 
             <section class="fs gallery">
                 <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" alt="Models shooting in Coal Mine Michal" />
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" alt="Models shooting in a coal mine" />
                 </a>
                 <a href="https://www.flor.cz/blog/wp-content/uploads/na-haku.jpg">
                     <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" alt="On the hook"
@@ -204,33 +204,46 @@
                 <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-dilna.jpg'>
                     <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" alt="It's time" />
                 </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cerna-detail.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-detail-200x200.jpg" alt="" />
+                </a>                
                 <a href='https://www.flor.cz/blog/wp-content/uploads/paty-element.jpg'>
                     <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" alt="The Fifth Element style" />
-                </a>
-                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-telefon.jpg'>
-                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-telefon-200x200.jpg" alt="" />
                 </a>
             </section>
 
             <br style="clear: both" />
             <p>
-                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna-helmy.jpg'>Coal Mine Michal  - chain cloakroom</a> - a text link
+                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna.jpg'>Coal Mine Michal  - chain cloakroom</a> - a text link
                 to an image. <br/>
                 <a href="https://www.flor.cz/js/SSG/simple-scroll-gallery.JPG"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with
                 SSG logo. <br/> Both target images will appear in the gallery.
-            </p>
+            </p>    
+            <p>The image a user clicked on <strong>is displayed first</strong>, then follow other images in the order they appear on the page. <br/>
+            </p>    
+
             <br/>
+
+            <h2>Another ways how to activate SSG</h2>
+            <!-- ------------------------------------------------- -->
             <p>
                 <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
-                    <span>&#1422;</span> Run the gallery</a> by calling SSG.run()</p>
+                    <span>&#8984;</span> Run the gallery</a> by calling SSG.run()</p>
             <p>
                 <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'It is possible to run the gallery with any initial photo' }});"
                     style="cursor:pointer; text-decoration:underline">
-                    <span>&#1422;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
+                    <span>&#8984;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
             </p>
 
             <br/>
-            <h2>Navigation in the gallery ~ jump scroll</h2>
+
+            <p>You can <strong>link right inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
+                <a href="http://ssg.flor.cz/#element" target="_blank" href>http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
+                It is enough to have in the hashtag crucial part of the name.
+            </p>        
+
+            <br/>
+            <h2>Browse through the gallery ~ jump scroll</h2>
             <!-- ------------------------------------------------- -->
 
             <p> There are two options. Classic scrolling with a scrollbar or fingers. And then jump scroll. A mouse wheel and arrow keys have an altered
