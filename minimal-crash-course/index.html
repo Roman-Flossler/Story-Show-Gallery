@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Simple Scroll Gallery - a minimal crash course</title>
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+</head>
+
+<body onload='SSG.run({noExit:true,fs:true})' style='background:#0e0e0e;'>
+    <a href='src.png'>The complete HTML code of this gallery. This is the most minimal way how to use SSG. Code explanation is below.</a>
+    <a href='head.png'>There is not much to display without SSG. So it runs immediately with no exit option.</a>
+    <a href='withoutSSG.png'>If a user could exit the gallery, he would only see a white page with links.</a>
+    <a href='body.png'>The body section with images, linked SSG files and custom styles.</a>
+    
+    <link rel='stylesheet' href='../ssg.css' type='text/css' media='all'>
+    <script type='text/javascript' src='../ssg.js'></script>
+    
+    <style type='text/css' media='all'>
+        #SSG_gallery span.SSG_logo { background-image: url(florcz.png); }
+        #SSG_gallery p { color: #cccccc; }
+        @media ( min-resolution: 120dpi), (-webkit-min-device-pixel-ratio: 1.25) {
+        #SSG_gallery img { image-rendering: pixelated; } } /* only for text-image, don't use pixelated on photos */
+    </style>
+</body>
+</html>

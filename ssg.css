@@ -8,12 +8,16 @@
     SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
 */
 
-body {
-    -webkit-text-size-adjust: 100%;
-}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFW50d.woff) format('woff');
+  }
 
 #SSG_gallery, #SSG_gallery *, #SSG_exit, #SSG_exit *, #SSG_tip, #SSG_tip *  {
     font-size: 100%;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: normal;
     box-sizing: border-box;
     margin: 0;
@@ -22,6 +26,11 @@ body {
     width: auto;
     height: auto;
     border: none;
+}
+
+#SSG_gallery, #SSG_tip {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
 }
 
 #SSG_galBg {
@@ -78,7 +87,7 @@ body {
     min-width: 100px;
     height: 47px;
     position: absolute;
-    bottom: 7px;
+    bottom: 0.5em;
     left: 0px;
     opacity: 0.6;
     background-size: 100%;
@@ -90,13 +99,19 @@ body {
     display:block; 
     margin: auto; 
 	line-height: 1.3em;
-    color:#bbbbbb; 
-    text-align:center; 
+    color:#ababab;
+    text-align:center;
     background: #222222; 
     padding: 0.4em;
     padding-bottom: 0.3em;
     margin-bottom: 13em;
-    font-size: 100%;
+    font-size: 108%;    
+    text-shadow: rgb(0, 0, 0) 0px 0px 16px;
+    letter-spacing: 0.001em;
+}
+
+#SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+    font-size: 108%;
 }
 
 #SSG_lastone p {
@@ -115,16 +130,17 @@ body {
 
 #SSG_lastone #SSG_menu {
     overflow: auto;
+    text-align: right;
 }
 
 #SSG_menu a.SSG_link {
-    display: inherit;
-    width: 33%;
-    float: left;
+    display: inline-block;
+    width: 33%;    
     cursor: pointer;
     color: #FF706C; 
     padding-top: 0.2em;   
     line-height: 1.4;
+    text-align: center;
 }
 
 #SSG_menu #SSGL {
@@ -144,17 +160,31 @@ body {
 }
 
 #SSG_gallery #SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */        
-    color: #989898;
+    color: #969696;
     white-space: nowrap;
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
-    padding: 2em 26px 10px 3em;
+    padding: 2em 26px 10px 3em;    
+    letter-spacing: 0.01em;
     top: -1px;
     position: relative;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%23989898' stroke-width='1.4' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='2' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%239a9a9a' stroke-width='1.4' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='2' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 4px bottom 11px;
-    background-size: 14px;
+    background-position: right 4px bottom 9px;
+    background-size: 15px;
+    text-shadow: rgb(0, 0, 0) 0px 0px 6px;
+    font-weight: normal;    
+}
+
+#SSG_gallery #SSG_tipCall:after {
+    content: '';
+    width: 6em;
+    position: absolute;
+    left: 3em;
+    bottom: 12px;
+    border-width: 0 0 1.3px;
+    border-style: solid;
+    border-color: #6f6f6f;
 }
 
 #SSG_gallery #p0 {
@@ -175,8 +205,7 @@ body {
     text-decoration: underline;
     color:  #FFEB3B;
     background: none;
-    font-weight: bold;
-    letter-spacing: 0.03em;
+    text-underline-position: under;
 }
 
 #SSG_tip hr {
@@ -198,15 +227,14 @@ body {
     top: 0px;
     right: 0px;
     font-family: 'Times New Roman', monospace;
-    font-size: 131%;
-    color: #d3d3d3;    
+    font-size: 181%;
+    color: #bbbbbb;    
     background: #000000;
     padding: 0 6px;
-    border-radius: 0px 4px 0 11px;
-    font-weight: bold;
+    border-radius: 0px 4px 0 11px;    
     height: 26px;
-    width: 26px;
-    line-height: 1.4em;    
+    width: 28px;
+    line-height: 27px;
 }
 
 #SSG_tip span {
@@ -219,7 +247,7 @@ body {
     display: inline-block;
     cursor: pointer;
     position: relative;
-    margin-top: -50%;
+    margin-top: -8em;
     box-shadow: 0px 5px 19px 1px rgba(0,0,0,0.9);
 }
 
@@ -241,7 +269,7 @@ body {
 }
 
 #SSG_exit:hover { 
-    opacity: 0.88;
+    opacity: 1;
     background-color: black;
 }
 
@@ -271,15 +299,10 @@ body {
 
 #SSG_gallery p { 
 	margin-bottom: 6em;
-    line-height: 1.1em;
-	font-size: 100%;
+    line-height: 1.1em;	
     margin-top: -0.2em; /* kdyztak zmensit na -0.1em, a bude vetsi mezera mezi popiskem a fotkou */
     padding-top: 0.3em;
     padding-bottom: 0.4em;
-}
-
-#SSG_gallery::before, #SSG_tip span {
-   	font-size: 100%;
 }
 
 #SSG_exit {
@@ -298,14 +321,14 @@ body {
         top: -18px;
         left: -19px;    
         background-position: 30px 30px;
-        background-size: 12px;        
+        background-size: 12px;
     }
 
-    #SSG_gallery::before, #SSG_tip span {
+    #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
         font-size: 90%;
     }
 
-    #SSG_gallery p {
+    #SSG_gallery p, #SSG_lastone p {
         font-size: 90%;
         margin-top: -0.2em;
         padding-top: 0.2em;
@@ -332,6 +355,9 @@ body {
         #SSG_gallery #p0 {
             padding-bottom: 1.3em;
         }
+        #SSG_gallery, #SSG_tip {
+            font-size: 17px;
+        }    
     }
 }
 
@@ -401,6 +427,21 @@ html.ssg {
 
     html.ssg body {
         overflow-y: auto; 
+    }
+}
+
+@media (max-width: 550px) and (orientation: portrait) {
+    #SSG_gallery p, #SSG_lastone p {
+        line-height: 1.3em; 
+        padding: 0.2em;
+    }
+
+    #SSG_gallery img {
+        margin: 0.1em 0 0.5em 0;
+    }
+
+    #SSG_gallery span.SSG_logo {
+        bottom: 0.5em;
     }
 }
 

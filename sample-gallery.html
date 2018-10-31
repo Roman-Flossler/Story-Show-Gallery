@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Simple Scroll Gallery - JavaScript image web gallery - responsive and unobtrusive</title>
+    <title>Simple Scroll Gallery - Javascript image gallery - your photos in the main role</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -53,17 +53,17 @@
             <!-- ---------------------------- -->
 
             <ul>
-                <li>SSG is fully <strong>responsive</strong> - works on a desktop, tablets and smartphones</li>
-                <li>Minimalist and <strong>unobtrusive</strong> - SSG gives max. space to images</li>
+                <li>SSG is fully <strong>responsive</strong> - works on a desktop, tablets and smartphones</li>                
                 <li><strong>Fullscreen</strong> mode with an unobtrusive scrollbar and cursor</li>
-                <li><strong>Jump scroll</strong> automatically scrolls from image to image</li>
-                <li>Images are gradually loaded as a user scrolls down</li>
-                <li>There can be a caption under each image and <strong>your logo</strong> over the image</li>
                 <li>SSG supports <strong>Google analytics</strong>. When a user views an image it is counted as a virtual pageview.</li>
+                <li><strong>No e&times;it mode</strong>: You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage.
+                    Because there is not much to display without SSG, the gallery can run in the no exit mode.
+                      See a <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">minimal crash course</a></li>
+                <li>SSG can display <strong>your logo</strong> over the image and text caption under image</li>
+                <li><strong>Jump scroll</strong> automatically scrolls from image to image. Images are gradually loaded as a user scrolls down</li>                
                 <li>You can <strong>link inside the gallery</strong> to show a
-                    <a href='http://ssg.flor.cz/#cerna' target="_blank">particular photo</a>.</li>
-                <li>Just <strong>333 lines</strong> of JS code, all icons and cursor inside the code</li>
-                <li>SSG can load a <strong>signpost</strong> to other galleries behind the last photo. <a href='http://gal.brno.me/#haku' target="_blank">See the sample</a>.</li>
+                    <a href='http://ssg.flor.cz/#element' target="_blank">particular photo</a>.</li>
+                <li>SSG can load a <strong>signpost</strong> to other galleries behind the last photo. <a href='http://gal.brno.me/' target="_blank">See a sample</a>.</li>
             </ul>
 
             <h2>License</h2>
@@ -77,15 +77,18 @@
             <h2>SSG is easy to implement</h2>
             <!-- ---------------------------- -->
 
-            <p>Simple Scroll Gallery is easy to implement on your website. You just need to add two lines of code somewhere before &lt;/body&gt; tag:
+            <p>Simple Scroll Gallery is easy to implement on your website, it searches for images automatically. You just need to add two lines of code 
+                (<a style="cursor:pointer; text-decoration:underline" 
+                onclick="SSG.run({ img: { href: 'http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png', alt: 'Sample source code in HTML5' }});" >
+                sample source code</a>) somewhere before &lt;/body&gt; tag:
             </p>
 
             <code>
-                    &lt;link rel="stylesheet" href="https://.../ssg.css" type="text/css"&gt;<br/>
-                    &lt;script type="text/javascript" src="https://.../ssg.js"&gt; &lt;/script&gt;
+                    &lt;link rel="stylesheet" href="ssg.css" type="text/css"&gt;<br/>
+                    &lt;script type="text/javascript" src="ssg.js"&gt; &lt;/script&gt;
             </code>
 
-            <p>SSG requires jQuery library at least in version 1.5. Wordpress already includes jQuery. jQuery code should be inside &lt;/head&gt; tag: </p>
+            <p>SSG requires jQuery library at least in version 1.5. Place jQuery code inside the &lt;head&gt; section (Wordpress already includes jQuery): </p>
             <code>
                     &lt;script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"&gt; &lt;/script&gt;
             </code>
@@ -93,15 +96,11 @@
             <p>Simple Scroll Gallery consists of three files:
                 <ul>
                     <li><strong>ssg.js</strong> - the gallery code</li>
-                    <li><strong>ssg.css</strong> - the gallery styles</li>
+                    <li><strong>ssg.css</strong> - the gallery styles, includes icons and cursor</li>
                     <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
                         Edit it to contain your links.
                     </li>
                 </ul>
-            </p>
-
-            <p>If you want to adjust how the gallery looks or behave, you have to edit ssg.css or ssg.js file. The gallery loads a signpost behind the last photo. 
-                The signpost URL is defined on <strong>line 13 in ssg.js file</strong>. Or you can deactivate it there.
             </p>
 
             <h2>How the gallery works</h2>
@@ -122,8 +121,8 @@
                 &lt;a href='BigImage3.jpg'&gt;&lt;/a&gt;   (an empty link, no caption)
             </code>
 
-            <p>The gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling SSG.run method. <br/> 
-               Example: the body's onload event activates the gallery immediately after a page is loaded:</p>
+            <p>The gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling <strong>SSG.run</strong> method. <br/> 
+               Example: the body's onload event runs the gallery immediately after a page is loaded:</p>
             <code>                
                 &lt;body onload='SSG.run()'&gt; 
             </code>
@@ -131,6 +130,12 @@
             <code>
                 &lt;body onload="SSG.run({img: {href: 'url', alt: 'some text' }})"&gt;
             </code>
+            <p>Run SSG immediately after page loads is useful, when the html page is just a plain list of links without any design. 
+                There is nothing much to see without SSG. So the gallery can run in the <strong>no e&times;it mode</strong> - no close icon, no ESC key.</p>
+            <code>                
+                &lt;body onload='SSG.run({noExit:true})'&gt; 
+            </code>
+            <p>See a <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">crash course</a> - the most minimal way how to use SSG.</p>
             
 
             <h2>Fullscreen mode</h2>
@@ -230,8 +235,9 @@
                 <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
                     <span>&#8984;</span> Run the gallery</a> by calling SSG.run()</p>
             <p>
-                <a id="showgal" onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'It is possible to run the gallery with any initial photo' }});"
-                    style="cursor:pointer; text-decoration:underline">
+                <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+                onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'It is possible to run the gallery with any initial photo' }});"
+                >
                     <span>&#8984;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
             </p>
 

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- A viewport definition for smartphones. It is necessary for right sizing of the gallery on small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Scroll Gallery - a minimal crash course</title>
+    <!-- SSG requires jQuery library at least in the version 1.5. -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<!-- 
+Body's onload event runs SSG immediately after a page loads and with noExit:true the gallery has no exit option.
+So a user doesn't even know, that the gallery runs. It looks like a normal web page to him.
+Fs:true offers fullscreen mode. A user have to click to activate fullscreen, it cannot be activated without a clicking.
+--> 
+<body onload="SSG.run({noExit:true,fs:true})">
+    
+    <!-- a hyperlink defines image to display and its text caption -->
+    <a href='src.png'>The complete HTML code of this gallery. This is the most minimal way how to use SSG.</a>
+    <a href='head.png'>There is not much to display without SSG. It runs immediately with no exit option.</a>
+    <a href='withoutSSG.png'>If a user could exit the gallery, he would only see a white page with links.</a>
+    <a href='body.png'>The body section with images, linked SSG files and custom styles.</a>
+  
+    
+    <!-- SSG code and styles. If you have them in the other directory than a HTML file, you have to add path -->
+    <link rel="stylesheet" href="../ssg.css" type="text/css" media="all">
+    <script type="text/javascript" src="../ssg.js"></script>
+      
+    <!-- You can re-style the gallery. Your styles has to be behind ssg.css to overwrite original styles -->
+    <style type='text/css' media='all'>
+        #SSG_gallery span.SSG_logo {  background-image: url(florcz.png); }
+        #SSG_gallery p { color: #cccccc; }
+    </style>
+</body>
+</html>
