@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+#SSG_gallery span.SSG_logo {
+    background: url("https://www.flor.cz/img/florcz.png") ;
+}
+
 h1, h2 {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 464%;
@@ -11,9 +15,11 @@ h1, h2 {
 
 strong {
     font-weight: normal;
-    background: #daf6ff;
+    background: #cff1f7;
     color: black;
     font-size: 106%;
+    border-radius: 0.3em;
+    padding: 0 0.3em;
 }
 
 .secol h1 {    
@@ -32,11 +38,25 @@ body {
 }
 
 h2 {
-    font-size: 252%;    
+    font-size: 271%;
     line-height: 1em;
-    margin-bottom: 0.6em;
-    margin-top: 1.2em;
-}        
+    margin-bottom: 0.8em;
+    margin-top: 1.6em;    
+    border-radius: 0 1em 0 0;
+} 
+
+.ficol h2 {    
+    border-top: 2px dashed;
+    border-top: 9px solid #e8eff1;
+    padding-top: 0.3em;
+    margin-right: -0.33em;
+}
+
+article.ficol {
+    overflow: hidden;
+}
+
+/**
 
 h2::before {
     font-size: 81%;
@@ -46,8 +66,8 @@ h2::before {
 
 
 .ficol h2::before {
-    content: '#';
-}    
+    content: '»';
+}     **/
     
 ul {
     padding: 0 1em 0 1em;
@@ -57,7 +77,11 @@ a {
     color: #d40039;
 }
 
-.seegal { 
+.column a:hover {
+    text-decoration-style: double !important;
+}
+
+.seegal {
     display: none;    
 }
 
@@ -75,6 +99,14 @@ a img {
     border: none;
 }
 
+img.imglink {
+    width:100%; 
+    cursor: pointer; 
+    margin: 0.5em 0; 
+    padding-bottom: 3px; 
+    border-bottom: 3px solid #d40039;
+}
+
 em {
     font-size: 120%;
     position: relative;
@@ -84,7 +116,7 @@ em {
 code {
     font-family: Consolas, Menlo, "Lucida Console", monospace;
     padding: 1em;    
-    background: #efefef;
+    background: #e8eff1;
     display: block;
     font-size: 90%;
     line-height: 1.8em;
@@ -119,6 +151,7 @@ ul li {
     line-height: 1.6em;
     list-style-type: square;
     padding-bottom: 0.8em;
+    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24'%3E%3Cpath fill='%23ad002e' d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
 }
 
 .row:after {
@@ -128,33 +161,7 @@ ul li {
     margin-bottom: 6em;
 }
 
-.gallery img {
-    float: left;
-    width: 30%;
-    margin-right: 3%;
-    margin-bottom: 3%;
-    height: auto;
-    max-width: 200px;
-    border-radius: 6px;
-    opacity: 0.90;
-}
 
-.gallery img:hover {
-    opacity: 1;
-}
-
-.gallery a:hover:after  {
-    opacity: 1;
-}
-
-.gallery {
-    margin-top: 2em;
-}
-
-
-#SSG_gallery span.SSG_logo {
-   background: url("https://www.flor.cz/img/florcz.png") ;
-}
 
 .topimg {    
     overflow: hidden;
@@ -171,36 +178,152 @@ ul li {
 
 
 .gallery .topimg {
+    margin-top: -1.5em;
     max-width: 646px;
     height: 12vw;
-    width: 96%;
+    width: 99%;
     border-radius: 6px;
     opacity: 1;
     margin-bottom: 3%;
     background: #00e5ff;
 }
 
+.gallery .topimg a {
+    width: 100%;
+    float: none;
+    display: inline-block;
+    max-width: none;
+}
+
+.gallery {
+    margin-top: 2em;
+}
+
+.gallery span {
+    display: inline-block; 
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in;    
+}
+
+.gallery:hover span {
+    max-height: 100px;
+    transition: all 0.3s ease-in;    
+    padding-bottom: 3em;    
+    padding-top: 1.3em;    
+}
+
+.gallery span a {
+    float: none;    
+    background: none;
+    display: inline;
+    text-decoration: underline;
+    margin: 0;    
+    } 
+
+.gallery span a::after, .gallery span a::before { 
+        content: ''; 
+    }
+
 .gallery a {
-text-decoration: none;
+    display: block;
+    float: left;
+    width: 31%;
+    margin-right: 3%;
+    margin-bottom: 3%;
+    height: auto;
+    max-width: 200px;
+    border-radius: 6px;
+    background: #00e5ff;
+    position: relative;
+    overflow: hidden;    
+    text-decoration: none;
+}
+
+.gallery a.third {
+    margin-right: 0;
+}
+
+.gallery a img {
+    border: none;
+    width: 100%;
+    height: auto;
+    opacity: 0.9;
+    border-radius: 6px;
+    margin-bottom: -5px;
+    filter: saturate(1.2);
+}
+
+.gallery a, .gallery a img, .gallery a::before, .gallery a::after, .gallery .topimg  {
+    transition: all 0.11s ease-in;
+}
+
+.gallery  a:hover, .gallery a:hover img, .gallery a:hover::before, .gallery a:hover:after, .gallery .topimg:hover {
+    transition: all 0.22s ease;
+}
+
+.gallery > a:hover {
+    box-shadow: 3px 6px 13px 1px rgba(0, 49, 49, 0.88);
+    transform: skew(-2deg, -2deg) scale(0.965, 0.965);
+    background: rgb(70, 70, 70);  
+}
+
+.gallery .topimg:hover {
+    box-shadow: 3px 5px 13px 1px rgba(0, 49, 49, 0.88);
+    transform: skew(-1.6deg, -1deg) scale(0.99, 0.96);
+    background: rgb(70, 70, 70); 
+}
+
+.gallery .topimg:hover a {
+    background: rgb(70, 70, 70); 
+}
+
+.gallery a:hover img {
+    opacity: 1;
+    filter: saturate(1);    
+}
+
+.gallery a::before {
+    content: '';
+    position: absolute;
+    transform: translate(-30%,-30%);
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background: none;
+}
+
+.gallery > a:hover::before  {
+    background: linear-gradient(155deg, rgba(191,252,255,0.33) 0%,rgba(212,253,255,0.22) 23%,rgba(216,253,255,0) 36%);    
+    transform: translate(-1%,-1%);
+}
+
+.gallery .topimg:hover a::before  {
+    background: linear-gradient(160deg, rgba(191, 237, 255, 0.33) 0%,rgba(212,253,255,0.23) 18%,rgba(216,253,255,0) 36%);    
+    transform: translate(-1%,-1%);
+}
+
+.gallery a:hover:after  {
+    opacity: 0.9;
 }
 
 .gallery a::after {
-    /* content: url(https://www.flor.cz/img/index.png); */
-    content: '»'; 
-    float: left;
-    position: relative;
-    margin-left: -1.4em;
-    margin-top:-0.15em;
+    content: '»';     
+    position: absolute;
+    top:-0.1em;
+    right: 0.3em;
     color: white;
     transform: rotate(-45deg);
-    font-size: 133%;
+    font-size: 144%;
     font-family: 'Times New Roman', Arial, sans-serif;
-    opacity: 0.7;
+    opacity: 0.66;
     text-shadow: 0 0 6px #000000, 0 0 6px #000000, 0 0 9px #000000, 0 0 9px #000000, 0 0 9px #000000, 0 0 13px #000000, 0 0 13px #000000, 0 0 19px #000000, 0 0 19px #000000;
 }    
 
 footer {    
-    height: 3em;
+    height: 4em;
     background: linear-gradient(90deg, #C2C2C2 0%, #F7F7F7 11%, #E0E0E0 22%, #EDEDED 33%, #FAFAFA 47%, #E6E6E6 58%, #EDEDED 67%, #D9D9D9 79%, #F0F0F0 90%, #C2C2C2 100%); /* w3c */
 }
 
@@ -220,7 +343,13 @@ footer {
         width: 48%;
         padding-left: 8%;
     }
-}    
+} 
+
+@media screen and (max-width: 440px)  {
+    .gallery a::after { 
+        font-size: 116%; 
+    }      
+}
 
 @media screen and (max-width: 950px) {    
     * {
@@ -262,7 +391,7 @@ footer {
     .column .first img {
         width: 100%;
         margin-top: -3vw;
-        filter: brightness(1.1) saturate(1.6);
+        filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg);
         opacity: 0.9;
     }
 
@@ -273,12 +402,4 @@ footer {
     .seegal { 
         display: block;    
     }
-}
-
-@media screen and (min-width: 1690px), (min-width: 600px) and (max-width: 950px)  {
-    .gallery a::after { margin-left: -1.7em; margin-top:0em; font-size: 144%; }
-}
-
-@media screen and (max-width: 440px)  {
-    .gallery a::after { margin-left: -1.4em; font-size: 106%; }      
 }

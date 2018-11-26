@@ -15,12 +15,12 @@
     }
 
     #SSG_lastone #SSG_loadInto {
-        margin-top: 2em;
+        margin-top: 3em;
         text-align: center;
     }
 
     #SSG_lastone .SSG_signpostH1 {
-        font-size: 220%;
+        font-size: 200%;
         color: #888888;
         margin: 0em;
         font-weight: lighter;
@@ -30,12 +30,14 @@
         background: none;
         line-height: 1.6em;
         color: #888888;
+        margin-bottom: 0.5em !important;
+        padding-top: 0;
     }
 
     #SSG_lastone .SSG_icell .SSG_icapt {
         transform: rotate(7deg);
         display: block;
-        margin: 4px 10px 0 0;
+        margin: 0.3vh 10px 0 0;
         color: #b9b9b9;
         font-weight: lighter;
     }
@@ -50,22 +52,25 @@
 
     #SSG_lastone .SSG_icell {
         margin-bottom: 2vh;
-        max-height: 222px;
-        height: 36vh;
-        margin-left: 3vw;
-        margin-top: 5vh;
+        max-height: 250px;
+        height: 29vh;
+        margin-left: 1.5vw;
+        margin-right: 1.5vw;
+        margin-top: 2vh;
         width: 20vw;
         background: none;
-        float: left;
+        display: inline-block;
         text-align: center;
+        vertical-align: bottom;
     }
 
     #SSG_lastone .SSG_icell img {
-        width: 12vw;
+        width: 11vw;
         max-width: 150px;
         border: none;
         opacity: 1;
         border-radius: 100px;
+        transition: border-radius 0.3s;
     }
 
     #SSG_lastone .SSG_icell:hover img {
@@ -75,26 +80,48 @@
 
     @media (max-width: 860px) and (orientation: landscape),
     (max-width: 750px) and (orientation: portrait) {
-        #SSG_lastone .SSG_icell .SSG_icapt {
-            font-size: 90%;
+
+        @media (orientation: landscape)  {
+            #SSG_lastone #SSG_loadInto {
+                margin-top: 2em;
+            }
         }
 
         #SSG_lastone .SSG_signpostH1 {
             font-size: 180%;
+        }
+
+        #SSG_lastone .SSG_icell img {
+            width: 16vw;
+        }
+
+        #SSG_lastone .SSG_icell {            
+            height: 51vh;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        #SSG_lastone .SSG_icell {
+            width: 15vw;
         }
     }
 
     @media (orientation: portrait) and (max-width: 600px) {
 
         #SSG_lastone .SSG_icell {
-            height: 22vh;
-            margin-left: 8vw;
+            height: 24vh;
+            margin-left: 4vw;
+            margin-right: 4vw;
             margin-top: 3vh;
             width: 39vw;
         }
 
         #SSG_lastone .SSG_icell img {
-            width: 14vh;
+            width: 16vh;
+        }
+
+        #SSG_lastone .SSG_icell .SSG_icapt {
+            margin: 0px 10px 0 0;
         }
     }
 
@@ -102,7 +129,8 @@
 
         #SSG_lastone .SSG_icell {
             margin-bottom: 0;
-            margin-left: 4vh;
+            margin-left: 2vh;
+            margin-right: 2vh;
             width: 19vh;
         }
 
@@ -110,65 +138,79 @@
             width: 14vh;
         }
     }
+
+@media (min-width: 1500px) {
+
+    #SSG_lastone p.SSG_signpostText {
+        margin-bottom: 2em !important;
+        padding-top: 0.5em;
+    }
+
+    #SSG_lastone #SSG_loadInto {
+        margin-top: 6em;    
+    }   
+}
+
+
 </style>
 
 
 <span class="SSG_signpostH1">See other galleries</span><br clear='all' />
-<p class="SSG_signpostText">After last image SSG can load a html file where can be hyperlinks to other galleries:</p>
+<p class="SSG_signpostText">After the last image SSG can load this html file, edit it to your liking.</p>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/foceni-akt/">
         <img src="https://www.flor.cz/blog/img/photos/akt.jpg">
-        <span class="SSG_icapt">Shooting<br/> an Act</span>
+        <span class="SSG_icapt SSG_text">Shooting<br/> an Act</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/ceske-svycarsko-podzimni-fotosklizen/">
         <img src="https://www.flor.cz/blog/img/photos/g-cs.jpg">
-        <span class="SSG_icapt">Bohemian <br />Switzerland</span>
+        <span class="SSG_icapt SSG_text">Bohemian <br />Switzerland</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/urbex-ostrava-a-foceni-modelek-v-dole-michal/">
         <img src="https://www.flor.cz/blog/img/photos/ostrava-urbex.jpg">
-        <span class="SSG_icapt">Models shooting <br />in Michal mine</span>
+        <span class="SSG_icapt SSG_text">Models shooting <br />in Michal mine</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/foto-vylet-na-island/">
         <img src="https://www.flor.cz/blog/img/photos/island.jpg">
-        <span class="SSG_icapt">Iceland <br />Aurora</span>
+        <span class="SSG_icapt SSG_text">Iceland <br />Aurora</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/nevidane-fotky-hradce-kralove/">
         <img src="https://www.flor.cz/blog/img/photos/hradec-kralove.jpg">
-        <span class="SSG_icapt">Hradec Kralove <br />Unseen photos</span>
+        <span class="SSG_icapt SSG_text">Hradec Kralove <br />Unseen photos</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/cestovani-a-foceni-na-bali-a-lomboku/">
         <img src="https://www.flor.cz/blog/img/photos/bali-sopky.jpg">
-        <span class="SSG_icapt">Bali &amp; Lombok</span>
+        <span class="SSG_icapt SSG_text">Bali &amp; Lombok</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/hrbitov-vlaku/">
         <img src="https://www.flor.cz/blog/img/photos/hrbitov_vlaku.jpg">
-        <span class="SSG_icapt">Train cemetery</span>
+        <span class="SSG_icapt SSG_text">Train cemetery</span>
     </a>
 </div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/mesto-most-a-uhelne-safari/">
         <img src="https://www.flor.cz/blog/img/photos/uhelne-safari.jpg">
-        <span class="SSG_icapt">Coal safari</span>
+        <span class="SSG_icapt SSG_text">Coal safari</span>
     </a>
 </div>
 
