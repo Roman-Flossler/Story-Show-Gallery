@@ -21,6 +21,7 @@
     <title>Simple Scroll Gallery - Javascript image gallery - your photos in the main role</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='https://www.flor.cz/js/SSG/addon.css' type='text/css' media='all' />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 
@@ -28,23 +29,23 @@
     <main class="row">
         <article class="column ficol">
             <div class="first">
-                <img src="https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg" alt="Simple Scroll Gallery" />
+                <img src="http://ssg.flor.cz/img/simple-scroll-gallery.jpg" alt="Simple Scroll Gallery" />
             </div>
 
             <h1>Simple Scroll Gallery</h1>
             <!-- ---------------------------- -->
-            <p>
+            <p class="nobg">
                 <em>Javascript gallery created by Roman Flössler</em>
             </p>
 
             <p>I've made Simple Scroll Gallery for my Wordpress blog about photography. I&nbsp;wanted a minimalist gallery which
                 works similarly like a presentation. A user only needs to scroll down and sees image by image.
             </p>
-            <p>
+            <p class="nobg">
                 <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#8984</span>
                     Try sample Simple Scroll Gallery</a>
             </p>
-            <p>
+            <p class="nobg">
                 <a class="bigger" href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">
                     Download Simple Scroll Gallery from GitHub</a>
             </p>
@@ -53,17 +54,17 @@
             <!-- ---------------------------- -->
 
             <ul>
-                <li>SSG is fully <strong>responsive</strong> - works on a desktop, tablets and smartphones</li>                
-                <li><strong>Fullscreen</strong> mode with an unobtrusive scrollbar and cursor</li>
-                <li>SSG supports <strong>Google analytics.</strong> When a user views an image it is counted as a virtual pageview.</li>
-                <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage.
+                <li>SSG is fully <strong>responsive</strong> - works on a desktop, tablets and smart&shy;phones.</li>                
+                <li><strong>Fullscreen</strong> mode with an unobtrusive scrollbar and cur&shy;sor.</li>
+                <li>SSG supports <strong>Google analytics.</strong> When a user views an image it is count&shy;ed as a virtual pageview.</li>
+                <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a gallery which works like a sepa&shy;rate webpage.
                     Because there is not much to display without SSG, the gallery can run in the no exit mode.
-                      See a <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">minimal crash course</a></li>
-                <li>SSG can display <strong>your logo</strong> over the image and text caption under image</li>
-                <li><strong>Jump scroll</strong> automatically scrolls from image to image. Images are gradually loaded as a user scrolls down</li>                
+                      See a <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>
+                <li>SSG can display <strong>your logo</strong> over an image and text cap&shy;tion under image.</li>
+                <li><strong>Jump scroll</strong> automatically scrolls from image to image. Images are gra&shy;dually loaded as a user scrolls down.</li>
                 <li>You can <strong>link inside</strong> the gallery to show a
-                    <a href='http://ssg.flor.cz/#element' target="_blank">particular photo</a>.</li>
-                <li>SSG can load a <strong>signpost</strong> to other galleries behind the last photo. <a href='http://gal.brno.me/' target="_blank">See a sample</a>.</li>
+                    <a href='http://ssg.flor.cz/#element' target="_blank">part&shy;icular pho&shy;to</a>.</li>
+                <li>SSG can load a <strong>signpost</strong> to other galleries be&shy;hind the last photo. <a href='http://gal.brno.me/' target="_blank">See a sample</a></li>
             </ul>
 
             <h2>License</h2>
@@ -71,7 +72,7 @@
             <p>
                 You can use SSG freely
                 <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">under Mozilla Public License 2.0.</a>
-                There is one exception added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.
+                There is one excep&shy;tion added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.
             </p>
 
             <h2>SSG is easy to implement</h2>
@@ -91,12 +92,10 @@
                     &lt;script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"&gt; &lt;/script&gt;
             </code>
 
-            <p>Sample HTML5 code and re-styling the gallery:                   
-                    
-               <img src="http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png" class="imglink"
+            <p>Sample HTML5 code and re-styling the gallery:</p>
+               <img src="http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png" class="imglink" style="margin-bottom:3em"
                onclick="SSG.run({ img: { href: 'http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png', alt: 'Sample HTML5 code and re-styling the gallery' }});"
                >
-            </p>
 
             <p>Simple Scroll Gallery consists of three files:
                 <ul>
@@ -140,12 +139,10 @@
             <code>                
                 &lt;body onload='SSG.run({noExit:true})'&gt; 
             </code>
-            <p>See a crash course - the most minimal way how to use SSG:
+            <p>See a crash course - the most minimal way how to use SSG:</p>
                 <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">
                 <img src="http://ssg.flor.cz/minimal-crash-course/src.png" class="imglink"></a>
-             </p>
-            </p>
-            
+             
 
             <h2>Fullscreen mode</h2>
             <!-- ---------------------------- -->
@@ -183,13 +180,13 @@
         <article class="column secol">
             <a name="see-gallery"></a>
             <div class="topimg">
-                <img src="https://www.flor.cz/js/SSG/ssg-arrow.jpg" alt="Simple Scroll Gallery" />
+                <img src="http://ssg.flor.cz/img/ssg-arrow.gif" alt="Simple Scroll Gallery" />
             </div>
 
             <h1>See SSG Sample:</h1>
             <!-- ---------------------------- -->
             <p>
-                Click a thumbnail and <strong>browse through the gallery by:</strong> </br> a mouse wheel
+                Click a thumbnail & <strong>browse through the gallery by:</strong> </br> a mouse wheel
                 <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
                 <span class="icons" style="font-family: Consolas, Menlo, 'Lucida Console', monospace; font-size:130%">&darr;&rarr;&uarr;&larr;</span>
                 <br/> or
@@ -233,7 +230,7 @@
             <p>
                 <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna.jpg'>Coal Mine Michal  - chain cloakroom</a> - a text link
                 to an image. <br/>
-                <a href="https://www.flor.cz/js/SSG/simple-scroll-gallery.JPG"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with
+                <a href="http://ssg.flor.cz/img/simple-scroll-gallery.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with
                 SSG logo. <br/> Both target images will appear in the gallery.
             </p>    
             <p>The image a user clicked on <strong>is displayed first</strong>, then follow other images in the order they appear on the page. <br/>
@@ -256,7 +253,7 @@
             <br/>
 
             <p>You can <strong>link right inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
-                <a href="http://ssg.flor.cz/#element" target="_blank" href>http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
+                <a href="http://ssg.flor.cz/#element" target="_blank" style="word-break: break-all">http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
                 It is enough to have in the hashtag crucial part of the name.
             </p>        
 

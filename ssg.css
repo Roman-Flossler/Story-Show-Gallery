@@ -140,7 +140,8 @@
     color: #FF706C; 
     padding-top: 0.2em;   
     line-height: 1.4;
-    text-align: center;
+    text-align: center;    
+    vertical-align: text-top;
 }
 
 #SSG_menu #SSGL {
@@ -150,13 +151,12 @@
 
 #SSG_first span {
     display: inline-block;
-    transform: rotate(180deg);    
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%23FF706C' stroke-width='1.5' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='4' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%23FF706C' stroke-width='1.5' %3E%3Cpolyline points='1,9 6,4 11,9 '/%3E%3Cline x1='6' y1='7' x2='6' y2='16'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 11px;
-    width: 0.9em;
-    height: 1.5em;
+    width: 0.7em;
+    shape-rendering: crispEdges;
 }
 
 #SSG_gallery #SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */        
@@ -186,6 +186,16 @@
     border-style: solid;
     border-color: #6f6f6f;
 }
+
+#SSG_gallery #SSG_tipCall:hover {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    }
+    
+#SSG_gallery #SSG_tipCall:hover::after {
+        content: '';
+        border: none;
+    }
 
 #SSG_gallery #p0 {
     padding-bottom: 0.5em;
@@ -428,6 +438,10 @@ html.ssg {
     html.ssg body {
         overflow-y: auto; 
     }
+
+    #SSG_gallery #p0 {
+        padding-bottom: 0.2em;
+        }
 }
 
 @media (max-width: 550px) and (orientation: portrait) {

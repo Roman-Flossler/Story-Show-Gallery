@@ -30,8 +30,12 @@
         background: none;
         line-height: 1.6em;
         color: #888888;
-        margin-bottom: 0.5em !important;
-        padding-top: 0;
+        margin-bottom: 0 !important;
+        padding: 0;
+    }
+
+    #SSG_lastone #opening {
+        margin-bottom: 0.8em;
     }
 
     #SSG_lastone .SSG_icell .SSG_icapt {
@@ -51,9 +55,8 @@
     }
 
     #SSG_lastone .SSG_icell {
-        margin-bottom: 2vh;
-        max-height: 250px;
-        height: 29vh;
+        margin-bottom: 3vh;
+        max-height: 250px;        
         margin-left: 1.5vw;
         margin-right: 1.5vw;
         margin-top: 2vh;
@@ -61,7 +64,7 @@
         background: none;
         display: inline-block;
         text-align: center;
-        vertical-align: bottom;
+        vertical-align: text-top;
     }
 
     #SSG_lastone .SSG_icell img {
@@ -69,6 +72,7 @@
         max-width: 150px;
         border: none;
         opacity: 1;
+        margin: 0;
         border-radius: 100px;
         transition: border-radius 0.3s;
     }
@@ -94,25 +98,13 @@
         #SSG_lastone .SSG_icell img {
             width: 16vw;
         }
-
-        #SSG_lastone .SSG_icell {            
-            height: 51vh;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        #SSG_lastone .SSG_icell {
-            width: 15vw;
-        }
     }
 
     @media (orientation: portrait) and (max-width: 600px) {
 
         #SSG_lastone .SSG_icell {
-            height: 24vh;
             margin-left: 4vw;
-            margin-right: 4vw;
-            margin-top: 3vh;
+            margin-right: 4vw;            
             width: 39vw;
         }
 
@@ -131,32 +123,68 @@
             margin-bottom: 0;
             margin-left: 2vh;
             margin-right: 2vh;
-            width: 19vh;
+            width: 18vh;
         }
 
         #SSG_lastone .SSG_icell img {
             width: 14vh;
         }
+
+        @media (max-aspect-ratio: 11/16) {
+            #SSG_lastone .SSG_icell {
+                width: 13.3vh;
+            }
+        }        
     }
 
-@media (min-width: 1500px) {
-
-    #SSG_lastone p.SSG_signpostText {
-        margin-bottom: 2em !important;
-        padding-top: 0.5em;
+    @media (min-width: 1400px) {
+        #SSG_lastone .SSG_icell {
+            width: 15vw;
+        }
     }
 
-    #SSG_lastone #SSG_loadInto {
-        margin-top: 6em;    
-    }   
-}
+
+    @media (min-height: 888px) {
+
+        #SSG_lastone #opening {
+            margin-bottom: 1.5em;
+        }
+
+        #SSG_lastone .SSG_icell {
+            height: 29vh;
+        }
+
+        #SSG_lastone .SSG_icell img {
+            margin: 0.1em 0 0.5em 0;   
+        }
+
+        #SSG_lastone #SSG_loadInto {
+            margin-top: 4.4em;
+        }
+    }
+
+    @media (min-height: 1068px) {
+
+        #SSG_lastone #opening {
+            margin-bottom: 2em;
+        }
+
+        #SSG_lastone p.SSG_signpostText {    
+            padding-top: 0.5em;
+        }
+
+        #SSG_lastone #SSG_loadInto {
+            margin-top: 6em;    
+        }   
+    }
 
 
 </style>
 
-
-<span class="SSG_signpostH1">See other galleries</span><br clear='all' />
-<p class="SSG_signpostText">After the last image SSG can load this html file, edit it to your liking.</p>
+<div id="opening">
+    <span class="SSG_signpostH1">See other galleries</span><br clear='all' />
+    <p class="SSG_signpostText">After the last image SSG can load this html file, edit it to your liking.</p>
+</div>
 
 <div class="SSG_icell">
     <a href="https://www.flor.cz/blog/foceni-akt/">

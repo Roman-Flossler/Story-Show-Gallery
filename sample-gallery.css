@@ -10,16 +10,18 @@ h1, h2 {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 464%;
     font-weight: 300;
-    color: #076a7d;
+    color: #006b80;
+    position: relative;
 }
 
 strong {
     font-weight: normal;
-    background: #cff1f7;
+    background: #cfe8ec;
     color: black;
     font-size: 106%;
     border-radius: 0.3em;
     padding: 0 0.3em;
+    text-shadow: 0 0 1px #98d9ff;
 }
 
 .secol h1 {    
@@ -32,9 +34,18 @@ body {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
-    color: #202020;
+    color: black;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 100%;    
+    background-image: url(http://ssg.flor.cz/img/bg.png);
+}
+
+p, li, h1, h2 {
+    background: rgba(255, 255, 255, 0.36); 
+}
+
+.nobg {
+    background: none;
 }
 
 h2 {
@@ -70,11 +81,12 @@ h2::before {
 }     **/
     
 ul {
-    padding: 0 1em 0 1em;
+    padding: 0 0.5em 0 1.3em;
 }
 
 a {
-    color: #d40039;
+    color: #d40025;
+    background: white;
 }
 
 .column a:hover {
@@ -86,7 +98,7 @@ a {
 }
 
 .icons {
-    color: #d40039;
+    color: #d40025;
     font-weight: 600;
 }
 
@@ -120,7 +132,9 @@ code {
     display: block;
     font-size: 90%;
     line-height: 1.8em;
-    overflow: auto;    
+    overflow: auto;  
+    margin-bottom: 2em;
+    margin-top: -0.5em;  
 }
 
 .column {
@@ -145,6 +159,7 @@ code {
 
 p {
     line-height: 1.6em;
+    padding-right: 0.3em;
 }
 
 ul li {
@@ -203,12 +218,12 @@ ul li {
     display: inline-block; 
     max-height: 0;
     overflow: hidden;
-    transition: all 0.3s ease-in;    
+    transition: all 0.3s ease-in;
 }
 
 .gallery:hover span {
     max-height: 100px;
-    transition: all 0.3s ease-in;    
+    transition: all 0.3s ease-in 2.3s;
     padding-bottom: 3em;    
     padding-top: 1.3em;    
 }
@@ -327,33 +342,42 @@ footer {
     background: linear-gradient(90deg, #C2C2C2 0%, #F7F7F7 11%, #E0E0E0 22%, #EDEDED 33%, #FAFAFA 47%, #E6E6E6 58%, #EDEDED 67%, #D9D9D9 79%, #F0F0F0 90%, #C2C2C2 100%); /* w3c */
 }
 
-@media screen and (max-width: 1380px) {
+
+@media screen and (max-width: 1700px) {
+    .column {
+        width: 47%;
+        padding-left: 12%;
+    }
+}    
+
+@media screen and (max-width: 1450px) {
     .column {
         width: 47%;
         padding-left: 10%;
     }
-
     h1 {
         font-size: 396% !important;
-    }    
+    }        
 }    
+
 
 @media screen and (max-width: 1100px) {
     .column {
         width: 48%;
         padding-left: 8%;
     }
+    h1 {
+        font-size: 345% !important;
+    }         
 } 
-
-@media screen and (max-width: 440px)  {
-    .gallery a::after { 
-        font-size: 116%; 
-    }      
-}
 
 @media screen and (max-width: 950px) {    
     * {
         font-size: 99%;
+    }
+
+    h1 {
+    font-size: 396% !important;
     }
 
     ul {
@@ -400,6 +424,32 @@ footer {
     }
 
     .seegal { 
-        display: block;    
+        display: inline-block;
+    }
+}
+
+
+@media screen and (max-width: 440px)  {
+    .gallery a::after { 
+        font-size: 116%; 
+    }      
+}
+
+@media screen and (min-width: 666px) {
+    p, li {
+        text-align: justify;
+    }
+}
+
+@media (min-width: 1600px), (min-width: 1333px) and (max-width: 1450px) {
+    .ficol h1::after {   
+        content: '';
+        position: absolute;
+        width: 1em;
+        height: 0.6em;
+        right: 0;
+        top: -10px;
+        border-top: 9px solid #e8eff1;
+        border-right: 9px solid #e8eff1;
     }
 }
