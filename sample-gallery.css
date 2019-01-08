@@ -117,6 +117,7 @@ img.imglink {
     margin: 0.5em 0; 
     padding-bottom: 3px; 
     border-bottom: 3px solid #d40039;
+    border-radius: 0.6em;
 }
 
 em {
@@ -128,13 +129,21 @@ em {
 code {
     font-family: Consolas, Menlo, "Lucida Console", monospace;
     padding: 1em;    
-    background: #e8eff1;
+    background: #f7f7f7;
     display: block;
     font-size: 90%;
     line-height: 1.8em;
     overflow: auto;  
     margin-bottom: 2em;
-    margin-top: -0.5em;  
+    margin-top: -0.5em;
+    box-shadow: inset 0px 0px 36px #eaeaea;
+    border-radius: 0.3em;
+}
+
+code span {
+    color: #d40025;
+    background: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
 }
 
 .column {
@@ -143,8 +152,6 @@ code {
     height: 300px;
     padding-left: 13%;
     height: auto;
-    border-top:  21px solid #efefef;    
-    margin-top: 0.6em;
 }
 
 .column .first {
@@ -345,8 +352,8 @@ footer {
 
 @media screen and (max-width: 1700px) {
     .column {
-        width: 47%;
-        padding-left: 12%;
+        width: 46%;
+        padding-left: 10%;
     }
 }    
 
@@ -410,13 +417,26 @@ footer {
         margin-left: -20%;
         overflow: hidden;
         margin-bottom: -1.5em;
-        background: #09697d;
+        background: #006a80;
+        color: white;
+        text-align: center;
+        padding-bottom: 0.3em;
+        background-image: url(http://ssg.flor.cz/img/simple-scroll-gallery.jpg);
+        background-size: 99.3%;
     }
+    
+    .column .first span {
+        line-height: 2.2em;
+        text-decoration: underline;
+        text-decoration-style: wavy;
+        cursor: pointer;
+        color: #befcff;
+        text-shadow: 0 0 16px #35dcff;
+    }
+
     .column .first img {
-        width: 100%;
-        margin-top: -3vw;
-        filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg);
-        opacity: 0.9;
+        width: 100%;        
+        filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg);        
     }
 
     .gallery .topimg {
@@ -441,15 +461,31 @@ footer {
     }
 }
 
-@media (min-width: 1600px), (min-width: 1333px) and (max-width: 1450px) {
+@media (min-width: 1222px) {
     .ficol h1::after {   
         content: '';
         position: absolute;
         width: 1em;
         height: 0.6em;
         right: 0;
-        top: -10px;
+        top: -16px;
         border-top: 9px solid #e8eff1;
         border-right: 9px solid #e8eff1;
     }
+}
+
+@media (min-height: 888px) {
+	h1 {
+		margin-top: 1.2em;
+	}
+}
+
+@media (min-width: 366px) and (max-width: 950px) {
+* {
+    font-size: 100%;
+}
+
+.bigger, .secol p {
+    font-size: 106%;
+}
 }

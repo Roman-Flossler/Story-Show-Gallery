@@ -110,6 +110,27 @@
     letter-spacing: 0.001em;
 }
 
+
+#SSG_gallery p.uwtitle {
+    display: none;
+}
+
+#SSG_gallery p.notitle {
+    padding: 0.2em;
+}
+
+#SSG_gallery p.title {
+    display: inline-block;
+    padding-left: 3em;
+    padding-right: 3em;
+    border-radius: 0.3em;
+    min-width: 22vw;
+}  
+
+div.notitle img {
+    max-height: 95vh !important;
+}
+
 #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
     font-size: 108%;
 }
@@ -120,7 +141,7 @@
 
 #SSG_lastone {
     width: 100%;
-    margin-top: 24vw;
+    margin-top: 6vw;
     padding-bottom: 6vw;
 }
 
@@ -159,7 +180,7 @@
     shape-rendering: crispEdges;
 }
 
-#SSG_gallery #SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */        
+#SSG_gallery .SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */        
     color: #969696;
     white-space: nowrap;
     text-decoration: none;
@@ -176,9 +197,9 @@
     font-weight: normal;    
 }
 
-#SSG_gallery #SSG_tipCall:after {
+#SSG_gallery .SSG_tipCall:after {
     content: '';
-    width: 6em;
+    width: 5em;
     position: absolute;
     left: 3em;
     bottom: 12px;
@@ -187,12 +208,12 @@
     border-color: #6f6f6f;
 }
 
-#SSG_gallery #SSG_tipCall:hover {
+#SSG_gallery .SSG_tipCall:hover {
     text-decoration: underline;
     text-decoration-style: wavy;
     }
     
-#SSG_gallery #SSG_tipCall:hover::after {
+#SSG_gallery .SSG_tipCall:hover::after {
         content: '';
         border: none;
     }
@@ -201,14 +222,18 @@
     padding-bottom: 0.5em;
     }
 
-#SSG_tip {
-    left: 0vw;
+#SSG_tip {    
     top: 50vh;
-    width: 96vw;
+    width: 99vw;
     padding: 0.33em 1em;
     position: fixed;
-    z-index: 99992;    
-    text-align: center;
+    z-index: 99992;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;    
+    height: 1px;
+    padding: 0;
 }
 
 #SSG_tip a {
@@ -256,8 +281,7 @@
     line-height: 2em;
     display: inline-block;
     cursor: pointer;
-    position: relative;
-    margin-top: -8em;
+    position: relative;    
     box-shadow: 0px 5px 19px 1px rgba(0,0,0,0.9);
 }
 
@@ -298,26 +322,44 @@
    padding-top: 5em;
 }
 
+#SSG_gallery p.title {
+    padding-left: 1em;
+    padding-right: 1em;
+    display: block;
+    border-radius: 0;
+} 
+
 #SSG_gallery span.SSG_logo {    
     background-size: 100%;
     width: 16vw;
     max-width: 133px;
     height: 44px;
-    bottom: 2px;
+    bottom: 3px;
     left: -3px;
+}
+
+#SSG_gallery .SSG_uwpwrap {
+    margin-bottom: -0.1em;
 }
 
 #SSG_gallery p { 
 	margin-bottom: 6em;
-    line-height: 1.1em;	
-    margin-top: -0.2em; /* kdyztak zmensit na -0.1em, a bude vetsi mezera mezi popiskem a fotkou */
-    padding-top: 0.3em;
-    padding-bottom: 0.4em;
+    line-height: 1.1em;
+}
+
+#SSG_gallery p.notitle {
+    padding: 0.13em;
+    display: inline-block;
+    border-radius: 0.1em;
+}
+
+#SSG_gallery p, #SSG_lastone p, #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+    font-size: 100%;
 }
 
 #SSG_exit {
-    top: -12px;
-    left: -12px;    
+    top: -6px;
+    left: -6px;
     opacity: 0.49;
     background-position: 26px 26px;
     }
@@ -340,11 +382,11 @@
 
     #SSG_gallery p, #SSG_lastone p {
         font-size: 90%;
-        margin-top: -0.2em;
-        padding-top: 0.2em;
+        padding-top: 0.3em;
+        padding-bottom: 0.3em;
     }
 
-    #SSG_gallery #SSG_tipCall {
+    #SSG_gallery .SSG_tipCall {
         background-size: 12px;
         background-position: right 6px bottom 10px;
     }
@@ -366,20 +408,24 @@
             padding-bottom: 1.3em;
         }
         #SSG_gallery, #SSG_tip {
-            font-size: 17px;
+            font-size: 18px;
         }    
+        #SSG_exit {
+            top: 0;
+            left: 0;
+        }
     }
 }
 
 
 html.ssg ::-webkit-scrollbar {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  scrollbar and cursor styles */    
-    background: #191919;
+    background: #0e0e0e;   /* prev #191919; */
     width:9px;
 }
 
 html.ssg ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);    
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
     background: #505050;
     background-size: 100%; 
     margin-top: 6px;
@@ -404,7 +450,7 @@ html.ssg {
     scrollbar-base-color: #505050;    
     scrollbar-3dlight-color: #505050;
     scrollbar-highlight-color: #505050;
-    scrollbar-track-color: #191919;
+    scrollbar-track-color: #0e0e0e;  /* prev #191919; */
     scrollbar-arrow-color: #191919;
     scrollbar-shadow-color: black;    
 }
@@ -428,10 +474,10 @@ html.ssg {
         padding-bottom: 3em;
         display: block;
         margin-top:2em;
-        font-style: italic;        
+        font-style: italic;
     }
     
-    #SSG_tipCall, #SSG_arrowdown {
+    .SSG_tipCall, #SSG_arrowdown {
         display: none !important;
     }
 
@@ -439,9 +485,16 @@ html.ssg {
         overflow-y: auto; 
     }
 
+    #SSG_gallery p.title {
+        display: block;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 0;        
+    }  
+
     #SSG_gallery #p0 {
         padding-bottom: 0.2em;
-        }
+    }
 }
 
 @media (max-width: 550px) and (orientation: portrait) {
@@ -456,6 +509,120 @@ html.ssg {
 
     #SSG_gallery span.SSG_logo {
         bottom: 0.5em;
+    }
+}
+
+
+@media (min-aspect-ratio: 181/100) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for ultra wide displays or browser window */    
+
+    #SSG_gallery .SSG_uwpwrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #SSG_gallery span.SSG_logo {    
+        bottom: 0px;
+    }
+
+    #SSG_gallery img {
+	    max-width: 98%;
+	}
+    
+    #SSG_gallery p.uwtitle {
+        display: block;
+        width: 20vw;
+        padding: 1em 0.5em;        
+        left:0;
+        margin-bottom: 0;
+        margin: 0;
+        /* margin-right: -10vw; */
+        z-index: 2;
+        max-height: 96vh;
+		-ms-overflow-style:scrollbar;
+	    overflow-y: auto;
+    	overflow-x: hidden;
+        line-height: 1.3em;
+    }
+
+    #SSG_gallery p.uwtitle .SSG_tipCall {
+        padding-left: 0;        
+        padding-top: 1em;        
+    }
+
+    #SSG_gallery p.uwtitle > span {        
+        background-color: #222222;
+        position: sticky;
+        bottom: 0;
+        padding: 1.5em 0 1em 0;
+        display: block;
+        text-align: center;
+    }
+
+    #SSG_gallery p.uwtitle .SSG_tipCall:after {
+    left: 0em;
+    }
+
+    #SSG_gallery p.title, #SSG_gallery #p0 {
+        padding: 0.1em 0;
+        margin: 7em 0;
+        display: inline-block;
+        border-radius: 0.1em;
+    }
+
+    #SSG_gallery #uwp0 {
+        padding-bottom: 0em;
+        position: relative;
+    }
+
+    #SSG_gallery p.title span, p.title .SSG_tipCall {
+        display: none;
+    }
+
+    #SSG_gallery div.SSG_imgWrap {
+        width: 81vw;
+    }
+
+    #SSG_gallery div.notitle {
+        width: 100vw;     
+    }
+
+    #SSG_gallery div.SSG_imgWrap img {
+        max-height: 96vh;
+        margin: 0;
+    }
+
+    #SSG_gallery div.SSG_imgWrap::after {
+        content: none;
+    }
+
+}
+
+@media (min-aspect-ratio: 181/100) and (min-width: 1222px) { /* extra padding for higher resolutions */
+    #SSG_gallery p.uwtitle {
+        padding: 1.5em 1em;
+        margin-left: 0.6em;
+    }
+}    
+
+
+@media (min-aspect-ratio: 181/100) and (min-width: 1333px) { /* smaller title block for higher resolutions */
+    #SSG_gallery p.uwtitle {
+        width: 15vw;
+    }
+    #SSG_gallery div.SSG_imgWrap {
+        width: 85vw;
+    }
+
+    #SSG_gallery div.notitle {
+        width: 100vw;     
+    }   
+}
+
+@media (min-aspect-ratio: 181/100) and (max-width: 900px) {
+    #SSG_gallery p.title, #SSG_gallery #p0 {    
+        margin: 4em 0;
     }
 }
 

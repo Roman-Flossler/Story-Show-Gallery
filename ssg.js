@@ -47,7 +47,7 @@ SSG.initGallery = function initGallery(event) {
     jQuery(document).keydown(SSG.keyFunction);    
     jQuery("#SSG_exit").click(function () { SSG.exitClicked = true; SSG.destroyGallery() });
     jQuery('#SSG_gallery').click(SSG.touchScroll);
-    jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);    
+    jQuery('body').on('mousewheel DOMMouseScroll', SSG.revealScrolling);
 }
 
 SSG.keyFunction = function (event) {
@@ -123,9 +123,17 @@ SSG.addImage = function () {
     var newOne = SSG.loaded + 1; // newone is index of image which will be load
 
     if (newOne < SSG.imgs.length) {
-        jQuery("#SSG_gallery").append("<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='SSG_logo'></span></span></div>");
-        if (!SSG.imgs[newOne].alt) SSG.imgs[newOne].alt = "";
-        jQuery("#SSG_gallery").append("<p id='p" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>");
+        var noTitle = "";
+        var uwp = "";
+        if (!SSG.imgs[newOne].alt) {
+            SSG.imgs[newOne].alt = "";
+            noTitle = 'notitle';        
+        }
+        if (SSG.imgs[newOne].alt  || newOne == 0 )  {		
+            uwp = "<p class='uwtitle' id='uwp" + newOne + "'>" + SSG.imgs[newOne].alt + "</p>";
+        }
+        jQuery("#SSG_gallery").append("<div class='SSG_uwpwrap'>"+uwp+"<div class='SSG_imgWrap "+ noTitle +"'><span class='SSG_forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='SSG_logo'></span></span></div></div>");
+        jQuery("#SSG_gallery").append("<p class='title "+ noTitle +"' id='p" + newOne + "'><span>" + SSG.imgs[newOne].alt + "</span></p>");
         jQuery("#i" + newOne).on('load', function (event) {
             SSG.refreshPos(); // when img is loaded positions of images a recalculated
         });
@@ -145,8 +153,9 @@ SSG.addImage = function () {
         SSG.finito = true; //  all images are already loaded
     }
     if (newOne == 0) {  // append a little help to the first image
-        jQuery('#p0').append('<a id="SSG_tipCall">more photos</a>');
-        jQuery('#SSG_tipCall').click(function (event) { SSG.showFsTip(false); event.stopPropagation(); });
+        jQuery('#p0').append('<a class="SSG_tipCall">next photo</a>');
+        jQuery('#uwp0').append('<span><a class="SSG_tipCall">next photo</a></span>');
+        jQuery('.SSG_tipCall').click(function (event) { SSG.showFsTip(false); event.stopPropagation(); });
     }
 }
 

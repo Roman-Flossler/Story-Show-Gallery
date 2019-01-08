@@ -4,7 +4,7 @@ I've made Simple Scroll Gallery for my Wordpress blog about photography. I wante
 
 ## Main features
 
-- SSG is fully **responsive** - works on a desktop, tablets and smartphones
+- SSG is fully **responsive** - works on a desktop, tablets and smartphones. It can use a whole display on Iphone X. SSG has two landscape modes: [![N|Solid](http://ssg.flor.cz/minimal-crash-course/simple-scroll-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
 - **Fullscreen** mode with an unobtrusive scrollbar and cursor
 - SSG supports **Google analytics**. When a user views an image it is counted as a virtual pageview.
 - **No e×it mode:** You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage. Because there is not much to display without SSG, the gallery can run in the no exit mode. See a [minimal crash course](http://ssg.flor.cz/minimal-crash-course/) how to use SSG.
