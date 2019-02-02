@@ -1,15 +1,15 @@
-# Simple Scroll Gallery
+# Story Show Gallery
 
-I've made Simple Scroll Gallery for my Wordpress blog about photography. I wanted a simple gallery (without disturbing elements) which works similarly like a presentation. A user only needs to scroll down and sees image by image. You can try it on the [sample  gallery page at ssg.Flor.cz](http://ssg.flor.cz/).
+Show a story with your photos! SSG is designed for that. A spectator only needs to scroll down and sees image by image in not disturbing ambience. With optimally placed text captions you can tell a story too. You can try it on the [sample  gallery page at ssg.Flor.cz](http://ssg.flor.cz/).
 
 ## Main features
 
-- SSG is fully **responsive** - works on a desktop, tablets and smartphones. It can use a whole display on Iphone X. SSG has two landscape modes: [![N|Solid](http://ssg.flor.cz/minimal-crash-course/simple-scroll-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
-- **Fullscreen** mode with an unobtrusive scrollbar and cursor
+- SSG is fully **responsive** - works on a desktop, tablets and smartphones. For every image size SSG calculates optimal position of a text caption: [![N|Solid](http://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
+- **Fullscreen** mode with an unobtrusive scrollbar and cursor. Even dark photos are well visible.
 - SSG supports **Google analytics**. When a user views an image it is counted as a virtual pageview.
 - **No e×it mode:** You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage. Because there is not much to display without SSG, the gallery can run in the no exit mode. See a [minimal crash course](http://ssg.flor.cz/minimal-crash-course/) how to use SSG.
 - SSG can display **your logo** over the image and text caption under image
-- **Jump scroll** automatically scrolls from image to image. Images are gradually loaded as a user scrolls down
+- **Jump scroll** automatically scrolls from image to image. Images are being gradually **lazy loaded** as a user scrolls down.
 - You can **link inside the gallery** to show a [particular photo](http://ssg.flor.cz/#element).
 - SSG can load a **signpost** to other galleries behind the last photo. [See the sample](http://gal.brno.me/#lombok).
 
@@ -18,7 +18,7 @@ You can use SSG freely [under Mozilla Public License 2.0](https://tldrlegal.com/
 
 
 ## SSG is easy to implement
-Simple Scroll Gallery is easy to implement on your website, it searches for images automatically. You just need to add two lines of code somewhere before </body> tag:
+Story Show Gallery is easy to implement on your website, it searches for images automatically. You just need to add two lines of code somewhere before </body> tag:
 
 ```sh
 <link rel="stylesheet" href="https://.../ssg.css" type="text/css">
@@ -30,13 +30,15 @@ SSG requires jQuery library at least in version 1.5.  Place jQuery code inside t
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 ```
 
-Simple Scroll Gallery consists of three files: 
+Story Show Gallery consists of three files: 
 - **ssg.js** - the gallery code 
 - **ssg.css** - the gallery styles, includes icons and cursor
 - **ssg-loaded.html (optional)** -  a html file to load behind the last photo, typically a signpost to other galleries. Edit it to contain your links.
 
 ## How the gallery works
-Simple Scroll Gallery looks for all hyperlinks (<a> tags) on the page that points to an image file  (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery. The image the user clicked on is displayed first, then follow other images in the order they appear on the page.
+Story Show Gallery looks for all hyperlinks (<a> tags) on the page that points to an image file  (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). SSG adds to all these hyperlinks onclick function which runs the gallery. 
+
+The image a user clicked on is displayed first, then SSG shows following images and then the rest. Example: A user clicked on the sixth image. Images are shown in the following order - 6,7,8,9 and then it continues with images 1,2,3,4,5. If a user click up to third image, SSG prefers to show initial images together: 3,1,2,4,5,6,7,8,9.
 
 SGG excellently cooperates with the **Wordpress built-in gallery**. Wordpress creates image thumbnails with hyperlinks, and SGG assembles them into a fullscreen image presentation.
 
@@ -70,10 +72,11 @@ See a [crash course](http://ssg.flor.cz/minimal-crash-course/) - the most minima
 You can **link inside the gallery** to show a particular photo. Just add a hashtag with photo's name after url. For example this link http://ssg.flor.cz/#element shows the photo paty-element.jpg. It is enough to have in the hashtag crucial part of the name.
 
 ## Fullscreen mode
-Fullscreen mode can be activated four ways.
-Adding the fs class to the parent tag of <a> tags. The fs class must be the first class. All images inside mygallery activate fullscreen mode:
+Fullscreen mode can be activated three ways.
+
+Adding the "gallery" or "wp-block-gallery" class to the wrapper tag of <a> tags. These two classes use the Wordpress built-in gallery. All images inside the gallery activate fullscreen mode:
 ```sh
-<div class='fs mygallery'>
+<div class='gallery'>
 <a href='big-image.jpg'> <img src='thumbnail.jpg'></a>
 <a href='big-image2.jpg'> <img src='thumbnail2.jpg'></a>
 </div>
@@ -83,12 +86,7 @@ Running the gallery by calling the SSG.run method with the fs:true parameter.
 ```sh
 <a onclick='SSG.run({fs:true})'> Show gallery</a>
 ```
-Wrap the image in a DT tag as it is in a Wordpress gallery. This single image activates fullscreen mode:
-
-```sh
-<dt><a href='big-image.jpg'> <img src='thumbnail.jpg'></a></dt> 
-```
-Adding the fs class to <a> tag. The fs class must be the first class. This single image activates fullscreen mode:
+Adding the fs class to <a> tag. This single image activates fullscreen mode:
 ```sh
 <a class='fs' href='big-image.jpg'> <img src='thumbnail.jpg'></a> 
 ```
@@ -102,4 +100,4 @@ There are two options. Classic scrolling with a scrollbar or fingers. And then j
 For **touch screens** there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half, SSG jump scroll to the next (previous) image.
 &nbsp;
 
-[![N|Solid](https://www.flor.cz/blog/wp-content/uploads/simple-scroll-gallery.jpg)](http://ssg.flor.cz/)
+[![N|Solid](http://ssg.flor.cz/img/story-show-gallery-logo.jpg)](http://ssg.flor.cz/)

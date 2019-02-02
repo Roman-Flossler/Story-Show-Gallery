@@ -110,14 +110,24 @@
     letter-spacing: 0.001em;
 }
 
+#SSG_gallery .notitle p.title {
+    padding: 0.1em;
+    margin: 6.6em 0;
+    display: inline-block;
+    border-radius: 0.1em; 
+}
 
 #SSG_gallery p.uwtitle {
     display: none;
 }
 
-#SSG_gallery p.notitle {
-    padding: 0.2em;
+#SSG_gallery div.notitle img {
+    margin-bottom: 0;    
 }
+
+#SSG_gallery div.notitle span.SSG_logo {
+    bottom: -0.1em;
+}    
 
 #SSG_gallery p.title {
     display: inline-block;
@@ -131,6 +141,10 @@ div.notitle img {
     max-height: 95vh !important;
 }
 
+div.notitle #i0 {
+    max-height: 93vh !important;
+}
+
 #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
     font-size: 108%;
 }
@@ -141,8 +155,8 @@ div.notitle img {
 
 #SSG_lastone {
     width: 100%;
-    margin-top: 6vw;
-    padding-bottom: 6vw;
+    margin-top: 0;
+    padding-bottom: 8vw;
 }
 
 #SSG_lastone #SSG_menu a:hover {
@@ -156,7 +170,7 @@ div.notitle img {
 
 #SSG_menu a.SSG_link {
     display: inline-block;
-    width: 33%;    
+    width: 33%;
     cursor: pointer;
     color: #FF706C; 
     padding-top: 0.2em;   
@@ -188,13 +202,13 @@ div.notitle img {
     padding: 2em 26px 10px 3em;    
     letter-spacing: 0.01em;
     top: -1px;
-    position: relative;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%239a9a9a' stroke-width='1.4' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='2' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 4px bottom 9px;
     background-size: 15px;
     text-shadow: rgb(0, 0, 0) 0px 0px 6px;
-    font-weight: normal;    
+    font-weight: normal;
+    position: relative;
 }
 
 #SSG_gallery .SSG_tipCall:after {
@@ -218,9 +232,6 @@ div.notitle img {
         border: none;
     }
 
-#SSG_gallery #p0 {
-    padding-bottom: 0.5em;
-    }
 
 #SSG_tip {    
     top: 50vh;
@@ -234,6 +245,10 @@ div.notitle img {
     text-align: center;    
     height: 1px;
     padding: 0;
+}
+
+#SSG_tip div.touch {
+    display: none;
 }
 
 #SSG_tip a {
@@ -311,62 +326,305 @@ div.notitle img {
     #SSG_gallery span.SSG_logo { width: 11vw; min-width: 130px;  }
 }
 
-@media (max-width: 900px) and (orientation: landscape), (max-width: 550px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smartphones */    
-#SSG_gallery img {
-    max-width: 99%;
-    max-height: 89vh;
-    margin: 0.1em 0 0.1em 0; 
-}
 
-#SSG_gallery {
-   padding-top: 5em;
-}
+@media (orientation: portrait) {  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for portrait mode */    
 
-#SSG_gallery p.title {
-    padding-left: 1em;
-    padding-right: 1em;
-    display: block;
-    border-radius: 0;
-} 
+    #SSG_gallery img {
+        max-width: 99%;
+    }
+    
+    #SSG_gallery::before {
+        content: 'photos look better in landscape mode ;-)';
+        color: #bbbbbb;
+        padding-bottom: 3em;
+        display: block;
+        margin-top:2em;
+        font-style: italic;
+    }
+    
+    .SSG_tipCall, #SSG_arrowdown {
+        display: none !important;
+    }
 
-#SSG_gallery span.SSG_logo {    
-    background-size: 100%;
-    width: 16vw;
-    max-width: 133px;
-    height: 44px;
-    bottom: 3px;
-    left: -3px;
-}
+    html.ssg body {
+        overflow-y: auto; 
+    }
 
-#SSG_gallery .SSG_uwpwrap {
-    margin-bottom: -0.1em;
-}
+    #SSG_gallery p.title {
+        display: block;
+        padding-left: 1em;
+        padding-right: 1em;
+        border-radius: 0;        
+    }
 
-#SSG_gallery p { 
-	margin-bottom: 6em;
-    line-height: 1.1em;
-}
-
-#SSG_gallery p.notitle {
-    padding: 0.13em;
-    display: inline-block;
-    border-radius: 0.1em;
-}
-
-#SSG_gallery p, #SSG_lastone p, #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
-    font-size: 100%;
-}
-
-#SSG_exit {
-    top: -6px;
-    left: -6px;
-    opacity: 0.49;
-    background-position: 26px 26px;
+    #SSG_gallery #p0 {
+        padding-bottom: 0.2em;
     }
 }
 
 
-@media (max-width: 660px) and (orientation: landscape), (max-width: 366px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  exit icon for smaller smartphones */
+@media (orientation: landscape) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for ultrawide & standard landscape mode - previously: (min-aspect-ratio: 181/100) */    
+
+    #SSG_gallery figure:not(.SSG_uwide):not(.notitle) p.title span {
+        display: inline-block;
+    }
+
+    #SSG_gallery .SSG_uwide .SSG_uwBlock {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #SSG_gallery .SSG_uwide span.SSG_logo {
+        bottom: 0px;
+    }
+
+    #SSG_gallery .SSG_uwide img {
+	    max-width: 98%;
+	}
+    
+    #SSG_gallery .SSG_uwide p.uwtitle {
+        display: block;
+        width: 20vw;
+        padding: 1em 0.5em;        
+        left:0;
+        margin-bottom: 0;
+        margin: 0;
+        /* margin-right: -10vw; */
+        z-index: 2;
+        max-height: 96vh;
+		-ms-overflow-style:scrollbar;
+	    overflow-y: auto;
+    	overflow-x: hidden;
+        line-height: 1.3em;
+        position: relative;
+    }
+
+    #SSG_gallery .notitle p.title {
+        padding: 0.1em;        
+    }
+
+    #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall {
+        padding-left: 0;        
+        padding-top: 1em;        
+    }
+
+    #SSG_gallery .SSG_uwide p.uwtitle > span {        
+        background-color: #222222;
+        position: sticky;
+        bottom: 0;
+        padding: 1.5em 0 1em 0;
+        display: block;
+        text-align: center;
+    }
+
+    #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall:after {
+    left: 0em;
+    }
+
+    #SSG_gallery .SSG_uwide p.title {
+        padding: 0.1em 0;
+        margin: 7em 0;
+        display: inline-block;
+        border-radius: 0.1em;
+    }
+
+    #SSG_gallery .SSG_uwide p.title span, .SSG_uwide p.title .SSG_tipCall {
+        display: none;
+    }
+
+    #SSG_gallery .SSG_uwide .SSG_imgWrap {
+        width: 81vw;
+    }
+
+    #SSG_gallery .SSG_uwide.SSG_captionShift p.uwtitle {
+        left: 6vw;
+    }
+
+    #SSG_gallery .SSG_uwide.notitle .SSG_imgWrap {
+        width: 100vw;     
+    }
+
+    #SSG_gallery .SSG_uwide .SSG_imgWrap img, #SSG_gallery .notitle .SSG_imgWrap img {
+        max-height: 96vh;
+        margin: 0;
+    }
+
+    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img { 
+        max-height: 91vh;
+        margin-bottom: 0.3em;
+    }
+
+    #SSG_gallery .SSG_uwide .SSG_imgWrap::after {
+        content: none;
+    }
+
+     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> p0 styles >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */    
+
+    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        padding: 0.4em;
+        margin: 0 0 13em 0;
+    }
+
+    #SSG_gallery .SSG_uwide #uwp0 {
+        padding-bottom: 0em;
+        position: relative;
+    }
+
+    #SSG_gallery .SSG_uwide.notitle #uwp0 span {
+		margin-bottom: 1.66em;
+    }    
+    
+    #SSG_gallery figure:not(.SSG_uwide):not(.notitle) #p0 {
+        position: relative;
+        display: inline-block;
+        border-radius: 0.3em;
+    }        
+
+    #SSG_gallery #p0 .SSG_tipCall {
+        padding: 0.3em 26px 10px 3em;    
+        position: absolute;
+        right: 2em;
+        top: 48%;
+        margin-top: -1em;
+        line-height: normal;
+        line-height: initial;
+    }    
+    
+    #SSG_gallery #p0 span {
+        padding-right: 10em;
+    }    
+    
+    #SSG_gallery figure.notitle #p0 .SSG_tipCall {
+        left: -6em;
+        position: relative;
+        top: -0.1em;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 1222px) { /* extra padding for higher resolutions */
+    #SSG_gallery .SSG_uwide p.uwtitle {
+        padding: 1.5em 1em;
+        margin-left: 0.6em;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 1333px) { /* smaller title block for higher resolutions */
+    #SSG_gallery .SSG_uwide p.uwtitle {
+        width: 15vw;
+        margin-left: 1.3em;
+    }
+    #SSG_gallery .SSG_uwide .SSG_imgWrap {
+        width: 85vw;
+    }
+}
+
+@media  (orientation: landscape) and (min-height: 730px) {
+    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+        margin: 8em 0;
+    }
+}    
+
+@media (orientation: landscape) and (min-height: 1033px) {
+    #SSG_gallery p.title, #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        margin-bottom: 20em;
+    }    
+
+    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+        margin: 14em 0;
+    }
+
+    #SSG_gallery span.SSG_logo {
+        bottom: 1.3em;
+    }
+    #SSG_gallery img, #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img  {
+        margin-bottom: 1.3em;
+    }        
+}
+
+
+@media (orientation: landscape) and (max-width: 900px) {
+    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+        margin: 4em 0;
+    }
+
+    #SSG_gallery .SSG_uwide.SSG_captionShift p.uwtitle {
+        left: 5vw;
+    }    
+}
+
+
+@media (max-width: 900px) and (orientation: landscape), (max-width: 550px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smartphones */    
+
+    #SSG_gallery img {
+        max-width: 99%;
+        max-height: 89vh;
+        margin: 0.1em 0 0.1em 0; 
+    }
+
+    #SSG_gallery {
+    padding-top: 5em;
+    }
+
+    #SSG_gallery p.title {
+        padding-left: 1em;
+        padding-right: 1em;
+        display: block;
+        border-radius: 0;
+    } 
+
+    #SSG_gallery span.SSG_logo {    
+        background-size: 100%;
+        width: 16vw;
+        max-width: 133px;
+        height: 44px;
+        bottom: 1px;
+        left: -3px;
+    }
+
+    #SSG_gallery .SSG_uwBlock {
+        margin-bottom: -0.1em;
+    }
+
+    #SSG_gallery p { 
+        margin-bottom: 6em;
+        line-height: 1.1em;
+    }
+
+    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        margin-bottom: 6em;
+    }
+
+    #SSG_gallery p.notitle {
+        padding: 0.13em;
+        display: inline-block;
+        border-radius: 0.1em;
+    }
+
+    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img { 
+        max-height: 90vh;
+        margin-bottom: 0.05em;
+    }
+
+    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        padding: 0.2em;
+    }
+
+    #SSG_gallery p, #SSG_lastone p, #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+        font-size: 100%;
+    }
+
+    #SSG_exit {
+        top: -6px;
+        left: -6px;
+        opacity: 0.49;
+        background-position: 26px 26px;
+    }
+}
+
+
+@media (max-width: 660px) and (orientation: landscape), (max-width: 366px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  styles for smaller smartphones */
     
     #SSG_exit {
         border-radius: 11px;
@@ -397,15 +655,47 @@ div.notitle img {
 
 }
 
-/* >>>>>>>>>>>>>>>>>>>>>  for Iphone X - bottom safe area  */
+@media (max-width: 550px) and (orientation: portrait) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for smartphones in portrait mode */  
+    #SSG_gallery p, #SSG_lastone p {
+        line-height: 1.3em; 
+        padding: 0.2em;
+    }
 
-@supports  (-webkit-overflow-scrolling: touch)  {
+    #SSG_lastone p {
+        padding: 0.3em;
+    }
+
+    #SSG_gallery img {
+        margin: 0.1em 0 0.5em 0;
+    }
+
+    #SSG_gallery span.SSG_logo {
+        bottom: 0.5em;
+    }
+
+    #SSG_gallery .notitle p.title {
+        margin: 2.5em 0;
+    }
+
+    #SSG_menu a.SSG_link {
+        width: 38%;
+    }
+        
+    #SSG_menu #SSGL {
+        width: 23%;
+    } 
+}
+
+
+/* >>>>>>>>>>>>>>>>>>>>>  for Iphone X - secure safe area  */
+
+@supports  (-webkit-overflow-scrolling: touch)  { 
     @media only screen and (min-width: 700px) and (max-width: 900px) and (orientation: landscape) {
-        #SSG_gallery p {
+        #SSG_gallery figure:not(.SSG_uwide):not(.notitle) p.title {
             padding-bottom: 1em;
         }
-        #SSG_gallery #p0 {
-            padding-bottom: 1.3em;
+        #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+            padding-bottom: 1.2em;
         }
         #SSG_gallery, #SSG_tip {
             font-size: 18px;
@@ -446,6 +736,33 @@ html.ssg body {
 
 html.ssg .wait {cursor: wait !important;}
 
+@media (pointer: coarse) {
+
+html.ssg .wait #SSG_gallery::after {
+        content: '';
+        background-image: url('data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==');
+        position: fixed;
+        background-color: #0e0e0e;
+        border-radius: 5px;
+        bottom: 5vw;
+        right: 2vw;
+        width: 12px;
+        height: 80px;
+        filter: opacity(0.81);
+        background-repeat: no-repeat;
+        background-size: 8px;
+        background-position: center;
+    }
+
+#SSG_tip div.touch {
+        display: block;
+    }
+#SSG_tip div.classic {
+        display: none;
+    }    
+
+}
+
 html.ssg {
     scrollbar-base-color: #505050;    
     scrollbar-3dlight-color: #505050;
@@ -460,170 +777,6 @@ html.ssg {
 }
 @supports (-moz-appearance:none) {
 	html.ssg body { overflow: hidden; }
-}
-
-@media (orientation: portrait) {  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for portrait mode */    
-
-    #SSG_gallery img {
-        max-width: 99%;
-    }
-    
-    #SSG_gallery::before {
-        content: 'photos look better in landscape mode ;-)';
-        color: #bbbbbb;
-        padding-bottom: 3em;
-        display: block;
-        margin-top:2em;
-        font-style: italic;
-    }
-    
-    .SSG_tipCall, #SSG_arrowdown {
-        display: none !important;
-    }
-
-    html.ssg body {
-        overflow-y: auto; 
-    }
-
-    #SSG_gallery p.title {
-        display: block;
-        padding-left: 1em;
-        padding-right: 1em;
-        border-radius: 0;        
-    }  
-
-    #SSG_gallery #p0 {
-        padding-bottom: 0.2em;
-    }
-}
-
-@media (max-width: 550px) and (orientation: portrait) {
-    #SSG_gallery p, #SSG_lastone p {
-        line-height: 1.3em; 
-        padding: 0.2em;
-    }
-
-    #SSG_gallery img {
-        margin: 0.1em 0 0.5em 0;
-    }
-
-    #SSG_gallery span.SSG_logo {
-        bottom: 0.5em;
-    }
-}
-
-
-@media (min-aspect-ratio: 181/100) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for ultra wide displays or browser window */    
-
-    #SSG_gallery .SSG_uwpwrap {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    #SSG_gallery span.SSG_logo {    
-        bottom: 0px;
-    }
-
-    #SSG_gallery img {
-	    max-width: 98%;
-	}
-    
-    #SSG_gallery p.uwtitle {
-        display: block;
-        width: 20vw;
-        padding: 1em 0.5em;        
-        left:0;
-        margin-bottom: 0;
-        margin: 0;
-        /* margin-right: -10vw; */
-        z-index: 2;
-        max-height: 96vh;
-		-ms-overflow-style:scrollbar;
-	    overflow-y: auto;
-    	overflow-x: hidden;
-        line-height: 1.3em;
-    }
-
-    #SSG_gallery p.uwtitle .SSG_tipCall {
-        padding-left: 0;        
-        padding-top: 1em;        
-    }
-
-    #SSG_gallery p.uwtitle > span {        
-        background-color: #222222;
-        position: sticky;
-        bottom: 0;
-        padding: 1.5em 0 1em 0;
-        display: block;
-        text-align: center;
-    }
-
-    #SSG_gallery p.uwtitle .SSG_tipCall:after {
-    left: 0em;
-    }
-
-    #SSG_gallery p.title, #SSG_gallery #p0 {
-        padding: 0.1em 0;
-        margin: 7em 0;
-        display: inline-block;
-        border-radius: 0.1em;
-    }
-
-    #SSG_gallery #uwp0 {
-        padding-bottom: 0em;
-        position: relative;
-    }
-
-    #SSG_gallery p.title span, p.title .SSG_tipCall {
-        display: none;
-    }
-
-    #SSG_gallery div.SSG_imgWrap {
-        width: 81vw;
-    }
-
-    #SSG_gallery div.notitle {
-        width: 100vw;     
-    }
-
-    #SSG_gallery div.SSG_imgWrap img {
-        max-height: 96vh;
-        margin: 0;
-    }
-
-    #SSG_gallery div.SSG_imgWrap::after {
-        content: none;
-    }
-
-}
-
-@media (min-aspect-ratio: 181/100) and (min-width: 1222px) { /* extra padding for higher resolutions */
-    #SSG_gallery p.uwtitle {
-        padding: 1.5em 1em;
-        margin-left: 0.6em;
-    }
-}    
-
-
-@media (min-aspect-ratio: 181/100) and (min-width: 1333px) { /* smaller title block for higher resolutions */
-    #SSG_gallery p.uwtitle {
-        width: 15vw;
-    }
-    #SSG_gallery div.SSG_imgWrap {
-        width: 85vw;
-    }
-
-    #SSG_gallery div.notitle {
-        width: 100vw;     
-    }   
-}
-
-@media (min-aspect-ratio: 181/100) and (max-width: 900px) {
-    #SSG_gallery p.title, #SSG_gallery #p0 {    
-        margin: 4em 0;
-    }
 }
 
 @media (any-pointer: coarse) {   /* >>>>>>>>>>>>>>>>>>>>>  when device has some touch control -> allow standard scrolling */

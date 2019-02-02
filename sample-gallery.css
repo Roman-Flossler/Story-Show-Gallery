@@ -6,6 +6,14 @@
     background: url("https://www.flor.cz/img/florcz.png") ;
 }
 
+#SSG_gallery img {    
+    filter: brightness(1.05) contrast(0.97);
+}
+
+#SSG_gallery img[src*="story-show-gallery-logo.jpg"] {
+    filter: none;
+}
+
 h1, h2 {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 464%;
@@ -230,7 +238,7 @@ ul li {
 
 .gallery:hover span {
     max-height: 100px;
-    transition: all 0.3s ease-in 2.3s;
+    transition: all 0.3s ease-in 1.5s;
     padding-bottom: 3em;    
     padding-top: 1.3em;    
 }
@@ -436,7 +444,7 @@ footer {
 
     .column .first img {
         width: 100%;        
-        filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg);        
+        /* filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg); */
     }
 
     .gallery .topimg {
