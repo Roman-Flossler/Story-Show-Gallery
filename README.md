@@ -1,10 +1,10 @@
-# Story Show Gallery
+# Story Show Gallery 
 
-Show a story with your photos! SSG is designed for that. A spectator only needs to scroll down and sees image by image in not disturbing ambience. With optimally placed text captions you can tell a story too. You can try it on the [sample  gallery page at ssg.Flor.cz](http://ssg.flor.cz/).
+Show a story with your photos! SSG is designed for that. A site visitor only needs to scroll down and he sees image by image in non-­distract­ing environ­ment. You can also tell a story by optimally placed text captions. Try SSG at [ssg.Flor.cz](http://ssg.flor.cz/).
 
 ## Main features
 
-- SSG is fully **responsive** - works on a desktop, tablets and smartphones. For every image size SSG calculates optimal position of a text caption: [![N|Solid](http://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
+- Story Show Gallery is fully **responsive** - works on a desktop, tablets and smartphones. For every image size SSG calculates optimal position of a text caption: [![N|Solid](http://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
 - **Fullscreen** mode with an unobtrusive scrollbar and cursor. Even dark photos are well visible.
 - SSG supports **Google analytics**. When a user views an image it is counted as a virtual pageview.
 - **No e×it mode:** You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage. Because there is not much to display without SSG, the gallery can run in the no exit mode. See a [minimal crash course](http://ssg.flor.cz/minimal-crash-course/) how to use SSG.
@@ -14,7 +14,8 @@ Show a story with your photos! SSG is designed for that. A spectator only needs 
 - SSG can load a **signpost** to other galleries behind the last photo. [See the sample](http://gal.brno.me/#lombok).
 
 ## License
-You can use SSG freely [under Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)). There is one exception added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.
+You can use SSG freely within [Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)). There is one exception: 
+Distributing Story Show Gallery within a Wordpress plugin or theme is permitted only for its author.
 
 
 ## SSG is easy to implement

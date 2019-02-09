@@ -1,11 +1,16 @@
 
  /*
-    Simple Scroll Gallery (SSG)
+    Story Show Gallery (SSG) ver: 2.1.0
     Copyright (C) 2018 Roman Flössler - flor@flor.cz
 
-    licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
-    Here you can see how gallery works - http://ssg.flor.cz/
+    Try Story Show Gallery at - http://ssg.flor.cz/
     SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+    There is one exception: 
+    Distributing Story Show Gallery within a Wordpress plugin or theme is permitted only for its author.
 */
 
 @font-face {
@@ -34,7 +39,7 @@
 }
 
 #SSG_galBg {
-    background: #0e0e0e;
+    background: #131313;
     width: 100%;
     position: fixed;
     height: 100%;
@@ -44,14 +49,14 @@
 }
 
 #SSG_gallery {
-    background: #0e0e0e;
+    background: #131313;  /* prev #0e0e0e  */
     position: absolute;
     top: 0px;
     z-index: 99991;
     width: 100%;
     text-align: center;
     left: 0px;
-    padding-top: 13em;
+    padding-top: 33vh;
 }
 
 #SSG_gallery img {
@@ -322,6 +327,20 @@ div.notitle #i0 {
     background-color: black;
 }
 
+#SSG_gallery figure .serror img {
+    border: none;
+    height: 40px;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+    padding-bottom: 1em;
+    box-sizing: content-box;
+}
+
+#SSG_gallery figure .serror span.SSG_logo {
+    background: none;
+}
+
 @media (min-width: 900px) {
     #SSG_gallery span.SSG_logo { width: 11vw; min-width: 130px;  }
 }
@@ -538,6 +557,11 @@ div.notitle #i0 {
     #SSG_gallery span.SSG_logo {
         bottom: 1.3em;
     }
+
+    #SSG_gallery .notitle span.SSG_logo {
+        bottom: 0em;
+    }
+
     #SSG_gallery img, #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img  {
         margin-bottom: 1.3em;
     }        
@@ -551,6 +575,10 @@ div.notitle #i0 {
 
     #SSG_gallery .SSG_uwide.SSG_captionShift p.uwtitle {
         left: 5vw;
+    }
+    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        margin-bottom: 6em;
+        padding: 0.2em;
     }    
 }
 
@@ -592,10 +620,6 @@ div.notitle #i0 {
         line-height: 1.1em;
     }
 
-    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
-        margin-bottom: 6em;
-    }
-
     #SSG_gallery p.notitle {
         padding: 0.13em;
         display: inline-block;
@@ -605,10 +629,6 @@ div.notitle #i0 {
     #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img { 
         max-height: 90vh;
         margin-bottom: 0.05em;
-    }
-
-    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
-        padding: 0.2em;
     }
 
     #SSG_gallery p, #SSG_lastone p, #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {

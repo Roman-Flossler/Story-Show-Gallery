@@ -35,7 +35,7 @@ Mozilla Public License Version 2.0
     means any form of the work other than Source Code Form.
 
 1.7. "Larger Work"
-    means a work that combines Covered Software with other material, in
+    means a work that combines Covered Software with other material, in 
     a separate file or files, that is not Covered Software.
 
 1.8. "License"
@@ -100,9 +100,6 @@ non-exclusive license:
 (b) under Patent Claims of such Contributor to make, use, sell, offer
     for sale, have made, import, and otherwise transfer either its
     Contributions or its Contributor Version.
-
-(c) There is one exception: You are not granted to develop a Wordpress
-    plugin that includes Covered Software (Simple Scroll Gallery).
 
 2.2. Effective Date
 

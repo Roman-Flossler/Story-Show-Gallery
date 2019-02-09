@@ -38,8 +38,8 @@
                 <em>Javascript gallery created by Roman Flössler</em>
             </p>
 
-            <p>Show a story with your photos! SSG is designed for that. A spectator only needs to scroll down and sees image by image in not disturbing ambience. 
-                With optimally placed text captions you can tell a story too.
+            <p>Show a story with your photos! SSG is designed for that. A site visitor only needs to scroll down and he sees image by image in non-&shy;distract&shy;ing environ&shy;ment.
+                    You can also tell a story by optimally placed text captions.
             </p>
             <p class="nobg">
                 <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#8984</span>
@@ -64,7 +64,7 @@
                 <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a gallery which works like a sepa&shy;rate webpage.
                     Because there is not much to display without SSG, the gallery can run in the no exit mode.
                       See a <a href="http://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>
-                <li>SSG can display <strong>your logo</strong> over an image. Just add it via <a href="#" onclick="
+                <li>SSG can display <strong>watermark - logo</strong> over images. Just add it via <a href="#" onclick="
                 SSG.run({ img: { href: 'http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png', alt: 'Sample HTML5 code and adding logo via CSS styles' }});">CSS styles</a>.</li>
                 <li><strong>Jump scroll</strong> automatically scrolls from image to image. As a user scrolls down images are being gradually <strong>lazy loaded</strong>.</li>
                 <li>You can <strong>link inside</strong> the gallery to show a
@@ -75,9 +75,9 @@
             <h2>License</h2>
             <!-- ---------------------------- -->
             <p>
-                You can use SSG freely
-                <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">under Mozilla Public License 2.0.</a>
-                There is one excep&shy;tion added in the license. It is not granted to develop a Wordpress plugin based on SSG. I am planning to do it.
+                You can use SSG freely within
+                <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">Mozilla Public License 2.0.</a>
+                There is one excep&shy;tion: Distributing Story Show Gallery within a Wordpress plugin or theme is permitted only for its author.
             </p>
 
             <h2>SSG is easy to implement</h2>
@@ -88,7 +88,7 @@
             </p>
 
             <code>
-                    &lt;link rel="<span>stylesheet</span>" href="<span>ssg.css</span>" &gt;<br/>
+                    &lt;link rel="<span>stylesheet</span>" href="<span>ssg.css</span>" &gt;<br>
                     &lt;script src="<span>ssg.js</span>"&gt; &lt;/script&gt;
             </code>
             <p>
@@ -96,7 +96,7 @@
             </p>
             
             <code>
-                    &lt;link rel="<span>stylesheet</span>" href="<span>http://ssg.flor.cz/ssg.css</span>"&gt;<br/>
+                    &lt;link rel="<span>stylesheet</span>" href="<span>http://ssg.flor.cz/ssg.css</span>"&gt;<br>
                     &lt;script src="<span>http://ssg.flor.cz/ssg.js</span>"&gt; &lt;/script&gt;
             </code>            
 
@@ -133,12 +133,12 @@
                SSG will create the gallery from all theese three images (BigImage1~3):</p>
             
             <code>
-                &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br/>
-                &lt;a href='<span>BigImage2.jpg</span>'&gt; <b>Another text caption</b> &lt;/a&gt;<br/>
+                &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
+                &lt;a href='<span>BigImage2.jpg</span>'&gt; <b>Another text caption</b> &lt;/a&gt;<br>
                 &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i>
             </code>
 
-            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling <strong>SSG.run</strong> method. <br/> 
+            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by calling <strong>SSG.run</strong> method. <br> 
                Example: the body's onload event runs the gallery immediately after a page is loaded:</p>
             <code>                
                 &lt;body onload='<span>SSG.run()</span>'&gt; 
@@ -166,8 +166,8 @@
                 All images inside the gallery activate fullscreen mode:
             </p>
             <code>
-                &lt;div class='<span>gallery</span>'&gt;<br/> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br/>
-                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br/>&lt;/div&gt;                           
+                &lt;div class='<span>gallery</span>'&gt;<br> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>
+                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
             </code>
 
             <p>Running the gallery by calling the SSG.run method with the fs:true parameter.</p>
@@ -198,7 +198,7 @@
                 Click a thumbnail & <strong>browse through the gallery by:</strong> </br> a mouse wheel
                 <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
                 <span class="icons" style="font-family: Consolas, Menlo, 'Lucida Console', monospace; font-size:130%">&darr;&rarr;&uarr;&larr;</span>
-                <br/> or
+                <br> or
                 <span class="icons" style="font-size:100%">TAP</span> on the bottom (upper) part of the screen
             </p>
 
@@ -235,17 +235,18 @@
             
             <p>
                 <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna.jpg'>Chain cloakroom for miners</a> - a text link
-                to an image. <br/>
-                <a href="http://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with                
-                SSG logo. <br/> Both target images will appear in the gallery.                
-            </p><br/>
+                to an image. <br>
+                <a href='http://ssg.flor.cz/some-nice-image.jpg' target="_blank">A broken link - You will notice it before site visitors do</a><br> 
+                <a href="http://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the image with SSG logo. 
+                <br>All three target images will appear in the gallery.
+            </p><br>
             <p>The image a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following images and then the rest. 
                 Example: A user clicked on the sixth image. Images are shown in the following order - 6,7,8,9 and then it continues with images 1,2,3,4,5. 
                 If a user click up to third image, SSG prefers to show initial images together: 3,1,2,4,5,6,7,8,9. 
-                <br/>
+                <br>
             </p>    
 
-            <br/>
+            <br>
 
             <h2>Other ways to initiate Story Show Gallery</h2>
             <!-- ------------------------------------------------- -->
@@ -256,17 +257,17 @@
                 <a id="showgal" style="cursor:pointer; text-decoration:underline" 
                 onclick="SSG.run({fs:true, img: { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'It is possible to run the gallery with any initial photo' }});"
                 >
-                    <span>&#8984;</span> Run the gallery</a> by calling <br/> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
+                    <span>&#8984;</span> Run the gallery</a> by calling <br> SSG.run({fs:true, img: { href: 'url', alt: 'some text' }})
             </p>
 
-            <br/>
+            <br>
 
             <p>You can <strong>link right inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
                 <a href="http://ssg.flor.cz/#element" target="_blank" style="word-break: break-all">http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
                 It is enough to have in the hashtag crucial part of the name.
             </p>        
 
-            <br/>
+            <br>
             <h2>Browse through the gallery ~ jump scroll</h2>
             <!-- ------------------------------------------------- -->
 
@@ -274,8 +275,8 @@
                 function, they scroll from one image to next image. </p>
 
             <p>
-                <strong>Move to the next image:</strong><br/> mouse wheel, down arrow key, right arrow, PgDn key or spacebar.<br/>
-                <strong>Move to the previous image:</strong><br/> mouse wheel, press up arrow key, left arrow, or PgUP key.
+                <strong>Move to the next image:</strong><br> mouse wheel, down arrow key, right arrow, PgDn key or spacebar.<br>
+                <strong>Move to the previous image:</strong><br> mouse wheel, press up arrow key, left arrow, or PgUP key.
             </p>
 
             <p>For touch screens there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half,

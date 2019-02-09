@@ -497,3 +497,66 @@ footer {
     font-size: 106%;
 }
 }
+
+@media (prefers-color-scheme: dark) { 
+    body {
+        color: #ececec;
+        background: #2e383a;
+    }
+
+    h1, h2 {
+        color: #00e7ff;
+    }
+
+    .ficol h1::after {
+        border-top: 9px solid #1f2829;
+        border-right: 9px solid #1f2829;
+    }
+
+    a {
+        color: #ff324e;
+        background: #273031;
+    }
+
+    p, h1, h2, ul, li {
+        background: none;
+    }
+
+    strong {
+        background: #283031;
+        color: #7cf3ff;
+        text-shadow: none;
+    }
+
+    .ficol h2 {
+        border-top: 9px solid #1f2829;
+    }
+
+    code, footer {
+        background: #1f2829;        
+        box-shadow: inset 0px 0px 36px #2f2f2f;        
+    }
+
+    .gallery a {    
+        background: #000000;
+        border: 2px solid #141e1f;
+        max-width: 204px;
+    }
+
+    .gallery a img {
+        opacity: 1;
+    }
+
+    code span {
+        color: #ff6e6e;
+        background: rgb(27, 27, 27);
+    }
+
+    .secol > .topimg {
+        filter: contrast(1.2);
+    }
+
+    .gallery > a:hover, .gallery .topimg:hover {
+        box-shadow: 3px 6px 13px 1px rgba(6, 12, 12, 0.88)
+    }
+}    

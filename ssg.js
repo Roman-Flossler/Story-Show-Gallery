@@ -1,10 +1,15 @@
 
-// Simple Scroll Gallery (SSG)
+// Story Show Gallery (SSG) ver: 2.1.0
 // Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
-// licensed under Mozilla Public License 2.0 with one exception: it is not granted to develop a Wordpress plugin based on SSG.
-// Here you can see how gallery works - http://ssg.flor.cz/
+// Try Story Show Gallery at - http://ssg.flor.cz/
 // SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+// There is one exception:
+// Distributing Story Show Gallery within a Wordpress plugin or theme is permitted only for its author.
 
 var SSG = {};  // main object - namespace
 SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF']";
@@ -29,9 +34,11 @@ SSG.setVariables = function () {
     SSG.exitClicked = false; // set to true when a user clicks the exit button, prevents call SSG.destroyGallery twice
     SSG.exitMode = true;  // standard mode with the gallery exit options
     SSG.loadNext = false; // when the img is loaded loadnext is set true
+    SSG.location = window.location.href.split('#',1)[0];    
 }
 
 SSG.initGallery = function initGallery(event) {
+    jQuery("head").append("<meta name='theme-color' content='#131313'> ");
     if (event && event.noExit) SSG.exitMode = false;
     jQuery(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS);
     window.scrollTo(0, 0);
@@ -39,10 +46,10 @@ SSG.initGallery = function initGallery(event) {
     SSG.exitMode && jQuery("body").append("<div id='SSG_exit'></div>"); // exit button
     jQuery('html').addClass('ssg');
     jQuery('.gallery a, .wp-block-gallery a').filter(jQuery(SSG.jQueryImgSelector)).addClass('fs'); //add fs class to all thumbs in a WP gallery
-    if ((event && event.currentTarget) && (SSG.hasClass(event.currentTarget.classList,'fs'))) {
+    if ((event && event.currentTarget) && (SSG.hasClass(event.currentTarget.classList,'fs')) && !event.altKey) {
         SSG.openFullscreen();
     }    // when event exists it checks also event.currentTarget and if some of fs flag is set it sets fullscreen to true    
-    if (event && event.fs) {
+    if (event && event.fs && !event.altKey) {  // alt key allows to run the gallery without fullscreen.
          SSG.openFullscreen(); SSG.fullscreenModeWanted = true;
     }    
     jQuery(document).keydown(SSG.keyFunction);    
@@ -189,6 +196,12 @@ SSG.onImageLoad = function (event) {  // a callback function when an image is lo
     SSG.loadNext = true; // secure to run addImage only once after image is loaded
 }
 
+SSG.onLoadError = function (event) {    
+    jQuery("#i" + event.data.imgid).attr('src',"data:image/gif;base64,R0lGODlhUQAKAIABADVsagAAACH5BAEAAAEALAAAAABRAAoAAAJkjI+py+0PYwQyUCpx3bNqDiIANlpkaYrGqKHm9R5scrHujZaktfb9x2updrCgT8ZLfopMm/JYRApjxOdu6DsxX65n0oj9iY3V77i8XV5bOdoKpwXHw+ucPYTv5M37vqjLMZNQAAA7");
+    jQuery('#uwb'+ event.data.imgid).addClass('serror');
+    SSG.onImageLoad(event);
+}
+
 SSG.addImage = function () {
     var newOne = SSG.loaded + 1; // newone is index of image which will be load
 
@@ -202,7 +215,8 @@ SSG.addImage = function () {
         imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" + newOne + "' src='" + SSG.imgs[newOne].href + "'><span class='SSG_logo'></span></span></div>";
         caption = "<p class='title' id='p" + newOne + "'><span>" + SSG.imgs[newOne].alt + "</span></p>";
         jQuery("#SSG_gallery").append("<figure id='f" + newOne + "' class='"+noTitle+"'><div id='uwb" + newOne + "' class='SSG_uwBlock'>"+uwCaption +imgWrap+"</div>"+caption+"</figure>");
-        jQuery("#i" + newOne).on('load', { imgid: newOne }, SSG.onImageLoad);
+        jQuery("#i" + newOne).on('load', { imgid: newOne }, SSG.onImageLoad);  // imgid an argument passed into SSG.onImageLoad
+        jQuery("#i" + newOne).on("error", { imgid: newOne }, SSG.onLoadError);
     }
     if (newOne == SSG.imgs.length) {  // newOne is now actually by +1 larger than array index. I know, lastone element should be part of SSG.imgs array
         var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> Scroll to top</a>";
@@ -225,14 +239,26 @@ SSG.addImage = function () {
 }
 
 SSG.getName = function (url) {  // acquire image name from url address
-    return url.slice(url.lastIndexOf("/") + 1);
+    return url.slice(url.lastIndexOf("/") + 1,url.lastIndexOf("."));
+}
+
+SSG.setHashGA = function (index) {
+    if (index != -1) {
+        var hashName = '#' + SSG.getName(SSG.imgs[index].href);
+    } else {
+        var hashName = '#signpost';
+    }
+    typeof ga !== 'undefined' && ga('send', 'pageview', '/img' + location.pathname + hashName );  // sends pageview of actual image to Google Analytic    
+    if (hashName == '#signpost') hashName = '';
+    !(window.opr && !!window.opr.addons) && history.replaceState(null, null, SSG.location + hashName);
+    // Opera browser has unfortunately problem with custom cursor when hash is changing
 }
 
 SSG.metronome = function () {    
     var actual = window.pageYOffset || document.documentElement.scrollTop; // actual offset from top of the page
 
     if (SSG.loaded != -1 && !SSG.finito) {  // SSG.loaded is set to -1 before the first image is loaded
-        var Faraway = SSG.imgs[SSG.loaded].pos; // the newest loaded image offset from top of the page        
+       var Faraway = SSG.imgs[SSG.loaded].pos; // the newest loaded image offset from top of the page        
        if ((Faraway - actual < SSG.scrHeight * 3) && SSG.loadNext) {  // loadnext is true only when image is just loaded 
             SSG.addImage(); SSG.loadNext = false; }  // when actual offset is three screen near from faraway gallery loads next image
     }
@@ -248,11 +274,13 @@ SSG.metronome = function () {
 
     for (var i = 0; i <= SSG.loaded; i++) {
         var topPos = 0;
-        if (i < SSG.imgs.length - 1) { topPos = SSG.imgs[i + 1].pos } else { topPos = SSG.imgs[i].pos + SSG.scrHeight } // get topPos of last image bottom side
+        if (i < SSG.imgs.length - 1)
+            topPos = SSG.imgs[i + 1].pos
+        else
+            topPos = SSG.imgs[i].pos + SSG.scrHeight // get topPos of last image bottom side
+
         if ((actual > SSG.imgs[i].pos) && (actual < topPos)) {
-            if (typeof ga !== 'undefined') {
-                SSG.displayed != i && ga('send', 'pageview', '/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
-            } // sends pageview of actual image to Google Analytics. Verify it in the console: SSG.displayed != i && console.log('/img' + location.pathname + SSG.getName(SSG.imgs[i].href));
+            SSG.displayed != i && SSG.setHashGA(i);
             SSG.displayed = i;
         }
     }
@@ -267,12 +295,18 @@ SSG.jumpScroll = function () {
     if (SSG.imageUp && SSG.lastone) { // if lastone is true, i am out of index, so scroll on last image in index. I know, this lastone element should be part of SSG.imgs array
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed].pos - SSG.countImageIndent(SSG.displayed) }, 500, "swing");
         SSG.lastone = false;
+        SSG.setHashGA(SSG.displayed);
     }
     if (SSG.displayed + 1 < SSG.imgs.length && SSG.imageDown && SSG.imgs[SSG.displayed + 1].pos) { // if imageDown is true and next image is loaded (pos exists) then scroll down        
         jQuery("html, body").animate({ scrollTop: SSG.imgs[SSG.displayed + 1].pos - SSG.countImageIndent(SSG.displayed + 1) }, 500, "swing");
     } else {
         if (typeof jQuery("#SSG_menu").offset() !== 'undefined') { // if back button exists scroll to it
-            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#SSG_menu").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { SSG.lastone = true; });
+            SSG.imageDown && jQuery("html, body").animate({ scrollTop: jQuery("#SSG_menu").offset().top - (SSG.scrHeight / 10) }, 500, "swing", function () { 
+                if (!SSG.lastone) {
+                    SSG.lastone = true;
+                    SSG.setHashGA(-1);
+                }
+            });
         }
     }
     if (SSG.imgs[0].pos && !SSG.firstImageCentered) {   // center first image after initiation of gallery or can be used to jump to the 1st image
@@ -287,11 +321,15 @@ SSG.countImageIndent = function (index) {  // function count how much indent ima
     var screen = jQuery(window).height();
     var img = jQuery("#i" + index).outerHeight(true);
     var pIn = jQuery("#p" + index).innerHeight();
-    var pOut = jQuery("#p" + index).outerHeight(true);
+    var pOut = jQuery("#p" + index).outerHeight(true);	
     var pMargin = pOut - pIn;
+	if (index > 0)
+	    var ppMargin =  jQuery("#p" + (index-1)).outerHeight(true) - jQuery("#p" + (index-1)).innerHeight() // Margin of previous p tag
+	else
+		var ppMargin = pMargin;
     var centerPos = Math.round((screen - (img + pIn)) / 2);
     if (centerPos < 0) centerPos = (centerPos * 2) -2;
-    return centerPos > pMargin ? pMargin : centerPos;  // it prevents fraction of previous image appears above centered image
+    return centerPos > ppMargin ? ppMargin : centerPos;  // it prevents fraction of previous image appears above centered image
 }
 
 SSG.seizeScrolling = function (scroll) {
@@ -359,6 +397,7 @@ SSG.closeFullscreen = function () {
 }
 
 SSG.destroyGallery = function () {
+    history.replaceState(null, null,SSG.location);
     clearInterval(SSG.metronomInterval);
     if (typeof ga !== 'undefined') ga('send', 'pageview', location.pathname);
     // console.log(location.pathname);
@@ -401,13 +440,20 @@ SSG.showFsTip = function (firstCall) {
     }
 }
 
-SSG.getHash = function (justResult) {    
-    var hash = window.location.hash;    
+SSG.getHash = function (justResult) {  // searching for first image which match the hash in URL
+    var hash = window.location.hash;
     if (hash != '') {
         hash = hash.substring(1, hash.length);
-        var target = jQuery("a[href*='" + hash + "'][href$='.jpg'],a[href*='" + hash + "'][href$='.JPG'],a[href*='" + hash + "'][href$='.jpeg'],a[href*='" + hash + "'][href$='.png'],a[href*='" + hash + "'][href$='.gif']").toArray();
-        if (target[0]) {
-            var result = SSG.getHrefAlt(target[0]);
+        var allimgs = jQuery(SSG.jQueryImgSelector).toArray();
+		for (var i=0; i < allimgs.length; i++) {
+			var imgname = SSG.getName(allimgs[i].href);
+			if (imgname.indexOf(hash) != -1) {
+				var findex = i;  // index of first image which match the hash
+				break;
+			}
+		}
+        if (typeof findex != 'undefined') {  // if there is an image which match the hash
+            var result = SSG.getHrefAlt(allimgs[findex]);
             if(justResult) return {href: result.href, alt: result.alt } 
             SSG.run({fs:true, img:{ href: result.href, alt: result.alt }}); // only if justResult is false
         }
@@ -418,16 +464,20 @@ SSG.getHash = function (justResult) {
 SSG.run = function (event) { 
     if(SSG.running) return false; // it prevents to continue if SSG is already running
     SSG.running = true;
-    if (!event) event = {};
-    if (event && !event.img && SSG.getHash(true)) event.img = SSG.getHash(true);  // if SSG.run runs before getHash, it has to get hash    
+    if ( event && event.noExit && !event.img) { // if there is no start image specified (in the noExit mode) try to get image from hash
+        event.img = SSG.getHash(true);
+    } 
     SSG.setVariables();
     SSG.initGallery(event); // pass onlick event
     SSG.getImgList(event); 
     SSG.addImage(); // load first image
     SSG.metronomInterval = setInterval(SSG.metronome, 333); // every 333 ms check if more images should be loaded and logged into Google Analytics, Speed scrolling
-    window.setTimeout(function() { if (!SSG.fullscreenMode && SSG.fullscreenModeWanted) SSG.showFsTip(true); }, 600 ); //shows offer of FS mode
+    window.setTimeout(function() { 
+        if (!SSG.fullscreenMode && SSG.fullscreenModeWanted) SSG.showFsTip(true); //shows offer of FS mode
+        }, 600 ); 
     return false;
 }
 
 jQuery(document).ready(function () { jQuery(SSG.jQueryImgSelector).click(SSG.run) });
-jQuery(document).ready(function () { window.setTimeout(SSG.getHash(false), 10) });  // thanks to a little setTimeout the SSG.run in body's onload will run first
+jQuery(document).ready(function () { window.setTimeout(SSG.getHash(false), 10) });  // thanks to a little setTimeout the possible SSG.run in body's onload will run first
+// it is important in the noExit mode. If the getHash would initiate SSG first, there wouldn't be any information about the noExit mode
