@@ -1,28 +1,34 @@
-
- /*
-    Story Show Gallery (SSG) ver: 2.1.0
-    Copyright (C) 2018 Roman Flössler - flor@flor.cz
-
-    Try Story Show Gallery at - http://ssg.flor.cz/
-    SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
-
-    This Source Code Form is subject to the terms of the Mozilla Public
-    License, v. 2.0. If a copy of the MPL was not distributed with this
-    file, You can obtain one at http://mozilla.org/MPL/2.0/.
-    There is one exception: 
-    Distributing Story Show Gallery within a Wordpress plugin or theme is permitted only for its author.
+/*
+*  Story Show Gallery (SSG) ver: 2.1.1
+*  Copyright (C) 2018 Roman Flössler - flor@flor.cz
+*
+*  Try Story Show Gallery at - http://ssg.flor.cz/
+*  SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
+*
+*  This Source Code Form is subject to the terms of the Mozilla Public
+*  License, v. 2.0. If a copy of the MPL was not distributed with this
+*  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*  
+*  There is one exception:
+*  Distributing Story Show Gallery within a Wordpress plugin or theme 
+*  is only allowed with a permission from the author of Story Show Gallery.
 */
 
 @font-face {
-    font-family: 'Open Sans';
+    font-family: "Open Sans";
     font-style: normal;
     font-weight: 400;
-    src: url(https://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFW50d.woff) format('woff');
-  }
+    src: url(https://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFW50d.woff) format("woff");
+}
 
-#SSG_gallery, #SSG_gallery *, #SSG_exit, #SSG_exit *, #SSG_tip, #SSG_tip *  {
+#SSG_gallery,
+#SSG_gallery *,
+#SSG_exit,
+#SSG_exit *,
+#SSG_tip,
+#SSG_tip * {
     font-size: 100%;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
     box-sizing: border-box;
     margin: 0;
@@ -33,7 +39,30 @@
     border: none;
 }
 
-#SSG_gallery, #SSG_tip {
+/****************************************************************
+ * Table of contents:
+ *
+ *     1. Basic styles
+ *     2. The bottom menu
+ *     3. The tip Window & exit icon
+ *     4. Portrait mode
+ *     5. Landscape mode 
+ *     6. Smartphones - all 
+ *     7. Smartphones - small
+ *     8. Smartphones - portrait
+ *     9. Iphone X
+ *     10. Scrollbars & cursors
+ */
+
+
+/****************************************************************
+ * 1. Basic styles
+ *
+ * Gallery overlay, Images, captions, error image, logo container
+ */
+
+#SSG_gallery,
+#SSG_tip {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
 }
@@ -49,7 +78,8 @@
 }
 
 #SSG_gallery {
-    background: #131313;  /* prev #0e0e0e  */
+    background: #131313;
+    /* prev #0e0e0e  */
     position: absolute;
     top: 0px;
     z-index: 99991;
@@ -63,7 +93,7 @@
     max-width: 96%;
     max-height: 90vh;
     display: inline;
-    margin: 0.1em 0 0.5em 0; 
+    margin: 0.1em 0 0.5em 0;
     border: 1px solid black;
 }
 
@@ -76,16 +106,15 @@
 }
 
 #SSG_gallery div.SSG_imgWrap::after {
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     display: block;
     position: absolute;
-    top:0;
+    top: 0;
 }
 
 #SSG_gallery span.SSG_logo {
-    /* background: url(https://www.flor.cz/img/florcz.png); add your own logo over images */ 
     display: inline-block;
     width: 16vw;
     max-width: 147px;
@@ -100,18 +129,19 @@
     background-position: center bottom;
 }
 
-#SSG_gallery p, #SSG_lastone p { 
-    display:block; 
-    margin: auto; 
-	line-height: 1.3em;
-    color:#ababab;
-    text-align:center;
-    background: #222222; 
+#SSG_gallery p,
+#SSG_lastone p {
+    display: block;
+    margin: auto;
+    line-height: 1.3em;
+    color: #ababab;
+    text-align: center;
+    background: #222;
     padding: 0.4em;
     padding-bottom: 0.3em;
     margin-bottom: 13em;
-    font-size: 108%;    
-    text-shadow: rgb(0, 0, 0) 0px 0px 16px;
+    font-size: 108%;
+    text-shadow: #000 0px 0px 16px;
     letter-spacing: 0.001em;
 }
 
@@ -119,7 +149,7 @@
     padding: 0.1em;
     margin: 6.6em 0;
     display: inline-block;
-    border-radius: 0.1em; 
+    border-radius: 0.1em;
 }
 
 #SSG_gallery p.uwtitle {
@@ -127,12 +157,12 @@
 }
 
 #SSG_gallery div.notitle img {
-    margin-bottom: 0;    
+    margin-bottom: 0;
 }
 
 #SSG_gallery div.notitle span.SSG_logo {
     bottom: -0.1em;
-}    
+}
 
 #SSG_gallery p.title {
     display: inline-block;
@@ -140,19 +170,41 @@
     padding-right: 3em;
     border-radius: 0.3em;
     min-width: 22vw;
-}  
-
-div.notitle img {
-    max-height: 95vh !important;
 }
 
-div.notitle #i0 {
-    max-height: 93vh !important;
-}
-
-#SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+#SSG_gallery::before,
+#SSG_tip span,
+#SSG_gallery .SSG_text {
     font-size: 108%;
 }
+
+#SSG_gallery figure .serror img {
+    border: none;
+    height: 40px;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+    padding-bottom: 1em;
+    box-sizing: content-box;
+}
+
+#SSG_gallery figure .serror span.SSG_logo {
+    background: none;
+}
+
+@media (min-width: 900px) {
+    #SSG_gallery span.SSG_logo {
+        width: 11vw;
+        min-width: 130px;
+    }
+}
+
+
+/****************************************************************
+ * 2. The bottom menu
+ *
+ * The end menu of Story Show Gallery. No media queries
+ */
 
 #SSG_lastone p {
     margin-bottom: 1em !important;
@@ -177,10 +229,10 @@ div.notitle #i0 {
     display: inline-block;
     width: 33%;
     cursor: pointer;
-    color: #FF706C; 
-    padding-top: 0.2em;   
+    color: #FF706C;
+    padding-top: 0.2em;
     line-height: 1.4;
-    text-align: center;    
+    text-align: center;
     vertical-align: text-top;
 }
 
@@ -199,25 +251,32 @@ div.notitle #i0 {
     shape-rendering: crispEdges;
 }
 
-#SSG_gallery .SSG_tipCall {  /* >>>>>>>>>>>>>>>>>>>>>  SSG tip */        
+
+/****************************************************************
+ * 3. The tip Window & exit icon
+ *
+ * Window with a little help how to use Story Show Gallery. No media queries
+ */
+
+#SSG_gallery .SSG_tipCall {
     color: #969696;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
-    padding: 2em 26px 10px 3em;    
+    padding: 2em 26px 10px 3em;
     letter-spacing: 0.01em;
     top: -1px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%239a9a9a' stroke-width='1.4' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='2' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 4px bottom 9px;
     background-size: 15px;
-    text-shadow: rgb(0, 0, 0) 0px 0px 6px;
+    text-shadow: #000 0px 0px 6px;
     font-weight: normal;
     position: relative;
 }
 
 #SSG_gallery .SSG_tipCall:after {
-    content: '';
+    content: "";
     width: 5em;
     position: absolute;
     left: 3em;
@@ -230,15 +289,14 @@ div.notitle #i0 {
 #SSG_gallery .SSG_tipCall:hover {
     text-decoration: underline;
     text-decoration-style: wavy;
-    }
-    
+}
+
 #SSG_gallery .SSG_tipCall:hover::after {
-        content: '';
-        border: none;
-    }
+    content: "";
+    border: none;
+}
 
-
-#SSG_tip {    
+#SSG_tip {
     top: 50vh;
     width: 99vw;
     padding: 0.33em 1em;
@@ -247,7 +305,7 @@ div.notitle #i0 {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;    
+    text-align: center;
     height: 1px;
     padding: 0;
 }
@@ -258,7 +316,7 @@ div.notitle #i0 {
 
 #SSG_tip a {
     text-decoration: underline;
-    color:  #FFEB3B;
+    color: #FFEB3B;
     background: none;
     text-underline-position: under;
 }
@@ -281,12 +339,12 @@ div.notitle #i0 {
     position: absolute;
     top: 0px;
     right: 0px;
-    font-family: 'Times New Roman', monospace;
+    font-family: "Times New Roman", monospace;
     font-size: 181%;
-    color: #bbbbbb;    
-    background: #000000;
+    color: #bbb;
+    background: #000;
     padding: 0 6px;
-    border-radius: 0px 4px 0 11px;    
+    border-radius: 0px 4px 0 11px;
     height: 26px;
     width: 28px;
     line-height: 27px;
@@ -295,85 +353,74 @@ div.notitle #i0 {
 #SSG_tip span {
     padding: 1em 2em;
     background: #2f2f2f;
-    color: #ffffff;
+    color: #fff;
     border: 1px solid black;
     border-radius: 5px;
     line-height: 2em;
     display: inline-block;
     cursor: pointer;
-    position: relative;    
-    box-shadow: 0px 5px 19px 1px rgba(0,0,0,0.9);
+    position: relative;
+    box-shadow: 0px 5px 19px 1px #000000e6;
 }
 
-#SSG_exit {    
+#SSG_exit {
     top: -9px;
     left: -9px;
     position: fixed;
     width: 50px;
     height: 50px;
     border-radius: 13px;
-    background-color:rgba(0, 0, 0, 0.55);
+    background-color: #0000008c;
     cursor: pointer;
     z-index: 99993;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 25px 25px;
     background-size: 14px;
-    opacity: 0.55;    
+    opacity: 0.55;
 }
 
-#SSG_exit:hover { 
+#SSG_exit:hover {
     opacity: 1;
     background-color: black;
 }
 
-#SSG_gallery figure .serror img {
-    border: none;
-    height: 40px;
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
-    -ms-interpolation-mode: nearest-neighbor;
-    padding-bottom: 1em;
-    box-sizing: content-box;
-}
 
-#SSG_gallery figure .serror span.SSG_logo {
-    background: none;
-}
+/****************************************************************
+ * 4. Portrait mode
+ *
+ * Basic elements in portrait mode.
+ */
 
-@media (min-width: 900px) {
-    #SSG_gallery span.SSG_logo { width: 11vw; min-width: 130px;  }
-}
-
-
-@media (orientation: portrait) {  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for portrait mode */    
+@media (orientation: portrait) {
 
     #SSG_gallery img {
         max-width: 99%;
     }
-    
+
     #SSG_gallery::before {
-        content: 'photos look better in landscape mode ;-)';
+        content: "photos look better in landscape mode ;-)";
         color: #bbbbbb;
         padding-bottom: 3em;
         display: block;
-        margin-top:2em;
+        margin-top: 2em;
         font-style: italic;
     }
-    
-    .SSG_tipCall, #SSG_arrowdown {
-        display: none !important;
+
+    .SSG_tipCall,
+    #SSG_arrowdown {
+        display: none;
     }
 
     html.ssg body {
-        overflow-y: auto; 
+        overflow-y: auto;
     }
 
     #SSG_gallery p.title {
         display: block;
         padding-left: 1em;
         padding-right: 1em;
-        border-radius: 0;        
+        border-radius: 0;
     }
 
     #SSG_gallery #p0 {
@@ -382,7 +429,13 @@ div.notitle #i0 {
 }
 
 
-@media (orientation: landscape) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for ultrawide & standard landscape mode - previously: (min-aspect-ratio: 181/100) */    
+/****************************************************************
+ * 5. Landscape mode
+ *
+ * ultrawide & standard landscape mode. A lot of media queries
+ */
+
+@media (orientation: landscape) {
 
     #SSG_gallery figure:not(.SSG_uwide):not(.notitle) p.title span {
         display: inline-block;
@@ -400,36 +453,35 @@ div.notitle #i0 {
     }
 
     #SSG_gallery .SSG_uwide img {
-	    max-width: 98%;
-	}
-    
+        max-width: 98%;
+    }
+
     #SSG_gallery .SSG_uwide p.uwtitle {
         display: block;
         width: 20vw;
-        padding: 1em 0.5em;        
-        left:0;
+        padding: 1em 0.5em;
+        left: 0;
         margin-bottom: 0;
         margin: 0;
-        /* margin-right: -10vw; */
         z-index: 2;
         max-height: 96vh;
-		-ms-overflow-style:scrollbar;
-	    overflow-y: auto;
-    	overflow-x: hidden;
+        -ms-overflow-style: scrollbar;
+        overflow-y: auto;
+        overflow-x: hidden;
         line-height: 1.3em;
         position: relative;
     }
 
     #SSG_gallery .notitle p.title {
-        padding: 0.1em;        
+        padding: 0.1em;
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall {
-        padding-left: 0;        
-        padding-top: 1em;        
+        padding-left: 0;
+        padding-top: 1em;
     }
 
-    #SSG_gallery .SSG_uwide p.uwtitle > span {        
+    #SSG_gallery .SSG_uwide p.uwtitle>span {
         background-color: #222222;
         position: sticky;
         bottom: 0;
@@ -439,7 +491,7 @@ div.notitle #i0 {
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall:after {
-    left: 0em;
+        left: 0em;
     }
 
     #SSG_gallery .SSG_uwide p.title {
@@ -449,7 +501,8 @@ div.notitle #i0 {
         border-radius: 0.1em;
     }
 
-    #SSG_gallery .SSG_uwide p.title span, .SSG_uwide p.title .SSG_tipCall {
+    #SSG_gallery .SSG_uwide p.title span,
+    .SSG_uwide p.title .SSG_tipCall {
         display: none;
     }
 
@@ -462,15 +515,16 @@ div.notitle #i0 {
     }
 
     #SSG_gallery .SSG_uwide.notitle .SSG_imgWrap {
-        width: 100vw;     
+        width: 100vw;
     }
 
-    #SSG_gallery .SSG_uwide .SSG_imgWrap img, #SSG_gallery .notitle .SSG_imgWrap img {
+    #SSG_gallery .SSG_uwide .SSG_imgWrap img,
+    #SSG_gallery .notitle .SSG_imgWrap img {
         max-height: 96vh;
         margin: 0;
     }
 
-    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img { 
+    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
         max-height: 91vh;
         margin-bottom: 0.3em;
     }
@@ -479,7 +533,7 @@ div.notitle #i0 {
         content: none;
     }
 
-     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> p0 styles >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */    
+    /* ************** p0 styles ************** */
 
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
         padding: 0.4em;
@@ -492,29 +546,29 @@ div.notitle #i0 {
     }
 
     #SSG_gallery .SSG_uwide.notitle #uwp0 span {
-		margin-bottom: 1.66em;
-    }    
-    
+        margin-bottom: 1.66em;
+    }
+
     #SSG_gallery figure:not(.SSG_uwide):not(.notitle) #p0 {
         position: relative;
         display: inline-block;
         border-radius: 0.3em;
-    }        
+    }
 
     #SSG_gallery #p0 .SSG_tipCall {
-        padding: 0.3em 26px 10px 3em;    
+        padding: 0.3em 26px 10px 3em;
         position: absolute;
-        right: 2em;
+        right: 3em;
         top: 48%;
         margin-top: -1em;
         line-height: normal;
         line-height: initial;
-    }    
-    
+    }
+
     #SSG_gallery #p0 span {
         padding-right: 10em;
-    }    
-    
+    }
+
     #SSG_gallery figure.notitle #p0 .SSG_tipCall {
         left: -6em;
         position: relative;
@@ -522,35 +576,45 @@ div.notitle #i0 {
     }
 }
 
-@media (orientation: landscape) and (min-width: 1222px) { /* extra padding for higher resolutions */
+@media (orientation: landscape) and (min-width: 1222px) {
+
+    /* extra padding for higher resolutions */
     #SSG_gallery .SSG_uwide p.uwtitle {
         padding: 1.5em 1em;
         margin-left: 0.6em;
     }
 }
 
-@media (orientation: landscape) and (min-width: 1333px) { /* smaller title block for higher resolutions */
+@media (orientation: landscape) and (min-width: 1333px) {
+
+    /* smaller title block for higher resolutions */
     #SSG_gallery .SSG_uwide p.uwtitle {
         width: 15vw;
         margin-left: 1.3em;
     }
+
     #SSG_gallery .SSG_uwide .SSG_imgWrap {
         width: 85vw;
     }
 }
 
-@media  (orientation: landscape) and (min-height: 730px) {
-    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+@media (orientation: landscape) and (min-height: 730px) {
+
+    #SSG_gallery .SSG_uwide p.title,
+    #SSG_gallery .notitle p.title {
         margin: 8em 0;
     }
-}    
+}
 
 @media (orientation: landscape) and (min-height: 1033px) {
-    #SSG_gallery p.title, #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
-        margin-bottom: 20em;
-    }    
 
-    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+    #SSG_gallery p.title,
+    #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
+        margin-bottom: 20em;
+    }
+
+    #SSG_gallery .SSG_uwide p.title,
+    #SSG_gallery .notitle p.title {
         margin: 14em 0;
     }
 
@@ -562,37 +626,48 @@ div.notitle #i0 {
         bottom: 0em;
     }
 
-    #SSG_gallery img, #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img  {
+    #SSG_gallery img,
+    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
         margin-bottom: 1.3em;
-    }        
+    }
 }
 
 
 @media (orientation: landscape) and (max-width: 900px) {
-    #SSG_gallery .SSG_uwide p.title, #SSG_gallery .notitle p.title {
+
+    #SSG_gallery .SSG_uwide p.title,
+    #SSG_gallery .notitle p.title {
         margin: 4em 0;
     }
 
     #SSG_gallery .SSG_uwide.SSG_captionShift p.uwtitle {
         left: 5vw;
     }
+
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
         margin-bottom: 6em;
         padding: 0.2em;
-    }    
+    }
 }
 
 
-@media (max-width: 900px) and (orientation: landscape), (max-width: 550px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  Styles for smartphones */    
+/****************************************************************
+ * 6. Smartphones - all
+ *
+ * Media query for all smartphones
+ */
+
+@media (max-width: 900px) and (orientation: landscape),
+(max-width: 550px) and (orientation: portrait) {
 
     #SSG_gallery img {
         max-width: 99%;
         max-height: 89vh;
-        margin: 0.1em 0 0.1em 0; 
+        margin: 0.1em 0 0.1em 0;
     }
 
     #SSG_gallery {
-    padding-top: 5em;
+        padding-top: 5em;
     }
 
     #SSG_gallery p.title {
@@ -600,9 +675,9 @@ div.notitle #i0 {
         padding-right: 1em;
         display: block;
         border-radius: 0;
-    } 
+    }
 
-    #SSG_gallery span.SSG_logo {    
+    #SSG_gallery span.SSG_logo {
         background-size: 100%;
         width: 16vw;
         max-width: 133px;
@@ -615,7 +690,7 @@ div.notitle #i0 {
         margin-bottom: -0.1em;
     }
 
-    #SSG_gallery p { 
+    #SSG_gallery p {
         margin-bottom: 6em;
         line-height: 1.1em;
     }
@@ -626,12 +701,20 @@ div.notitle #i0 {
         border-radius: 0.1em;
     }
 
-    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img { 
+    #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
         max-height: 90vh;
         margin-bottom: 0.05em;
     }
 
-    #SSG_gallery p, #SSG_lastone p, #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+    #SSG_gallery #p0 .SSG_tipCall {
+        right: 2em;
+    }
+
+    #SSG_gallery p,
+    #SSG_lastone p,
+    #SSG_gallery::before,
+    #SSG_tip span,
+    #SSG_gallery .SSG_text {
         font-size: 100%;
     }
 
@@ -644,21 +727,31 @@ div.notitle #i0 {
 }
 
 
-@media (max-width: 660px) and (orientation: landscape), (max-width: 366px) and (orientation: portrait)  {   /* >>>>>>>>>>>>>>>>>>>>>  styles for smaller smartphones */
-    
+/****************************************************************
+ * 7. Smartphones - small
+ *
+ * Media query for smaller smartphones (outdated models)
+ */
+
+@media (max-width: 660px) and (orientation: landscape),
+(max-width: 366px) and (orientation: portrait) {
+
     #SSG_exit {
         border-radius: 11px;
         top: -18px;
-        left: -19px;    
+        left: -19px;
         background-position: 30px 30px;
         background-size: 12px;
     }
 
-    #SSG_gallery::before, #SSG_tip span, #SSG_gallery .SSG_text {
+    #SSG_gallery::before,
+    #SSG_tip span,
+    #SSG_gallery .SSG_text {
         font-size: 90%;
     }
 
-    #SSG_gallery p, #SSG_lastone p {
+    #SSG_gallery p,
+    #SSG_lastone p {
         font-size: 90%;
         padding-top: 0.3em;
         padding-bottom: 0.3em;
@@ -671,13 +764,20 @@ div.notitle #i0 {
 
     #SSG_first span {
         background-size: 9px;
-    }        
-
+    }
 }
 
-@media (max-width: 550px) and (orientation: portrait) {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> styles for smartphones in portrait mode */  
-    #SSG_gallery p, #SSG_lastone p {
-        line-height: 1.3em; 
+/****************************************************************
+ * 8. Smartphones - portrait
+ *
+ * Media query for all smartphones in portrait mode
+ */
+
+@media (max-width: 550px) and (orientation: portrait) {
+
+    #SSG_gallery p,
+    #SSG_lastone p {
+        line-height: 1.3em;
         padding: 0.2em;
     }
 
@@ -700,26 +800,34 @@ div.notitle #i0 {
     #SSG_menu a.SSG_link {
         width: 38%;
     }
-        
+
     #SSG_menu #SSGL {
         width: 23%;
-    } 
+    }
 }
 
 
-/* >>>>>>>>>>>>>>>>>>>>>  for Iphone X - secure safe area  */
+/****************************************************************
+ * 9. Iphone X
+ *
+ * secure safe area for Iphone X, media query for Iphone X models
+ */
 
-@supports  (-webkit-overflow-scrolling: touch)  { 
+@supports (-webkit-overflow-scrolling: touch) {
     @media only screen and (min-width: 700px) and (max-width: 900px) and (orientation: landscape) {
         #SSG_gallery figure:not(.SSG_uwide):not(.notitle) p.title {
             padding-bottom: 1em;
         }
+
         #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
             padding-bottom: 1.2em;
         }
-        #SSG_gallery, #SSG_tip {
+
+        #SSG_gallery,
+        #SSG_tip {
             font-size: 18px;
-        }    
+        }
+
         #SSG_exit {
             top: 0;
             left: 0;
@@ -728,16 +836,23 @@ div.notitle #i0 {
 }
 
 
-html.ssg ::-webkit-scrollbar {   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  scrollbar and cursor styles */    
-    background: #0e0e0e;   /* prev #191919; */
-    width:9px;
+/****************************************************************
+ * 10. Scrollbars & cursors
+ *
+ * media query for touch devices, no scrollbar for IE and FF
+ */
+
+html.ssg ::-webkit-scrollbar {
+    background: #0e0e0e;
+    /* prev #191919; */
+    width: 9px;
 }
 
 html.ssg ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 1px 3px #000000bf;
     background: #505050;
-    background-size: 100%; 
+    background-size: 100%;
     margin-top: 6px;
     min-height: 81px;
 }
@@ -746,21 +861,24 @@ html.ssg ::-webkit-scrollbar-button {
     height: 20px;
     background: black;
     height: 2px;
-}        
+}
 
 html.ssg body {
-    cursor:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFAAAAhYWFAAAAbp8VQAAAAAN0Uk5T//8A18oNQQAAAB5JREFUeNpiYIIBBiwsRryyA6aOgREDMgxBfwAEGADvGQKaYOgjsQAAAABJRU5ErkJggg=='),url(https://www.flor.cz/js/SSG/cross-ssg.cur),text;
+    cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFAAAAhYWFAAAAbp8VQAAAAAN0Uk5T//8A18oNQQAAAB5JREFUeNpiYIIBBiwsRryyA6aOgREDMgxBfwAEGADvGQKaYOgjsQAAAABJRU5ErkJggg=="), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
     overflow-x: hidden;
     background-color: #0e0e0e;
 }
 
-html.ssg .wait {cursor: wait !important;}
+html.ssg .wait {
+    cursor: wait;
+}
 
 @media (pointer: coarse) {
 
-html.ssg .wait #SSG_gallery::after {
-        content: '';
-        background-image: url('data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==');
+    /* loading icon for touch devices */
+    html.ssg .wait #SSG_gallery::after {
+        content: "";
+        background-image: url("data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==");
         position: fixed;
         background-color: #0e0e0e;
         border-radius: 5px;
@@ -774,36 +892,57 @@ html.ssg .wait #SSG_gallery::after {
         background-position: center;
     }
 
-#SSG_tip div.touch {
+    #SSG_tip div.touch {
         display: block;
     }
-#SSG_tip div.classic {
+
+    #SSG_tip div.classic {
         display: none;
-    }    
+    }
 
 }
 
 html.ssg {
-    scrollbar-base-color: #505050;    
+    scrollbar-base-color: #505050;
     scrollbar-3dlight-color: #505050;
     scrollbar-highlight-color: #505050;
-    scrollbar-track-color: #0e0e0e;  /* prev #191919; */
+    scrollbar-track-color: #0e0e0e;
+    /* prev #191919; */
     scrollbar-arrow-color: #191919;
-    scrollbar-shadow-color: black;    
+    scrollbar-shadow-color: black;
 }
 
-@supports (-ms-ime-align:auto) {   /* >>>>>>>>>>>>>>>>>>>>>  no scrollbars for Edge and Firefox, 'cause they can't paint it black */  
-	html.ssg body { overflow: hidden; }
+/* ***  no scrollbars for Edge and Firefox, 'cause they can't paint it black
+Set !important to overwrite site's styles. 
+White shining scrollbars in dark ambience are realy irritating. */
+@supports (-ms-ime-align:auto) {
+
+    html.ssg body,
+    html.ssg {
+        overflow: hidden !important;
+    }
 }
+
 @supports (-moz-appearance:none) {
-	html.ssg body { overflow: hidden; }
+
+    html.ssg body,
+    html.ssg {
+        overflow: hidden !important;
+    }
 }
 
-@media (any-pointer: coarse) {   /* >>>>>>>>>>>>>>>>>>>>>  when device has some touch control -> allow standard scrolling */
-    html.ssg body { overflow-y: auto; }
+/* ***  Allow FF and IE scrolling in portrait mode */
+@media (orientation: portrait) {
+
+    html.ssg body,
+    html.ssg {
+        overflow-y: auto !important;
+    }
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {  /* >>>>>>>>>>>>>>>>>>>>>  IE10 & IE11 bug solution. IE doesn't change bg color back from black */
+/* ***  IE10 & IE11 bug solution. IE doesn't change bg color back from black */
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
     html.ssg body {
         background-color: white;
     }
