@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.1.1
+*  Story Show Gallery (SSG) ver: 2.1.2
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -8,10 +8,6 @@
 *  This Source Code Form is subject to the terms of the Mozilla Public
 *  License, v. 2.0. If a copy of the MPL was not distributed with this
 *  file, You can obtain one at http://mozilla.org/MPL/2.0/.
-*  
-*  There is one exception:
-*  Distributing Story Show Gallery within a Wordpress plugin or theme 
-*  is only allowed with a permission from the author of Story Show Gallery.
 */
 
 @font-face {
@@ -52,8 +48,14 @@
  *     8. Smartphones - portrait
  *     9. Iphone X
  *     10. Scrollbars & cursors
- */
-
+ *
+ *  p caption margins:
+ *      landscape mode: 143,152
+ *      portrait mode: 434, 438
+ *      p0 with notitle: 550
+ *      landscape, height > 1033px: 615, 620
+ *      portrarit mode for phones: 778, 782
+*/
 
 /****************************************************************
  * 1. Basic styles
@@ -79,7 +81,6 @@
 
 #SSG_gallery {
     background: #131313;
-    /* prev #0e0e0e  */
     position: absolute;
     top: 0px;
     z-index: 99991;
@@ -139,15 +140,16 @@
     background: #222;
     padding: 0.4em;
     padding-bottom: 0.3em;
-    margin-bottom: 13em;
+    margin-bottom: 28vh;
     font-size: 108%;
     text-shadow: #000 0px 0px 16px;
     letter-spacing: 0.001em;
 }
 
-#SSG_gallery .notitle p.title {
+#SSG_gallery .notitle p.title,
+#SSG_gallery .SSG_uwide p.title {
     padding: 0.1em;
-    margin: 6.6em 0;
+    margin: 16vh 0;
     display: inline-block;
     border-radius: 0.1em;
 }
@@ -360,7 +362,7 @@
     display: inline-block;
     cursor: pointer;
     position: relative;
-    box-shadow: 0px 5px 19px 1px #000000e6;
+    box-shadow: 0px 5px 19px 1px rgba(0, 0, 0, 0.9);
 }
 
 #SSG_exit {
@@ -370,7 +372,7 @@
     width: 50px;
     height: 50px;
     border-radius: 13px;
-    background-color: #0000008c;
+    background-color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
     z-index: 99993;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
@@ -425,6 +427,15 @@
 
     #SSG_gallery #p0 {
         padding-bottom: 0.2em;
+    }
+
+    #SSG_gallery p,
+    #SSG_lastone p {
+        margin-bottom: 13vh;
+    }
+    
+    #SSG_gallery .notitle p.title {
+        margin: 7vh 0;
     }
 }
 
@@ -496,7 +507,6 @@
 
     #SSG_gallery .SSG_uwide p.title {
         padding: 0.1em 0;
-        margin: 7em 0;
         display: inline-block;
         border-radius: 0.1em;
     }
@@ -537,7 +547,7 @@
 
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
         padding: 0.4em;
-        margin: 0 0 13em 0;
+        margin: 0 0 28vh 0;
     }
 
     #SSG_gallery .SSG_uwide #uwp0 {
@@ -598,31 +608,23 @@
     }
 }
 
-@media (orientation: landscape) and (min-height: 730px) {
-
-    #SSG_gallery .SSG_uwide p.title,
-    #SSG_gallery .notitle p.title {
-        margin: 8em 0;
-    }
-}
-
 @media (orientation: landscape) and (min-height: 1033px) {
 
     #SSG_gallery p.title,
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
-        margin-bottom: 20em;
+        margin-bottom: 30vh;
     }
 
     #SSG_gallery .SSG_uwide p.title,
     #SSG_gallery .notitle p.title {
-        margin: 14em 0;
+        margin: 18.8vh 0;
     }
 
     #SSG_gallery span.SSG_logo {
         bottom: 1.3em;
     }
 
-    #SSG_gallery .notitle span.SSG_logo {
+    #SSG_gallery :not(#f0).notitle span.SSG_logo {
         bottom: 0em;
     }
 
@@ -634,11 +636,6 @@
 
 
 @media (orientation: landscape) and (max-width: 900px) {
-
-    #SSG_gallery .SSG_uwide p.title,
-    #SSG_gallery .notitle p.title {
-        margin: 4em 0;
-    }
 
     #SSG_gallery .SSG_uwide.SSG_captionShift p.uwtitle {
         left: 5vw;
@@ -691,7 +688,6 @@
     }
 
     #SSG_gallery p {
-        margin-bottom: 6em;
         line-height: 1.1em;
     }
 
@@ -779,6 +775,11 @@
     #SSG_lastone p {
         line-height: 1.3em;
         padding: 0.2em;
+        margin-bottom: 11vh;
+    }
+    
+    #SSG_gallery .notitle p.title {
+        margin: 5vh 0;
     }
 
     #SSG_lastone p {
@@ -793,9 +794,6 @@
         bottom: 0.5em;
     }
 
-    #SSG_gallery .notitle p.title {
-        margin: 2.5em 0;
-    }
 
     #SSG_menu a.SSG_link {
         width: 38%;
@@ -842,6 +840,11 @@
  * media query for touch devices, no scrollbar for IE and FF
  */
 
+html.ssg {
+    scrollbar-color: #505050 #0e0e0e;
+    scrollbar-width: thin;
+}
+
 html.ssg ::-webkit-scrollbar {
     background: #0e0e0e;
     /* prev #191919; */
@@ -850,7 +853,7 @@ html.ssg ::-webkit-scrollbar {
 
 html.ssg ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    -webkit-box-shadow: 0px 1px 3px #000000bf;
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
     background: #505050;
     background-size: 100%;
     margin-top: 6px;
@@ -864,7 +867,11 @@ html.ssg ::-webkit-scrollbar-button {
 }
 
 html.ssg body {
-    cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAlQTFRFAAAAhYWFAAAAbp8VQAAAAAN0Uk5T//8A18oNQQAAAB5JREFUeNpiYIIBBiwsRryyA6aOgREDMgxBfwAEGADvGQKaYOgjsQAAAABJRU5ErkJggg=="), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
+    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
+    cursor: -webkit-image-set(
+        url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
+        url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
+), auto;
     overflow-x: hidden;
     background-color: #0e0e0e;
 }
@@ -912,31 +919,16 @@ html.ssg {
     scrollbar-shadow-color: black;
 }
 
-/* ***  no scrollbars for Edge and Firefox, 'cause they can't paint it black
-Set !important to overwrite site's styles. 
-White shining scrollbars in dark ambience are realy irritating. */
+/* ***  
+No scrollbar for Edge in landscape mode, 'cause it can't paint it black
+and it is realy irritating. Set !important to overwrite site's styles. 
+ */
 @supports (-ms-ime-align:auto) {
-
-    html.ssg body,
-    html.ssg {
-        overflow: hidden !important;
-    }
-}
-
-@supports (-moz-appearance:none) {
-
-    html.ssg body,
-    html.ssg {
-        overflow: hidden !important;
-    }
-}
-
-/* ***  Allow FF and IE scrolling in portrait mode */
-@media (orientation: portrait) {
-
-    html.ssg body,
-    html.ssg {
-        overflow-y: auto !important;
+    @media (orientation: landscape) {
+        html.ssg body,
+        html.ssg {
+            overflow: hidden !important;
+        }
     }
 }
 

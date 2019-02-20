@@ -39,15 +39,16 @@
             </p>
 
             <p>Show a story with your photos! SSG is designed for that. A site visitor only needs to scroll down and he sees image by image in non-&shy;distract&shy;ing environ&shy;ment.
-                    You can also tell a story by optimally placed text captions.
+               You can also tell a story by nicely placed text captions.
             </p>
             <p class="nobg">
                 <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#8984</span>
-                    Try sample Story Show Gallery</a>
+                    View demo gallery</a>
             </p>
-            <p class="nobg">
-                <a class="bigger" href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">
-                    Download Story Show Gallery from GitHub</a>
+            <p class="nobg bigger">
+                <a href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">
+                    Download Story Show Gallery from GitHub</a><br>
+                SSG is also in the form of a <a href="http://ssg.flor.cz/wordpress/" target="_blank">Wordpress plugin</a>
             </p>
 
             <h2>Main features</h2>
@@ -67,7 +68,7 @@
                 <li>SSG can display <strong>watermark - logo</strong> over images. Just add it via <a href="#" onclick="
                 SSG.run({ img: { href: 'http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png', alt: 'Sample HTML5 code and adding logo via CSS styles' }});">CSS styles</a>.</li>
                 <li><strong>Jump scroll</strong> automatically scrolls from image to image. As a user scrolls down images are being gradually <strong>lazy loaded</strong>.</li>
-                <li>You can <strong>link inside</strong> the gallery to show a
+                <li>Every image has its own address, so you can <strong>link into the gallery</strong> to show a
                     <a href='http://ssg.flor.cz/#element' target="_blank">part&shy;icular pho&shy;to</a>.</li>
                 <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other galleries be&shy;hind the last photo. <a href='http://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>
             </ul>
@@ -77,8 +78,6 @@
             <p>
                 You can use SSG freely within
                 <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">Mozilla Public License 2.0.</a>
-                But there is one <strong>exception</strong>:
-                Distributing Story Show Gallery within a Wordpress plugin or theme is only allowed with a permission from the author of Story Show Gallery.
             </p>
 
             <h2>SSG is easy to implement</h2>
@@ -125,12 +124,9 @@
 
             <p>Story Show Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to an image file 
                (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyperlinks an onclick function which runs the gallery.</p>
-            <p>Story Show Gallery excellently cooperates with the
-                <strong>Wordpress built-in gallery.</strong> Wordpress creates image thumbnails with hyper&shy;links, and SGG will assemble them into a fullscreen
-                image presentation.
-            </p>
+
             <p>A <strong>caption</strong> next to image is taken from a thumbnail's alt attribute or a link text. 
-               SSG will create the gallery from all theese three images (BigImage1~3):</p>
+               SSG will create the gallery from all these three images (BigImage1~3):</p>
             
             <code>
                 &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
@@ -170,15 +166,18 @@
                 &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
             </code>
 
-            <p>Running the gallery by calling the SSG.run method with the fs:true parameter.</p>
-            <code>
-                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
-            </code>
-
             <p> Adding the fs class to &lt;a&gt; tag. This single image activates fullscreen mode:</p>
             <code>
                 &lt;a class='<span>fs</span>'  href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;
             </code>
+
+            <p>Running the gallery by calling the SSG.run method with the fs:true or fsa:true parameter.</p>
+            <code>
+                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
+            </code>
+            <p>The <strong>fsa parameter</strong> is good to use when the gallery is initiate without an active click from a user. But that click is needed for
+                 entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.</p>
+            
 
             <br style="clear: both" />
         </article>
@@ -188,7 +187,7 @@
         <article class="column secol">
             <a name="see-gallery"></a>
             <div class="topimg">               
-                <img src="http://ssg.flor.cz/img/ssg-arrow.gif" alt="Story Show Gallery" style="cursor: pointer;"
+                <img src="http://ssg.flor.cz/img/ssg-arrow.png" alt="Story Show Gallery" style="cursor: pointer;"
                 onclick="SSG.run({ fs:true, img: { href: 'http://ssg.flor.cz/img/story-show-gallery-logo.jpg', alt: '' }});" />
             </div>
             
@@ -262,10 +261,16 @@
 
             <br>
 
-            <p>You can <strong>link right inside the gallery</strong> to show a particular photo. Just add a hashtag with photo's name after url. For example this link
-                <a href="http://ssg.flor.cz/#element" target="_blank" style="word-break: break-all">http://ssg.flor.cz/#element</a> shows the photo paty-element.jpg.
-                It is enough to have in the hashtag crucial part of the name.
-            </p>        
+            <p>
+                SSG can be also initiated by a link with photo's name in a hashtag. For example this link 
+                <a href="http://ssg.flor.cz/#paty-element" target="_blank" style="word-break: break-all">http://ssg.flor.cz/#paty-element</a> 
+                will activate Story Show Gallery and show the photo named paty-element. It is enough to have in the hashtag crucial part of the name - <strong>#element</strong>.
+            </p>
+            <p>
+                An address of each photo is shown in a browser’s navi&shy;gation bar while browsing through the gallery. But it isn't visible in full&shy;screen mode, 
+                so there is a <strong>little hack</strong>. If you hold an alt key and click on a thumb&shy;nail, SSG won’t run into full&shy;screen and 
+                you can copy an image address.
+            </p>
 
             <br>
             <h2>Browse through the gallery ~ jump scroll</h2>
@@ -281,7 +286,11 @@
 
             <p>For touch screens there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half,
                 SSG jump scroll to the next (previous) image.</p>
-         
+
+            <h2>Support Story Show Gallery</h2>
+            <!-- ------------------------------------------------- -->
+            <p>Any size donation is greatly appreciated. It will help me to continue developing Story Show Gallery.</p>
+            <p style="text-align:center"><a href="https://www.paypal.me/FlorSSG" target="_blank" ><img src="http://ssg.flor.cz/wordpress/wp-content/uploads/2019/03/paypal-donate.png" width="99" height="49"></a></p>
 
             <br style="clear: both" />
         </article>
