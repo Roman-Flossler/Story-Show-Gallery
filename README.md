@@ -1,10 +1,10 @@
-# Story Show Gallery 
+# Story Show Gallery - minimalist fullscreen image gallery
 
 Show a story with your photos! SSG is designed for that. A site visitor only needs to scroll down and he sees image by image in non-distracting environment. You can also tell a story by optimally placed text captions. View demo gallery at [ssg.Flor.cz](http://ssg.flor.cz/). SSG is also in the form of a [Wordpress plugin](http://ssg.flor.cz/wordpress/).
 
 ## Main features
 
-- Story Show Gallery is fully **responsive** - works on a desktop, tablets and smartphones. For every image size SSG calculates optimal position of a text caption: [![SSG is fully responsive image gallery](http://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/)
+- Story Show Gallery is fully **responsive** - works on a desktop, tablets and smartphones. For every image size SSG calculates optimal position of a text caption: [![SSG is fully responsive image gallery](http://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg)](http://ssg.flor.cz/#responsive)
 - **Fullscreen** mode with an unobtrusive scrollbar and cursor. Even dark photos are well visible.
 - Story Show Gallery supports **Google analytics**. When a user views an image it is counted as a virtual pageview.
 - **No e×it mode:** You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage. Because there is not much to display without SSG, the gallery can run in the no exit mode. See a [minimal crash course](http://ssg.flor.cz/minimal-crash-course/) how to use SSG.
@@ -14,7 +14,8 @@ Show a story with your photos! SSG is designed for that. A site visitor only nee
 - Story Show Gallery can load a **signpost** to other galleries behind the last photo. [See the sample](http://ssg.flor.cz/signpost/).
 
 ## License
-You can use SSG freely within [Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)).
+You can use SSG freely within [Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)). 
+There is one **exception** from license: Distributing Story Show Gallery within a Wordpress plugin or theme is only allowed for the author of Story Show Gallery.
 
 ## Support Story Show Gallery
 Any size donation is greatly appreciated. It will help me to continue developing Story Show Gallery.
@@ -24,8 +25,8 @@ Any size donation is greatly appreciated. It will help me to continue developing
 SSG is easy to implement on your website, it binds onto images automatically. Download SSG files and add these two lines somewhere before the &lt;/body&gt; tag:
 
 ```sh
-<link rel="stylesheet" href="ssg.css" >
-<script src="ssg.js"> </script>
+<link rel="stylesheet" href="path/to/ssg.css" >
+<script src="path/to/ssg.js"> </script>
 ```
 
 For a quick try of Story Show Gallery on your website you can link SSG files from Flor.cz:
@@ -42,7 +43,7 @@ SSG requires jQuery library at least in version 1.5.  Place jQuery code inside t
 ```
 Sample HTML5 code and adding logo - watermark via CSS styles:
 
-[![SSG - sample source code](http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png)](http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png)
+[![SSG - sample source code](http://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png)](http://ssg.flor.cz/#source-code-ssg)
 
 Story Show Gallery consists of three files: 
 - **ssg.js** - the gallery code 
@@ -67,10 +68,10 @@ Story Show Gallery activates after a user clicks on some hyperlink from the abov
 ```sh
 <body onload='SSG.run()'>
 ```
-Use arguments to show any image before the rest of images:
+Use initImgId argument to set the initial image in the gallery:
 
 ```sh
-<body onload="SSG.run({img: {href: 'url', alt: 'some text' }})">
+<body onload="SSG.run( {initImgID: 6} )">
 ```
 Run SSG immediately after page loads is useful, when the html page is just a plain list of links without any design. There is nothing much to see without SSG. So the gallery can run in the **no e×it mode** - no close icon, no ESC key.
 
@@ -110,6 +111,19 @@ Running the gallery by calling the SSG.run method with the fs:true or fsa:true  
 ```
 
 The **fsa parameter** is good to use when the gallery is initiate without an active click from a user. But that click is needed for entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.
+
+## The nossg and gossg class
+You can selectively deactivate SSG by asigning nossg class to some image or entire gallery. After clicking on a thumbnail Story Show Gallery won't run:
+
+```sh
+<div class='gallery nossg'> OR 
+<a href='bigimg.jpg' class='nossg' > <img src='thumbnail.jpg'></a>
+```
+If the image has gossg class, it can only activate the gallery. If a user clicks on another thumbnail, images with gossg class won't be in the gallery. 
+```sh
+<a href='bigimg.jpg' class='gossg fs' > <img src='thumbnail.jpg'></a>
+```
+There is an live example at [ssg.Flor.cz](http://ssg.flor.cz/).
 
 ## Navigation in the gallery ~ jump scroll
 There are two options. Classic scrolling with a scrollbar or fingers. And then jump scroll. A mouse wheel and arrow keys have an altered function, they scroll from one image to next image.

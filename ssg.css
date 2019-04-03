@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.1.2
+*  Story Show Gallery (SSG) ver: 2.2.0
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -8,6 +8,10 @@
 *  This Source Code Form is subject to the terms of the Mozilla Public
 *  License, v. 2.0. If a copy of the MPL was not distributed with this
 *  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*
+*  There is one exception from license:
+*  Distributing Story Show Gallery within a Wordpress plugin or theme 
+*  is only allowed for the author of Story Show Gallery.
 */
 
 @font-face {
@@ -100,6 +104,7 @@
 
 #SSG_gallery span.SSG_forlogo {
     position: relative;
+    vertical-align: bottom;
 }
 
 #SSG_gallery div.SSG_imgWrap {
@@ -135,9 +140,9 @@
     display: block;
     margin: auto;
     line-height: 1.3em;
-    color: #ababab;
+    color: #b2b2b2;
     text-align: center;
-    background: #222;
+    background: #282828;
     padding: 0.4em;
     padding-bottom: 0.3em;
     margin-bottom: 28vh;
@@ -148,7 +153,7 @@
 
 #SSG_gallery .notitle p.title,
 #SSG_gallery .SSG_uwide p.title {
-    padding: 0.1em;
+    padding: 0.09em;
     margin: 16vh 0;
     display: inline-block;
     border-radius: 0.1em;
@@ -261,7 +266,7 @@
  */
 
 #SSG_gallery .SSG_tipCall {
-    color: #969696;
+    color: #a1a1a1;
     white-space: nowrap;
     text-decoration: none;
     cursor: pointer;
@@ -437,6 +442,12 @@
     #SSG_gallery .notitle p.title {
         margin: 7vh 0;
     }
+
+    #SSG_gallery .SSG_uwide p.title {
+        margin: 0 0 13vh 0;
+        display: block;
+        padding: 0.4em;
+    }
 }
 
 
@@ -483,17 +494,13 @@
         position: relative;
     }
 
-    #SSG_gallery .notitle p.title {
-        padding: 0.1em;
-    }
-
     #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall {
         padding-left: 0;
         padding-top: 1em;
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle>span {
-        background-color: #222222;
+        background-color: #282828;
         position: sticky;
         bottom: 0;
         padding: 1.5em 0 1em 0;
@@ -505,8 +512,7 @@
         left: 0em;
     }
 
-    #SSG_gallery .SSG_uwide p.title {
-        padding: 0.1em 0;
+    #SSG_gallery .SSG_uwide p.title {        
         display: inline-block;
         border-radius: 0.1em;
     }
@@ -617,7 +623,7 @@
 
     #SSG_gallery .SSG_uwide p.title,
     #SSG_gallery .notitle p.title {
-        margin: 18.8vh 0;
+        margin: 20vh 0;
     }
 
     #SSG_gallery span.SSG_logo {

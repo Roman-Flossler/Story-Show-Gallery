@@ -1,4 +1,5 @@
-//   Story Show Gallery (SSG) ver: 2.1.2
+
+//   Story Show Gallery (SSG) ver: 2.2.0
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - http://ssg.flor.cz/
@@ -7,6 +8,10 @@
 //   This Source Code Form is subject to the terms of the Mozilla Public
 //   License, v. 2.0. If a copy of the MPL was not distributed with this
 //   file, You can obtain one at http://mozilla.org/MPL/2.0/.
+//
+//   There is one exception from license:
+//   Distributing Story Show Gallery within a Wordpress plugin or theme 
+//   is only allowed for the author of Story Show Gallery.
 
 
 // Main object - namespace - the only global variable
@@ -96,6 +101,9 @@ SSG.initGallery = function initGallery( event ) {
 
     //It adds fs class to all thumbnails in a gallery.
     jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    SSG.jQueryImgCollection.each( function ( index ) {
+        jQuery( this ).attr( 'ssgid', index );
+    } );
 
     // Adding event listeners
     jQuery( document ).on( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
@@ -168,68 +176,62 @@ SSG.touchScroll = function ( event ) {
     event.clientY < SSG.scrHeight / 2 ? SSG.imageUp = true : SSG.imageDown = true;
 };
 
-SSG.getHrefAlt = function ( el ) {
+SSG.getAlt = function ( el ) {
 
     // If A tag has a children (img tag) with an alt atribute.
     if ( el.children[ 0 ] && el.children[ 0 ].alt )
-        return {
-            href: el.href,
-            alt: el.children[ 0 ].alt
-        };
+        return el.children[ 0 ].alt;
 
     // If A tag has inner text.
     else if ( el.innerText && el.innerText != ' ' )
-        return {
-            href: el.href,
-            alt: el.innerText
-        };
+        return el.innerText;
     else
-
         // There is no caption under image.
-        return {
-            href: el.href,
-            alt: ''
-        };
+        return '';
 };
 
 SSG.getImgList = function ( event ) {
 
-    // Call invokes forEach method in the context of jQuery output
-    Array.prototype.forEach.call( jQuery( SSG.jQueryImgSelector ).toArray(), function ( el ) {
-        SSG.imgs.push( SSG.getHrefAlt( el ) );
-    } );
-    var clickedHref, clickedAlt;
+    var clickedImgID;
+    var obj = {};    
 
     if ( event && event.currentTarget ) {
-        var result = SSG.getHrefAlt( event.currentTarget );
-        clickedHref = result.href;
-        clickedAlt = result.alt;
-    } else if ( event && event.img ) {
-        clickedHref = event.img.href;
-        clickedAlt = event.img.alt;
+        clickedImgID = event.currentTarget.attributes.ssgid.nodeValue;
+    } else if ( event && typeof event.initImgID != undefined ) {
+        clickedImgID = event.initImgID;
     }
-    if ( clickedHref && SSG.imgs.length > 1 ) {
-        var ClickedImg = -1;
+
+    // Call invokes forEach method in the context of jQuery output    
+    Array.prototype.forEach.call( SSG.jQueryImgCollection.toArray(), function ( el ) {
+        if ( !SSG.hasClass( el.classList, 'gossg' ) || clickedImgID == el.attributes.ssgid.nodeValue ) {
+            obj.href = el.href;
+            obj.alt = SSG.getAlt( el );
+            obj.id = el.attributes.ssgid.nodeValue;
+            SSG.imgs.push( obj );
+            obj = {};
+        }
+    } );
+
+    // search for the img ID in imgs array. It can differ from clickedImgID due to gossg class.
+    if ( clickedImgID && SSG.imgs.length > 1 ) {
+        var arrayImgID = 0;
         for ( var i = 0; i < SSG.imgs.length; i++ ) {
-            if ( SSG.imgs[ i ].href == clickedHref ) {
-                ClickedImg = i;
+            if ( SSG.imgs[ i ].id == clickedImgID ) {
+                arrayImgID = i;
                 break;
             }
         }
-        if ( ClickedImg != 0 && ClickedImg <= 2 ) {
+        if ( arrayImgID >= 1 && arrayImgID <= 2 ) {
 
             // Remove the image that a user clicked
-            ClickedImg != -1 && SSG.imgs.splice( ClickedImg, 1 );
+            var spliced = SSG.imgs.splice( arrayImgID, 1 );
 
             //  The image that a user clicked is added to the beginning of the gallery.
-            SSG.imgs.unshift( {
-                href: clickedHref,
-                alt: clickedAlt
-            } );
-        } else if ( ClickedImg > 2 ) {
+            SSG.imgs.unshift( spliced[ 0 ] );
+        } else if ( arrayImgID > 2 ) {
 
             // Removes all images up to the image user clicked 
-            var imgsRemoved = SSG.imgs.splice( 0, ClickedImg );
+            var imgsRemoved = SSG.imgs.splice( 0, arrayImgID );
 
             // Adds removed images to the end of the array
             for ( i = 0; i < imgsRemoved.length; i++ ) {
@@ -733,7 +735,7 @@ SSG.showFsTip = function ( firstCall ) {
 SSG.getHash = function ( justResult ) {
     var hash = window.location.hash;
     var findex;
-    var allimgs = jQuery( SSG.jQueryImgSelector ).toArray();
+    var allimgs = SSG.jQueryImgCollection.toArray();
 
     if ( hash != '' ) {
         hash = hash.substring( 1, hash.length );
@@ -749,25 +751,22 @@ SSG.getHash = function ( justResult ) {
 
         // If there is an image which match the hash
         if ( typeof findex != 'undefined' ) {
-            var result = SSG.getHrefAlt( allimgs[ findex ] );
             if ( justResult ) {
-                return {
-                    href: result.href,
-                    alt: result.alt
-                };
+                return findex;
             }
 
             // Only if justResult is false
             SSG.run( {
                 fsa: true,
-                img: {
-                    href: result.href,
-                    alt: result.alt
-                }
+                initImgID: findex
             } );
         }
     }
     return null;
+};
+
+SSG.getJQueryImgCollection = function () {
+    SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
 };
 
 SSG.run = function ( event ) {
@@ -777,10 +776,11 @@ SSG.run = function ( event ) {
         return false;
     }
     SSG.running = true;
+    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
 
     // If there is no start image specified (in the noExit mode), try to get image from hash.
-    if ( event && event.noExit && !event.img ) {
-        event.img = SSG.getHash( true );
+    if ( event && event.noExit && !event.initImgID ) {
+        event.initImgID = SSG.getHash( true );
     }
     SSG.setVariables();
     SSG.initGallery( event );
@@ -792,12 +792,15 @@ SSG.run = function ( event ) {
     return false;
 };
 
-jQuery( document ).ready( function () {
-    jQuery( SSG.jQueryImgSelector ).click( SSG.run );
-} );
+jQuery( document ).ready( function () {    
+    // looks for galleries with nossg class and marks every jQueryImgSelector element inside by nossg class
+    jQuery( '.gallery.nossg a, .wp-block-gallery.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
+    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
+    SSG.jQueryImgCollection.click( SSG.run );
 
-// The possible SSG.run in body's onload will run first thanks to delayed run of getHash. It is important in the noExit mode.
-// If the getHash would initiate SSG first, there wouldn't be any information about the noExit mode.
-jQuery( document ).ready( function () {
-    window.setTimeout( SSG.getHash( false ), 10 );
+    // The possible SSG.run in body's onload will run first thanks to delayed run of getHash. It is important in the noExit mode.
+    // If the getHash would initiate SSG first, there wouldn't be any information about the noExit mode.
+    window.setTimeout( function () {
+        !SSG.running && SSG.getHash( false );
+    }, 10 );
 } );

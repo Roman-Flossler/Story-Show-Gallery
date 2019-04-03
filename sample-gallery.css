@@ -128,7 +128,7 @@ img.imglink {
     border-radius: 0.6em;
 }
 
-em {
+em.subheading {
     font-size: 120%;
     position: relative;
     top: -1.5em;
@@ -509,8 +509,12 @@ footer {
     }
 
     .ficol h1::after {
-        border-top: 9px solid #1d2627;
-        border-right: 9px solid #1d2627;
+        border-top: 9px solid #161a1b;
+        border-right: 9px solid #161a1b;
+    }
+
+    .ficol h2 {
+        border-top: 9px solid #161a1b;
     }
 
     a, .icons {
@@ -529,10 +533,6 @@ footer {
         text-shadow: none;    
     }
 
-    .ficol h2 {
-        border-top: 9px solid #1d2627;
-    }
-
     code, footer {
         background: #1b2425;
         box-shadow: inset 0px 0px 36px #1b2425;
@@ -542,6 +542,11 @@ footer {
         background: #000000;
         border: 1px solid #141e1f;
         max-width: 202px;
+        filter: brightness(0.8) contrast(1.1)
+    }
+
+    .gallery a:hover { 
+        filter: none;
     }
 
     .gallery a img {
@@ -554,7 +559,7 @@ footer {
     }
 
     .secol > .topimg {
-        filter: contrast(1.2);
+        filter: contrast(1.3);
     }
 
     .gallery > a:hover, .gallery .topimg:hover {
