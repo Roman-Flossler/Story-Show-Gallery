@@ -1,8 +1,7 @@
-
 //   Story Show Gallery (SSG) ver: 2.2.0
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
-//   Try Story Show Gallery at - http://ssg.flor.cz/
+//   Try Story Show Gallery at - https://ssg.flor.cz/
 //   SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git
 //
 //   This Source Code Form is subject to the terms of the Mozilla Public
@@ -81,6 +80,8 @@ SSG.setVariables = function () {
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
 
     SSG.savedTimeStamp = 0;
+
+    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
 };
 
 SSG.initGallery = function initGallery( event ) {
@@ -101,9 +102,17 @@ SSG.initGallery = function initGallery( event ) {
 
     //It adds fs class to all thumbnails in a gallery.
     jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+
+    // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
     SSG.jQueryImgCollection.each( function ( index ) {
         jQuery( this ).attr( 'ssgid', index );
     } );
+    jQuery( '.gallery, .wp-block-gallery' ).each( function () {
+        jQuery( this ).find( SSG.jQueryImgSelector ).each( function ( index ) {
+            jQuery( this ).attr( 'ssgsid', index );
+        } );
+    } );
+
 
     // Adding event listeners
     jQuery( document ).on( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
@@ -192,13 +201,17 @@ SSG.getAlt = function ( el ) {
 
 SSG.getImgList = function ( event ) {
 
-    var clickedImgID;
-    var obj = {};    
+    var clickedImgID, arrayImgID, clickedImgSubID;
+    var obj = {};
 
     if ( event && event.currentTarget ) {
         clickedImgID = event.currentTarget.attributes.ssgid.nodeValue;
-    } else if ( event && typeof event.initImgID != undefined ) {
+        if ( event.currentTarget.attributes.ssgsid ) {
+            clickedImgSubID = event.currentTarget.attributes.ssgsid.nodeValue;
+        }
+    } else if ( event && typeof event.initImgID != 'undefined' ) {
         clickedImgID = event.initImgID;
+        clickedImgSubID = jQuery( 'a[ssgid=' + clickedImgID + ']' ).attr( 'ssgsid' );
     }
 
     // Call invokes forEach method in the context of jQuery output    
@@ -212,25 +225,35 @@ SSG.getImgList = function ( event ) {
         }
     } );
 
-    // search for the img ID in imgs array. It can differ from clickedImgID due to gossg class.
     if ( clickedImgID && SSG.imgs.length > 1 ) {
-        var arrayImgID = 0;
+        arrayImgID = 0;
+
+        // search for the img ID in imgs array. It can differ from clickedImgID due to gossg class.
         for ( var i = 0; i < SSG.imgs.length; i++ ) {
             if ( SSG.imgs[ i ].id == clickedImgID ) {
                 arrayImgID = i;
                 break;
             }
         }
-        if ( arrayImgID >= 1 && arrayImgID <= 2 ) {
 
-            // Remove the image that a user clicked
-            var spliced = SSG.imgs.splice( arrayImgID, 1 );
+        //  If a user click up to third image of the gallery, SSG prefers to show initial images together - e.g. 2,1,3,4,5,6..
+        if ( typeof clickedImgSubID != 'undefined' && ( clickedImgSubID == 1 || clickedImgSubID == 2 ) ) {
 
-            //  The image that a user clicked is added to the beginning of the gallery.
-            SSG.imgs.unshift( spliced[ 0 ] );
-        } else if ( arrayImgID > 2 ) {
+            // condition prevents to switch initial images when the gossg class is used in the gallery and there is a gap in the images' IDs 
+            if ( arrayImgID - clickedImgSubID >= 0 &&
+                jQuery( 'a[ssgid=' + ( SSG.imgs[ arrayImgID - clickedImgSubID ].id ) + ']' ).attr( 'ssgsid' ) == 0 ) {
 
-            // Removes all images up to the image user clicked 
+                // Remove the image that a user clicked
+                var spliced = SSG.imgs.splice( arrayImgID, 1 );
+
+                //  The image that a user clicked is added before the first image of current gallery, arrayImgID has to be actulized
+                SSG.imgs.splice( arrayImgID - clickedImgSubID, 0, spliced[ 0 ] );
+                arrayImgID = arrayImgID - clickedImgSubID;
+            }
+        }
+        if ( arrayImgID > 0 ) {
+
+            // Removes all images up to the image user clicked.         
             var imgsRemoved = SSG.imgs.splice( 0, arrayImgID );
 
             // Adds removed images to the end of the array
@@ -280,6 +303,7 @@ SSG.countResize = function () {
     }
     SSG.scrHeight = jQuery( window ).height();
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
+    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.refreshPos();
 
     if ( SSG.loaded != -1 && ( typeof SSG.imgs[ SSG.displayed ] != 'undefined' ) ) {
@@ -396,7 +420,7 @@ SSG.addImage = function () {
     if ( newOne == SSG.imgs.length ) {
         var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> Scroll to top</a>";
         var menuItem2 = SSG.exitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a>" : "";
-        var menuItem3 = "<a id='SSGL' target='_blank' href='http://ssg.flor.cz/wordpress/' class='SSG_link'>&raquo;SSG</a>";
+        var menuItem3 = "<a id='SSGL' target='_blank' href='https://ssg.flor.cz/wordpress/' class='SSG_link'>&raquo;SSG</a>";
         jQuery( '#SSG_gallery' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
             "</p> <div id='SSG_loadInto'></div></div>" );
         jQuery( '#SSG_menu' ).click( function ( event ) {
@@ -516,10 +540,18 @@ SSG.metronome = function () {
     }
 };
 
-SSG.ScrollTo = function ( posY ) {
+SSG.ScrollTo = function ( posY, direction ) {
+    if ( direction ) {
+        jQuery( 'figure[id=f' + ( SSG.displayed + direction ) + ']' ).fadeTo( 0, 0 );
+        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( 400, 0 );
+    }
     jQuery( 'html, body' ).animate( {
         scrollTop: posY
     }, 500, 'swing' );
+    if ( direction ) {
+        jQuery( 'figure[id=f' + ( SSG.displayed + direction ) + ']' ).fadeTo( 666, 1 );
+        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( 400, 1 );
+    }
 };
 
 SSG.jumpScroll = function () {
@@ -539,6 +571,21 @@ SSG.jumpScroll = function () {
         }
     };
 
+    // finds out if the crucial image is sufficiently big for fading animation
+    var bigImage = 0;
+    if ( SSG.landscapeMode ) {
+        if ( SSG.scrHeight * 0.3 < jQuery( '#i' + SSG.displayed ).outerHeight( true ) ) {
+            bigImage = 1;
+        }
+        if ( bigImage == 0 && SSG.imageUp ) {
+            bigImage = 1;
+        }
+        if ( SSG.scrHeight * 0.3 > jQuery( '#i' + ( SSG.displayed - 1 ) ).outerHeight( true ) && SSG.imageUp ) {
+            bigImage = 0;
+        }
+    }
+
+
     var isDecentered;
     if ( SSG.displayed != -1 ) {
         isDecentered = countDecentering();
@@ -546,37 +593,37 @@ SSG.jumpScroll = function () {
 
     // If image is roughly decentered down and navigation is down, center image.
     if ( SSG.imageDown && isDecentered == -1 && !SSG.lastone ) {
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ) );
+        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ), 0 );
     }
 
     // If image is roughly decentered up and navigation is up, center image.
     else if ( SSG.imageUp && isDecentered == 1 && !SSG.lastone ) {
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ) );
+        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ), 0 );
     }
 
     // If the imageDown is true and next image is loaded (pos exists) then scroll down.
     else if ( SSG.imageDown && SSG.displayed + 1 < SSG.imgs.length && SSG.imgs[ SSG.displayed + 1 ].pos ) {
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed + 1 ].pos - SSG.countImageIndent( SSG.displayed + 1 ) );
+        SSG.ScrollTo( SSG.imgs[ SSG.displayed + 1 ].pos - SSG.countImageIndent( SSG.displayed + 1 ), bigImage );
     }
 
     // If the imageUp is true then scroll on previous image.    
     else if ( SSG.imageUp && SSG.displayed - 1 >= 0 && !SSG.lastone ) {
         SSG.delta = -1;
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed - 1 ].pos - SSG.countImageIndent( SSG.displayed - 1 ) );
+        SSG.ScrollTo( SSG.imgs[ SSG.displayed - 1 ].pos - SSG.countImageIndent( SSG.displayed - 1 ), -bigImage );
     }
 
     // Center the first image after initiation of the gallery or can be used to jump to the 1st image.
     // Without setTimeout Firefox isnt't able to completely center the image.
     else if ( SSG.imgs[ 0 ].pos && !SSG.firstImageCentered ) {
         window.setTimeout( function () {
-            SSG.ScrollTo( SSG.imgs[ 0 ].pos - SSG.countImageIndent( 0 ) );
+            SSG.ScrollTo( SSG.imgs[ 0 ].pos - SSG.countImageIndent( 0 ), 0 );
         }, 100 );
         SSG.firstImageCentered = true;
     }
 
     // If the lastone is true, i am out of the index, so scroll on the last image in index.
     else if ( SSG.imageUp && SSG.lastone ) {
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ) );
+        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ), 0 );
         SSG.lastone = false;
         SSG.setHashGA( SSG.displayed );
     } else {
@@ -792,7 +839,7 @@ SSG.run = function ( event ) {
     return false;
 };
 
-jQuery( document ).ready( function () {    
+jQuery( document ).ready( function () {
     // looks for galleries with nossg class and marks every jQueryImgSelector element inside by nossg class
     jQuery( '.gallery.nossg a, .wp-block-gallery.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();

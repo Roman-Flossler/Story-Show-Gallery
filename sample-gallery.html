@@ -1,16 +1,333 @@
 <!doctype html>
 <html lang="en">
 
-<head>  
-    <meta http-equiv="refresh" content="0; url=http://ssg.flor.cz/?utm_source=refferal&utm_medium=jqueryscript-net" />
+<head>
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-832000-17', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Simple Scroll Gallery</title>    
+    <title>SSG - jQuery vertical gallery - Show a story with your photos</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
+    <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <a href="http://ssg.flor.cz/?utm_source=refferal&utm_medium=jqueryscript-net" style="text-align:center; margin-top: 6em; color: #888888; display: block" >Simple Scroll Gallery</a>
-    
-    <!-- content of this file is in the sample-gallery-orig.html -->
+    <main class="row">
+        <article class="column ficol">
+            <div class="first">
+                <img src="https://ssg.flor.cz/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />
+                <span class="bigger" onclick="SSG.run({fs:true});">Enter the gallery</span>
+            </div>
+
+            <header>
+            <h1>Story Show Gallery</h1>            
+                <em class="subheading">jQuery photo gallery created by Roman Flössler</em>            
+            </header>
+
+            <p>Story Show Gallery nicely combines photos and captions to show a whole story in fullscreen, minimalist, non-distracting environment. 
+               You can browse through the gallery just by scrolling, touching or via vertical slider or keyboard.
+            </p>
+            <p class="nobg">
+                <a href="#see-gallery" class="seegal bigger"><span style="text-decoration:none">&#8984</span>
+                    View demo gallery</a>
+            </p>
+            <p class="nobg bigger">
+                Download Story Show Gallery
+                <a href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">from GitHub</a> or 
+                <a href="https://npmjs.com/package/story-show-gallery" target="_blank">from NPM</a><br>
+                SSG is also in the form of a <a href="https://ssg.flor.cz/wordpress/download/" target="_blank">Wordpress plugin</a>
+            </p>
+
+            <h2>Main features</h2>
+            <!-- ---------------------------- -->
+
+            <ul>
+                <li>SSG is <strong>fully responsive</strong> vertical gallery - works on a desktop, tablets and phones. For every photo size SSG calculates optimal position of a caption:</li>
+                <a href="https://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg" class="fs gossg">
+                <img src="https://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg" class="imglink" style="margin:-0.5em 0 1.3em 0"
+                alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
+                
+                <li><strong>Fullscreen lightbox</strong> with an unobtrusive vertical slider and cur&shy;sor. 
+                    No ugly arrows around the image - it's a minimalist gallery. Great for photo&shy;graphers to present their photos.</li>
+                <li>Story Show Gallery supports <strong>Google analytics</strong> to measure views of each photo. SSG detects and uses GA tracking code on your site.</li>
+                <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a vertical gallery which works like a sepa&shy;rate webpage.
+                    Because there is not much to display without SSG, the gallery can run in the no exit mode.
+                      See a <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>
+                <li>SSG can display <strong>watermark - logo</strong> over images. Just link it via <a href="#" onclick="SSG.run({ initImgID:1 });">CSS styles</a>.</li>
+                <img src="https://ssg.flor.cz/img/watermark.jpg" class="limg"></a>
+                
+                <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>
+                <li>You can <strong>link into the gallery</strong> to show a
+                    <a href='https://ssg.flor.cz/wordpress/#reynisdrangar' target="_blank">part&shy;icular pho&shy;to</a>. Just use image name in the hashtag:</li>
+                    <img src="https://ssg.flor.cz/img/deep-linking.png" class="limg"></a>
+                <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
+                    <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>
+            </ul>
+
+            <h2>License</h2>
+            <!-- ---------------------------- -->
+            <p>
+                You can use SSG freely within
+                <a href="https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)" target="_blank">Mozilla Public License 2.0.</a><br>
+                There is one <strong>exception</strong> from license: Distributing Story Show Gallery within a Wordpress plugin or theme is only allowed for the author of Story Show Gallery.
+            </p>
+
+            <h2>SSG is easy to implement</h2>
+            <!-- ---------------------------- -->
+
+            <p>Story Show Gallery is easy to implement on your website, it binds onto images automatically. Download SSG files and add these two lines somewhere before the &lt;/body&gt; tag:
+            </p>
+
+            <code>
+                    &lt;link rel="<span>stylesheet</span>" href="<span>path/to/ssg.css</span>" &gt;<br>
+                    &lt;script src="<span>path/to/ssg.js</span>"&gt; &lt;/script&gt;
+            </code>
+            <p>
+               For a quick try of SSG on your website you can link SSG files from Flor.cz:
+            </p>
+            
+            <code>
+                    &lt;link rel="<span>stylesheet</span>" href="<span>https://ssg.flor.cz/ssg.css</span>"&gt;<br>
+                    &lt;script src="<span>https://ssg.flor.cz/ssg.js</span>"&gt; &lt;/script&gt;
+            </code>            
+
+            <p>SSG requires jQuery library at least in version 1.5. Place jQuery code inside the &lt;head&gt; section (Wordpress already includes jQuery): </p>
+            <code>
+                    &lt;script src="<span>https://code.jquery.com/jquery-3.3.1.min.js</span>"&gt; &lt;/script&gt;
+            </code>
+
+            <p>Sample HTML5 gallery code and re-styling Story Show Gallery:</p>
+                <a href="https://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png" class="fs gossg">
+               <img src="https://ssg.flor.cz/minimal-crash-course/html5-sample-source-code-ssg.png" class="imglink" style="margin-bottom:3em"
+                    alt="Sample HTML5 code and adding logo via CSS styles" ></a>
+
+            <p>Story Show Gallery consists of three files:
+                <ul>
+                    <li><strong>ssg.js</strong> - all Javascript - jQuery code</li>
+                    <li><strong>ssg.css</strong> - the gallery styles, includes icons and cursor</li>
+                    <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
+                        Edit it to contain your links.
+                    </li>
+                </ul>
+            </p>
+
+            <h2>How Story Show Gallery works</h2>
+            <!-- ---------------------------- -->
+
+            <p>Story Show Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to a picture file 
+               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyperlinks (unless nossg class is used) an onclick function which runs the gallery.</p>
+
+            <p>A <strong>caption</strong> next to a photo is taken from a thumbnail's alt attribute or a link text. 
+               SSG will create the gallery from all these three images (BigImage1~3):</p>
+            
+            <code>
+                &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
+                &lt;a href='<span>BigImage2.jpg</span>'&gt; <b>Another text caption</b> &lt;/a&gt;<br>
+                &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i>
+            </code>
+
+            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by Javascript calling <strong>SSG.run</strong> method. 
+               Example: the body's onload event runs the gallery immediately after a page is loaded:</p>
+            <code>                
+                &lt;body onload='<span>SSG.run()</span>'&gt; 
+            </code>
+            <p>Use initImgId argument to set the initial image in the gallery:</p>
+            <code>
+                &lt;body onload="<span>SSG.run( {initImgID: 6} )</span>"&gt; 
+            </code>
+            <p>Run SSG immediately after page loads is useful, when the html page is just a plain list of links without any design. 
+                There is nothing much to see without SSG. So the gallery can run in the <strong>no e&times;it mode</strong> - no close icon, no ESC key.</p>
+            <code>                
+                &lt;body onload='<span>SSG.run({noExit:true})</span>'&gt; 
+            </code>
+            <p>See a crash course - the most minimal way how to use Story Show Gallery:</p>
+                <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">
+                <img src="https://ssg.flor.cz/minimal-crash-course/src.png" class="imglink"></a>
+             
+
+            <h2>Fullscreen mode</h2>
+            <!-- ---------------------------- -->
+
+            <p>Fullscreen mode can be activated three ways.</p>
+
+            <p>Adding the "gallery" or "wp-block-gallery" class to the wrapper tag of &lt;a&gt; tags. These two classes use the Wordpress built-in gallery. 
+                All images inside the gallery activate fullscreen mode:
+            </p>
+            <code>
+                &lt;div class='<span>gallery</span>'&gt;<br> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>
+                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
+            </code>
+
+            <p> Adding the fs class to &lt;a&gt; tag. This single image activates fullscreen mode:</p>
+            <code>
+                &lt;a class='<span>fs</span>'  href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;
+            </code>
+
+            <p>Running the gallery by calling the SSG.run method with the fs:true or fsa:true parameter.</p>
+            <code>
+                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
+            </code>
+            <p>The <strong>fsa parameter</strong> is good to use when the gallery is initiate without an active click from a user. But that click is needed for
+                 entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.</p>
+            
+            <h2>The nossg and gossg class</h2>
+            <p>You can selectively deactivate SSG by asigning <strong>nossg</strong> class to some photo or entire gallery. 
+                After clicking on a thumbnail Story Show Gallery won't run.</p>
+
+            <code>
+                &lt;div class='<span>gallery nossg</span>'&gt; OR <br> 
+                &lt;a href='<span>bigimg.jpg</span>' class='<span>nossg</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
+            </code>
+
+            <p> If the image has <strong>gossg</strong> class, it can only activate the gallery.
+                If a user clicks on another thumb&shy;nail, images with gossg class won't be in the gallery. On this page gossg
+                class has image with Sample source code and Responsive modes</a>.
+            </p>
+            <code>
+                &lt;a href='<span>bigimg.jpg</span>' class='<span>gossg fs</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
+            </code>            
+
+            <br style="clear: both" />
+        </article>
+
+        <!-- ---------------------------- column-article division --------------------------------------------------- -->
+
+        <article class="column secol">
+            <a name="see-gallery"></a>
+            <div class="topimg">
+                <a href="https://ssg.flor.cz/img/story-show-gallery-logo.jpg" class="fs gossg">
+                <img src="https://ssg.flor.cz/img/ssg-arrow.png" alt="" style="cursor: pointer;"></a>                
+            </div>
+            
+            <!-- ---------------------------- -->
+            <br>
+            <p>
+                <strong>SSG controls:</strong> a mouse wheel
+                <span class="icons" style="font-size:121%"> &circledcirc;</span> or arrow keys
+                <span class="icons" style="font-family: Consolas, Menlo, 'Lucida Console', monospace; font-size:130%">&darr;&rarr;&uarr;&larr;</span>
+                <br> or
+                <span class="icons" style="font-size:100%">TAP</span> on the bottom (upper) part of the screen
+            </p>
+
+            <section class="gallery">
+                <a href='https://www.flor.cz/blog/wp-content/uploads/its-time.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" alt="It's time! For a photo shoot of course." />
+                </a>
+                <a href="https://www.flor.cz/blog/wp-content/uploads/na-haku.jpg">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" alt="I couldn't believe my eyes. She just climbed up and hanged on the hook." />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg' class="third">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" alt="" />
+                </a>
+
+                <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">Fork it on GitHub</a></span>
+
+                <div class="topimg">
+                    <a href="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo.jpg">
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo-650x398.jpg" alt="I like steampunk style, so this is my dream place for shooting."  /></a>
+                </div>
+
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-navijak.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-navijak-200x200.jpg" alt="All the photos are from Michal coal mine in Ostrava city. This is the engine room." />
+                </a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/cerna-detail.jpg'>
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-detail-200x200.jpg" alt="" /></a>
+                <a href='https://www.flor.cz/blog/wp-content/uploads/paty-element.jpg'class="third">
+                    <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
+                </a>
+                <br clear='all'/>
+            </section>
+
+            
+            
+            <p>
+                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/retizkova-satna.jpg'>Chain cloakroom for miners</a> - a text link
+                to a photo. <br>
+                <a href='https://ssg.flor.cz/some-nice-image.jpg' target="_blank">A broken link - You will notice it before site visitors do</a><br> 
+                <a href="https://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo. 
+                <br>All three target pictures will appear in the gallery.
+            </p>
+            <p><a href="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg" target="_blank" class="nossg">Bankang cave</a>
+                 - a link with nossg class won't activate Story Show Gallery and a photo will open normally into a new tab.</p>
+            <br>
+
+            <p>The image a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following images and then the rest. 
+                Example: A user clicked on the sixth image. Images are shown in the following order - 6,7,8,9 and then it continues with images 1,2,3,4,5. <br>
+                If a picture is part of a gallery (gallery class) and a user click up to third picture of the gallery, SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7,8,9.
+                <br>
+            </p>    
+
+            <br>
+
+            <h2>Other ways to initiate Story Show Gallery</h2>
+            <!-- ------------------------------------------------- -->
+            <p>
+                <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
+                    <span>&#8984;</span> Run the gallery</a> by Javascript calling <em>SSG.run()</em><br>
+                The first photo in the gallery will have ID 3, because previous photos have gossg class.
+                </p>
+            <p>
+                <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+                onclick="SSG.run({ fs:true, initImgID: 0 });"
+                >
+                <span>&#8984;</span> Run the gallery</a> by calling <em>SSG.run({ fs:true, initImgID: 0 })</em><br>
+                The first photo will have ID 0, the next will be ID 3.
+            </p>
+
+            <br>
+
+            <p>
+                SSG can be also initiated by a link with photo's name in a hashtag. For example this link 
+                <a href="https://ssg.flor.cz/#paty-element" target="_blank" style="word-break: break-all">https://ssg.flor.cz/#paty-element</a> 
+                will activate Story Show Gallery and show the photo named paty-element. It is enough to have in the hashtag crucial part of the name - <strong>#element</strong>.
+            </p>
+            <p>
+                An address of each photo is shown in a browser’s navi&shy;gation bar while browsing through the gallery. But it isn't visible in full&shy;screen mode, 
+                so there is a <strong>little hack</strong>. If you hold an alt key and click on a thumb&shy;nail, SSG won’t run into full&shy;screen and 
+                you can copy an image address.
+            </p>
+
+            <br>
+            <h2>Vertical scrolling through the gallery</h2>
+            <!-- ------------------------------------------------- -->
+
+            <p> There are two options. Classic vertical scrolling with scrollbar or finger. And then jump scroll. A mouse wheel and arrow keys have an altered
+                function, they scroll from one image to next image. </p>
+
+            <p>
+                <strong>Move to the next image:</strong><br> mouse wheel, down arrow key, right arrow, PgDn key or spacebar.<br>
+                <strong>Move to the previous image:</strong><br> mouse wheel, press up arrow key, left arrow, or PgUP key.
+            </p>
+
+            <p>For touch screens there are two invisible areas: the top and bottom half of the screen. After tapping somewhere into the bottom (top) half,
+                SSG jump scroll to the next (previous) image.</p>
+
+            <h2>Support Story Show Gallery</h2>
+            <!-- ------------------------------------------------- -->
+            <p>Any size donation is greatly appreciated. It will help me to continue developing Story Show Gallery.</p>
+            <p style="text-align:center"><a href="https://www.paypal.me/FlorSSG" target="_blank" ><img src="https://ssg.flor.cz/wordpress/wp-content/uploads/2019/03/paypal-donate.png" width="99" height="49"></a></p>
+
+            <br style="clear: both" />
+        </article>
+    </main>
+    <br clear="both" />
+    <footer>&nbsp;</footer>
+
+    <link rel="stylesheet" href="ssg.css" type="text/css" media="all">
+    <script type="text/javascript" src="ssg.js"></script>
 </body>
 
 </html>

@@ -45,7 +45,7 @@ body {
     color: black;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 100%;    
-    background-image: url(http://ssg.flor.cz/img/bg.png);
+    background-image: url(https://ssg.flor.cz/img/bg.png);
 }
 
 p, li, h1, h2 {
@@ -128,10 +128,17 @@ img.imglink {
     border-radius: 0.6em;
 }
 
+.limg {
+    margin:0 0 1.3em 0; 
+    max-width: 100%;
+    border-radius: 6px
+}
+
 em.subheading {
     font-size: 120%;
     position: relative;
     top: -1.5em;
+    color:#006b80;
 }
 
 code {
@@ -429,7 +436,7 @@ footer {
         color: white;
         text-align: center;
         padding-bottom: 0.3em;
-        background-image: url(http://ssg.flor.cz/img/simple-scroll-gallery.jpg);
+        background-image: url(https://ssg.flor.cz/img/simple-scroll-gallery.jpg);
         background-size: 99.3%;
     }
     
@@ -501,10 +508,10 @@ footer {
 @media (prefers-color-scheme: dark) { 
     body {
         color: #ececec;
-        background: #283233;
+        background: #283638;
     }
 
-    h1, h2 {
+    h1, h2, em.subheading {
         color: #00e7ff;
     }
 
@@ -564,5 +571,9 @@ footer {
 
     .gallery > a:hover, .gallery .topimg:hover {
         box-shadow: 3px 6px 13px 1px black;
+    }
+
+    .topimg a {
+        background: none;
     }
 }    

@@ -139,7 +139,7 @@
 #SSG_lastone p {
     display: block;
     margin: auto;
-    line-height: 1.3em;
+    line-height: 1.44em;
     color: #b2b2b2;
     text-align: center;
     background: #282828;
@@ -490,7 +490,6 @@
         -ms-overflow-style: scrollbar;
         overflow-y: auto;
         overflow-x: hidden;
-        line-height: 1.3em;
         position: relative;
     }
 
@@ -694,7 +693,7 @@
     }
 
     #SSG_gallery p {
-        line-height: 1.1em;
+        line-height: 1.2em;
     }
 
     #SSG_gallery p.notitle {
@@ -779,7 +778,7 @@
 
     #SSG_gallery p,
     #SSG_lastone p {
-        line-height: 1.3em;
+        line-height: 1.44em;
         padding: 0.2em;
         margin-bottom: 11vh;
     }
