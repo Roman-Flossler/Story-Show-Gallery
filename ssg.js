@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.2.0
+//   Story Show Gallery (SSG) ver: 2.2.2
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -97,6 +97,7 @@ SSG.initGallery = function initGallery( event ) {
 
     // Append gallery's HTML tags
     jQuery( 'body' ).append( "<div id='SSG_galBg'></div><div id='SSG_gallery'></div>" );
+    SSG.setNotchRight();
     SSG.exitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
     jQuery( 'html' ).addClass( 'ssg' );
 
@@ -295,6 +296,24 @@ SSG.refreshPos = function () {
     }
 };
 
+SSG.setNotchRight = function() {
+    // screen.orientation.type works in Chrome
+    if (screen.orientation) {
+        if (screen.orientation.type === "landscape-secondary") {
+            jQuery('#SSG_gallery').addClass('notchright');
+        } else {
+            jQuery('#SSG_gallery').removeClass('notchright');
+        }
+
+    // window.orientation works on Mac, on Android tablets it returns different values
+    } else if (window.orientation) {
+        if (window.orientation === -90) {
+            jQuery('#SSG_gallery').addClass('notchright');
+        } else {
+            jQuery('#SSG_gallery').removeClass('notchright');
+        }        
+    }
+};
 
 // Recounts variables on resize event
 SSG.countResize = function () {
@@ -327,6 +346,7 @@ SSG.refreshFormat = function () {
 SSG.onResize = function () {
     window.setTimeout( SSG.countResize, 200 );
     window.setTimeout( SSG.refreshFormat, 100 );
+    window.setTimeout( SSG.setNotchRight, 50 );
 };
 
 SSG.displayFormat = function ( e ) {
@@ -589,6 +609,9 @@ SSG.jumpScroll = function () {
     var isDecentered;
     if ( SSG.displayed != -1 ) {
         isDecentered = countDecentering();
+        if (isDecentered != 0) {
+            bigImage = 0;            
+        }
     }
 
     // If image is roughly decentered down and navigation is down, center image.
