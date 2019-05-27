@@ -17,6 +17,10 @@
 var SSG = {};
 SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF']";
 
+SSG.getJQueryImgCollection = function () {
+    SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
+};
+
 SSG.setVariables = function () {
 
     // Load a HTML file behind the gallery (better to use absolute URL http://), or set SSG.fileToLoad = null; if you don't want it
@@ -258,9 +262,7 @@ SSG.getImgList = function ( event ) {
             var imgsRemoved = SSG.imgs.splice( 0, arrayImgID );
 
             // Adds removed images to the end of the array
-            for ( i = 0; i < imgsRemoved.length; i++ ) {
-                SSG.imgs.push( imgsRemoved[ i ] );
-            }
+            Array.prototype.push.apply( SSG.imgs, imgsRemoved );
         }
     }
 };
@@ -296,22 +298,22 @@ SSG.refreshPos = function () {
     }
 };
 
-SSG.setNotchRight = function() {
+SSG.setNotchRight = function () {
     // screen.orientation.type works in Chrome
-    if (screen.orientation) {
-        if (screen.orientation.type === "landscape-secondary") {
-            jQuery('#SSG_gallery').addClass('notchright');
+    if ( screen.orientation ) {
+        if ( screen.orientation.type === "landscape-secondary" ) {
+            jQuery( '#SSG_gallery' ).addClass( 'notchright' );
         } else {
-            jQuery('#SSG_gallery').removeClass('notchright');
+            jQuery( '#SSG_gallery' ).removeClass( 'notchright' );
         }
 
-    // window.orientation works on Mac, on Android tablets it returns different values
-    } else if (window.orientation) {
-        if (window.orientation === -90) {
-            jQuery('#SSG_gallery').addClass('notchright');
+        // window.orientation works on Mac, on Android tablets it returns different values
+    } else if ( window.orientation ) {
+        if ( window.orientation === -90 ) {
+            jQuery( '#SSG_gallery' ).addClass( 'notchright' );
         } else {
-            jQuery('#SSG_gallery').removeClass('notchright');
-        }        
+            jQuery( '#SSG_gallery' ).removeClass( 'notchright' );
+        }
     }
 };
 
@@ -455,10 +457,13 @@ SSG.addImage = function () {
         } );
 
         // Load a html file with links to other galleries.
-        SSG.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.fileToLoad, function () {
-            jQuery( '.SSG_icell' ).click( function ( event ) {
-                event.stopPropagation();
-            } );
+        SSG.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.fileToLoad, function ( response, status, xhr ) {
+            if ( status == "success" ) {
+                SSG.fileLoaded = true;
+                jQuery( '.SSG_icell' ).click( function ( event ) {
+                    event.stopPropagation();
+                } );
+            }
         } );
 
         // All images are already loaded.
@@ -609,8 +614,8 @@ SSG.jumpScroll = function () {
     var isDecentered;
     if ( SSG.displayed != -1 ) {
         isDecentered = countDecentering();
-        if (isDecentered != 0) {
-            bigImage = 0;            
+        if ( isDecentered != 0 ) {
+            bigImage = 0;
         }
     }
 
@@ -653,8 +658,9 @@ SSG.jumpScroll = function () {
 
         // If the bottom menu exists scroll to it
         if ( typeof jQuery( '#SSG_menu' ).offset() !== 'undefined' ) {
+            var menuPosition = SSG.fileLoaded ? SSG.scrHeight / 10 : SSG.scrHeight - SSG.scrHeight / 5;
             SSG.imageDown && jQuery( 'html, body' ).animate( {
-                scrollTop: jQuery( '#SSG_menu' ).offset().top - ( SSG.scrHeight / 10 )
+                scrollTop: jQuery( '#SSG_menu' ).offset().top - menuPosition
             }, 500, 'swing', function () {
                 if ( !SSG.lastone ) {
                     SSG.lastone = true;
@@ -835,10 +841,6 @@ SSG.getHash = function ( justResult ) {
     return null;
 };
 
-SSG.getJQueryImgCollection = function () {
-    SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
-};
-
 SSG.run = function ( event ) {
 
     // It prevents to continue if SSG is already running.
@@ -854,7 +856,27 @@ SSG.run = function ( event ) {
     }
     SSG.setVariables();
     SSG.initGallery( event );
-    SSG.getImgList( event );
+
+
+    if ( event && event.imgs ) {
+
+        // use just event.imgs 
+        if ( event.imgsPos == 'whole' || !event.imgsPos ) {
+            SSG.imgs = event.imgs;
+
+            // combine images from the page with event.imgs. Apply accepts an array as an argument unlike the unshift.
+        } else if ( event.imgsPos == 'start' ) {
+            SSG.getImgList( event );
+            Array.prototype.unshift.apply( SSG.imgs, event.imgs );
+        } else if ( event.imgsPos == 'end' ) {
+            SSG.getImgList( event );
+            Array.prototype.push.apply( SSG.imgs, event.imgs );
+        }
+    } else {
+        // use just images on the page
+        SSG.getImgList( event );
+    }
+
     SSG.addImage();
 
     // Every 333 ms check if more images should be loaded and logged into Analytics. Jump-scrolling

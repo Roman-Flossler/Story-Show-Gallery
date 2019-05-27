@@ -48,7 +48,7 @@
                 Download Story Show Gallery from 
                 <a href="https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git" target="_blank">GitHub</a> or 
                 <a href="https://npmjs.com/package/story-show-gallery" target="_blank">NPM</a><br>
-                SSG is also in the form of a <a href="https://ssg.flor.cz/wordpress/download/" target="_blank">Wordpress plugin</a>
+                SSG is also in the form of a <a href="https://ssg.flor.cz/wordpress/" target="_blank">Wordpress plugin</a>
             </p>
 
             <h2>Main features</h2>
@@ -63,6 +63,9 @@
                 <li><strong>Fullscreen lightbox</strong> with an unobtrusive vertical slider and cur&shy;sor. 
                     No ugly arrows around the image - it's a minimalist gallery. Great for photo&shy;graphers to present their photos.</li>
                 <li>Story Show Gallery supports <strong>Google analytics</strong> to measure views of each photo. SSG detects and uses GA tracking code on your site.</li>
+                <img src="https://ssg.flor.cz/img/google-analytics.jpg" class="limg"></a>
+
+                <li>There are <strong>3 ways</strong> how a photo gallery can be created. Automatically from images on the page, by passing an array of images into SSG, or by combi&shy;nation of both. </li>
                 <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a vertical gallery which works like a sepa&shy;rate webpage.
                     Because there is not much to display without SSG, the gallery can run in the no exit mode.
                       See a <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>
@@ -70,11 +73,12 @@
                 <img src="https://ssg.flor.cz/img/watermark.jpg" class="limg"></a>
                 
                 <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>
+                <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
+                    <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>                
                 <li>You can <strong>link into the gallery</strong> to show a
                     <a href='https://ssg.flor.cz/wordpress/#reynisdrangar' target="_blank">part&shy;icular pho&shy;to</a>. Just use image name in the hashtag:</li>
                     <img src="https://ssg.flor.cz/img/deep-linking.png" class="limg"></a>
-                <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
-                    <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>
+
             </ul>
 
             <h2>License</h2>
@@ -128,7 +132,8 @@
             <!-- ---------------------------- -->
 
             <p>Story Show Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to a picture file 
-               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyperlinks (unless nossg class is used) an onclick function which runs the gallery.</p>
+               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyperlinks an <strong>onclick function</strong> which runs the gallery. Unless nossg class is used.
+            <br>Or you can pass an array of images and captions into SSG and it can be combined with images from the page.</p>   
 
             <p>A <strong>caption</strong> next to a photo is taken from a thumbnail's alt attribute or a link text. 
                SSG will create the gallery from all these three images (BigImage1~3):</p>
@@ -139,15 +144,31 @@
                 &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i>
             </code>
 
-            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example. But you can also run the gallery by Javascript calling <strong>SSG.run</strong> method. 
+            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example.</p>
+                
+           <h2>SSG.run() method</h2>
+            
+            <p> You can also run the gallery by Javascript calling <strong>SSG.run</strong> method. 
                Example: the body's onload event runs the gallery immediately after a page is loaded:</p>
             <code>                
                 &lt;body onload='<span>SSG.run()</span>'&gt; 
             </code>
-            <p>Use initImgId argument to set the initial image in the gallery:</p>
+            <p>Use <strong>initImgId</strong> parameter to set the initial image in the gallery. SSG auto&shy;mati&shy;cally numbers photos on the page, the first photo has ID 0.</p>
             <code>
-                &lt;body onload="<span>SSG.run( {initImgID: 6} )</span>"&gt; 
+                &lt;button onclick="<span>SSG.run( {initImgID: 6} )</span>"&gt; Click me &lt;/button&gt
             </code>
+            <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
+                If you also add imgsPos parameter, images can be combined with photos from the page.
+            The <em>imgsPos:'start'</em> places <em>imgs</em> before photos from the page, <em>imgsPos:'end'</em> after them. 
+             The <em>imgsPos:'whole'</em> shows in the gallery just <em>imgs</em>. It is a default parameter, which is no need to use. 
+            If you don't define imgs parameter, imgsPos will be ignored.
+            </p>
+            <code>
+                SSG.run( {imgs: [ { href: '<span>img URL</span>', alt: '<span>img caption</span>' }, {...} ], imgsPos:'<span>start</span>'} );
+            </code>
+
+
+
             <p>Run SSG immediately after page loads is useful, when the html page is just a plain list of links without any design. 
                 There is nothing much to see without SSG. So the gallery can run in the <strong>no e&times;it mode</strong> - no close icon, no ESC key.</p>
             <code>                
@@ -192,9 +213,9 @@
                 &lt;a href='<span>bigimg.jpg</span>' class='<span>nossg</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
             </code>
 
-            <p> If the image has <strong>gossg</strong> class, it can only activate the gallery.
-                If a user clicks on another thumb&shy;nail, images with gossg class won't be in the gallery. On this page gossg
-                class has image with Sample source code and Responsive modes</a>.
+            <p>An image with the <strong>gossg</strong> class can be only an initial image of the gallery if a user clicks on it.
+                Otherwise images with gossg class won't show in the gallery. On this page gossg
+                class has image with source code and responsive modes</a>.
             </p>
             <code>
                 &lt;a href='<span>bigimg.jpg</span>' class='<span>gossg fs</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
@@ -287,6 +308,46 @@
                 The first photo will have ID 0, the next will be ID 3.
             </p>
 
+            <p>
+                <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+                onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });"
+                >
+                <span>&#8984;</span> Run the gallery</a> by calling 
+                <em>SSG.run( { imgs: [ { href: 'bankang-cave.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });</em><br>
+            </p>
+            <br><br>
+            <p>
+            <pre>
+ iceland = [];
+ iceland[ 0 ] = { href: 'reynisdrangar-black-beach.jpg', 
+     alt: 'Black beach Reynisfjara with Reynisdrangar rocks'
+ };
+ iceland[ 1 ] = {
+    href: 'Seljalandsfoss.jpg',
+    alt: 'Northern lights behind Seljalandsfoss waterfall'
+ };
+ iceland[ 2 ] = {
+     href: 'iceland-horses.jpg',
+     alt: 'Icelandic horses'
+ };
+ 
+            </pre>
+        </p><p>
+
+            <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+            onclick="SSG.run( { imgs: iceland, fs:true });"
+            >
+            <span>&#8984;</span> Run the gallery</a> by calling 
+            <em>SSG.run( { imgs: iceland, fs:true });</em><br>
+
+        </p><br>
+
+        <p>You can use Story Show Gallery as Javascript module. Just edit ssg.js file to export the main SSG object on line 17:<br>
+             <em>export let SSG = {}; </em>
+
+        </p>
+            
+
             <br>
 
             <p>
@@ -325,6 +386,24 @@
     </main>
     <br clear="both" />
     <footer>&nbsp;</footer>
+
+
+    <script>
+            iceland = [];
+
+            iceland[ 0 ] = {
+                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/reynisdrangar-black-beach.jpg',
+                alt: 'Black beach Reynisfjara with Reynisdrangar rocks. There are sneaker waves which can easily pull you off into the sea.'
+            };
+            iceland[ 1 ] = {
+                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/Seljalandsfoss.jpg',
+                alt: 'Northern lights behind Seljalandsfoss waterfall'     
+            };
+            iceland[ 2 ] = {
+                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg',
+                alt: 'Icelandic horses'
+            };            
+    </script>
 
     <link rel="stylesheet" href="ssg.css" type="text/css" media="all">
     <script type="text/javascript" src="ssg.js"></script>

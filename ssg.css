@@ -37,6 +37,14 @@
     width: auto;
     height: auto;
     border: none;
+    vertical-align: initial;
+    font-style: normal;
+    text-align: inherit;  
+    line-height: inherit;
+    text-decoration: unset;
+    /* combination of * and inherit(unset) cause forcing each element inherit from parent.
+    So SSG_ * overwrites * from other CSS and leaves original selectors priority.
+    it is possible bug, * {text-align:left} overwrites more specific selector  */
 }
 
 /****************************************************************
@@ -52,13 +60,7 @@
  *     8. Smartphones - portrait
  *     9. Iphone X
  *     10. Scrollbars & cursors
- *
- *  p caption margins:
- *      landscape mode: 143,152
- *      portrait mode: 434, 438
- *      p0 with notitle: 550
- *      landscape, height > 1033px: 615, 620
- *      portrarit mode for phones: 778, 782
+ * 
 */
 
 /****************************************************************
@@ -78,7 +80,7 @@
     width: 100%;
     position: fixed;
     height: 100%;
-    z-index: 99990;
+    z-index: 9999990;
     top: 0;
     left: 0px;
 }
@@ -87,9 +89,10 @@
     background: #131313;
     position: absolute;
     top: 0px;
-    z-index: 99991;
+    z-index: 9999991;
     width: 100%;
     text-align: center;
+    line-height: 1.4em;
     left: 0px;
     padding-top: 33vh;
 }
@@ -109,6 +112,7 @@
 
 #SSG_gallery div.SSG_imgWrap {
     position: relative;
+    line-height: 1.4em;
 }
 
 #SSG_gallery div.SSG_imgWrap::after {
@@ -308,7 +312,7 @@
     width: 99vw;
     padding: 0.33em 1em;
     position: fixed;
-    z-index: 99992;
+    z-index: 9999992;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,7 +383,7 @@
     border-radius: 13px;
     background-color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
-    z-index: 99993;
+    z-index: 9999993;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 25px 25px;
@@ -407,11 +411,12 @@
 
     #SSG_gallery::before {
         content: "photos look better in landscape mode ;-)";
-        color: #bbbbbb;
+        color: #888;
         padding-bottom: 3em;
         display: block;
-        margin-top: 2em;
+        margin-top: 2.2em;
         font-style: italic;
+        padding-left: 2em;
     }
 
     .SSG_tipCall,
@@ -428,10 +433,6 @@
         padding-left: 1em;
         padding-right: 1em;
         border-radius: 0;
-    }
-
-    #SSG_gallery #p0 {
-        padding-bottom: 0.2em;
     }
 
     #SSG_gallery p,
@@ -583,6 +584,7 @@
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
         padding: 0.4em;
         margin: 0 0 28vh 0;
+        padding-bottom: 0.3em;
     }
 
     #SSG_gallery .SSG_uwide #uwp0 {
@@ -724,6 +726,12 @@
         line-height: 1.2em;
     }
 
+    #SSG_gallery p,
+    #SSG_lastone p {
+        padding-top: 0.3em;
+        padding-bottom: 0.2em;
+    }
+
     #SSG_gallery p.notitle {
         padding: 0.13em;
         display: inline-block;
@@ -736,7 +744,7 @@
     }
 
     #SSG_gallery #p0 .SSG_tipCall {
-        right: 2em;
+        right: 1.3em;
     }
 
     #SSG_gallery p,
@@ -763,6 +771,14 @@
     }
 
 }
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+    #SSG_gallery :not(.notitle) #p0 span {
+        padding-right: 9.6em;
+    }
+}
+
 
 
 /****************************************************************
@@ -791,8 +807,6 @@
     #SSG_gallery p,
     #SSG_lastone p {
         font-size: 90%;
-        padding-top: 0.3em;
-        padding-bottom: 0.3em;
     }
 
     #SSG_gallery .SSG_tipCall {
@@ -816,7 +830,6 @@
     #SSG_gallery p,
     #SSG_lastone p {
         line-height: 1.44em;
-        padding: 0.2em;
         margin-bottom: 11vh;
     }
     
