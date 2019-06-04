@@ -72,9 +72,10 @@
                 <li>SSG can display <strong>watermark - logo</strong> over images. Just link it via <a href="#" onclick="SSG.run({ initImgID:1 });">CSS styles</a>.</li>
                 <img src="https://ssg.flor.cz/img/watermark.jpg" class="limg"></a>
                 
-                <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>
+                <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>                
                 <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
-                    <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>                
+                    <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>
+                <li>Protection of photos from being copied via right click menu.</li>
                 <li>You can <strong>link into the gallery</strong> to show a
                     <a href='https://ssg.flor.cz/wordpress/#reynisdrangar' target="_blank">part&shy;icular pho&shy;to</a>. Just use image name in the hashtag:</li>
                     <img src="https://ssg.flor.cz/img/deep-linking.png" class="limg"></a>
@@ -296,12 +297,12 @@
             <h2>Other ways to initiate Story Show Gallery</h2>
             <!-- ------------------------------------------------- -->
             <p>
-                <a id="showgal" onclick="SSG.run();" style="cursor:pointer; text-decoration:underline">
+                <a class="showgal" onclick="SSG.run();" >
                     <span>&#8984;</span> Run the gallery</a> by Javascript calling <em>SSG.run()</em><br>
                 The first photo in the gallery will have ID 3, because previous photos have gossg class.
                 </p>
             <p>
-                <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+                <a class="showgal"  
                 onclick="SSG.run({ fs:true, initImgID: 0 });"
                 >
                 <span>&#8984;</span> Run the gallery</a> by calling <em>SSG.run({ fs:true, initImgID: 0 })</em><br>
@@ -309,32 +310,32 @@
             </p>
 
             <p>
-                <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+                <a class="showgal"  
                 onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });"
                 >
                 <span>&#8984;</span> Run the gallery</a> by calling 
                 <em>SSG.run( { imgs: [ { href: 'bankang-cave.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });</em><br>
             </p>
-            <br><br>
+            <br>
             <p>
-            <pre>
+            <code style="white-space: pre-wrap; font-size: 80%; overflow: visible">
  iceland = [];
- iceland[ 0 ] = { href: 'reynisdrangar-black-beach.jpg', 
-     alt: 'Black beach Reynisfjara with Reynisdrangar rocks'
+ iceland[ 0 ] = { 
+     href: 'img/reynisdrangar-black-beach.jpg', 
+     alt: 'Black beach Reynisfjara, Reynisdrangar rocks'
  };
  iceland[ 1 ] = {
-    href: 'Seljalandsfoss.jpg',
-    alt: 'Northern lights behind Seljalandsfoss waterfall'
+    href: 'img/Seljalandsfoss.jpg',
+    alt: 'Aurora behind Seljalandsfoss waterfall'
  };
  iceland[ 2 ] = {
-     href: 'iceland-horses.jpg',
+     href: 'img/iceland-horses.jpg',
      alt: 'Icelandic horses'
  };
- 
-            </pre>
+</code>
         </p><p>
 
-            <a id="showgal" style="cursor:pointer; text-decoration:underline" 
+            <a class="showgal"  
             onclick="SSG.run( { imgs: iceland, fs:true });"
             >
             <span>&#8984;</span> Run the gallery</a> by calling 
@@ -342,10 +343,9 @@
 
         </p><br>
 
-        <p>You can use Story Show Gallery as Javascript module. Just edit ssg.js file to export the main SSG object on line 17:<br>
-             <em>export let SSG = {}; </em>
-
+        <p>You can use Story Show Gallery also as a Javascript module. Just add into ssg.js file this line to export SSG object: 
         </p>
+        <code> export default SSG; </code>
             
 
             <br>

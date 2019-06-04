@@ -64,6 +64,10 @@ h2 {
     border-radius: 0 1em 0 0;
 } 
 
+pre {
+    white-space: pre-wrap;
+}
+
 .ficol h2 {    
     border-top: 2px dashed;
     border-top: 9px solid #e8eff1;
@@ -110,9 +114,13 @@ a {
     font-weight: 600;
 }
 
-a#showgal span, a.seegal span {
+a.showgal span, a.seegal span {
     transform: rotate(22deg);
     display: inline-block;
+}
+
+a.showgal {
+    cursor:pointer; text-decoration:underline
 }
 
 a img {

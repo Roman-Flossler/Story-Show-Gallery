@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.2.2
+//   Story Show Gallery (SSG) ver: 2.3.1
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -134,6 +134,10 @@ SSG.initGallery = function initGallery( event ) {
         passive: false
     } );
     jQuery( window ).resize( SSG.onResize );
+    jQuery('#SSG_gallery, #SSG_exit').on("contextmenu", function(event) {
+        event.preventDefault();
+        SSG.showFsTip( false );
+    });
 
     // Fullscreen mode.
     // If A tag has fs class it sets fullscreen to true. Event is a browser's object.
@@ -502,7 +506,7 @@ SSG.setHashGA = function ( index ) {
     }
 
     // Opera browser has unfortunately problem with custom cursor when hash is changing.
-    !( window.opr && !!window.opr.addons ) && history.replaceState( null, null, SSG.location + hashName );
+    navigator.userAgent.indexOf('OPR') == -1 && history.replaceState( null, null, SSG.location + hashName );
 };
 
 SSG.metronome = function () {
@@ -779,7 +783,7 @@ SSG.destroyGallery = function () {
 };
 
 SSG.showFsTip = function ( firstCall ) {
-    if ( jQuery( '#SSG_tip' ).length == 0 ) {
+    if ( jQuery( '#SSG_tip' ).length == 0 ) {        
         var begin = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
         var man1 = "<div class='classic'>Browse through Story Show Gallery by:<br>a mouse wheel" +
             " <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br>";
@@ -795,13 +799,17 @@ SSG.showFsTip = function ( firstCall ) {
             jQuery( 'body' ).append( begin + man1 + man2 + touch + hr + fs + end );
         } else {
             jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
-        }!SSG.fullscreenMode && jQuery( '#SSG_tip' ).click( function () {
+        }
+        !SSG.fullscreenMode && jQuery( '#SSG_tip' ).click( function () {
             SSG.openFullscreen();
             jQuery( '#SSG_tip' ).remove();
         } );
         jQuery( '#SSG_tipClose' ).click( function () {
             jQuery( '#SSG_tip' ).remove();
         } );
+        jQuery('#SSG_tip').on("contextmenu", function(event) {
+            event.preventDefault();
+        });
     } else {
         jQuery( '#SSG_tip' ).remove();
     }

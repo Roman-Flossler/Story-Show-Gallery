@@ -31,6 +31,8 @@ SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/).
 
 - Animated transition between images combines sliding and fading. The visual effect is similar to old slide projectors.
 
+- Protection of photos from being copied via right click menu.
+
 ## License
 You can use SSG freely within [Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)). 
 There is one **exception** from license: Distributing Story Show Gallery within a Wordpress plugin or theme is only allowed for the author of Story Show Gallery.
