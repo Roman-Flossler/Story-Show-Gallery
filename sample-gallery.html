@@ -66,19 +66,19 @@
                 <img src="https://ssg.flor.cz/img/google-analytics.jpg" class="limg"></a>
 
                 <li>There are <strong>3 ways</strong> how a photo gallery can be created. Automatically from images on the page, by passing an array of images into SSG, or by combi&shy;nation of both. </li>
-                <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a vertical gallery which works like a sepa&shy;rate webpage.
-                    Because there is not much to display without SSG, the gallery can run in the no exit mode.
-                      See a <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>
                 <li>SSG can display <strong>watermark - logo</strong> over images. Just link it via <a href="#" onclick="SSG.run({ initImgID:1 });">CSS styles</a>.</li>
                 <img src="https://ssg.flor.cz/img/watermark.jpg" class="limg"></a>
                 
-                <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>                
+                <li>Gradual <strong>lazy loading</strong> of photos while a user browse through the gallery.</li>
                 <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
                     <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a></li>
                 <li>Protection of photos from being copied via right click menu.</li>
-                <li>You can <strong>link into the gallery</strong> to show a
+                <li>You can <strong>deep link into the gallery</strong> to show a
                     <a href='https://ssg.flor.cz/wordpress/#reynisdrangar' target="_blank">part&shy;icular pho&shy;to</a>. Just use image name in the hashtag:</li>
                     <img src="https://ssg.flor.cz/img/deep-linking.png" class="limg"></a>
+                <li><strong>No e&times;it mode:</strong> You can write just a minimal HTML code and SSG creates a vertical gallery which works like a sepa&shy;rate webpage.
+                    Because there is not much to display without SSG, the gallery can run in the no exit mode.
+                      See a <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">mini&shy;mal crash course</a></li>                    
 
             </ul>
 
@@ -147,9 +147,56 @@
 
             <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example.</p>
                 
-           <h2>SSG.run() method</h2>
+           
+            <h2>Fullscreen mode</h2>
+            <!-- ---------------------------- -->
+
+            <p>Fullscreen mode can be activated three ways.</p>
+
+            <p>Adding the "gallery" or "wp-block-gallery" class to the wrapper tag of &lt;a&gt; tags. These two classes use the Wordpress built-in gallery. 
+                All images inside the gallery activate fullscreen mode:
+            </p>
+            <code>
+                &lt;div class='<span>gallery</span>'&gt;<br> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>
+                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
+            </code>
+
+            <p> Adding the fs class to &lt;a&gt; tag. This single image activates fullscreen mode:</p>
+            <code>
+                &lt;a class='<span>fs</span>'  href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;
+            </code>
+
+            <p>Running the gallery by calling the SSG.run method with the fs:true or fsa:true parameter.</p>
+            <code>
+                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
+            </code>
+            <p>The <strong>fsa parameter</strong> is good to use when the gallery is initiate without an active click from a user. But that click is needed for
+                 entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.</p>
             
-            <p> You can also run the gallery by Javascript calling <strong>SSG.run</strong> method. 
+
+            <h2>The nossg and gossg class</h2>
+            <!-- ---------------------------- -->
+            <p>You can selectively deactivate SSG by asigning <strong>nossg</strong> class to some photo or entire gallery. 
+                After clicking on a thumbnail Story Show Gallery won't run.</p>
+
+            <code>
+                &lt;div class='<span>gallery nossg</span>'&gt; OR <br> 
+                &lt;a href='<span>bigimg.jpg</span>' class='<span>nossg</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
+            </code>
+
+            <p>An image with the <strong>gossg</strong> class can be only an initial image of the gallery if a user clicks on it.
+                Otherwise images with gossg class won't show in the gallery. On this page gossg
+                class has image with source code and responsive modes</a>.
+            </p>
+            <code>
+                &lt;a href='<span>bigimg.jpg</span>' class='<span>gossg fs</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
+            </code>
+
+
+            <h2>SSG.run() method</h2>
+           <!-- ---------------------------- -->
+            
+            <p> You can run the gallery by Javascript calling <strong>SSG.run</strong> method. 
                Example: the body's onload event runs the gallery immediately after a page is loaded:</p>
             <code>                
                 &lt;body onload='<span>SSG.run()</span>'&gt; 
@@ -178,49 +225,6 @@
             <p>See a crash course - the most minimal way how to use Story Show Gallery:</p>
                 <a href="https://ssg.flor.cz/minimal-crash-course/" target="_blank">
                 <img src="https://ssg.flor.cz/minimal-crash-course/src.png" class="imglink"></a>
-             
-
-            <h2>Fullscreen mode</h2>
-            <!-- ---------------------------- -->
-
-            <p>Fullscreen mode can be activated three ways.</p>
-
-            <p>Adding the "gallery" or "wp-block-gallery" class to the wrapper tag of &lt;a&gt; tags. These two classes use the Wordpress built-in gallery. 
-                All images inside the gallery activate fullscreen mode:
-            </p>
-            <code>
-                &lt;div class='<span>gallery</span>'&gt;<br> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>
-                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
-            </code>
-
-            <p> Adding the fs class to &lt;a&gt; tag. This single image activates fullscreen mode:</p>
-            <code>
-                &lt;a class='<span>fs</span>'  href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;
-            </code>
-
-            <p>Running the gallery by calling the SSG.run method with the fs:true or fsa:true parameter.</p>
-            <code>
-                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
-            </code>
-            <p>The <strong>fsa parameter</strong> is good to use when the gallery is initiate without an active click from a user. But that click is needed for
-                 entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.</p>
-            
-            <h2>The nossg and gossg class</h2>
-            <p>You can selectively deactivate SSG by asigning <strong>nossg</strong> class to some photo or entire gallery. 
-                After clicking on a thumbnail Story Show Gallery won't run.</p>
-
-            <code>
-                &lt;div class='<span>gallery nossg</span>'&gt; OR <br> 
-                &lt;a href='<span>bigimg.jpg</span>' class='<span>nossg</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
-            </code>
-
-            <p>An image with the <strong>gossg</strong> class can be only an initial image of the gallery if a user clicks on it.
-                Otherwise images with gossg class won't show in the gallery. On this page gossg
-                class has image with source code and responsive modes</a>.
-            </p>
-            <code>
-                &lt;a href='<span>bigimg.jpg</span>' class='<span>gossg fs</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
-            </code>            
 
             <br style="clear: both" />
         </article>
@@ -294,19 +298,35 @@
 
             <br>
 
-            <h2>Other ways to initiate Story Show Gallery</h2>
+            <h2>Deep linking into Story Show Gallery</h2>
             <!-- ------------------------------------------------- -->
+            <p>
+                SSG can be initiated by a link with photo's name in a hashtag. For example this link 
+                <a href="https://ssg.flor.cz/#paty-element" target="_blank" style="word-break: break-all">https://ssg.flor.cz/#paty-element</a> 
+                will activate Story Show Gallery and show the photo named paty-element. It is enough to have in the hashtag crucial part of the name - <strong>#element</strong>.
+            </p>
+            <p>
+                An address of each photo is shown in a browser’s navi&shy;gation bar while browsing through the gallery. But it isn't visible in full&shy;screen mode, 
+                so there is a <strong>little hack</strong>. If you hold an alt key and click on a thumb&shy;nail, SSG won’t run into full&shy;screen and 
+                you can copy an image address.
+            </p>
+            <br>
+
+
+            <h2>Examples of initiating the gallery by SSG.run() method</h2>
+            <!-- ------------------------------------------------- -->            
+            
             <p>
                 <a class="showgal" onclick="SSG.run();" >
                     <span>&#8984;</span> Run the gallery</a> by Javascript calling <em>SSG.run()</em><br>
-                The first photo in the gallery will have ID 3, because previous photos have gossg class.
+                The first photo in this gallery will have ID 3, because previous photos on this page have gossg class.
                 </p>
             <p>
                 <a class="showgal"  
                 onclick="SSG.run({ fs:true, initImgID: 0 });"
                 >
                 <span>&#8984;</span> Run the gallery</a> by calling <em>SSG.run({ fs:true, initImgID: 0 })</em><br>
-                The first photo will have ID 0, the next will be ID 3.
+                The first photo will have ID 0.
             </p>
 
             <p>
@@ -348,20 +368,6 @@
         <code> export default SSG; </code>
             
 
-            <br>
-
-            <p>
-                SSG can be also initiated by a link with photo's name in a hashtag. For example this link 
-                <a href="https://ssg.flor.cz/#paty-element" target="_blank" style="word-break: break-all">https://ssg.flor.cz/#paty-element</a> 
-                will activate Story Show Gallery and show the photo named paty-element. It is enough to have in the hashtag crucial part of the name - <strong>#element</strong>.
-            </p>
-            <p>
-                An address of each photo is shown in a browser’s navi&shy;gation bar while browsing through the gallery. But it isn't visible in full&shy;screen mode, 
-                so there is a <strong>little hack</strong>. If you hold an alt key and click on a thumb&shy;nail, SSG won’t run into full&shy;screen and 
-                you can copy an image address.
-            </p>
-
-            <br>
             <h2>Vertical scrolling through the gallery</h2>
             <!-- ------------------------------------------------- -->
 

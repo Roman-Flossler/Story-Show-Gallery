@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.3.1
+//   Story Show Gallery (SSG) ver: 2.3.2
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -306,17 +306,17 @@ SSG.setNotchRight = function () {
     // screen.orientation.type works in Chrome
     if ( screen.orientation ) {
         if ( screen.orientation.type === "landscape-secondary" ) {
-            jQuery( '#SSG_gallery' ).addClass( 'notchright' );
+            jQuery( '#SSG_gallery, #SSG_exit' ).addClass( 'notchright' );
         } else {
-            jQuery( '#SSG_gallery' ).removeClass( 'notchright' );
+            jQuery( '#SSG_gallery, #SSG_exit' ).removeClass( 'notchright' );
         }
 
         // window.orientation works on Mac, on Android tablets it returns different values
     } else if ( window.orientation ) {
         if ( window.orientation === -90 ) {
-            jQuery( '#SSG_gallery' ).addClass( 'notchright' );
+            jQuery( '#SSG_gallery, #SSG_exit' ).addClass( 'notchright' );
         } else {
-            jQuery( '#SSG_gallery' ).removeClass( 'notchright' );
+            jQuery( '#SSG_gallery, #SSG_exit' ).removeClass( 'notchright' );
         }
     }
 };

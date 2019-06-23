@@ -1,6 +1,6 @@
 {
   "name": "story-show-gallery",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "author": "Roman Flössler",
   "license": "MPL-2.0",
   "description": "Fully responsive, jQuery photo gallery with the vertical jump scroll. SSG optimally combines images and captions to show a whole story in fullscreen, non-distracting environment.",
@@ -16,18 +16,21 @@
   "dependencies": {  
     "jquery": "^3.3.1"
   },
-  "keywords": [
+  "keywords": [    
     "gallery",
     "photo",
     "image",
     "lightbox",
     "vertical",
     "jquery",
-    "fullscreen",
+    "fullscreen",    
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "responsive",
+    "minimalist",    
+    "photo gallery",
     "scroll",
     "touch",
-    "responsive",
-    "minimalist",
     "mobile"
   ],  
   "bugs": {

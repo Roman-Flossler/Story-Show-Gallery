@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.3.1
+*  Story Show Gallery (SSG) ver: 2.3.2
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -374,9 +374,14 @@
     box-shadow: 0px 5px 19px 1px rgba(0, 0, 0, 0.9);
 }
 
+#SSG_exit.notchright {
+    left: -9px;
+    background-position: 25px 25px;
+}
+
 #SSG_exit {
     top: -9px;
-    left: -9px;
+    right: -9px;
     position: fixed;
     width: 50px;
     height: 50px;
@@ -386,7 +391,7 @@
     z-index: 9999993;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: 25px 25px;
+    background-position: 11px 25px;
     background-size: 14px;
     opacity: 0.55;
 }
@@ -412,11 +417,11 @@
     #SSG_gallery::before {
         content: "photos look better in landscape mode ;-)";
         color: #888;
-        padding-bottom: 3em;
+        padding-bottom: 5.6vh;
         display: block;
-        margin-top: 2.2em;
+        margin-top: 4.4vh;
         font-style: italic;
-        padding-left: 2em;
+        padding-right: 2em;
     }
 
     .SSG_tipCall,
@@ -757,8 +762,13 @@
 
     #SSG_exit {
         top: -6px;
-        left: -6px;
+        right: -6px;
         opacity: 0.49;
+        background-position: 11px 26px;
+    }
+
+    #SSG_exit.notchright {
+        left: -6px;
         background-position: 26px 26px;
     }
 
@@ -788,14 +798,19 @@
  */
 
 @media (max-width: 660px) and (orientation: landscape),
-(max-width: 366px) and (orientation: portrait) {
+(max-width: 350px) and (orientation: portrait) {
 
     #SSG_exit {
         border-radius: 11px;
         top: -18px;
+        right: -19px;
+        background-position: 8px 30px;
+        background-size: 12px;
+    }
+
+    #SSG_exit.notchright {
         left: -19px;
         background-position: 30px 30px;
-        background-size: 12px;
     }
 
     #SSG_gallery::before,
