@@ -133,7 +133,7 @@ img.imglink {
     margin: 0.5em 0; 
     padding-bottom: 3px; 
     border-bottom: 3px solid #d40039;
-    border-radius: 0.6em;
+    border-radius: 0.6em;    
 }
 
 .limg {
@@ -513,10 +513,10 @@ footer {
 }
 }
 
-@media (prefers-color-scheme: dark) { 
+@media (prefers-color-scheme: dark-x) { 
     body {
         color: #ececec;
-        background: #283638;
+        background: #263538;
     }
 
     h1, h2, em.subheading {
@@ -534,7 +534,7 @@ footer {
 
     a, .icons {
         color: #ff4566;
-        background: #273031;
+        background: #103033;
         border-radius: 0.3em;
     }
 
@@ -543,7 +543,7 @@ footer {
     }
 
     strong {
-        background: #262e2f;
+        background: #1e2223;
         color: #6de8f5;
         text-shadow: none;    
     }
@@ -555,9 +555,17 @@ footer {
 
     .gallery a {    
         background: #000000;
-        border: 1px solid #141e1f;
+        border: 1px solid black;
         max-width: 202px;
-        filter: brightness(0.8) contrast(1.1)
+        filter: brightness(0.81) contrast(1.03) saturate(0.88);
+    }
+
+    img.darken {
+        filter: brightness(0.88) contrast(1.1)
+    }
+
+    img.invert {
+        filter: brightness(0.81) contrast(1.1)
     }
 
     .gallery a:hover { 
@@ -584,4 +592,30 @@ footer {
     .topimg a {
         background: none;
     }
+
+    html {
+        scrollbar-color: #505050 #0e0e0e;
+        scrollbar-width: thin;
+    }
+    
+    html ::-webkit-scrollbar {
+        background: #0e0e0e;
+        /* prev #191919; */
+        width: 11px;
+        color: black;
+    }
+    
+    html ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 3px;
+        -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
+        background: #026671;
+        background-size: 100%;
+        margin-top: 6px;
+        min-height: 81px;
+    }
+    
+    html ::-webkit-scrollbar-button {
+        background: #505050;
+        height: 11px;        
+    }     
 }    

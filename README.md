@@ -1,4 +1,4 @@
-# Story Show Gallery - minimalist, vertical image gallery
+# Story Show Gallery - minimalist, vertical image gallery, mobile friendly
 
 Show a story with your photos in fullscreen lightbox without distracting elements. Story Show Gallery is verticall and a site visitor just need to scroll (or touch) to view image by image with optimally placed captions. The goal of Story Show Gallery is making the best possible experience when viewing photos.
  

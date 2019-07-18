@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.3.2
+*  Story Show Gallery (SSG) ver: 2.3.3
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -33,6 +33,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    letter-spacing: 0;
     background: none;
     width: auto;
     height: auto;
@@ -98,7 +99,7 @@
 }
 
 #SSG_gallery img {
-    max-width: 96vw;
+    max-width: 99vw;
     max-height: 90vh;
     display: inline;
     margin: 0.1em 0 0.5em 0;
@@ -152,7 +153,6 @@
     margin-bottom: 28vh;
     font-size: 108%;
     text-shadow: #000 0px 0px 16px;
-    letter-spacing: 0.001em;
 }
 
 #SSG_gallery .notitle p.title,
@@ -414,17 +414,16 @@
         max-width: 99%;
     }
 
-    #SSG_gallery::before {
-        content: "photos look better in landscape mode ;-)";
+    #SSG_gallery #f0:after {
+        content: "photos look better in landscape mode \1F609";
         color: #888;
-        padding-bottom: 5.6vh;
+        margin-bottom: 3.3vh;
         display: block;
-        margin-top: 4.4vh;
+        margin-top: -3.3vh;
         font-style: italic;
-        padding-right: 2em;
     }
 
-    .SSG_tipCall,
+   .SSG_tipCall,
     #SSG_arrowdown {
         display: none;
     }
@@ -735,6 +734,7 @@
     #SSG_lastone p {
         padding-top: 0.3em;
         padding-bottom: 0.2em;
+        letter-spacing: -0.01em;
     }
 
     #SSG_gallery p.notitle {
@@ -971,6 +971,10 @@ html.ssg .wait {
 
     #SSG_tip div.touch {
         display: block;
+        padding-left: 55px;
+        background: no-repeat url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAABVCAMAAAArMteoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhQTFRF/f39RklLr6+v3d3dfd3+Z6rAcHV3Nzc3Ry55RQAAAAh0Uk5T/////////wDeg71ZAAACLklEQVR42tSW22LlIAhFASv5/z+uF4LGG9h5Gl7anLjCBgWEZzBEjskY8TkaDFj8UYvoBnvMQnuQfyZjBzi6M5w2sHE5Oe3BAl+dKZ/FP8ez2hdEWdYpW/y0AOMiIok6nkBcfhwPLqF3OK3AvUs4L4hblz24yB8bYP8emUIg4vMXBYxNKQaoRji8OYPKCekGOROc5Ka/fAOGuv55Ekk2qMnJSmuOkutgJwcVTMtnEO0DMILWAZBQcAQxGkeuutyBaJXVBoxmIW9ANFvHGmS7WS3B6GiPK9DRHtPaGWTnCJhA/9AZTs7/AgJlY7wHxfivIPBtjJwtvP98NdvJQXUc+A4MS80+jyW9WTNm83usPxXXIVkZDxdgbrWtyfukNjA5LHnCLYi1kw8e001NxsMWfHTfWEZeAXU87MHZFMxh/BuIKusI4lspAnLZH7lQncCPLtAyKAP4AszbFKg4xSuQylKkSl6A7+wuivkPYCXpSirJCamF5wVZz7CUrDurQV1qivz7yB3pBp/PYi0FB9iL9ZmAH7Eu0+rwRfapr1rIpQNegEFbx53Y0r5AnYerEPVKduOynFJoD+DMD5a6gO6JLkLsrmRusbXHQ6/ct5m1S8JHOrmV9kPHKVamEXw1OMRKy4Ahz+TbjGGwesSyyIJRhiX2bW4wZYxcSsdRztbJ08EOc6kdxWobhsUX2aF0Ao38sL6F1TcJd9YGBizDPxnvwO4CtTTcgkjhYG/mfgUYAIPOZqKpW0DKAAAAAElFTkSuQmCC');
+        background-size: 28px;
+        background-position-y: 10px;                
     }
 
     #SSG_tip div.classic {
