@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.3.2
+//   Story Show Gallery (SSG) ver: 2.3.3
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -34,6 +34,9 @@ SSG.setVariables = function () {
 
     // Index of the image displayed in the viewport
     SSG.displayed = -1;
+    
+    // Index of the image displayed in the viewport before the screen resize (orientation change)
+    SSG.displayedLock = 0;
 
     // change of currently displayed photo. delta -1 is a previous photo.  
     SSG.delta = 1;
@@ -41,6 +44,7 @@ SSG.setVariables = function () {
     // It saves an actual vertical scroll of a page.
     SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;
     SSG.scrHeight = jQuery( window ).height();
+    SSG.scrWidth = jQuery( window ).width();
 
     // Different screen fraction for different screen aspect ratios
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
@@ -78,13 +82,17 @@ SSG.setVariables = function () {
     // When the img is loaded loadnext is set true.
     SSG.loadNext = false;
 
-    // Page URL without a hash
-    SSG.location = window.location.href.split( '#', 1 )[ 0 ];
-
-    SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
-
+    // initial value for scroll event time stamp
     SSG.savedTimeStamp = 0;
 
+    // If a user use jump scroll. Due to showing the tip window on touchmove event
+    SSG.jumpScrollUsed = false;
+
+    // If the tip window was shown
+    SSG.fsTipShown = false;
+    
+    SSG.location = window.location.href.split( '#', 1 )[ 0 ];
+    SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );    
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
 };
 
@@ -105,7 +113,7 @@ SSG.initGallery = function initGallery( event ) {
     SSG.exitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
     jQuery( 'html' ).addClass( 'ssg' );
 
-    //It adds fs class to all thumbnails in a gallery.
+    // adding of fs class to all thumbnails in a gallery.
     jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
@@ -127,6 +135,8 @@ SSG.initGallery = function initGallery( event ) {
         SSG.destroyGallery();
     } );
     jQuery( '#SSG_gallery' ).click( SSG.touchScroll );
+
+    // passive:false is due to Chrome, it sets the mousewheel event as passive:true by default and then preventDefault cannot be used
     document.addEventListener( 'mousewheel', SSG.seizeScrolling, {
         passive: false
     } );
@@ -139,8 +149,16 @@ SSG.initGallery = function initGallery( event ) {
         SSG.showFsTip( false );
     });
 
+    // if a user wants to touch scroll to next photo, the tip window shows that there is a better way
+    jQuery( document ).on( 'touchmove', function badTouchMove() { 
+        if ( SSG.landscapeMode && !SSG.jumpScrollUsed && !SSG.fsTipShown && SSG.running ) {
+            SSG.showFsTip( false );
+            jQuery( document ).off( 'touchmove', badTouchMove );
+        }
+    } );
+
     // Fullscreen mode.
-    // If A tag has fs class it sets fullscreen to true. Event is a browser's object.
+    // If A tag has fs class it sets fullscreen to true. Event is a browser's object.    
     if ( ( event && event.currentTarget ) && ( SSG.hasClass( event.currentTarget.classList, 'fs' ) ) && !event.altKey ) {
         SSG.openFullscreen();
 
@@ -283,6 +301,9 @@ SSG.onFS = function () {
 
         // Exitfullscreen is set to true when enter FS mode.
     } else if ( !SSG.exitFullscreen ) {
+
+        // entering fs mode fires several onresize event, so refresh format is called after fs mode is completed
+        SSG.refreshFormat();
         SSG.exitFullscreen = true;
         SSG.fullscreenMode = true;
         if ( !SSG.exitMode ) {
@@ -297,6 +318,9 @@ SSG.onFS = function () {
 
 // Recalculates all loaded images positions after new image is loaded    
 SSG.refreshPos = function () {
+    if ( !SSG.running ) {
+        return;
+    }
     for ( var i = 0; i <= SSG.loaded; i++ ) {
         SSG.imgs[ i ].pos = Math.round( jQuery( '#i' + i ).offset().top );
     }
@@ -322,20 +346,21 @@ SSG.setNotchRight = function () {
 };
 
 // Recounts variables on resize event
-SSG.countResize = function () {
+SSG.countResize = function () { 
+    SSG.scrHeight = jQuery( window ).height();
+    SSG.scrWidth = jQuery( window ).width();
+    SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
+    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
+};
+
+SSG.scrollToActualImg = function () {
     if ( !SSG.running ) {
         return;
     }
-    SSG.scrHeight = jQuery( window ).height();
-    SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
-    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
-    SSG.refreshPos();
-
-    if ( SSG.loaded != -1 && ( typeof SSG.imgs[ SSG.displayed ] != 'undefined' ) ) {
-        SSG.ScrollTo( SSG.imgs[ SSG.displayed ].pos - SSG.countImageIndent( SSG.displayed ) );
+    if ( SSG.loaded != -1 && ( typeof SSG.imgs[ SSG.displayed ] != 'undefined' ) ) {        
+        SSG.ScrollTo( SSG.imgs[ SSG.displayedLock ].pos - SSG.countImageIndent( SSG.displayed ) );
     }
-};
-
+}
 
 // Recalculates all image format classes
 SSG.refreshFormat = function () {
@@ -348,11 +373,23 @@ SSG.refreshFormat = function () {
     }
 };
 
-// Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before countResize.
 SSG.onResize = function () {
-    window.setTimeout( SSG.countResize, 200 );
-    window.setTimeout( SSG.refreshFormat, 100 );
-    window.setTimeout( SSG.setNotchRight, 50 );
+    SSG.displayedLock = SSG.displayed;
+
+    // console.log(SSG.scrWidth + 'x' + SSG.scrHeight + ' >> ' + jQuery( window ).width() + 'x' + jQuery( window ).height() + 'loaded:' + SSG.loaded);
+    // Samsung browser fires resize event even when the resolution didn't change
+    if ( jQuery( window ).width() != SSG.scrWidth || jQuery( window ).height() != SSG.scrHeight ) {
+        window.setTimeout( SSG.countResize, 20 );
+        window.setTimeout( SSG.setNotchRight, 50 );
+
+        // entering fs mode would fire commands below several times, so there is a conditon
+        // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
+        if (SSG.firstImageCentered) {
+            window.setTimeout( SSG.refreshFormat, 80 );
+            window.setTimeout( SSG.refreshPos, 222 );
+            window.setTimeout( SSG.scrollToActualImg, 333 );
+        }
+    }
 };
 
 SSG.displayFormat = function ( e ) {
@@ -565,6 +602,9 @@ SSG.metronome = function () {
         }
     }
     if ( SSG.imageUp || SSG.imageDown || !SSG.firstImageCentered ) {
+        if ( SSG.landscapeMode && SSG.firstImageCentered && !SSG.jumpScrollUsed ) {
+            SSG.jumpScrollUsed = true;            
+        }
         SSG.jumpScroll();
     }
 };
@@ -645,12 +685,12 @@ SSG.jumpScroll = function () {
     }
 
     // Center the first image after initiation of the gallery or can be used to jump to the 1st image.
-    // Without setTimeout Firefox isnt't able to completely center the image.
-    else if ( SSG.imgs[ 0 ].pos && !SSG.firstImageCentered ) {
+    // Without setTimeout someb browsers aren't able to completely center the image.
+    else if ( SSG.imgs[ 0 ].pos && !SSG.firstImageCentered ) {        
         window.setTimeout( function () {
             SSG.ScrollTo( SSG.imgs[ 0 ].pos - SSG.countImageIndent( 0 ), 0 );
-        }, 100 );
-        SSG.firstImageCentered = true;
+            SSG.firstImageCentered = true;
+        }, 333 );        
     }
 
     // If the lastone is true, i am out of the index, so scroll on the last image in index.
@@ -675,7 +715,7 @@ SSG.jumpScroll = function () {
     }
 
     SSG.imageDown = false;
-    SSG.imageUp = false;
+    SSG.imageUp = false;        
 };
 
 
@@ -782,23 +822,25 @@ SSG.destroyGallery = function () {
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
 };
 
-SSG.showFsTip = function ( firstCall ) {
+SSG.showFsTip = function ( justFsOffer ) {
     if ( jQuery( '#SSG_tip' ).length == 0 ) {        
         var begin = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
         var man1 = "<div class='classic'>Browse through Story Show Gallery by:<br>a mouse wheel" +
             " <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br>";
         var man2 = "or <strong>TAP</strong> on the bottom (top) of the screen</div>";
-        var touch = "<div class='touch'><strong>TAP</strong> on the bottom (top) of the image<br>" +
+        var touch = "<div class='touch'><strong>TAP</strong> on the bottom (top) of the screen<br>" +
             " to browse through Story Show Gallery.</div>";
         var hr = "<hr>";
         var fs = "For a better experience <br><a>click for fullscreen mode</a><br>";
         var end = "</span></div>";
-        if ( firstCall ) {
+        if ( justFsOffer ) {
             jQuery( 'body' ).append( begin + fs + end );
         } else if ( !SSG.fullscreenMode ) {
             jQuery( 'body' ).append( begin + man1 + man2 + touch + hr + fs + end );
+            SSG.fsTipShown = true;
         } else {
             jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
+            SSG.fsTipShown = true;
         }
         !SSG.fullscreenMode && jQuery( '#SSG_tip' ).click( function () {
             SSG.openFullscreen();
