@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.3.3
+*  Story Show Gallery (SSG) ver: 2.4.0
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -40,7 +40,8 @@
     border: none;
     vertical-align: initial;
     font-style: normal;
-    text-align: inherit;  
+    -webkit-backface-visibility: hidden;
+    text-align: inherit;
     line-height: inherit;
     text-decoration: unset;
     /* combination of * and inherit(unset) cause forcing each element inherit from parent.
@@ -78,9 +79,13 @@
 
 #SSG_galBg {
     background: #131313;
+    color: #a0a0a0;
     width: 100%;
+    font-size: 33px;
+    text-align: center;
+    padding-top: 42vh;
     position: fixed;
-    height: 100%;
+    height: 150%;
     z-index: 9999990;
     top: 0;
     left: 0px;
@@ -109,20 +114,11 @@
 #SSG_gallery span.SSG_forlogo {
     position: relative;
     vertical-align: bottom;
+    -webkit-transform: translate3d(0,0,0);
 }
 
 #SSG_gallery div.SSG_imgWrap {
-    position: relative;
     line-height: 1.4em;
-}
-
-#SSG_gallery div.SSG_imgWrap::after {
-    content: "";
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: absolute;
-    top: 0;
 }
 
 #SSG_gallery span.SSG_logo {
@@ -469,7 +465,6 @@
     }
 
     #SSG_gallery .SSG_uwide .SSG_uwBlock {
-        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-around; /* fallback for IE11*/
@@ -703,7 +698,7 @@
     }
 
     #SSG_gallery {
-        padding-top: 5em;
+        padding-top: 11em;
     }
 
     #SSG_gallery p.title {
@@ -845,11 +840,11 @@
     #SSG_gallery p,
     #SSG_lastone p {
         line-height: 1.44em;
-        margin-bottom: 11vh;
+        margin-bottom: 4em;
     }
     
     #SSG_gallery .notitle p.title {
-        margin: 5vh 0;
+        margin: 1.5em 0;
     }
 
     #SSG_lastone p {
@@ -896,9 +891,13 @@
             font-size: 18px;
         }
 
+        #SSG_gallery {
+            padding-top: 11em;
+        }
+
         #SSG_exit {
             top: 0;
-            left: 0;
+            right: 0;
         }
     }
 }
@@ -982,6 +981,19 @@ html.ssg .wait {
     }
 
 }
+
+@media (pointer: coarse) and  (orientation: portrait) {
+        #SSG_tip div.touch {
+            padding-top: 55px;
+            padding-left: 3px;
+            background-position-y: 0px;
+            background-position-x: center;
+        }
+
+        #SSG_tip span {
+            padding: 1em;
+        }
+    }
 
 html.ssg {
     scrollbar-base-color: #505050;
