@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.4.0
+//   Story Show Gallery (SSG) ver: 2.4.1
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -88,8 +88,7 @@ SSG.setVariables = function () {
 
     // It saves an actual vertical scroll of a page.
     SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;
-    SSG.scrHeight = jQuery( window ).height();
-    SSG.scrWidth = jQuery( window ).width();
+    SSG.scrHeight = jQuery( window ).height();    
 
     // Different screen fraction for different screen aspect ratios
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
@@ -146,7 +145,6 @@ SSG.setVariables = function () {
     SSG.isOrientationChanged = false;
 
     SSG.isMobile = window.matchMedia( '(max-width: 900px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
-
     SSG.location = window.location.href.split( '#', 1 )[ 0 ];
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
@@ -196,6 +194,9 @@ SSG.FSmode = function ( event ) {
     }
     jQuery( 'body' ).append( "<div id='SSG_galBg'>Story Show Gallery</div>" );
     jQuery( document ).on( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
+    jQuery( document ).on( 'fullscreenerror', function () {
+        SSG.createGallery( SSG.initEvent );
+    } );
 
     var mobileLandscape = window.matchMedia( '(max-width: 900px) and (orientation: landscape)' ).matches;
     var mobilePortrait = window.matchMedia( '(max-width: 500px) and (orientation: portrait) ' ).matches;
@@ -213,6 +214,10 @@ SSG.FSmode = function ( event ) {
     } else {
         // if no FS mode is wanted, call createGallery directly
         SSG.createGallery( SSG.initEvent );
+    }
+
+    if( document.fullscreenElement ) {
+        SSG.fullscreenMode = true;
     }
 
     // if a browser doesn't support FS mode
@@ -327,9 +332,10 @@ SSG.initGallery = function ( event ) {
 };
 
 SSG.orientationChanged = function () {
-    SSG.isOrientationChanged = true;
+    SSG.isOrientationChanged = true;    
 
-    if ( SSG.fullScreenSupport ) {
+    // if a portrait mode is in FS mode, turning into landscape won't fire onFS event (gallery resize), so else branch is needed
+    if ( SSG.fullScreenSupport && ( (!SSG.landscapeMode && !SSG.fullscreenMode) || (SSG.landscapeMode && SSG.fullscreenMode) ) ) {
         // screen.orientation.type works in Chrome
         if ( window.screen.orientation ) {
             screen.orientation.type.startsWith( 'landscape' ) ? SSG.openFullscreen() : SSG.closeFullscreen();
@@ -508,7 +514,6 @@ SSG.refreshPos = function () {
 // Recounts variables on resize event
 SSG.countResize = function () {
     SSG.scrHeight = jQuery( window ).height();
-    SSG.scrWidth = jQuery( window ).width();
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
 };
@@ -542,15 +547,15 @@ SSG.onResize = function () {
 
     if ( !SSG.isDisplayedLocked ) {
         SSG.isDisplayedLocked = true;
-        window.setTimeout( SSG.scrollToActualImg, 880 * fraction );
+        window.setTimeout( SSG.scrollToActualImg, 1000 * fraction );
     }
 
     // Samsung browser fires resize event even when the resolution didn't change.
-    window.setTimeout( SSG.countResize, 200 * fraction );
+    window.setTimeout( SSG.countResize, 580 * fraction );
 
     // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-    window.setTimeout( SSG.refreshFormat, 240 * fraction );
-    window.setTimeout( SSG.refreshPos, 660 * fraction );
+    window.setTimeout( SSG.refreshFormat, 660 * fraction );
+    window.setTimeout( SSG.refreshPos, 880 * fraction );
 };
 
 SSG.displayFormat = function ( e ) {
@@ -931,15 +936,15 @@ SSG.seizeScrolling = function ( e ) {
 SSG.openFullscreen = function () {
     var elem = document.documentElement;
     if ( elem.requestFullscreen ) {
-        elem.requestFullscreen();
+        elem.requestFullscreen({ navigationUI: "hide" });
     } else if ( elem.mozRequestFullScreen ) {
 
         // Firefox
-        elem.mozRequestFullScreen();
+        elem.mozRequestFullScreen({ navigationUI: "hide" });
     } else if ( elem.webkitRequestFullscreen ) {
 
         // Chrome, Safari and Opera
-        elem.webkitRequestFullscreen();
+        elem.webkitRequestFullscreen({ navigationUI: "hide" });
     }
 };
 

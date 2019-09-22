@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.4.0
+*  Story Show Gallery (SSG) ver: 2.4.1
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -412,11 +412,13 @@
 
     #SSG_gallery #f0:after {
         content: "photos look better in landscape mode \1F609";
-        color: #888;
-        margin-bottom: 3.3vh;
+        color: #bdbdbd;
+        margin-bottom: 2.2em;        
         display: block;
         margin-top: -3.3vh;
         font-style: italic;
+        opacity: 0.55;
+        filter: invert(0%) grayscale(100%) contrast(160%);
     }
 
    .SSG_tipCall,
@@ -692,7 +694,7 @@
 (max-width: 550px) and (orientation: portrait) {
 
     #SSG_gallery img {
-        max-width: 99vw;
+        max-width: 100vw;
         max-height: 89vh;
         margin: 0.1em 0 0.1em 0;
     }
