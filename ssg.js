@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.4.1
+//   Story Show Gallery (SSG) ver: 2.4.2
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -55,9 +55,18 @@ SSG.run = function ( event ) {
     }
 
     SSG.setVariables();
+    
+    // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
+    jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
+    if ( SSG.themeColor ) {
+        jQuery( "meta[name='theme-color']" ).attr( 'content', '#131313' );
+    } else {
+        jQuery( 'head' ).append( "<meta name='theme-color' content='#131313'>" );
+    }
+    jQuery( 'body' ).append( "<div id='SSG_galBg'>Story Show Gallery</div>" );
 
     // SSG firstly switch the browser into FS mode (if wanted) and then the fullscreenchange event creates the gallery
-    // It is because of problems (Chrome mobile) with initiation of the gallery when switching into FS mode. 
+    // It is because of problems (Chrome mobile, Firefox) with initiation of the gallery when switching into FS mode. 
     // if no FS mode is wanted, then the createGallery() is called directly from FSmode()
     SSG.FSmode( event );
     return false;
@@ -184,15 +193,8 @@ SSG.getHash = function ( justResult ) {
     return null;
 };
 
+// decides whether to turn the gallery into FS mode
 SSG.FSmode = function ( event ) {
-    // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
-    jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
-    if ( SSG.themeColor ) {
-        jQuery( "meta[name='theme-color']" ).attr( 'content', '#131313' );
-    } else {
-        jQuery( 'head' ).append( "<meta name='theme-color' content='#131313'>" );
-    }
-    jQuery( 'body' ).append( "<div id='SSG_galBg'>Story Show Gallery</div>" );
     jQuery( document ).on( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
     jQuery( document ).on( 'fullscreenerror', function () {
         SSG.createGallery( SSG.initEvent );
@@ -216,6 +218,7 @@ SSG.FSmode = function ( event ) {
         SSG.createGallery( SSG.initEvent );
     }
 
+    // if browser is already in FS mode
     if( document.fullscreenElement ) {
         SSG.fullscreenMode = true;
     }
@@ -244,18 +247,27 @@ SSG.createGallery = function ( event ) {
 
     if ( event && event.imgs ) {
 
+        // SSG.imgs = event.imgs would create just reference to source array (and use it for storing pos), deep copy is needed:
+        var deepCopy = JSON.parse( JSON.stringify( event.imgs ) );
+
         // use just event.imgs 
         if ( event.imgsPos == 'whole' || !event.imgsPos ) {
-            SSG.imgs = event.imgs;
+            SSG.imgs = deepCopy;
+            if  ( event.initImgID ) {
+                var imgsRemoved = SSG.imgs.splice( 0, event.initImgID );
+                Array.prototype.push.apply( SSG.imgs, imgsRemoved )
+            }
 
-            // combine images from the page with event.imgs. Apply accepts an array as an argument unlike the unshift.
+        // combine images from the page with event.imgs. Apply accepts an array as an argument unlike the unshift/push.
         } else if ( event.imgsPos == 'start' ) {
             SSG.getImgList( event );
-            Array.prototype.unshift.apply( SSG.imgs, event.imgs );
+            Array.prototype.unshift.apply( SSG.imgs, deepCopy );
         } else if ( event.imgsPos == 'end' ) {
             SSG.getImgList( event );
-            Array.prototype.push.apply( SSG.imgs, event.imgs );
+            Array.prototype.push.apply( SSG.imgs, deepCopy );
         }
+        
+
     } else {
         // use just images on the page
         SSG.getImgList( event );
@@ -470,9 +482,11 @@ SSG.getImgList = function ( event ) {
 };
 
 
-// On Fullscreen change, detects if a user ends FS mode
+// On Fullscreen Change event handler - creates or destroys the gallery
 SSG.onFS = function () {
     SSG.isMobile && SSG.onResize();
+
+    // Exitfullscreen is true, that means than FS mode is ending
     if ( SSG.fullscreenMode && SSG.exitFullscreen && !SSG.exitClicked ) {
         SSG.fullscreenMode = false;
         SSG.exitFullscreen = false;
@@ -483,7 +497,7 @@ SSG.onFS = function () {
         // Destroys gallery on exit from FS or removes exit icon.
         SSG.exitMode ? SSG.destroyGallery() : jQuery( '#SSG_exit' ).remove();
 
-        // Exitfullscreen is set to true when enter FS mode.
+    // browser was just turned into FS
     } else if ( !SSG.exitFullscreen ) {
         if ( !SSG.isGalleryCreated ) {
             SSG.createGallery( SSG.initEvent );
@@ -649,7 +663,7 @@ SSG.addImage = function () {
     if ( newOne == SSG.imgs.length ) {
         var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> Scroll to top</a>";
         var menuItem2 = SSG.exitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a>" : "";
-        var menuItem3 = "<a id='SSGL' target='_blank' href='https://ssg.flor.cz/wordpress/' class='SSG_link'>&raquo;SSG</a>";
+        var menuItem3 = "<a id='SSGL' target='_blank' href='https://ssg.flor.cz/wordpress/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
         jQuery( '#SSG_gallery' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
             "</p> <div id='SSG_loadInto'></div></div>" );
         jQuery( '#SSG_menu' ).click( function ( event ) {

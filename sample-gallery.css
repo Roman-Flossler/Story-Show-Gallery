@@ -64,6 +64,10 @@ h2 {
     border-radius: 0 1em 0 0;
 } 
 
+.secol h2 {
+    margin-top: 2.8em;
+}
+
 pre {
     white-space: pre-wrap;
 }
@@ -136,8 +140,13 @@ img.imglink {
     border-radius: 0.6em;    
 }
 
+img#gag {
+    filter: invert(1) hue-rotate(126deg) brightness(1.3) contrast(0.7);
+}
+
 .limg {
-    margin:0 0 1.3em 0; 
+    display: block;
+    margin-top: 0.88em;
     max-width: 100%;
     border-radius: 6px
 }
@@ -177,7 +186,7 @@ code span {
     height: auto;
 }
 
-.column .first {
+.column .mobileonly {
     display: none;
     opacity: 1;
 }
@@ -194,8 +203,11 @@ p {
 
 ul li {
     line-height: 1.6em;
+    padding: 0.8em;
+    border-radius: 0.3em;
+    background: #f6f6f6;
     list-style-type: square;
-    padding-bottom: 0.8em;
+    margin-bottom: 1.1em;
     list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24'%3E%3Cpath fill='%23ad002e' d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
 }
 
@@ -386,7 +398,7 @@ footer {
         padding-left: 10%;
     }
     h1 {
-        font-size: 396% !important;
+        font-size: 396%;
     }        
 }    
 
@@ -397,14 +409,14 @@ footer {
         padding-left: 8%;
     }
     h1 {
-        font-size: 345% !important;
+        font-size: 345%;
     }         
 } 
 
 @media screen and (max-width: 950px) {    
 
     h1 {
-    font-size: 396% !important;
+    font-size: 396%;
     }
 
     ul {
@@ -421,42 +433,73 @@ footer {
         padding-left: 15%;
     }
 
-    .secol {
-        padding-right: 6%;
-        padding-left: 10%;
-    }
-
     .ficol h1, .ficol h2 {
         margin-left: -25px;
     }
 
-    .column .first {
+    .ficol {
+        padding-bottom: 2em;
+        border-bottom: 30px solid #f6f6f6;
+    }
+
+    .column .mobileonly {
         display: block !important;
         width: 100vw;
         margin: 0;
         margin-left: -20%;
         overflow: hidden;
         margin-bottom: -1.5em;
-        background: #006a80;
         color: white;
         text-align: center;
-        padding-bottom: 0.3em;
-        background-image: url(https://ssg.flor.cz/img/simple-scroll-gallery.jpg);
-        background-size: 99.3%;
+        background-color: #000d0c;
     }
     
-    .column .first span {
+    .column .mobileonly span {
+        display: block;
         line-height: 2.2em;
-        text-decoration: underline;
-        text-decoration-style: wavy;
+        text-decoration: none;
         cursor: pointer;
-        color: #befcff;
-        text-shadow: 0 0 16px #35dcff;
+        color: #9abebf;
+        text-shadow: 0 0 16px #178ea7;    
+        background-image: url(https://ssg.flor.cz/img/simple-scroll-gallery.jpg);
+        background-size: 99.3%; 
+        filter: brightness(1.2) saturate(1.8) hue-rotate(-6deg);
     }
 
-    .column .first img {
+    .column .mobileonly span b {
+        font-weight: normal;
+        transform: scaleX(1.8);
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    #front-gallery {
+        white-space: nowrap;
+        width: 100%;
+        overflow: auto;
+        scrollbar-color: #183d44 #0e0e0e;
+        scrollbar-width: thin;
+    }
+
+    #front-gallery img {
+        width: 111px;
+        margin: 2px;
+        filter: brightness(1) contrast(0.93) saturate(0.8);
+        opacity: 0.88;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+
+    .lighten {
+        opacity: 1 !important;
+        filter: brightness(1.13) saturate(1.1) contrast(1) !important;
+        /* box-shadow: 0px 1px 5px #3f9094; */
+    }
+
+    .column .mobileonly img {
         width: 100%;        
-        /* filter: brightness(1.1) saturate(2.2) hue-rotate(-13deg); */
+        filter: brightness(1.08) saturate(1.6) hue-rotate(-6deg);
     }
 
     .gallery .topimg {
@@ -465,6 +508,91 @@ footer {
 
     .seegal { 
         display: inline-block;
+    }
+
+    code span {
+        font-weight: normal;
+        color: #c30035;
+    }
+}
+
+@media screen and (min-width: 550px) and (max-width: 950px) {
+    
+    #front-gallery::-webkit-scrollbar {
+        background: #0e0e0e;
+        height: 3px;
+    }
+    
+    #front-gallery::-webkit-scrollbar-thumb {
+        background: #222222;
+        -webkit-border-radius: 4px;
+    }
+    
+    #front-gallery::-webkit-scrollbar-button {
+        width: 22px;
+        background: #0e0e0e;        
+    }
+}  
+
+
+@media screen and (max-width: 550px) {
+    
+    #front-gallery img {
+        width: 97px;
+        margin: 2px;
+    }
+
+    .column {
+        width: 100%;
+        padding-right: 5%;
+        padding-left: 11%;
+    }    
+
+    .ficol h2 {
+        margin-left: -16px;
+    }
+
+    .ficol h1 {
+        font-size: 321%;
+        margin-left: -16px;
+        margin-top: 1.3em;
+    }
+
+    em.subheading {
+        margin-left: -16px;
+        display: block;
+    }
+
+    code, img.imglink {
+        width: 96%;
+        font-size: 86%;
+    } 
+
+    li img.imglink {
+        width: 100%;        
+    }   
+
+    .column .mobileonly {
+        margin-left: -13.1%;
+        /* border-bottom: 6px solid  #296779; */
+    }
+
+    .secol p {
+        font-size: 100%;
+    }
+
+    .bigger {
+        font-size: 106%;
+    }
+
+    .secol .wider {
+        width: 108%;
+        margin-left: -7%;
+    }
+
+    #opening {
+        text-align: justify;
+        padding-right: 1em;
     }
 }
 
@@ -500,17 +628,14 @@ footer {
 	}
 }
 
-@media (min-width: 366px) and (max-width: 950px) {
-
-.bigger, .secol p {
-    font-size: 106%;
-}
-}
-
 @media (prefers-color-scheme: dark-x) { 
     body {
-        color: #ececec;
-        background: #263538;
+        color: #dadada;
+        background: #2b3b3e;
+    }
+
+    ul li {
+        background: #253133;
     }
 
     h1, h2, em.subheading {
@@ -543,8 +668,8 @@ footer {
     }
 
     code, footer {
-        background: #1b2425;
-        box-shadow: inset 0px 0px 36px #1b2425;
+        background: #263233;
+        box-shadow: inset 0px 0px 36px #283233;
     }
 
     .gallery a {    
@@ -572,7 +697,8 @@ footer {
 
     code span {
         color: #ff4566;
-        background: #1b2425;
+        background: #242d2d;
+        font-weight: normal;
     }
 
     .secol > .topimg {

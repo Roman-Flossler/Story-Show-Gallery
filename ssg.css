@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.4.1
+*  Story Show Gallery (SSG) ver: 2.4.2
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -243,6 +243,14 @@
     vertical-align: text-top;
 }
 
+#SSG_menu a.SSG_link b {
+    font-weight: normal;
+    transform: scaleX(1.8);
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 89%;
+}
+
 #SSG_menu #SSGL {
     color: #989898;
     text-decoration: none;
@@ -413,9 +421,9 @@
     #SSG_gallery #f0:after {
         content: "photos look better in landscape mode \1F609";
         color: #bdbdbd;
-        margin-bottom: 2.2em;        
+        margin-bottom: 3.2em;        
         display: block;
-        margin-top: -3.3vh;
+        margin-top: -4.3vh;
         font-style: italic;
         opacity: 0.55;
         filter: invert(0%) grayscale(100%) contrast(160%);
@@ -439,11 +447,11 @@
 
     #SSG_gallery p,
     #SSG_lastone p {
-        margin-bottom: 13vh;
+        margin-bottom: 8.8vh;
     }
     
     #SSG_gallery .notitle p.title {
-        margin: 7vh 0;
+        margin: 4.4vh 0;
     }
 
     #SSG_gallery .SSG_uwide p.title {
@@ -726,6 +734,11 @@
     #SSG_gallery p {
         line-height: 1.2em;
     }
+    
+    #SSG_gallery #f0:after {
+        margin-bottom: 2.2em;        
+        margin-top: -3.3vh;
+    }
 
     #SSG_gallery p,
     #SSG_lastone p {
@@ -846,7 +859,7 @@
     }
     
     #SSG_gallery .notitle p.title {
-        margin: 1.5em 0;
+        margin: 1.8em 0;
     }
 
     #SSG_lastone p {
