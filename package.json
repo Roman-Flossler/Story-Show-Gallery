@@ -1,6 +1,6 @@
 {
   "name": "story-show-gallery",
-  "version": "2.4.2",
+  "version": "2.5.2",
   "author": "Roman Flössler",
   "license": "MPL-2.0",
   "description": "Fully responsive, jQuery photo gallery with vertical jump scroll. SSG optimally combines images and captions to show a whole story in fullscreen, non-distracting environment.",

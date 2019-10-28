@@ -34,17 +34,17 @@
                 <img src="https://ssg.flor.cz/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />
 
                 <div id="front-gallery">
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 1 });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 2 });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 3 });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-navijak-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 4 });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-detail-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 5 });" />
-                        <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" onclick="SSG.run({fs:true, imgs: minigallery, initImgID: 6 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 3 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 4 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 5 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 6 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-navijak-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 7 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-detail-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 8 });" />
+                        <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" onclick="SSG.run({fs:true, initImgID: 9 });" />
                     <br clear='all'/>
                 </div>
                 
-                <span onclick="SSG.run({fs:true, imgs: minigallery });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true, initImgID: 3 });"><b>&#xA420;</b> View demo gallery</span>
             </div>
 
             <header>
@@ -66,7 +66,8 @@
             <!-- ---------------------------- -->
 
             <ul>
-                <li>Story Show Gallery is <strong>fully res&shy;pon&shy;sive</strong> and mobile friendly vertical gallery - works on desktops, tablets and mobiles. For every photo size SSG calculates optimal position of a caption:
+                <li>Story Show Gallery is <strong>fully res&shy;pon&shy;sive</strong> and mobile friendly vertical gallery - works on desktops, tablets and mobiles. 
+                    For every photo size SSG calculates optimal position of a caption:
                 <a href="https://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg" class="fs gossg">
                 <img src="https://ssg.flor.cz/minimal-crash-course/story-show-gallery-responsive-modes-fullscreen.jpg" class="imglink darken limg" 
                 alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
@@ -77,14 +78,16 @@
                 <li>Story Show Gallery supports <strong>Goo&shy;gle analytics</strong> to measure views of each photo. SSG detects and uses GA tracking code on your site.
                 <img src="https://ssg.flor.cz/img/google-analytics.jpg" class="limg invert" id="ga"></a>
                 </li>
-                <li>There are <strong>3 ways</strong> how a photo gallery can be created. Auto&shy;matically from images on the page, by passing an array of images into SSG, or by combi&shy;nation of both. </li>
+                <li>There are <strong>3 ways</strong> how a photo gallery can be created. Auto&shy;matically from images on the page, 
+                    by passing an array of images into SSG, or by combi&shy;nation of both. </li>
+                <li>You can control behaviour of SSG by <strong>CSS classes</strong>. Define separate galleries, activate full screen mode, selectively deactivate SSG, etc. </li>
                 <li>SSG can display <strong>watermark - logo</strong> over images. Just link it via <a href="#" onclick="SSG.run({ initImgID:1 });">CSS</a>.
                 <img src="https://ssg.flor.cz/img/watermark.jpg" class="limg darken"></a>
                 </li>
-                <li><strong>Lazy loading</strong> of photos and <strong>jump scrolling</strong> between them. 
+                <li>Another features is <strong>Lazy loading</strong> of photos and <strong>jump scrolling</strong> bet&shy;ween them. 
                     Animated transition while scrolling is similar to old slide projectors - it is combi&shy;nation of sliding and fading.
                 </li>
-                <li>Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries be&shy;hind the last image. 
+                <li>Behind the last image Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries. 
                     <a href='https://ssg.flor.cz/signpost/' target="_blank">See a sample</a>
                     <img src="https://ssg.flor.cz/img/signpost.jpg" class="limg darken"></a>
                 </li>
@@ -110,7 +113,7 @@
             <h2>SSG is easy to implement</h2>
             <!-- ---------------------------- -->
 
-            <p>Story Show Gallery is easy to implement on your website, it binds onto images automatically. Download SSG files and add these two lines somewhere before the &lt;/body&gt; tag:
+            <p>Story Show Gallery is easy to implement on your website, it binds onto images automatically. You can control it by CSS classes. Download SSG files and add these two lines somewhere before the &lt;/body&gt; tag:
             </p>
 
             <code>
@@ -149,11 +152,11 @@
             <h2>How Story Show Gallery works</h2>
             <!-- ---------------------------- -->
 
-            <p>Story Show Gallery looks for all hyperlinks (&lt;a&gt; tags) on the page that points to a picture file 
-               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyperlinks an <strong>onclick function</strong> which runs the gallery. Unless nossg class is used.
+            <p>Story Show Gallery looks for all hyper&shy;links (&lt;a&gt; tags) on the page that points to a picture file 
+               (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF). And adds to all these hyper&shy;links an <strong>onclick function</strong> which runs the gallery. Unless nossg class is used.
             <br>Or you can pass an array of images and captions into SSG and it can be combined with images from the page.</p>   
 
-            <p>A <strong>caption</strong> next to a photo is taken from a thumbnail's alt attribute or a link text. 
+            <p>A <strong>caption</strong> next to a photo is taken from a thumbnail's alt att&shy;ribute or a link text. 
                SSG will create the gallery from all these three images (BigImage1~3):</p>
             
             <code>
@@ -162,27 +165,63 @@
                 &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i>
             </code>
 
-            <p>Story Show Gallery activates after a user clicks on some hyperlink from the above example.</p>
+            <p>Story Show Gallery activates after a user clicks on some hyper&shy;link from the above example.</p>
                 
 
-            <h2>The nossg and gossg class</h2>
+            <h2>Controling SSG by CSS classes</h2>
             <!-- ---------------------------- -->
-            <p>You can selectively deactivate SSG by asigning <strong>nossg</strong> class to some photo or entire gallery.</p>
+            <p>CSS classes can control gallery behaviour. 
+               There are five classes: ssg, nossg, gossg, vipssg and fs. They have to be assigned to a hyper&shy;link tag or to some parrent element of hyper&shy;links.
+               Following example has structure as images and galleries on this page, it will help you understand how the classes work together.
 
-            <code>
-                &lt;div class='<span>gallery nossg</span>'&gt; OR <br> 
-                &lt;a href='<span>bigimg.jpg</span>' class='<span>nossg</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
-            </code>
-
-            <p>An image with the <strong>gossg</strong> class can be only an initial image of the gallery if a user clicks on it.
-                Otherwise images with gossg class won't show in the gallery. On this page gossg
-                class has image with source code and responsive modes</a>.
             </p>
+
+                <code>
+                        &lt;!--  column 1 --&gt;<br>
+                        &lt;p class='<span>fs</span>'&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG is fully responsive" &gt; &lt;/a&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG source code" &gt; &lt;/a&gt;<br>
+                        
+                        &lt;/p&gt; <br><br>
+
+                        &lt;!--  column 2 --&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg fs</span>'&gt; &lt;img  alt="upper SSG logo" &gt; &lt;/a&gt;<br>
+                        <br>
+                        &nbsp;&lt;div class='<span>ssg fs vipssg</span>'&gt;<br>
+                        &nbsp;&nbsp;... the main gallery with image thumbnails<br>
+                        &nbsp;&lt;/div&gt;<br>
+                        <br>
+                        &nbsp;&lt;p class='<span>ssg fs</span>'&gt;<br>
+                        &nbsp;&nbsp;... the gallery with text hyper&shy;links<br>
+                        &nbsp;&lt;/p&gt;<br>
+                        <br>
+                        &nbsp;&lt;a class='<span>nossg</span>'&gt; Bankang cave &lt;/a&gt;<br>                        
+                    </code>                
+            
+
+
+            <p>Lets begin from the end. The <strong>nossg</strong> class means, that SSG will ignore the image. After clicking the image will open normally into browser's tab.   
+                The nossg class can be also assigned to a parrent element of photo hyper&shy;links and it will affect all of them:
+            </p>
+
             <code>
-                &lt;a href='<span>bigimg.jpg</span>' class='<span>gossg fs</span>' &gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>                
-            </code>
+                &lt;div class='<span>nossg</span>'&gt; ...photo hyper&shy;links..  &lt;/div&gt; <br>                 
+            </code>            
 
+            <p>The <strong>fs</strong> class will activate full screen mode. It can be assigned to a single photo hyper&shy;link or a parrent element of many hyper&shy;links.</p>
 
+            <p>The <strong>ssg</strong> class creates a separate gallery, assign it to some parent element of many photo hyper&shy;links. In the gallery will show only images that are inside the current ssg class.</p>
+
+            <p>The first three images aren't part of any gallery, but they will bind to the gallery (or hyperlinks) with <strong>vipssg</strong> class, 
+               so that they won't display alone. </p>
+
+            <p>Image with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user clicks on it. Otherwise images with gossg class won't show in the gallery.
+               So if I click on the image with SSG source code, it will display first and then will display images from the gallery with vipssg class.
+            </p>
+
+            <p>SSG also works with Wordpress classes. The gallery or the wp-block-gallery class works as the fs class. Article or div with the id starts with "post-" works like a ssg class.                
+            </p>
+            
             <h2>SSG.run() method</h2>
            <!-- ---------------------------- -->
             
@@ -191,6 +230,15 @@
             <code>                
                 &lt;body onload='<span>SSG.run()</span>'&gt; 
             </code>
+
+            <p>The <strong>fs:true</strong> parameter will activate full screen mode. Use the <strong>fsa</strong> parameter instead, 
+                if the gallery is initiated without an active click from a user. That active click is needed for
+                entering fullscreen mode. The fsa para&shy;meter will ask if a user wants to switch into fullscreen mode.</p>
+            <code>
+                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
+            </code>
+            
+            
 
             <p>Run SSG immediately after page loads is useful, when the html page is just a plain list of links without any design. 
                 There is nothing much to see without SSG. So the gallery can run in the <strong>no e&times;it mode</strong> - no close icon, no ESC key.</p>
@@ -218,32 +266,6 @@
             </code>
 
 
-                       
-            <h2>Fullscreen mode</h2>
-            <!-- ---------------------------- -->
-
-            <p>Fullscreen mode can be activated three ways.</p>
-
-            <p>Adding the "gallery" or "wp-block-gallery" class to the wrapper tag of &lt;a&gt; tags. These two classes use the Wordpress built-in gallery. 
-                All images inside the gallery activate fullscreen mode:
-            </p>
-            <code>
-                &lt;div class='<span>gallery</span>'&gt;<br> &lt;a href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;<br>
-                &lt;a href='<span>big-image2.jpg</span>'&gt; &lt;img src='<span>thumbnail2.jpg</span>'&gt;&lt;/a&gt;<br>&lt;/div&gt;                           
-            </code>
-
-            <p> Adding the fs class to &lt;a&gt; tag. This single image activates fullscreen mode:</p>
-            <code>
-                &lt;a class='<span>fs</span>'  href='<span>big-image.jpg</span>'&gt; &lt;img src='<span>thumbnail.jpg</span>'&gt;&lt;/a&gt;
-            </code>
-
-            <p>Running the gallery by calling the SSG.run method with the fs:true or fsa:true parameter.</p>
-            <code>
-                &lt;a onclick='<span>SSG.run({fs:true})</span>'&gt; Show gallery&lt;/a&gt;
-            </code>
-            <p>The <strong>fsa parameter</strong> is good to use when the gallery is initiate without an active click from a user. But that click is needed for
-                 entering fullscreen mode. So the gallery will ask if a user wants to switch into fullscreen mode.</p>
-            
 
             <br style="clear: both" />
         </article>
@@ -267,7 +289,7 @@
                 <span class="icons" style="font-size:100%">TAP</span> on the bottom (upper) part of the screen
             </p>
 
-            <section class="gallery wider">
+            <section class="gallery ssg wider vipssg fs">
                 <a href='https://www.flor.cz/blog/wp-content/uploads/its-time.jpg'>
                     <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" alt="It's time! For a photo shoot of course." />
                 </a>
@@ -296,23 +318,25 @@
                 <br clear='all'/>
             </section>
 
-            
-            <p>
-                Story Show Gallery also supports text links. All three target pictures will appear in the gallery:
-            </p>
-            <p>
-                <a class="fs" href='https://www.flor.cz/blog/wp-content/uploads/michal-strojovna-seshora.jpg'>Steampunk style engine room</a> - a text link
-                to a photo. <br>
-                <a href='https://ssg.flor.cz/some-nice-image.jpg' target="_blank">A broken link - You will notice it before site visitors do</a><br> 
-                <a href="https://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.                 
-            </p>
             <br>
             <p>The image a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following images and then the rest. 
-                Example: A user clicked on the sixth image. Images are shown in the following order - 6,7,8,9 and then it continues with images 1,2,3,4,5. <br>
-                If a picture is part of a gallery (gallery class) and a user click up to third picture of the gallery, SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7,8,9.
+                Example: A user clicked on the fourth image. Images are shown in the following order - 4,5,6,7 and then it continues with images 1,2,3. <br>
+                If a picture is part of a separate gallery (.ssg class) and a user click up to third picture of the gallery, SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7.
                 <br>
             </p>
-            <br>
+            
+            <h2>Another gallery with text links</h2>
+            <p>
+                Story Show Gallery also supports text hyper&shy;links. All three follow&shy;ing pict&shy;ures will appear in separate gallery (because of .ssg class):
+            </p>
+            <p class="ssg fs">
+                    <a href='https://www.flor.cz/blog/wp-content/uploads/michal-strojovna-seshora.jpg'>Steampunk style engine room</a> - a text link
+                    to a photo. <br>
+                    <a href='https://ssg.flor.cz/some-nice-image.jpg' target="_blank">A broken link - You will notice it before site visitors do</a><br> 
+                    <a href="https://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
+            </p>
+            
+            <h2>An example of nossg class</h2>
             <p><a href="https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg" target="_blank" class="nossg">Bankang cave</a>
                 - a link with nossg class won't activate Story Show Gallery and a photo will open normally into a new tab.</p>
             
@@ -336,39 +360,50 @@
             
             <p>
                 <a class="showgal" onclick="SSG.run();" >
-                    <span>&#8984;</span> Run the gallery</a> by Javascript calling <em>SSG.run()</em><br>
-                The first photo in this gallery will be the photo with ID 3, because previous photos on this page have gossg class.
-                </p>
+                    <span>&#8984;</span> Run the gallery</a> by Javascript calling:
+            </p>
+                    <code>
+                    SSG.run()
+                    </code>
+            <p>
+                The first photo in this gallery will be the photo with ID 3, because previous photos on this page have gossg class. SSG.run without para&shy;meters shows photos from all galleries on the page.
+            </p>
+            <br>
             <p>
                 <a class="showgal"  
                 onclick="SSG.run({ fs:true, initImgID: 0 });"
-                >
-                <span>&#8984;</span> Run the gallery</a> by calling <em>SSG.run({ fs:true, initImgID: 0 })</em><br>                
-                The first photo will be the photo with ID 0, even if it has gossg class. The next photo will be ID 3.
-            </p>
+                >            
+                <span>&#8984;</span> Run the gallery</a> by Javascript calling:
+                <p></p>
+                <code>SSG.run({ initImgID: 0, fs:true })</code>
+                <p>
+                The first photo will be the photo with ID 0, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only photos from galleries related to initImgID photo.
+                The  fs:true activates full screen mode.
+            </p><br>
 
             <p>
                 <a class="showgal"  
                 onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/lombok-bangkang-jeskyn.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });"
                 >
-                <span>&#8984;</span> Run the gallery</a> by calling 
-                <em>SSG.run( { imgs: [ { href: 'bankang-cave.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });</em><br>
-                Bankang-cave.jpg will be displayed first before images from the page.
-            </p>            
+                <span>&#8984;</span> Run the gallery</a> by Javascript calling:
+                </p>
+                <code>SSG.run( { imgs: [ { href: 'bankang-cave.jpg', alt: 'Bankang cave' } ], imgsPos:'start' });</code>
+                <p>
+                The imgsPos parameter tells the gallery to put Bankang-cave.jpg at the start of the gallery - before images from the page.
+            </p>
+            <br>            
 
             <p>
 
                     <a class="showgal"  
-                    onclick="SSG.run( { imgs: iceland, fs:true });"
+                    onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });"
                     >
-                    <span>&#8984;</span> Run the gallery</a> by calling 
-                    <em>SSG.run( { imgs: iceland, fs:true });</em><br>
-                    In the gallery will be only photos from array iceland:
-        
-                </p>
-            <p>
-            <code style="white-space: pre-wrap; font-size: 80%; overflow: visible">
- iceland = [];
+                    <span>&#8984;</span> Run the gallery</a> by Javascript calling:
+            </p>
+            <code style="white-space: pre-wrap; overflow: visible">
+SSG.run( { imgs: iceland, fs:true, initImgID: 1 });
+
+iceland = [];
  iceland[ 0 ] = { 
      href: 'img/reynisdrangar-black-beach.jpg', 
      alt: 'Black beach Reynisfjara, Reynisdrangar rocks'
@@ -380,10 +415,20 @@
  iceland[ 2 ] = {
      href: 'img/iceland-horses.jpg',
      alt: 'Icelandic horses'
- };
+ };                        
+                    </code>
+                <p>
+                    Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.
+        
+                </p>
+            <p>
+   
+ 
 </code>
-        </p><br>
+        </p>
 
+        <h2>SSG as a Javascript module</h2>
+        <!-- ------------------------------------------------- -->
         <p>You can use Story Show Gallery also as a Javascript module. Just add into ssg.js file this line to export SSG object: 
         </p>
         <code> export default SSG; </code>
@@ -429,37 +474,6 @@
             iceland[ 2 ] = {
                 href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg',
                 alt: 'Icelandic horses'
-            };
-
-            minigallery = [];
-
-            minigallery[ 0 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/its-time.jpg',
-                alt: 'It\'s time! For a photo shoot of course.'
-            };
-            minigallery[ 1 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/na-haku.jpg',
-                alt: 'I couldn\'t believe my eyes. She just climbed up and hanged on the hook.'
-            };
-            minigallery[ 2 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg',
-                alt: ''
-            };
-            minigallery[ 3 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/cerna-kolo.jpg',
-                alt: 'I like steampunk style, so this is my dream place for shooting.'
-            };
-            minigallery[ 4 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/cervena-navijak.jpg',
-                alt: 'All the photos are from Michal coal mine in Ostrava city. This is the engine room.'
-            };
-            minigallery[ 5 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/cerna-detail.jpg',
-                alt: ''
-            };
-            minigallery[ 6 ] = {
-                href: 'https://www.flor.cz/blog/wp-content/uploads/paty-element.jpg',
-                alt: 'Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich'
             };
 
             var actimg = 1;

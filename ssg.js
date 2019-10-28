@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.4.2
+//   Story Show Gallery (SSG) ver: 2.5.2
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -27,7 +27,8 @@ jQuery( document ).ready( function () {
     jQuery( '.gallery.nossg a, .wp-block-gallery.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
 
     // adding of fs class to all thumbnails in a gallery, it activates full screen
-    jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    jQuery( '.gallery a, .wp-block-gallery a, .fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    jQuery( '.vipssg a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'vipssg' );
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
     SSG.jQueryImgCollection.click( SSG.run );
 
@@ -45,15 +46,17 @@ SSG.run = function ( event ) {
     if ( SSG.running ) {
         return false;
     }
-    SSG.running = true;
-    SSG.initEvent = event;
+    SSG.running = true;    
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
 
     // If there is no start image specified (in the noExit mode), try to get image from hash.
     if ( event && event.noExit && !event.initImgID ) {
-        event.initImgID = SSG.getHash( true );
+        var initImgID = SSG.getHash( true );
+        if ( initImgID != null ) {
+         event.initImgID = initImgID;
+        }
     }
-
+    SSG.initEvent = event;
     SSG.setVariables();
     
     // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
@@ -290,16 +293,20 @@ SSG.initGallery = function ( event ) {
     jQuery( 'body' ).append( "<div id='SSG_gallery'></div>" );
     SSG.setNotchRight();
     SSG.exitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
-    jQuery( 'html' ).addClass( 'ssg' );
+    jQuery( 'html' ).addClass( 'ssg-active' );
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
     SSG.jQueryImgCollection.each( function ( index ) {
         jQuery( this ).attr( 'ssgid', index );
+        jQuery( this ).attr( 'ssg', 0 );
     } );
-    jQuery( '.gallery, .wp-block-gallery' ).each( function () {
-        jQuery( this ).find( SSG.jQueryImgSelector ).each( function ( index ) {
-            jQuery( this ).attr( 'ssgsid', index );
-        } );
+
+    // "article and div[id^="post-"]" is for Wordpress
+    jQuery( 'article[id^="post-"], div[id^="post-"], .ssg' ).each( function (index) {
+        jQuery( this ).find( SSG.jQueryImgSelector ).each( function ( sindex ) {
+            jQuery( this ).attr( 'ssgsid', sindex );
+            jQuery( this ).attr( 'ssg', index + 1 );
+        }, index );
     } );
 
 
@@ -420,22 +427,33 @@ SSG.getAlt = function ( el ) {
 
 SSG.getImgList = function ( event ) {
 
-    var clickedImgID, arrayImgID, clickedImgSubID;
+    var clickedImgID, arrayImgID, clickedImgSubID, clickedGalleryID;
     var obj = {};
 
     if ( event && event.currentTarget ) {
         clickedImgID = event.currentTarget.attributes.ssgid.nodeValue;
+        clickedGalleryID = event.currentTarget.attributes.ssg.nodeValue;
         if ( event.currentTarget.attributes.ssgsid ) {
             clickedImgSubID = event.currentTarget.attributes.ssgsid.nodeValue;
-        }
+        }        
     } else if ( event && typeof event.initImgID != 'undefined' ) {
         clickedImgID = event.initImgID;
         clickedImgSubID = jQuery( 'a[ssgid=' + clickedImgID + ']' ).attr( 'ssgsid' );
+        clickedGalleryID = jQuery( 'a[ssgid=' + clickedImgID + ']' ).attr( 'ssg' );
+    } else {
+        // there is no gallery specified
+        clickedGalleryID = -1;
     }
 
-    // Call invokes forEach method in the context of jQuery output    
+    // Call invokes forEach method in the context of jQuery output        
     Array.prototype.forEach.call( SSG.jQueryImgCollection.toArray(), function ( el ) {
-        if ( !SSG.hasClass( el.classList, 'gossg' ) || clickedImgID == el.attributes.ssgid.nodeValue ) {
+        // don't include image with gossg class unless it was clicked
+        var noGossg =  !SSG.hasClass( el.classList, 'gossg' ) || clickedImgID == el.attributes.ssgid.nodeValue;
+        
+        // include only images with the same GalleryID as clicked image or from the galleries with vipssg class
+        var rightGallery = clickedGalleryID == el.attributes.ssg.nodeValue || ( SSG.hasClass( el.classList, 'vipssg' ) && clickedGalleryID == 0 );
+
+        if ( noGossg && (rightGallery || clickedGalleryID == -1 )) {
             obj.href = el.href;
             obj.alt = SSG.getAlt( el );
             obj.id = el.attributes.ssgid.nodeValue;
@@ -505,7 +523,7 @@ SSG.onFS = function () {
         SSG.exitFullscreen = true;
         SSG.fullscreenMode = true;
 
-        if ( !SSG.exitMode ) {
+        if ( !SSG.exitMode && !SSG.isMobile ) {
             jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
 
             // It fires onFS func and removes the Exit button & set all booleans.
@@ -630,7 +648,7 @@ SSG.onLoadError = function ( event ) {
 
 SSG.addImage = function () {
 
-    // Newone is index of ah image which will be load.
+    // Newone is index of a image which will be load.
     var newOne = SSG.loaded + 1;
 
     if ( newOne < SSG.imgs.length ) {
@@ -917,7 +935,7 @@ SSG.countImageIndent = function ( index ) {
     } else {
         ppMargin = pMargin;
     }
-    var centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 );
+    var centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     if ( centerPos < 0 ) {
         centerPos = ( centerPos * 2 ) - 2;
     }
@@ -1005,7 +1023,7 @@ SSG.destroyGallery = function () {
     }
     SSG.running = false;
     jQuery( '#SSG_galBg, #SSG_gallery, #SSG_exit, #SSG_lastone, #SSG_tip' ).remove();
-    jQuery( 'html' ).removeClass( 'ssg' );
+    jQuery( 'html' ).removeClass( 'ssg-active' );
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
 };

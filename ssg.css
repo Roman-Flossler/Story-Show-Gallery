@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.4.2
+*  Story Show Gallery (SSG) ver: 2.5.2
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -28,7 +28,7 @@
 #SSG_tip,
 #SSG_tip * {
     font-size: 100%;
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-weight: normal;
     box-sizing: border-box;
     margin: 0;
@@ -105,9 +105,9 @@
 
 #SSG_gallery img {
     max-width: 99vw;
-    max-height: 90vh;
+    max-height: 91vh;
     display: inline;
-    margin: 0.1em 0 0.5em 0;
+    margin: 0.4em 0 0.2em 0;
     border: 1px solid black;
 }
 
@@ -128,7 +128,7 @@
     min-width: 100px;
     height: 47px;
     position: absolute;
-    bottom: 0.5em;
+    bottom: 0.2em;
     left: 0px;
     opacity: 0.6;
     background-size: 100%;
@@ -345,7 +345,7 @@
 #SSG_tip strong {
     color: #6bddff;
     background: none;
-    font-family: Consolas, Menlo, "Lucida Console", monospace;
+    font-family: Consolas, Menlo, "Lucida Console", monospace !important;
     font-size: 141%;
     font-weight: normal;
 }
@@ -354,7 +354,7 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    font-family: "Times New Roman", monospace;
+    font-family: "Times New Roman", monospace !important;
     font-size: 181%;
     color: #bbb;
     background: #000;
@@ -415,7 +415,9 @@
 @media (orientation: portrait) {
 
     #SSG_gallery img {
-        max-width: 99%;
+        max-width: 100%;
+        border-left: none;
+        border-right: none; 
     }
 
     #SSG_gallery #f0:after {
@@ -434,7 +436,7 @@
         display: none;
     }
 
-    html.ssg body {
+    html.ssg-active body {
         overflow-y: auto;
     }
 
@@ -500,6 +502,14 @@
 
     #SSG_gallery .SSG_uwide img {
         max-width: 77vw;
+    }
+
+    #SSG_gallery :not(#f0).SSG_uwide.notitle img {
+        max-width: 99vw;
+    }
+
+    #SSG_gallery :not(#f0).SSG_uwide.notitle .SSG_imgWrap {
+        margin: 0;
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle {
@@ -575,7 +585,7 @@
 
     #SSG_gallery .SSG_uwide .SSG_imgWrap img,
     #SSG_gallery .notitle .SSG_imgWrap img {
-        max-height: 96vh;
+        max-height: 96.6vh;
         margin: 0;
     }
 
@@ -704,7 +714,7 @@
     #SSG_gallery img {
         max-width: 100vw;
         max-height: 89vh;
-        margin: 0.1em 0 0.1em 0;
+        margin: 0.4em 0 0.1em 0;
     }
 
     #SSG_gallery {
@@ -754,7 +764,8 @@
     }
 
     #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
-        max-height: 90vh;
+        max-height: 89vh;
+        margin-top: 0.3em;
         margin-bottom: 0.05em;
     }
 
@@ -788,6 +799,12 @@
 
     #SSG_gallery.notchright .SSG_uwide .SSG_imgWrap {
         margin: 0 2vw 0 0;
+    }
+
+    #SSG_gallery .SSG_uwide .SSG_imgWrap img,
+    #SSG_gallery .notitle .SSG_imgWrap img {
+        max-height: 97.8vh;
+        margin: 0;
     }
 
 }
@@ -924,18 +941,18 @@
  * media query for touch devices, no scrollbar for IE and FF
  */
 
-html.ssg {
+html.ssg-active {
     scrollbar-color: #505050 #0e0e0e;
     scrollbar-width: thin;
 }
 
-html.ssg ::-webkit-scrollbar {
+html.ssg-active ::-webkit-scrollbar {
     background: #0e0e0e;
     /* prev #191919; */
     width: 9px;
 }
 
-html.ssg ::-webkit-scrollbar-thumb {
+html.ssg-active ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
     -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
     background: #505050;
@@ -944,13 +961,13 @@ html.ssg ::-webkit-scrollbar-thumb {
     min-height: 81px;
 }
 
-html.ssg ::-webkit-scrollbar-button {
+html.ssg-active ::-webkit-scrollbar-button {
     height: 20px;
     background: black;
     height: 2px;
 }
 
-html.ssg body {
+html.ssg-active body {
     cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
     cursor: -webkit-image-set(
         url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
@@ -960,14 +977,14 @@ html.ssg body {
     background-color: #0e0e0e;
 }
 
-html.ssg .wait {
+html.ssg-active .wait {
     cursor: wait;
 }
 
 @media (pointer: coarse) {
 
     /* loading icon for touch devices */
-    html.ssg .wait #SSG_gallery::after {
+    html.ssg-active .wait #SSG_gallery::after {
         content: "";
         background-image: url("data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==");
         position: fixed;
@@ -1010,7 +1027,7 @@ html.ssg .wait {
         }
     }
 
-html.ssg {
+html.ssg-active {
     scrollbar-base-color: #505050;
     scrollbar-3dlight-color: #505050;
     scrollbar-highlight-color: #505050;
@@ -1026,8 +1043,8 @@ and it is realy irritating. Set !important to overwrite site's styles.
  */
 @supports (-ms-ime-align:auto) {
     @media (orientation: landscape) {
-        html.ssg body,
-        html.ssg {
+        html.ssg-active body,
+        html.ssg-active {
             overflow: hidden !important;
         }
     }
@@ -1036,7 +1053,7 @@ and it is realy irritating. Set !important to overwrite site's styles.
 /* ***  IE10 & IE11 bug solution. IE doesn't change bg color back from black */
 @media all and (-ms-high-contrast: none),
 (-ms-high-contrast: active) {
-    html.ssg body {
+    html.ssg-active body {
         background-color: white;
     }
 }

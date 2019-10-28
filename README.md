@@ -17,6 +17,8 @@ SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/).
 
 - There are **3 ways** how a photo gallery can be created. Automatically from images on the page, by passing an array of images into SSG, or by combination of both.
 
+- You can control behaviour of SSG by **CSS classes**. Define separate galleries, activate full screen mode, selectively deactivate SSG, etc.
+
 - **No e×it mode:** You can write just a minimal HTML code and SSG creates a gallery which works like a separate webpage. Because there is not much to display without SSG, the gallery can run in the no exit mode. See a [minimal crash course](https://ssg.flor.cz/minimal-crash-course/) how to use SSG.
 
 - Story Show Gallery can display **watermark - logo** over images.
@@ -27,11 +29,12 @@ SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/).
 - Every image has its own address, so you can **link into the gallery** to show a [particular photo](https://ssg.flor.cz/#element).
 <br>![watermark - logo](https://ssg.flor.cz/img/deep-linking.png)
 
-- Story Show Gallery can load a **signpost** to other galleries behind the last photo. [See the sample](https://ssg.flor.cz/signpost/).
-
 - Animated transition between images combines sliding and fading. The visual effect is similar to old slide projectors.
 
 - Protection of photos from being copied via right click menu.
+
+- Story Show Gallery can load a **signpost** to other galleries behind the last photo. [See the sample](https://ssg.flor.cz/signpost/).
+<br>![HTML signpost](https://ssg.flor.cz/img/signpost.jpg)
 
 ## License
 You can use SSG freely within [Mozilla Public License 2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2)). 
