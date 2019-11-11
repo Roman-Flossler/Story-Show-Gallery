@@ -20,9 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name='theme-color' content='#083f4c'>
     <title>SSG - jQuery vertical gallery - Show a story with your photos</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300" rel="stylesheet">
     <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='https://ssg.flor.cz/wordpress/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
 </head>
 
 <body>
@@ -191,7 +190,7 @@
                         &nbsp;&nbsp;... the main gallery with image thumbnails<br>
                         &nbsp;&lt;/div&gt;<br>
                         <br>
-                        &nbsp;&lt;p class='<span>ssg fs</span>'&gt;<br>
+                        &nbsp;&lt;p class='<span>ssg</span>'&gt;<br>
                         &nbsp;&nbsp;... the gallery with text hyper&shy;links<br>
                         &nbsp;&lt;/p&gt;<br>
                         <br>
@@ -208,9 +207,10 @@
                 &lt;div class='<span>nossg</span>'&gt; ...photo hyper&shy;links..  &lt;/div&gt; <br>                 
             </code>            
 
-            <p>The <strong>fs</strong> class will activate full screen mode. It can be assigned to a single photo hyper&shy;link or a parrent element of many hyper&shy;links.</p>
+            <p>The <strong>ssg</strong> class creates a separate gallery, assign it to some parent element of many photo hyper&shy;links. 
+                In the gallery will show only images that are inside the tag with ssg class.</p>
 
-            <p>The <strong>ssg</strong> class creates a separate gallery, assign it to some parent element of many photo hyper&shy;links. In the gallery will show only images that are inside the current ssg class.</p>
+            <p>The <strong>fs</strong> class will activate full screen mode. It can be assigned to a single photo hyper&shy;link or a parrent element of many hyper&shy;links.</p>
 
             <p>The first three images aren't part of any gallery, but they will bind to the gallery (or hyperlinks) with <strong>vipssg</strong> class, 
                so that they won't display alone. </p>
@@ -318,22 +318,21 @@
                 <br clear='all'/>
             </section>
 
-            <br>
-            <p>The image a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following images and then the rest. 
-                Example: A user clicked on the fourth image. Images are shown in the following order - 4,5,6,7 and then it continues with images 1,2,3. <br>
-                If a picture is part of a separate gallery (.ssg class) and a user click up to third picture of the gallery, SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7.
-                <br>
-            </p>
-            
-            <h2>Another gallery with text links</h2>
+            <h2 style="margin-top: 2em;">Another gallery with text links</h2>
             <p>
                 Story Show Gallery also supports text hyper&shy;links. All three follow&shy;ing pict&shy;ures will appear in separate gallery (because of .ssg class):
             </p>
-            <p class="ssg fs">
-                    <a href='https://www.flor.cz/blog/wp-content/uploads/michal-strojovna-seshora.jpg'>Steampunk style engine room</a> - a text link
-                    to a photo. <br>
+            <p class="ssg">
+                    <a href='https://ssg.flor.cz/img/massive-pink-rabbit-eating-man.jpg'>	&#128048; Massive pink rabbit eating a man</a> - a text link to a photo. <br>
                     <a href='https://ssg.flor.cz/some-nice-image.jpg' target="_blank">A broken link - You will notice it before site visitors do</a><br> 
                     <a href="https://ssg.flor.cz/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
+            </p>
+
+            <h2>Order of photos in the gallery</h2>
+            <p>The image a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following images and then the rest. 
+                Example: A user clicked on the fourth image. Images are shown in the following order - 4,5,6,7 and then it continues with images 1,2,3. <br>
+                If a picture is part of a separate gallery (.ssg class) and a user click up to third picture of the gallery, 
+                SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7.            
             </p>
             
             <h2>An example of nossg class</h2>
@@ -477,12 +476,26 @@ iceland = [];
             };
 
             var actimg = 1;
+            var actimgInv = 7
             var afterFirstRun = false;
-            jQuery(window).on('load', function() {setInterval( lightning , 450 )});            
+            jQuery(window).on('load', function() { lightInt = setInterval( lightning , 450 )});
 
-            function lightning() {  
+            function lightning() {
+                if ( SSG.running ) {
+                    clearInterval( lightInt );
+                    jQuery('#front-gallery img').addClass('lighten');
+                    return;
+                }                
                 jQuery('#front-gallery img:nth-child(' + actimg + ')').toggleClass('lighten');
                 jQuery('#front-gallery img:nth-child(' + (actimg-1) + ')').toggleClass('lighten');
+
+                jQuery('#front-gallery img:nth-child(' + actimgInv + ')').toggleClass('lighten');
+                jQuery('#front-gallery img:nth-child(' + (actimgInv+1) + ')').toggleClass('lighten');
+                
+                actimgInv--;
+                if (actimgInv == 1) {
+                    actimgInv = 7;
+                }
                 
                 if (actimg == 1 && afterFirstRun) {
                     jQuery('#front-gallery img:nth-child(7)').toggleClass('lighten');

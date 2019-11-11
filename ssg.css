@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.5.2
+*  Story Show Gallery (SSG) ver: 2.5.3
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -83,13 +83,22 @@
     width: 100%;
     font-size: 33px;
     text-align: center;
-    padding-top: 42vh;
+    padding-top: 66vh;
     position: fixed;
-    height: 150%;
+    height: 111%;
     z-index: 9999990;
     top: 0;
     left: 0px;
 }
+
+#SSG_galBg b {
+    font-weight: normal; 
+    transform: scaleX(1.5);
+    display: inline-block;
+    font-size: 86%;
+    margin-left: 0.1em;
+}
+
 
 #SSG_gallery {
     background: #131313;
@@ -245,10 +254,10 @@
 
 #SSG_menu a.SSG_link b {
     font-weight: normal;
-    transform: scaleX(1.8);
+    transform: scaleX(1.6);
     display: inline-block;
-    margin-right: 6px;
-    font-size: 89%;
+    margin-right: 4px;
+    font-size: 88%;
 }
 
 #SSG_menu #SSGL {
@@ -714,19 +723,23 @@
     #SSG_gallery img {
         max-width: 100vw;
         max-height: 89vh;
-        margin: 0.4em 0 0.1em 0;
+        margin: 0.3em 0 0.1em 0;
     }
 
     #SSG_gallery {
-        padding-top: 11em;
+        padding-top: 8em;
     }
 
     #SSG_gallery p.title {
-        padding-left: 1em;
-        padding-right: 1em;
-        display: block;
-        border-radius: 0;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+        min-width: 33vw;
     }
+
+    #SSG_gallery #p0 {
+        padding-left: 1.3em;
+        padding-right: 1em;
+    }    
 
     #SSG_gallery span.SSG_logo {
         background-size: 100%;
