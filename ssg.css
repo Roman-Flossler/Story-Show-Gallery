@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.5.3
+*  Story Show Gallery (SSG) ver: 2.5.4
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -26,6 +26,7 @@
 #SSG_exit,
 #SSG_exit *,
 #SSG_tip,
+#SSG_galBg,
 #SSG_tip * {
     font-size: 100%;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
@@ -44,6 +45,7 @@
     text-align: inherit;
     line-height: inherit;
     text-decoration: unset;
+    text-shadow: none;
     /* combination of * and inherit(unset) cause forcing each element inherit from parent.
     So SSG_ * overwrites * from other CSS and leaves original selectors priority.
     it is possible bug, * {text-align:left} overwrites more specific selector  */
@@ -83,7 +85,7 @@
     width: 100%;
     font-size: 33px;
     text-align: center;
-    padding-top: 66vh;
+    padding-top: 75vh;
     position: fixed;
     height: 111%;
     z-index: 9999990;
@@ -97,6 +99,7 @@
     display: inline-block;
     font-size: 86%;
     margin-left: 0.1em;
+    margin-right: 0.2em;
 }
 
 
@@ -113,7 +116,7 @@
 }
 
 #SSG_gallery img {
-    max-width: 99vw;
+    max-width: 96vw;
     max-height: 91vh;
     display: inline;
     margin: 0.4em 0 0.2em 0;
@@ -162,7 +165,7 @@
 
 #SSG_gallery .notitle p.title,
 #SSG_gallery .SSG_uwide p.title {
-    padding: 0.09em;
+    padding: 1px;   
     margin: 16vh 0;
     display: inline-block;
     border-radius: 0.1em;
@@ -197,10 +200,11 @@
 #SSG_gallery figure .serror img {
     border: none;
     height: 40px;
+    max-width: 77vw;
+    padding: 8vw;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
-    -ms-interpolation-mode: nearest-neighbor;
-    padding-bottom: 1em;
+    -ms-interpolation-mode: nearest-neighbor;    
     box-sizing: content-box;
 }
 
@@ -229,7 +233,26 @@
 #SSG_lastone {
     width: 100%;
     margin-top: 0;
-    padding-bottom: 8vw;
+    padding-bottom: 4vh;
+}
+
+#SSG_gallery::after {
+    content: '';
+    height: 18vh;
+    display: block;
+}
+
+
+@media (pointer: coarse) {
+    #SSG_gallery::after {
+        content: '';
+        background: linear-gradient(0deg, rgba(255,255,255,0) 44%, #131313 100%);
+        height: 44vh;
+        display: block;
+        position: relative;
+        top: 44vh;
+        margin-top: -40vh;
+    }
 }
 
 #SSG_lastone #SSG_menu a:hover {
@@ -398,13 +421,13 @@
     position: fixed;
     width: 50px;
     height: 50px;
-    border-radius: 13px;
+    border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
     z-index: 9999993;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: 11px 25px;
+    background-position: 13px 23px;
     background-size: 14px;
     opacity: 0.55;
 }
@@ -798,6 +821,7 @@
         top: -6px;
         right: -6px;
         opacity: 0.49;
+        border-radius: 13px;        
         background-position: 11px 26px;
     }
 
@@ -819,7 +843,10 @@
         max-height: 97.8vh;
         margin: 0;
     }
-
+    
+    #SSG_galBg {
+        font-size: 24px;
+    }
 }
 
 @media (max-width: 900px) and (orientation: landscape) {
@@ -898,13 +925,9 @@
 
     #SSG_gallery img {
         margin: 0.1em 0 0.5em 0;
+        margin-bottom: 0;
     }
-
-    #SSG_gallery span.SSG_logo {
-        bottom: 0.5em;
-    }
-
-
+    
     #SSG_menu a.SSG_link {
         width: 38%;
     }
@@ -967,7 +990,6 @@ html.ssg-active ::-webkit-scrollbar {
 
 html.ssg-active ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
     background: #505050;
     background-size: 100%;
     margin-top: 6px;
@@ -1069,4 +1091,49 @@ and it is realy irritating. Set !important to overwrite site's styles.
     html.ssg-active body {
         background-color: white;
     }
+}
+
+
+/*** space grey **/
+
+#SSG_gallery {
+    background: #333333;
+}
+
+@media (pointer: coarse) {
+    #SSG_gallery::after {        
+        background: linear-gradient(0deg, rgba(255,255,255,0) 44%, #333333 100%);
+    }
+}
+
+#SSG_galBg {
+    background: #333333;
+}
+
+#SSG_gallery img {
+    border: 1px solid #222222;
+	box-shadow: 0 0 11px 0px #131313;
+}
+
+#SSG_gallery .SSG_uwide p.uwtitle>span, #SSG_gallery p, #SSG_lastone p {
+    background: #252525;
+}
+
+/* space grey scrollbar color */
+
+html.ssg-active ::-webkit-scrollbar, html.ssg-active ::-webkit-scrollbar-button {
+    background: #242424;
+}
+
+html.ssg-active {
+    scrollbar-color: #666666 #242424; 
+}
+
+html.ssg-active {
+    scrollbar-base-color: #666666;
+    scrollbar-track-color: #242424;
+}
+
+html.ssg-active ::-webkit-scrollbar-thumb {
+    background: #666666;
 }

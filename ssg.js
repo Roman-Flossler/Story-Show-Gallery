@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.5.3
+//   Story Show Gallery (SSG) ver: 2.5.4
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -598,21 +598,17 @@ SSG.refreshFormat = function () {
 
 SSG.onResize = function () {
     // negative displayedLock holds the index of the last displayed image before onresize event.
-    // onresize event fires several times, so scrollToActualImg is conditioned by isDisplayedLocked
-    //     jQuery('#SSG_exit').append('<p style="color: white; background: black"> move '+ SSG.touchMoved + ' </p>');
+    // onresize event can fire several times, so re-countiong the gallery is conditioned by isDisplayedLocked
     var fraction = SSG.isOrientationChanged ? 1 : 0.4;
 
     if ( !SSG.isDisplayedLocked ) {
         SSG.isDisplayedLocked = true;
+        window.setTimeout( SSG.countResize, 580 * fraction );
+        // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
+        window.setTimeout( SSG.refreshFormat, 660 * fraction );
+        window.setTimeout( SSG.refreshPos, 960 * fraction );
         window.setTimeout( SSG.scrollToActualImg, 1000 * fraction );
     }
-
-    // Samsung browser fires resize event even when the resolution didn't change.
-    window.setTimeout( SSG.countResize, 580 * fraction );
-
-    // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-    window.setTimeout( SSG.refreshFormat, 660 * fraction );
-    window.setTimeout( SSG.refreshPos, 880 * fraction );
 };
 
 SSG.displayFormat = function ( e ) {

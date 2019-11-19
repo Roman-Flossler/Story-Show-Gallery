@@ -14,22 +14,12 @@
     src: local('Open Sans Condensed Light'), local('OpenSansCondensed-Light'), url(https://fonts.gstatic.com/s/opensanscondensed/v14/z7NFdQDnbTkabZAIOl9il_O6KJj73e7Ff1GhDuXMQQ.woff) format('woff');
   }
   
-
-
 * {
     box-sizing: border-box;
 }
 
 #SSG_gallery span.SSG_logo {
     background: url("https://www.flor.cz/img/florcz.png") ;
-}
-
-#SSG_gallery img {    
-    filter: brightness(1.05) contrast(0.97);
-}
-
-#SSG_gallery img[src*="story-show-gallery"] {
-    filter: none;
 }
 
 h1, h2 {
@@ -401,7 +391,7 @@ ul li {
 
 footer {    
     height: 4em;
-    background: linear-gradient(90deg, #C2C2C2 0%, #F7F7F7 11%, #E0E0E0 22%, #EDEDED 33%, #FAFAFA 47%, #E6E6E6 58%, #EDEDED 67%, #D9D9D9 79%, #F0F0F0 90%, #C2C2C2 100%); /* w3c */
+    background: linear-gradient(90deg, #C2C2C2 0%, #F7F7F7 11%, #E0E0E0 22%, #EDEDED 33%, #FAFAFA 47%, #E6E6E6 58%, #EDEDED 67%, #D9D9D9 79%, #F0F0F0 90%, #C2C2C2 100%);
 }
 
 
@@ -459,7 +449,7 @@ footer {
 
     .ficol {
         padding-bottom: 2em;
-        border-bottom: 30px solid #f6f6f6;
+        border-bottom: 30px dashed #cfe8ec;
     }
 
     .column .mobileonly {
@@ -650,114 +640,161 @@ footer {
 	}
 }
 
-@media (prefers-color-scheme: dark-x) { 
-    body {
+#bulb {
+    position: fixed;
+    right: 2vw;
+    bottom: 5vh;
+    width: 33px;
+    height: 40px;  
+    background: url('https://ssg.flor.cz/img/bulb-off.png') no-repeat center center;
+    background-size: 100%; 
+    opacity: 0.4;    
+    cursor: pointer;
+}
+
+#bulb:hover {
+    opacity: 1;
+}
+
+
+/* dark scheme */
+
+    .dark #bulb {
+        background: url('https://ssg.flor.cz/img/bulb-on.png') no-repeat center center;
+        background-size: 100%; 
+        width: 34px;
+        height: 42px;
+    }
+
+    .dark body {
         color: #dadada;
-        background: #2b3b3e;
+        background: #30383a;
     }
 
-    ul li {
-        background: #253133;
+    .dark ul li {
+        background: radial-gradient(circle farthest-corner at 27px 33px, rgb(86, 28, 43) 0%, #2b3031 28px);
     }
 
-    h1, h2, em.subheading {
-        color: #00e7ff;
+    .dark h1, .dark h2 {
+        color: #4bcbd8;
     }
 
-    .ficol h1::after {
-        border-top: 9px solid #161a1b;
-        border-right: 9px solid #161a1b;
+    .dark em.subheading {
+        color: #93d0d6;
+    }   
+
+    .dark .ficol h1::after {
+        border-top: 9px solid #212627;
+        border-right: 9px solid #212627;
     }
 
-    .ficol h2 {
-        border-top: 9px solid #161a1b;
+    .dark .ficol h2 {
+        border-top: 9px solid #212627;
     }
 
-    a, .icons {
+    .dark a, .dark .icons, .dark strong {
         color: #ff4566;
-        background: #103033;
-        border-radius: 0.3em;
+        background: none;        
+        text-shadow: 0 0 11px black;
     }
 
-    p, h1, h2, ul, li {
+    .dark p, .dark h1, .dark h2, .dark ul, .dark li {
         background: none;
     }
 
-    strong {
-        background: #1e2223;
+    .dark strong {    
         color: #6de8f5;
-        text-shadow: none;    
     }
 
-    code, footer {
-        background: #263233;
-        box-shadow: inset 0px 0px 36px #283233;
-    }
+    .dark code, .dark footer {
+        background: #212729;
+        box-shadow: inset 0px 0px 36px #252c2d;
+        color: #89c5cc;
+    }    
 
-    .gallery a {    
-        background: #000000;
-        border: 1px solid black;
+    .dark .gallery a {
+        background: #000000;        
         max-width: 202px;
         filter: brightness(0.81) contrast(1.03) saturate(0.88);
     }
 
-    img.darken {
-        filter: brightness(0.88) contrast(1.1)
+    .dark .gallery .topimg a {
+        max-width: none;
     }
 
-    img.invert {
-        filter: brightness(0.81) contrast(1.1)
+    .dark .gallery .topimg {
+        background: #000000;
     }
 
-    .gallery a:hover { 
-        filter: none;
+    .dark .gallery a:hover, .dark .gallery span a { 
+        filter: brightness(1) contrast(1) saturate(1);
+        background: none;
+    } 
+
+    .dark img.invert {
+        filter: invert(1) brightness(1.8) contrast(0.8);
     }
 
-    .gallery a img {
+    .dark .gallery a img {
         opacity: 1;
     }
 
-    code span {
+    .dark code span {
         color: #ff4566;
-        background: #242d2d;
+        background: none;
         font-weight: normal;
     }
 
-    .secol > .topimg {
-        filter: contrast(1.3);
+    .dark .secol .topimg.wider {
+        filter: contrast(1.23) brightness(0.95);
     }
 
-    .gallery > a:hover, .gallery .topimg:hover {
+    .dark .gallery > a:hover, .dark .gallery .topimg:hover {
         box-shadow: 3px 6px 13px 1px black;
     }
 
-    .topimg a {
+    .dark .topimg a {
         background: none;
     }
 
-    html {
-        scrollbar-color: #505050 #0e0e0e;
-        scrollbar-width: thin;
+    @media screen and (max-width: 950px) {
+        .dark .ficol {
+            padding-bottom: 2em;
+            border-bottom: 30px dashed #394244;
+        }
+
+        #bulb {            
+            right: 0.6vw;
+            bottom: 2vh;
+            background-size: 81% !important;            
+        }
+
+        #bulb:hover {
+            opacity: 0.4;
+        }
     }
     
-    html ::-webkit-scrollbar {
-        background: #0e0e0e;
-        /* prev #191919; */
-        width: 11px;
-        color: black;
-    }
     
-    html ::-webkit-scrollbar-thumb {
-        -webkit-border-radius: 3px;
-        -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
-        background: #026671;
-        background-size: 100%;
-        margin-top: 6px;
-        min-height: 81px;
+    @media screen and (min-width: 950px) { 
+
+        html.dark:not(.ssg-active) {
+            scrollbar-color: #125266 #252929;
+        }
+        
+        html.dark:not(.ssg-active) {
+            scrollbar-base-color: #226677;
+            scrollbar-track-color: #252929;
+        }
+        
+        html.dark:not(.ssg-active) ::-webkit-scrollbar {
+            background: #252929 ;
+        }
+        
+        html.dark:not(.ssg-active) ::-webkit-scrollbar-thumb {
+            background: #226677 ;
+        }
+        
+        html.dark:not(.ssg-active) ::-webkit-scrollbar-button {
+            background: #3f4b4b;
+        }
     }
-    
-    html ::-webkit-scrollbar-button {
-        background: #505050;
-        height: 11px;        
-    }     
-}    
