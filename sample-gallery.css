@@ -66,7 +66,7 @@ p, li, h1, h2 {
 
 h2 {
     font-size: 271%;
-    line-height: 1em;
+    line-height: 1.2em;
     margin-bottom: 0.8em;
     margin-top: 1.6em;    
     border-radius: 0 1em 0 0;
@@ -433,6 +433,10 @@ footer {
         padding-left: 0;
     }
 
+    ul li:first-letter {
+        padding-left: 0.2em;
+    }
+
     .row {
         overflow: hidden;
     }
@@ -582,7 +586,23 @@ footer {
 
     li img.imglink {
         width: 100%;        
-    }   
+    }
+
+    ul li {
+        width: 113%;
+        left: -10%;
+        padding: 1em 8% 1em 10%;
+        background: radial-gradient(circle farthest-corner at 9% 2em, rgb(255, 255, 255) 0%, rgb(248, 248, 248) 28px);        
+    }
+
+    code {
+        width: 119%;
+        left: -13%;
+        padding: 1em 6%;
+        padding-left: 8%;
+        position: relative;
+        letter-spacing: -0.05em;
+    }
 
     .column .mobileonly {
         margin-left: -13.1%;
@@ -675,6 +695,12 @@ footer {
         background: radial-gradient(circle farthest-corner at 27px 33px, rgb(86, 28, 43) 0%, #2b3031 28px);
     }
 
+    @media screen and (max-width: 550px) {
+        .dark ul li {
+            background: radial-gradient(circle farthest-corner at 9% 2em, rgb(86, 28, 43) 0%, #2b3031 28px);
+        }
+    }
+
     .dark h1, .dark h2 {
         color: #4bcbd8;
     }
@@ -704,6 +730,7 @@ footer {
 
     .dark strong {    
         color: #6de8f5;
+        padding: 0 0.1em;
     }
 
     .dark code, .dark footer {

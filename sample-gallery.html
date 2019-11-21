@@ -19,8 +19,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name='theme-color' content='#083f4c'>
     <title>SSG - jQuery vertical gallery - Show a story with your photos</title>
-    <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />
-    <script src='https://ssg.flor.cz/wordpress/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+    <link rel='stylesheet' href='sample-gallery.css' type='text/css' media='all' />    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script>
         var colorMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';        
         if ( localStorage && "colorMode" in localStorage ) {
@@ -79,8 +79,8 @@
                 alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
                 </li>                
                 <li>SSG has <strong>Fullscreen lightbox</strong> with an unobtrusive vertical slider and cur&shy;sor. 
-                    No ugly arrows around the image - it's a minimalist gallery. Great for photo&shy;graphers to present their photos.<br>
-                On smartphones, full screen mode works <strong>like on You&shy;Tube</strong>, it activa&shy;tes after rotating a phone into landscape mode.</li>
+                    No ugly arrows around the image - it's a minimalist gallery. Great for photo&shy;graphers to present their photos.<br><br>
+                On smartphones, full screen mode works <strong>like on You&shy;Tube</strong>. It activa&shy;tes after rotating a phone into landscape mode.</li>
                 <li>Story Show Gallery supports <strong>Goo&shy;gle analytics</strong> to measure views of each photo. SSG detects and uses GA tracking code on your site.
                 <img src="https://ssg.flor.cz/img/google-analytics.jpg" alt="Google Analytics" class="limg invert" id="ga">
                 </li>
@@ -123,7 +123,7 @@
             </p>
 
             <code>
-                    &lt;link rel="<span>stylesheet</span>" href="<span>path/to/ssg.css</span>" &gt;<br>
+                    &lt;link rel="<span>stylesheet</span>" href="<span>path/to/ssg.css</span>"&gt;<br>
                     &lt;script src="<span>path/to/ssg.js</span>"&gt; &lt;/script&gt;
             </code>
             <p>
@@ -137,7 +137,7 @@
 
             <p>SSG requires jQuery library at least in version 1.5. Place jQuery code inside the &lt;head&gt; section (Wordpress already includes jQuery): </p>
             <code>
-                    &lt;script src="<span>https://code.jquery.com/jquery-3.3.1.min.js</span>"&gt; &lt;/script&gt;
+                    &lt;script src="<span>https://code.jquery.com/jquery-3.4.1.min.js</span>"&gt; &lt;/script&gt;
             </code>
 
             <p>Sample HTML5 gallery code and re-styling Story Show Gallery:</p>
@@ -184,13 +184,13 @@
                 <code>
                         &lt;!--  column 1 --&gt;<br>
                         &lt;p class='<span>fs</span>'&gt;<br>
-                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG is fully responsive" &gt; &lt;/a&gt;<br>
-                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG source code" &gt; &lt;/a&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG is fully responsive"&gt; &lt;/a&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg</span>'&gt; &lt;img  alt="SSG source code"&gt; &lt;/a&gt;<br>
                         
                         &lt;/p&gt; <br><br>
 
                         &lt;!--  column 2 --&gt;<br>
-                        &nbsp;&lt;a class='<span>gossg fs</span>'&gt; &lt;img  alt="upper SSG logo" &gt; &lt;/a&gt;<br>
+                        &nbsp;&lt;a class='<span>gossg fs</span>'&gt; &lt;img  alt="upper SSG logo"&gt; &lt;/a&gt;<br>
                         <br>
                         &nbsp;&lt;div class='<span>ssg fs vipssg</span>'&gt;<br>
                         &nbsp;&nbsp;... the main gallery with image thumbnails<br>

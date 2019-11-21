@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.5.4
+*  Story Show Gallery (SSG) ver: 2.5.5
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -1023,12 +1023,14 @@ html.ssg-active .wait {
         content: "";
         background-image: url("data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==");
         position: fixed;
-        background-color: #0e0e0e;
+        background-color: #001418;
         border-radius: 5px;
-        bottom: 5vw;
-        right: 2vw;
-        width: 12px;
-        height: 80px;
+        top: auto;
+        bottom: 7vh;
+        right: 13px;
+        width: 22px;
+        height: 88px;
+		z-index: 6;
         filter: opacity(0.81);
         background-repeat: no-repeat;
         background-size: 8px;
@@ -1047,6 +1049,15 @@ html.ssg-active .wait {
         display: none;
     }
 
+	@media (max-width: 900px) and (orientation: landscape),
+            (max-width: 550px) and (orientation: portrait) {
+	    html.ssg-active .wait #SSG_gallery::after {
+			width: 14px;
+	        height: 80px;
+	        filter: opacity(0.66);
+		}	
+	}    
+
 }
 
 @media (pointer: coarse) and  (orientation: portrait) {
@@ -1059,6 +1070,12 @@ html.ssg-active .wait {
 
         #SSG_tip span {
             padding: 1em;
+        }
+
+        html.ssg-active .wait #SSG_gallery::after {
+            position: fixed;
+            right: 13px;
+            top: 48vh;
         }
     }
 
@@ -1112,7 +1129,8 @@ and it is realy irritating. Set !important to overwrite site's styles.
 
 #SSG_gallery img {
     border: 1px solid #222222;
-	box-shadow: 0 0 11px 0px #131313;
+    /* box-shadow: 0 0 11px 0px #131313; */
+	box-shadow: 0 0 8px 0px #212121;
 }
 
 #SSG_gallery .SSG_uwide p.uwtitle>span, #SSG_gallery p, #SSG_lastone p {
