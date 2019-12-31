@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.5.6
+//   Story Show Gallery (SSG) ver: 2.5.7
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -41,13 +41,13 @@ jQuery( document ).ready( function () {
 
 
 SSG.run = function ( event ) {
+    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
 
     // It prevents to continue if SSG is already running or there is no photo on the page to display.
     if ( SSG.running || SSG.jQueryImgCollection.length == 0 ) {
         return false;
     }
-    SSG.running = true;    
-    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
+    SSG.running = true;
 
     // If there is no start image specified (in the noExit mode), try to get image from hash.
     if ( event && event.noExit && !event.initImgID ) {
