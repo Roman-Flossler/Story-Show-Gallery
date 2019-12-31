@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.5.4
+//   Story Show Gallery (SSG) ver: 2.5.6
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -42,8 +42,8 @@ jQuery( document ).ready( function () {
 
 SSG.run = function ( event ) {
 
-    // It prevents to continue if SSG is already running.
-    if ( SSG.running ) {
+    // It prevents to continue if SSG is already running or there is no photo on the page to display.
+    if ( SSG.running || SSG.jQueryImgCollection.length == 0 ) {
         return false;
     }
     SSG.running = true;    
@@ -72,7 +72,7 @@ SSG.run = function ( event ) {
     // It is because of problems (Chrome mobile, Firefox) with initiation of the gallery when switching into FS mode. 
     // if no FS mode is wanted, then the createGallery() is called directly from FSmode()
     SSG.FSmode( event );
-    return false;
+    event.preventDefault();
 };
 
 SSG.setVariables = function () {
@@ -350,7 +350,7 @@ SSG.initGallery = function ( event ) {
     document.addEventListener( 'DOMMouseScroll', SSG.seizeScrolling, {
         passive: false
     } );
-    !SSG.isMobile && jQuery( window ).resize( SSG.onResize );
+    !SSG.isMobile && jQuery( window ).resize( SSG.onResize );    
     jQuery( '#SSG_gallery, #SSG_exit' ).on( "contextmenu", function ( event ) {
         event.preventDefault();
         SSG.showFsTip( false );

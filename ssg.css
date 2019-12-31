@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.5.5
+*  Story Show Gallery (SSG) ver: 2.5.6
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -160,6 +160,9 @@
     padding-bottom: 0.3em;
     margin-bottom: 28vh;
     font-size: 108%;
+}
+
+#SSG_menu a.SSG_link {
     text-shadow: #000 0px 0px 16px;
 }
 
@@ -200,12 +203,14 @@
 #SSG_gallery figure .serror img {
     border: none;
     height: 40px;
-    max-width: 77vw;
+    max-width: 83vw;
     padding: 8vw;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;    
     box-sizing: content-box;
+    background: linear-gradient(-8deg, #006575d1 18%, #0b1617f0 47%, #00a0d061 276%), repeating-linear-gradient(292deg, #00a8b1 0px, #000000 3px, #00000000 26px),  repeating-linear-gradient(476deg, #00a8b1 0px, #000000 11px, #000000 18px);
+    /* background: linear-gradient(-6deg, #005967cc 18%, #0b1617f0 49%, #00a0d000 276%), repeating-linear-gradient(292deg, #00a8b1c4 0px, #001919 11px, #00000000 30px),  repeating-linear-gradient(477deg, #00a8b1 0px, #001919 11px, #000000 8px);    */
 }
 
 #SSG_gallery figure .serror span.SSG_logo {
@@ -746,7 +751,7 @@
     #SSG_gallery img {
         max-width: 100vw;
         max-height: 89vh;
-        margin: 0.3em 0 0.1em 0;
+        margin: 0.3em 0 0em 0;
     }
 
     #SSG_gallery {
@@ -769,7 +774,7 @@
         width: 16vw;
         max-width: 133px;
         height: 44px;
-        bottom: 1px;
+        bottom: 0px;
         left: -3px;
     }
 
@@ -934,6 +939,10 @@
 
     #SSG_menu #SSGL {
         width: 23%;
+    }
+
+    #SSG_gallery p.title {
+        padding: 0.6em 1.5em 0.5em 1.5em;
     }
 }
 
@@ -1111,47 +1120,64 @@ and it is realy irritating. Set !important to overwrite site's styles.
 }
 
 
-/*** space grey **/
+/************ Dark theme - default ********************************/
 
-#SSG_gallery {
-    background: #333333;
+
+html #SSG_gallery {
+    background: rgb(24, 24, 24);
 }
 
 @media (pointer: coarse) {
-    #SSG_gallery::after {        
-        background: linear-gradient(0deg, rgba(255,255,255,0) 44%, #333333 100%);
+    html #SSG_gallery::after {
+        background: linear-gradient(to top, rgba(24, 24, 24, 0) 44%, rgba(24, 24, 24, 1) 100%);
     }
 }
 
-#SSG_galBg {
-    background: #333333;
+html #SSG_galBg {
+    background: rgb(24, 24, 24);
 }
 
-#SSG_gallery img {
-    border: 1px solid #222222;
-    /* box-shadow: 0 0 11px 0px #131313; */
-	box-shadow: 0 0 8px 0px #212121;
+html #SSG_gallery img {
+    border: 1px solid rgb(10, 10, 10);
+    box-shadow: 0 0 8px 0px rgb(12, 12, 12);
 }
 
-#SSG_gallery .SSG_uwide p.uwtitle>span, #SSG_gallery p, #SSG_lastone p {
-    background: #252525;
+html #SSG_gallery p, 
+html #SSG_gallery p.title span {
+	text-shadow: none;
+	color:#b1b1b1;
+	}
+
+html #SSG_menu a.SSG_link {
+	text-shadow: 0 0 16px black;
 }
 
-/* space grey scrollbar color */
+html #SSG_gallery .SSG_uwide p.uwtitle>span, 
+html #SSG_gallery p, 
+html #SSG_lastone p {
+	box-shadow: none;
+    background: rgb(38, 38, 38);
+}
+
+html #SSG_lastone p {
+	box-shadow: none;
+    background: rgb(44, 44, 44);
+}
+
 
 html.ssg-active ::-webkit-scrollbar, html.ssg-active ::-webkit-scrollbar-button {
-    background: #242424;
+    background: #111111;
 }
 
 html.ssg-active {
-    scrollbar-color: #666666 #242424; 
+    scrollbar-color: #393939 #111111; 
 }
 
 html.ssg-active {
-    scrollbar-base-color: #666666;
-    scrollbar-track-color: #242424;
+    scrollbar-base-color: #393939;
+    scrollbar-track-color: #111111;
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb {
-    background: #666666;
+    background: #393939;
 }

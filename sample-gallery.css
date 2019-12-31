@@ -473,11 +473,12 @@ footer {
         line-height: 2.2em;
         text-decoration: none;
         cursor: pointer;
-        color: #9abebf;
-        text-shadow: 0 0 16px #178ea7;    
+        color: #b8b8b8;
+        text-shadow: 0 0 11px #57e2ff;    
         background-image: url(https://ssg.flor.cz/img/simple-scroll-gallery.jpg);
         background-size: 99.3%; 
-        filter: brightness(1.2) saturate(1.8) hue-rotate(-6deg);
+        filter: brightness(1.2) saturate(1.8) hue-rotate(-8deg);
+        border-bottom: 2px solid #081010;
     }
 
     .column .mobileonly span b {
@@ -687,17 +688,20 @@ footer {
     }
 
     .dark body {
-        color: #dadada;
-        background: #30383a;
+        /* color: #dadada; */
+        color: #cccccc;
+        /* background: #292e2f; */
+        background: #232829;
     }
 
     .dark ul li {
-        background: radial-gradient(circle farthest-corner at 27px 33px, rgb(86, 28, 43) 0%, #2b3031 28px);
+        background: radial-gradient(circle farthest-corner at 27px 33px, rgb(86, 28, 43) 0%, #202425 28px);
+        box-shadow: inset 0 0 33px #181e1f;
     }
 
     @media screen and (max-width: 550px) {
         .dark ul li {
-            background: radial-gradient(circle farthest-corner at 9% 2em, rgb(86, 28, 43) 0%, #2b3031 28px);
+            background: radial-gradient(circle farthest-corner at 9% 2em, rgb(86, 28, 43) 0%, #202425 28px);
         }
     }
 
@@ -706,20 +710,20 @@ footer {
     }
 
     .dark em.subheading {
-        color: #93d0d6;
+        color: #aedde0;
     }   
 
     .dark .ficol h1::after {
-        border-top: 9px solid #212627;
-        border-right: 9px solid #212627;
+        border-top: 9px solid #161a1b;
+        border-right: 9px solid #161a1b;
     }
 
     .dark .ficol h2 {
-        border-top: 9px solid #212627;
+        border-top: 9px solid #161a1b;
     }
 
     .dark a, .dark .icons, .dark strong {
-        color: #ff4566;
+        color: #e44d68;
         background: none;        
         text-shadow: 0 0 11px black;
     }
@@ -729,13 +733,13 @@ footer {
     }
 
     .dark strong {    
-        color: #6de8f5;
+        color: #28d8ea;
         padding: 0 0.1em;
     }
 
     .dark code, .dark footer {
-        background: #212729;
-        box-shadow: inset 0px 0px 36px #252c2d;
+        background: #171e1f;
+        box-shadow: none;
         color: #89c5cc;
     }    
 
@@ -767,13 +771,13 @@ footer {
     }
 
     .dark code span {
-        color: #ff4566;
+        color: #f7768e;
         background: none;
         font-weight: normal;
     }
 
     .dark .secol .topimg.wider {
-        filter: contrast(1.23) brightness(0.95);
+        filter: contrast(1.22) brightness(0.88);
     }
 
     .dark .gallery > a:hover, .dark .gallery .topimg:hover {
@@ -792,7 +796,7 @@ footer {
 
         #bulb {            
             right: 0.6vw;
-            bottom: 2vh;
+            bottom: 6vh;
             background-size: 81% !important;            
         }
 
