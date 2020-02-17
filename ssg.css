@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.5.6
+*  Story Show Gallery (SSG) ver: 2.6.0
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -1124,17 +1124,17 @@ and it is realy irritating. Set !important to overwrite site's styles.
 
 
 html #SSG_gallery {
-    background: rgb(24, 24, 24);
+    background: rgb(22, 22, 22);
 }
 
 @media (pointer: coarse) {
     html #SSG_gallery::after {
-        background: linear-gradient(to top, rgba(24, 24, 24, 0) 44%, rgba(24, 24, 24, 1) 100%);
+        background: linear-gradient(to top, rgba(22, 22, 22, 0) 44%, rgba(22, 22, 22, 1) 100%);
     }
 }
 
 html #SSG_galBg {
-    background: rgb(24, 24, 24);
+    background: rgb(22, 22, 22);
 }
 
 html #SSG_gallery img {
@@ -1166,16 +1166,16 @@ html #SSG_lastone p {
 
 
 html.ssg-active ::-webkit-scrollbar, html.ssg-active ::-webkit-scrollbar-button {
-    background: #111111;
+    background: #0F0F0F;
 }
 
 html.ssg-active {
-    scrollbar-color: #393939 #111111; 
+    scrollbar-color: #393939 #0F0F0F; 
 }
 
 html.ssg-active {
     scrollbar-base-color: #393939;
-    scrollbar-track-color: #111111;
+    scrollbar-track-color: #0F0F0F;
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb {

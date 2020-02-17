@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.5.7
+//   Story Show Gallery (SSG) ver: 2.6.0
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -15,6 +15,44 @@
 
 // Main object - namespace - the only global variable
 var SSG = {};
+SSG.cfg = {};
+
+// ---------------------- ⚙️⚙️⚙️ SSG CONFIGURATION ⚙️⚙️⚙️ ---------------------------
+
+// duration of scroll animation in miliseconds. Set to zero for no scroll animation.
+SSG.cfg.scrollDuration = 500;
+
+// Force SSG to display in fullscreen - true/false
+SSG.cfg.alwaysFullscreen = false;
+
+// Force SSG to never display in fullscreen - true/false
+SSG.cfg.neverFullscreen = false;
+
+// if there are small images in the gallery (comparing to the screen size), the caption will be on the side - true/false
+SSG.cfg.sideCaptionforSmallImg = true;
+
+// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). Set to null if you don't want it.
+SSG.cfg.fileToLoad = 'ssg-loaded.html';   // URL is relative to parent HTML file, it's safer to use absolute path https://...
+
+// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
+SSG.cfg.logIntoGA = true;
+
+// Protect photos from being copied via right click menu - true/false
+SSG.cfg.rightClickProtection = true;
+
+// Here you can translate SSG into other language. Leave tags <> and "" as they are.
+SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
+SSG.cfg.hint2 = "a mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong>";
+SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
+SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> to browse through Story Show Gallery.";
+SSG.cfg.hintFS = "For a better experience <br><a>click for fullscreen mode</a>"
+SSG.cfg.toTheTop = "Scroll to top";
+SSG.cfg.exitLink = "Exit the Gallery";
+SSG.cfg.nextPhotoLink = "next photo";
+
+// -------------- end of configuration ----------------------------------------
+
+
 
 // get a collection of all anchor tags from the page, which links to an image
 SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF']";
@@ -72,13 +110,10 @@ SSG.run = function ( event ) {
     // It is because of problems (Chrome mobile, Firefox) with initiation of the gallery when switching into FS mode. 
     // if no FS mode is wanted, then the createGallery() is called directly from FSmode()
     SSG.FSmode( event );
-    event.preventDefault();
+    return false;
 };
 
 SSG.setVariables = function () {
-
-    // Load a HTML file behind the gallery (better to use absolute URL http://), or set SSG.fileToLoad = null; if you don't want it
-    SSG.fileToLoad = 'ssg-loaded.html';
 
     // Array of objects where image attributes are stored
     SSG.imgs = [];
@@ -223,7 +258,9 @@ SSG.FSmode = function ( event ) {
     var mobilePortrait = window.matchMedia( '(max-width: 500px) and (orientation: portrait) ' ).matches;
 
     // event.fs and event.fsa isn't a browser's object. MobileLandscape and isTablet goes everytime in FS, it solves problems with mobile browsers
-    if ( mobilePortrait ) {
+    if (SSG.cfg.alwaysFullscreen) {
+        SSG.openFullscreen();
+    } else if ( mobilePortrait || SSG.cfg.neverFullscreen ) {
         SSG.createGallery( SSG.initEvent );
     } else if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
@@ -351,7 +388,7 @@ SSG.initGallery = function ( event ) {
         passive: false
     } );
     !SSG.isMobile && jQuery( window ).resize( SSG.onResize );    
-    jQuery( '#SSG_gallery, #SSG_exit' ).on( "contextmenu", function ( event ) {
+    SSG.cfg.rightClickProtection && jQuery( '#SSG_gallery, #SSG_exit' ).on( "contextmenu", function ( event ) {
         event.preventDefault();
         SSG.showFsTip( false );
     } );
@@ -625,19 +662,22 @@ SSG.displayFormat = function ( e ) {
     }
     var titleUnderRatio = vwidth / ( vheight - titleHeight );
     var titleSideRatio = ( vwidth * photoFrameWidth ) / vheight;
-    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.28;
+    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.28;   
 
-    if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.25 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
-        !( jQuery( '#f' + index ).hasClass( 'SSG_uwide' ) ) && jQuery( '#f' + index ).addClass( 'SSG_uwide' );
-    } else {
-        jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
-    }
+    // caption can be on the side only if it is allowed or if the image is tall over whole screen height
+    if (SSG.cfg.sideCaptionforSmallImg || vheight < imgHeight * 1.2) {
+        if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.25 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
+            !( jQuery( '#f' + index ).hasClass( 'SSG_uwide' ) ) && jQuery( '#f' + index ).addClass( 'SSG_uwide' );
+        } else {
+            jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
+        }
 
-    // If the photo is too narrow shift the caption towards the photo.
-    if ( tooNarrow ) {
-        !( jQuery( '#f' + index ).hasClass( 'SSG_captionShift' ) ) && jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
-    } else {
-        jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
+        // If the photo is too narrow shift the caption towards the photo.
+        if ( tooNarrow ) {
+            !( jQuery( '#f' + index ).hasClass( 'SSG_captionShift' ) ) && jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
+        } else {
+            jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
+        }
     }
 };
 
@@ -709,8 +749,8 @@ SSG.addImage = function () {
 
     // NewOne is now actually by +1 larger than array index. 
     if ( newOne == SSG.imgs.length ) {
-        var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> Scroll to top</a>";
-        var menuItem2 = SSG.exitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; Exit the Gallery</a>" : "";
+        var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfg.toTheTop + "</a>";
+        var menuItem2 = SSG.exitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfg.exitLink + "</a>" : "";
         var menuItem3 = "<a id='SSGL' target='_blank' href='https://ssg.flor.cz/wordpress/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
         jQuery( '#SSG_gallery' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
             "</p> <div id='SSG_loadInto'></div></div>" );
@@ -726,7 +766,7 @@ SSG.addImage = function () {
         } );
 
         // Load a html file with links to other galleries.
-        SSG.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.fileToLoad, function ( response, status, xhr ) {
+        SSG.cfg.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.cfg.fileToLoad, function ( response, status, xhr ) {
             if ( status == "success" ) {
                 SSG.fileLoaded = true;
                 jQuery( '.SSG_icell' ).click( function ( event ) {
@@ -748,8 +788,8 @@ SSG.addImage = function () {
 
     // Append a little help to the first image.
     if ( newOne == 0 ) {
-        jQuery( '#p0' ).append( '<a class="SSG_tipCall">next photo</a>' );
-        jQuery( '#uwp0' ).append( '<span><a class="SSG_tipCall">next photo</a></span>' );
+        jQuery( '#p0' ).append( '<a class="SSG_tipCall">' + SSG.cfg.nextPhotoLink + '</a>' );
+        jQuery( '#uwp0' ).append( '<span><a class="SSG_tipCall">' + SSG.cfg.nextPhotoLink + '</a></span>' );
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( false );
             event.stopPropagation();
@@ -772,7 +812,9 @@ SSG.setHashGA = function ( index ) {
     }
 
     // Sends a pageview of an actual image to Google Analytics.    
-    typeof ga == 'function' && ga( 'send', 'pageview', '/img' + location.pathname + hashName );
+    if (SSG.cfg.logIntoGA && typeof ga == 'function' ) {
+        ga( 'send', 'pageview', '/img' + location.pathname + hashName );        
+    }
     if ( hashName == '#signpost' ) {
         hashName = '';
     }
@@ -856,13 +898,13 @@ SSG.ScrollTo = function ( posY, direction ) {
     SSG.jumpScrolling = true;
     if ( direction ) {
         jQuery( 'figure[id=f' + ( SSG.displayed + direction ) + ']' ).fadeTo( 0, 0 );
-        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( 400, 0 );
+        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( SSG.cfg.scrollDuration*0.8, 0 );
     }    
-    jQuery( 'html, body' ).animate( { scrollTop: posY }, 500, 'swing', 
+    jQuery( 'html, body' ).animate( { scrollTop: posY }, SSG.cfg.scrollDuration, 'swing', 
                             function() { SSG.jumpScrolling = false; } );
     if ( direction ) {
-        jQuery( 'figure[id=f' + ( SSG.displayed + direction ) + ']' ).fadeTo( 666, 1 );
-        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( 400, 1 );
+        jQuery( 'figure[id=f' + ( SSG.displayed + direction ) + ']' ).fadeTo( SSG.cfg.scrollDuration*1.33, 1 );
+        jQuery( 'figure[id=f' + ( SSG.displayed ) + ']' ).fadeTo( SSG.cfg.scrollDuration, 1 );
     }
 };
 
@@ -948,7 +990,7 @@ SSG.jumpScroll = function () {
             var menuPosition = SSG.fileLoaded ? SSG.scrHeight / 10 : SSG.scrHeight - SSG.scrHeight / 5;
             SSG.imageDown && jQuery( 'html, body' ).animate( {
                 scrollTop: jQuery( '#SSG_menu' ).offset().top - menuPosition
-            }, 500, 'swing', function () {
+            }, SSG.cfg.scrollDuration, 'swing', function () {
                 if ( !SSG.lastone ) {
                     SSG.lastone = true;
                     SSG.setHashGA( -1 );
@@ -1039,7 +1081,7 @@ SSG.closeFullscreen = function () {
 SSG.destroyGallery = function () {
     history.replaceState( null, null, SSG.location );
     clearInterval( SSG.metronomInterval );
-    if ( typeof ga == 'function' ) {
+    if (SSG.cfg.logIntoGA && typeof ga == 'function' ) {
         ga( 'send', 'pageview', location.pathname );
     }
     // DOMMouseScroll event is for FF, mousewheel for other browsers, true (capturing phase) is for IE11
@@ -1081,13 +1123,11 @@ SSG.destroyGallery = function () {
 SSG.showFsTip = function ( justFsOffer ) {
     if ( jQuery( '#SSG_tip' ).length == 0 ) {
         var begin = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
-        var man1 = "<div class='classic'>Browse through Story Show Gallery by:<br>a mouse wheel" +
-            " <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong><br>";
-        var man2 = "or <strong>TAP</strong> on the bottom (top) of the screen</div>";
-        var touch = "<div class='touch'><strong>TAP</strong> on the bottom (top) of the screen<br>" +
-            " to browse through Story Show Gallery.</div>";
+        var man1 = "<div class='classic'>" + SSG.cfg.hint1 + "<br>" + SSG.cfg.hint2 + "<br>";
+        var man2 =  SSG.cfg.hint3 + "</div>";
+        var touch = "<div class='touch'>" + SSG.cfg.hintTouch + "</div>";
         var hr = "<hr>";
-        var fs = "For a better experience <br><a>click for fullscreen mode</a><br>";
+        var fs =  SSG.cfg.hintFS + "<br>";
         var end = "</span></div>";
         if ( justFsOffer ) {
             jQuery( 'body' ).append( begin + fs + end );
