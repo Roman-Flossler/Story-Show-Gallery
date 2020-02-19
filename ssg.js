@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.6.0
+//   Story Show Gallery (SSG) ver: 2.6.1
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -17,19 +17,16 @@
 var SSG = {};
 SSG.cfg = {};
 
-// ---------------------- ⚙️⚙️⚙️ SSG CONFIGURATION ⚙️⚙️⚙️ ---------------------------
+// ---------------------- ⚙️⚙️⚙️ Story Show Gallery CONFIGURATION ⚙️⚙️⚙️ ---------------------------
 
-// duration of scroll animation in miliseconds. Set to zero for no scroll animation.
+// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.
 SSG.cfg.scrollDuration = 500;
 
-// Force SSG to display in fullscreen - true/false
+// Force SSG to always display in fullscreen - true/false
 SSG.cfg.alwaysFullscreen = false;
 
 // Force SSG to never display in fullscreen - true/false
 SSG.cfg.neverFullscreen = false;
-
-// if there are small images in the gallery (comparing to the screen size), the caption will be on the side - true/false
-SSG.cfg.sideCaptionforSmallImg = true;
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). Set to null if you don't want it.
 SSG.cfg.fileToLoad = 'ssg-loaded.html';   // URL is relative to parent HTML file, it's safer to use absolute path https://...
@@ -39,6 +36,10 @@ SSG.cfg.logIntoGA = true;
 
 // Protect photos from being copied via right click menu - true/false
 SSG.cfg.rightClickProtection = true;
+
+// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false
+SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
+// in other cases caption position depends on photo size vs. screen size.
 
 // Here you can translate SSG into other language. Leave tags <> and "" as they are.
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
@@ -62,7 +63,7 @@ SSG.getJQueryImgCollection = function () {
 
 jQuery( document ).ready( function () {
     // looks for galleries with nossg class and marks every jQueryImgSelector element inside by nossg class
-    jQuery( '.gallery.nossg a, .wp-block-gallery.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
+    jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
 
     // adding of fs class to all thumbnails in a gallery, it activates full screen
     jQuery( '.gallery a, .wp-block-gallery a, .fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
@@ -662,19 +663,20 @@ SSG.displayFormat = function ( e ) {
     }
     var titleUnderRatio = vwidth / ( vheight - titleHeight );
     var titleSideRatio = ( vwidth * photoFrameWidth ) / vheight;
-    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.28;   
+    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.28;
 
-    // caption can be on the side only if it is allowed or if the image is tall over whole screen height
-    if (SSG.cfg.sideCaptionforSmallImg || vheight < imgHeight * 1.2) {
+    // sideCaptionforSmallerLandscapeImg would disable side captions completely, so there are two conditions, which allow side captions
+    // Portrait mode condition is important for removing SSG_uwide class when the gallery is switched into portrait mode
+    if ( SSG.cfg.sideCaptionforSmallerLandscapeImg || vheight < imgHeight * 1.2 ||  imgHeight >= imgWidth || !SSG.landscapeMode ) {
         if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.25 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
-            !( jQuery( '#f' + index ).hasClass( 'SSG_uwide' ) ) && jQuery( '#f' + index ).addClass( 'SSG_uwide' );
+            jQuery( '#f' + index ).addClass( 'SSG_uwide' );
         } else {
             jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
         }
 
         // If the photo is too narrow shift the caption towards the photo.
         if ( tooNarrow ) {
-            !( jQuery( '#f' + index ).hasClass( 'SSG_captionShift' ) ) && jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
+            jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
         } else {
             jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
         }

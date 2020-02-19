@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.6.0
+*  Story Show Gallery (SSG) ver: 2.6.1
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -204,7 +204,7 @@
     border: none;
     height: 40px;
     max-width: 83vw;
-    padding: 8vw;
+    padding: 28vh 7vw;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;    
@@ -1139,7 +1139,7 @@ html #SSG_galBg {
 
 html #SSG_gallery img {
     border: 1px solid rgb(10, 10, 10);
-    box-shadow: 0 0 8px 0px rgb(12, 12, 12);
+    box-shadow: 0 0 8px 0px rgb(12, 12, 12) !important;
 }
 
 html #SSG_gallery p, 
