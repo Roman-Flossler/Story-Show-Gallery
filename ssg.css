@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.6.1
+*  Story Show Gallery (SSG) ver: 2.6.2
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -201,17 +201,34 @@
 }
 
 #SSG_gallery figure .serror img {
-    border: none;
+    border: 0;
     height: 40px;
     max-width: 83vw;
     padding: 28vh 7vw;
+    box-shadow: none !important;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;    
     box-sizing: content-box;
+    animation-name: invert;
+    animation-duration: 8s;    
+    animation-iteration-count: infinite;
     background: linear-gradient(-8deg, #006575d1 18%, #0b1617f0 47%, #00a0d061 276%), repeating-linear-gradient(292deg, #00a8b1 0px, #000000 3px, #00000000 26px),  repeating-linear-gradient(476deg, #00a8b1 0px, #000000 11px, #000000 18px);
     /* background: linear-gradient(-6deg, #005967cc 18%, #0b1617f0 49%, #00a0d000 276%), repeating-linear-gradient(292deg, #00a8b1c4 0px, #001919 11px, #00000000 30px),  repeating-linear-gradient(477deg, #00a8b1 0px, #001919 11px, #000000 8px);    */
 }
+
+@keyframes invert {
+    0% {  filter: brightness(1) hue-rotate(0deg) invert(0); }
+    15% { filter: brightness(1) hue-rotate(0deg) invert(0); }
+    28% { filter: brightness(0.4) hue-rotate(90deg) invert(0.1); }
+    28% { filter: brightness(11) hue-rotate(90deg) invert(0.9); }
+    40% { filter: brightness(8) hue-rotate(180deg) invert(1); }
+    60% { filter: brightness(8) hue-rotate(180deg) invert(1); }    
+    73% { filter: brightness(11) hue-rotate(90deg) invert(0.9); }
+    73% { filter: brightness(0.4) hue-rotate(90deg) invert(0.1); }    
+    85% { filter: brightness(1) hue-rotate(0deg) invert(0); }    
+    100% { filter:brightness(1) hue-rotate(0deg) invert(0); }
+  }
 
 #SSG_gallery figure .serror span.SSG_logo {
     background: none;
@@ -312,41 +329,40 @@
 
 #SSG_gallery .SSG_tipCall {
     color: #a1a1a1;
-    white-space: nowrap;
-    text-decoration: none;
     cursor: pointer;
-    padding: 2em 26px 10px 3em;
-    letter-spacing: 0.01em;
-    top: -1px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='18px' %3E%3Cg fill='none' stroke='%239a9a9a' stroke-width='1.4' %3E%3Cpolyline points='1,11 6,16 11,11 '/%3E%3Cline x1='6' y1='2' x2='6' y2='13'/%3E%3C/g%3E%3C/svg%3E");
+    padding: 1em;
+    display: inline;
+    position: relative;    
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20.5px' height='17.8px'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.3' id='svg-arrow'%3E%3Cpolyline points='0.3,0.3 10.3,10.3 10.3,10.3 20.3,0.3 '/%3E%3Cpolyline points='0.3,7.3 10.3,17.3 10.3,17.3 20.3,7.3 '/%3E%3C/g%3E%3C/svg%3E%0A");
     background-repeat: no-repeat;
-    background-position: right 4px bottom 9px;
-    background-size: 15px;
-    text-shadow: #000 0px 0px 6px;
+    background-position: center;    
+    background-size: 18px;
     font-weight: normal;
-    position: relative;
-}
-
-#SSG_gallery .SSG_tipCall:after {
-    content: "";
-    width: 5em;
-    position: absolute;
-    left: 3em;
-    bottom: 12px;
-    border-width: 0 0 1.3px;
-    border-style: solid;
-    border-color: #6f6f6f;
+    opacity: 0.55;
+    animation-name: arrow-down;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.6, -0.28, 0.74, 0.05);
 }
 
 #SSG_gallery .SSG_tipCall:hover {
-    text-decoration: underline;
-    text-decoration-style: wavy;
+    opacity: 1;
+    animation-play-state: paused;
 }
 
-#SSG_gallery .SSG_tipCall:hover::after {
-    content: "";
-    border: none;
+@keyframes arrow-down {
+    0% { top: 0;  }
+    80% { top: 0;  }
+    90% { top: 0.4em;  }
+    100% { top: 0;  }
 }
+@keyframes arrow-trans-down {
+    0% { transform: translate(0,0);  }
+    80% { transform: translate(0,0);  }
+    90% { transform: translate(0,0.4em);  }
+    100% { transform: translate(0,0);  }
+}
+
 
 #SSG_tip {
     top: 50vh;
@@ -457,10 +473,10 @@
         border-right: none; 
     }
 
-    #SSG_gallery #f0:after {
+    #SSG_gallery .golandscape {
         content: "photos look better in landscape mode \1F609";
         color: #bdbdbd;
-        margin-bottom: 3.2em;        
+        margin-bottom: 3.2em;
         display: block;
         margin-top: -4.3vh;
         font-style: italic;
@@ -470,7 +486,7 @@
 
    .SSG_tipCall,
     #SSG_arrowdown {
-        display: none;
+        display: none !important;
     }
 
     html.ssg-active body {
@@ -498,6 +514,10 @@
         display: block;
         padding: 0.4em;
     }
+
+    #SSG_gallery figure .serror img {        
+        padding: 11vh 7vw;
+    }    
 }
 
 
@@ -508,6 +528,10 @@
  */
 
 @media (orientation: landscape) {
+    
+    #SSG_gallery .golandscape {
+        display: none;
+    }
 
     #SSG_gallery figure:not(.SSG_uwide):not(.notitle) p.title span {
         display: inline-block;
@@ -565,17 +589,18 @@
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall {
-        padding-left: 0;
-        padding-top: 1em;
+        padding: 0px 1em;
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle>span {
         background-color: #282828;
         position: sticky;
-        bottom: 0;
-        padding: 1.5em 0 1em 0;
+        bottom: -2px;
+        padding: 0.4em 0 0.6em 0;
+        margin-top: 1em;
         display: block;
         text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     #SSG_gallery .SSG_uwide p.uwtitle .SSG_tipCall:after {
@@ -638,14 +663,34 @@
     /* ************** p0 styles ************** */
 
     #SSG_gallery figure.notitle:not(.SSG_uwide) #p0 {
-        padding: 0.4em;
         margin: 0 0 28vh 0;
-        padding-bottom: 0.3em;
+        background: none;
     }
 
     #SSG_gallery .SSG_uwide #uwp0 {
         padding-bottom: 0em;
         position: relative;
+    }
+
+    #SSG_gallery figure.notitle.SSG_uwide #uwp0, 
+    #SSG_gallery figure.notitle.SSG_uwide #uwp0 span {
+        border: none;
+        width: 40px;
+        padding: 0;
+        height: 40px;
+        margin: 0;
+        padding-top: 5px;
+        overflow: hidden;
+        background: rgb(38, 38, 38);
+        border-radius: 50%;
+    }
+
+    #SSG_gallery figure.notitle.SSG_uwide #uwp0 {
+        top: 36vh;
+    } 
+
+    #SSG_gallery .SSG_uwide #p0 .SSG_tipCall {
+        display: none;
     }
 
     #SSG_gallery .SSG_uwide.notitle #uwp0 span {
@@ -658,25 +703,34 @@
         border-radius: 0.3em;
     }
 
-    #SSG_gallery #p0 .SSG_tipCall {
-        padding: 0.3em 26px 10px 3em;
+    /* notitle has default position: inline-block | SSG_uwide has display:none  */
+    #SSG_gallery figure:not(.SSG_uwide):not(.notitle) #p0 .SSG_tipCall {
+        display: block;
         position: absolute;
-        right: 3em;
-        top: 48%;
-        margin-top: -1em;
-        line-height: normal;
-        line-height: initial;
+        top: 50%;
+        left: auto;
+        right: 18px;
+        padding: 0;
+        width: 40px;
+        height: 40px;        
+        margin-top: -19px;
+        animation-name: arrow-trans-down;
     }
 
-    #SSG_gallery #p0 span {
-        padding-right: 10em;
+    #SSG_gallery figure:not(.SSG_uwide).notitle #p0 .SSG_tipCall {
+        background-size: 20px;
     }
 
-    #SSG_gallery figure.notitle #p0 .SSG_tipCall {
-        left: -6em;
-        position: relative;
-        top: -0.1em;
+    #SSG_gallery figure:not(.SSG_uwide):not(.notitle) #p0 {
+        padding-right: 0;
     }
+
+    #SSG_gallery figure:not(.notitle) #p0 span {
+        width: calc(100% - 73px);
+        padding-right: 3em;
+        margin-right: 73px;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }    
 }
 
 @media (orientation: landscape) and (min-width: 1222px) {
@@ -764,8 +818,11 @@
         min-width: 33vw;
     }
 
+    #SSG_gallery figure:not(.notitle) #p0 span {
+        padding-right: 1.5em;
+    }    
+
     #SSG_gallery #p0 {
-        padding-left: 1.3em;
         padding-right: 1em;
     }    
 
@@ -786,7 +843,7 @@
         line-height: 1.2em;
     }
     
-    #SSG_gallery #f0:after {
+    #SSG_gallery .golandscape {
         margin-bottom: 2.2em;        
         margin-top: -3.3vh;
     }
@@ -804,14 +861,14 @@
         border-radius: 0.1em;
     }
 
+    #SSG_gallery .SSG_tipCall {
+        background-size: 18px !important;
+    }
+
     #SSG_gallery #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
         max-height: 89vh;
         margin-top: 0.3em;
         margin-bottom: 0.05em;
-    }
-
-    #SSG_gallery #p0 .SSG_tipCall {
-        right: 1.3em;
     }
 
     #SSG_gallery p,
@@ -857,7 +914,7 @@
 @media (max-width: 900px) and (orientation: landscape) {
 
     #SSG_gallery :not(.notitle) #p0 span {
-        padding-right: 9.6em;
+        padding-right: 4em;
     }
 }
 
@@ -894,11 +951,6 @@
     #SSG_gallery p,
     #SSG_lastone p {
         font-size: 90%;
-    }
-
-    #SSG_gallery .SSG_tipCall {
-        background-size: 12px;
-        background-position: right 6px bottom 10px;
     }
 
     #SSG_first span {
@@ -1135,6 +1187,11 @@ html #SSG_gallery {
 
 html #SSG_galBg {
     background: rgb(22, 22, 22);
+    color: #696969;
+}
+
+html #SSG_galBg b {
+    text-shadow: 0px 0px 18px #bfbfbf;
 }
 
 html #SSG_gallery img {
@@ -1169,6 +1226,10 @@ html.ssg-active ::-webkit-scrollbar, html.ssg-active ::-webkit-scrollbar-button 
     background: #0F0F0F;
 }
 
+html.ssg-active ::-webkit-scrollbar:hover  {
+    border-left: 2px dashed #555555;
+}
+
 html.ssg-active {
     scrollbar-color: #393939 #0F0F0F; 
 }
@@ -1179,5 +1240,9 @@ html.ssg-active {
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb {
-    background: #393939;
+    background: rgb(26, 26, 26);
+}
+
+html.ssg-active ::-webkit-scrollbar-thumb:hover {
+    background: #555555;
 }

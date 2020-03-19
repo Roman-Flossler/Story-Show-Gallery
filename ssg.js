@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.6.1
+//   Story Show Gallery (SSG) ver: 2.6.2
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -43,13 +43,16 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 
 // Here you can translate SSG into other language. Leave tags <> and "" as they are.
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
-SSG.cfg.hint2 = "a mouse wheel <strong>&circledcirc;</strong> or arrow keys <strong>&darr;&rarr;&uarr;&larr;</strong>";
+SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
 SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
 SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> to browse through Story Show Gallery.";
 SSG.cfg.hintFS = "For a better experience <br><a>click for fullscreen mode</a>"
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
-SSG.cfg.nextPhotoLink = "next photo";
+
+// in the portrait mode the gallery suggest to turn phone into landscape mode
+SSG.cfg.showLandscapeHint = true;
+SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>';
 
 // -------------- end of configuration ----------------------------------------
 
@@ -62,11 +65,15 @@ SSG.getJQueryImgCollection = function () {
 };
 
 jQuery( document ).ready( function () {
+    // two lines below are for use SSG with Wordpress. Outside of Wordpress leave both lines inactiv. Condition booleans aren't defined, they are false 
+    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
+    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' ); 
+    
     // looks for galleries with nossg class and marks every jQueryImgSelector element inside by nossg class
     jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
 
     // adding of fs class to all thumbnails in a gallery, it activates full screen
-    jQuery( '.gallery a, .wp-block-gallery a, .fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    jQuery( '.fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
     jQuery( '.vipssg a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'vipssg' );
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
     SSG.jQueryImgCollection.click( SSG.run );
@@ -663,12 +670,12 @@ SSG.displayFormat = function ( e ) {
     }
     var titleUnderRatio = vwidth / ( vheight - titleHeight );
     var titleSideRatio = ( vwidth * photoFrameWidth ) / vheight;
-    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.28;
+    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.38;
 
     // sideCaptionforSmallerLandscapeImg would disable side captions completely, so there are two conditions, which allow side captions
     // Portrait mode condition is important for removing SSG_uwide class when the gallery is switched into portrait mode
     if ( SSG.cfg.sideCaptionforSmallerLandscapeImg || vheight < imgHeight * 1.2 ||  imgHeight >= imgWidth || !SSG.landscapeMode ) {
-        if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.25 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
+        if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.36 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
             jQuery( '#f' + index ).addClass( 'SSG_uwide' );
         } else {
             jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
@@ -790,8 +797,9 @@ SSG.addImage = function () {
 
     // Append a little help to the first image.
     if ( newOne == 0 ) {
-        jQuery( '#p0' ).append( '<a class="SSG_tipCall">' + SSG.cfg.nextPhotoLink + '</a>' );
-        jQuery( '#uwp0' ).append( '<span><a class="SSG_tipCall">' + SSG.cfg.nextPhotoLink + '</a></span>' );
+        jQuery( '#p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
+        jQuery( '#uwp0' ).append( '<span><a class="SSG_tipCall">&nbsp;</a></span>' );
+        SSG.cfg.showLandscapeHint && jQuery( '#f0').after("<div class='golandscape'>"+ SSG.cfg.landscapeHint +"<div>");
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( false );
             event.stopPropagation();
