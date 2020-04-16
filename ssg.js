@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.6.2
+//   Story Show Gallery (SSG) ver: 2.6.3
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -87,6 +87,9 @@ jQuery( document ).ready( function () {
 
 
 SSG.run = function ( event ) {
+    // .ssg-active has to be add asap, it overrides possible scroll-behavior:smooth which mess with gallery jump scrolling
+    jQuery( 'html' ).addClass( 'ssg-active' );
+
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
 
     // It prevents to continue if SSG is already running or there is no photo on the page to display.
@@ -363,7 +366,6 @@ SSG.initGallery = function ( event ) {
     jQuery( 'body' ).append( "<div id='SSG_gallery'></div>" );
     SSG.setNotchRight();
     SSG.exitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
-    jQuery( 'html' ).addClass( 'ssg-active' );
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
     SSG.jQueryImgCollection.each( function ( index ) {
@@ -390,10 +392,10 @@ SSG.initGallery = function ( event ) {
 
     // passive:false is due to Chrome, it sets the mousewheel event as passive:true by default and then preventDefault cannot be used
     document.addEventListener( 'mousewheel', SSG.seizeScrolling, {
-        passive: false
+        passive: false, capture: true
     } );
     document.addEventListener( 'DOMMouseScroll', SSG.seizeScrolling, {
-        passive: false
+        passive: false, capture: true
     } );
     !SSG.isMobile && jQuery( window ).resize( SSG.onResize );    
     SSG.cfg.rightClickProtection && jQuery( '#SSG_gallery, #SSG_exit' ).on( "contextmenu", function ( event ) {
@@ -1041,6 +1043,7 @@ SSG.countImageIndent = function ( index ) {
 // prevents scrolling, finds out its direction and activates jump scroll
 SSG.seizeScrolling = function ( e ) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     if ( Math.abs( e.timeStamp - SSG.savedTimeStamp ) > 333 ) {
         if ( typeof e.detail == 'number' && e.detail !== 0 ) {
             if ( e.detail > 0 ) {

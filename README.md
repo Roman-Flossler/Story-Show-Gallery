@@ -1,6 +1,6 @@
 # Story Show Gallery - minimalist, vertical photo gallery, mobile friendly
 
-Show a story with your photos in fullscreen lightbox without distracting elements. Story Show Gallery is verticall and a site visitor just need to scroll (or touch) to view image by image with optimally placed captions. The goal of Story Show Gallery is making the best possible experience when viewing photos.
+Show a story with your photos in fullscreen lightbox without distracting elements. SSG is vertical and therefore great for use on smartphones. BTW: 63% of global website visits are from smartphones.
  
 View demo gallery and documentation at [ssg.Flor.cz](https://ssg.flor.cz/). <br>
 SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/).

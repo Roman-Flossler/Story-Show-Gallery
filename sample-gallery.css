@@ -788,6 +788,11 @@ footer {
         background: none;
     }
 
+    .dark img[alt^='signpost'] {
+        filter: brightness(0.86);    
+    }
+
+
     @media screen and (max-width: 950px) {
         .dark .ficol {
             padding-bottom: 2em;

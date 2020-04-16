@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.6.2
+*  Story Show Gallery (SSG) ver: 2.6.3
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -342,7 +342,7 @@
     animation-name: arrow-down;
     animation-duration: 3s;
     animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(0.6, -0.28, 0.74, 0.05);
+    animation-timing-function: ease-in-out;
 }
 
 #SSG_gallery .SSG_tipCall:hover {
@@ -351,16 +351,22 @@
 }
 
 @keyframes arrow-down {
-    0% { top: 0;  }
-    80% { top: 0;  }
-    90% { top: 0.4em;  }
-    100% { top: 0;  }
+    0% { top: 0; }
+    69% { top: 0; }
+    77% {  opacity: 0.55; }
+    84% { top: 0.4em; opacity: 0; }
+    85% { top: -0.4em; opacity: 0; }
+    91% {  opacity: 0.55; }
+    100% { top: 0; }
 }
 @keyframes arrow-trans-down {
     0% { transform: translate(0,0);  }
-    80% { transform: translate(0,0);  }
-    90% { transform: translate(0,0.4em);  }
-    100% { transform: translate(0,0);  }
+    69% { transform: translate(0,0);  }
+    77% {  opacity: 0.55; }
+    84% { transform: translate(0,0.4em); opacity: 0; }
+    85% { transform: translate(0,-0.4em); opacity: 0; }
+    91% {  opacity: 0.55; }
+    100% { transform: translate(0,0);   }
 }
 
 
@@ -1041,6 +1047,11 @@
 html.ssg-active {
     scrollbar-color: #505050 #0e0e0e;
     scrollbar-width: thin;
+    scroll-behavior: auto !important;
+}
+
+html.ssg-active body {
+    scroll-behavior: auto !important;
 }
 
 html.ssg-active ::-webkit-scrollbar {
