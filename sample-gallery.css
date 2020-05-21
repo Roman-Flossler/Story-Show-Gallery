@@ -18,8 +18,12 @@
     box-sizing: border-box;
 }
 
-#SSG_gallery span.SSG_logo {
-    background: url("https://www.flor.cz/img/florcz.png") ;
+#SSG_gallery span.SSG_logo b {
+    padding-right: 4px;
+    display: inline-block;
+    transform: scaleX(1.4) !important;
+    font-weight: normal;    
+    text-shadow: 0 0 2px black, 0 0 3px black, 0 0 6px black, 0 0 12px black, 0 0 18px black, 0 0 2px black, 0 0 3px black, 0 0 6px black, 0 0 12px black, 0 0 18px black;
 }
 
 html {
@@ -65,16 +69,49 @@ p, li, h1, h2 {
     background: rgba(255, 255, 255, 0.36); 
 }
 
+p.compare {
+    width: 110%;
+    margin-left: -5%;
+    padding-top: 2em;
+    position: relative;
+}
+
+p.compare:after {
+    content: 'SSG';
+    position: absolute;
+    top: 2.2em;
+    color: white;
+    left: 18px;
+    font-size: 20px;
+}
+
+p.compare em {
+    display: block;
+    margin-top: 1em;
+    text-align: center;
+}
+
+p.compare img {
+    width: 49%; 
+    float: left; 
+    border-radius: 3.6% / 8%;
+    border: 1px solid rgb(138, 138, 138);
+}
+
+p.compare img:nth-child(2) {
+    margin-left: 1.8%;
+}
+
 .nobg {
     background: none;
 }
 
 h2 {
-    font-size: 271%;
+    font-size: 288%;
     line-height: 1.2em;
     margin-bottom: 0.8em;
     margin-top: 1.6em;    
-    border-radius: 0 1em 0 0;
+    border-radius: 0 1em 0 0 / 0 0.3em 0 0;
 } 
 
 .secol h2 {
@@ -82,8 +119,12 @@ h2 {
 }
 
 h3 {
-    font-size: 200%;
+    font-size: 222%;
     margin-bottom: 0.4em;
+    margin-top: 1.8em;
+    background: white;
+    border-top: 0.18em dotted #e8eff1;
+    padding-top: 0.3em;
 }
 
 .secol {
@@ -100,11 +141,11 @@ pre {
     border-top: 2px dashed;
     border-top: 9px solid #e8eff1;
     padding-top: 0.3em;
-    margin-right: -0.33em;
+    margin-right: -0.1em;
 }
 
-article.ficol {
-    overflow: hidden;
+.ficol h1, .ficol h2, .ficol h3 {
+    margin-left: -25px;
 }
 
 ul {
@@ -525,10 +566,6 @@ footer {
         padding-left: 15%;
     }
 
-    .ficol h1, .ficol h2 {
-        margin-left: -25px;
-    }
-
     .ficol {
         padding-bottom: 2em;
         border-bottom: 6px dashed #cfe8ec;
@@ -688,7 +725,7 @@ footer {
         padding-left: 11%;
     }    
 
-    .ficol h2 {
+    .ficol h2, .ficol h3 {
         margin-left: -16px;        
     }
 
@@ -708,7 +745,7 @@ footer {
     }
 
     code, img.imglink {
-        width: 96%;
+        width: 98%;
         font-size: 86%;
     } 
 
@@ -760,7 +797,22 @@ footer {
 @media screen and (max-width: 440px)  {
     .gallery a::after { 
         font-size: 116%; 
-    }      
+    }
+
+    p.compare {
+        width: 100%;
+        margin-left: -2%;
+    }
+
+    p.compare img {
+        width: 100%;
+        margin-top: 8px; 
+    }
+
+    p.compare img:nth-child(2) {
+        margin-left: 0;
+    }
+
 }
 
 @media screen and (min-width: 666px) {
@@ -769,7 +821,7 @@ footer {
     }
 }
 
-@media (min-width: 1222px) {
+@media (min-width: 600px) {
     .ficol h1::after {   
         content: '';
         position: absolute;
@@ -877,9 +929,13 @@ footer {
         text-shadow: 0 0 11px black;
     }
 
-    .dark p, .dark h1, .dark h2, .dark ul, .dark li {
+    .dark p, .dark h1, .dark h2, .dark h3, .dark ul, .dark li {
         background: none;
     }
+
+    .dark h3 {
+        border-top: 0.18em dotted #243e3e;        
+    }    
 
     .dark strong {    
         color: #28d8ea;
@@ -943,6 +999,11 @@ footer {
 
     .dark img[alt^='signpost'] {
         filter: brightness(0.86);    
+    }
+
+    .dark p.compare img {
+        border: 3px solid black;
+        opacity: 0.8;
     }
 
 

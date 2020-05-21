@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.6.4
+//   Story Show Gallery (SSG) ver: 2.7.0
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -31,6 +31,9 @@ SSG.cfg.neverFullscreen = false;
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). Set to null if you don't want it.
 SSG.cfg.fileToLoad = 'ssg-loaded.html';   // URL is relative to parent HTML file, it's safer to use absolute path https://...
 
+// display social share icon and menu
+SSG.cfg.socialShare = true;
+
 // log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
 SSG.cfg.logIntoGA = true;
 
@@ -41,6 +44,15 @@ SSG.cfg.rightClickProtection = true;
 SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 // in other cases caption position depends on photo size vs. screen size.
 
+// Watermark - logo configuration. Enter watermark text or image to display it
+SSG.cfg.watermarkWidth = 147; // watermark width in pixels, it is downsized on smaller screens.
+SSG.cfg.watermarkImage = '';  // watermark image URL
+SSG.cfg.watermarkText = '';  //  watermark text, text will wrap according to watermark width
+SSG.cfg.watermarkOffsetX = 2; // watermark horizontal offset from left in percents
+SSG.cfg.watermarkOffsetY = 1.2; // watermark vertical offset from bottom in percent of display size
+SSG.cfg.watermarkOpacity = 0.36; // opacity
+SSG.cfg.watermarkFontSize = 20; // font size in pixels  
+
 // Here you can translate SSG into other language. Leave tags <> and "" as they are.
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
 SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
@@ -49,6 +61,11 @@ SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> 
 SSG.cfg.hintFS = "For a better experience <br><a>click for fullscreen mode</a>"
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
+
+// share link dialog
+SSG.cfg.imageLink = "The link to selected image:";
+SSG.cfg.copyButton  = "⎘ Copy the link to clipboard";
+SSG.cfg.linkPaste = "…and you can paste it anywhere via ctrl+v";
 
 // in the portrait mode the gallery suggest to turn phone into landscape mode
 SSG.cfg.showLandscapeHint = true;
@@ -59,7 +76,7 @@ SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>'
 
 
 // get a collection of all anchor tags from the page, which links to an image
-SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF']";
+SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
 SSG.getJQueryImgCollection = function () {
     SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
 };
@@ -180,7 +197,7 @@ SSG.setVariables = function () {
     SSG.lastone = false;
 
     // Set to true when a user clicks the exit button, prevents call SSG.destroyGallery twice.
-    SSG.exitClicked = false;
+    SSG.destroyOnFsChange = true;
 
     // If the exitMode is true a user can exit the gallery.
     SSG.exitMode = true;
@@ -211,6 +228,20 @@ SSG.setVariables = function () {
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.landscapeModeOriginal = SSG.landscapeMode;
+
+    // Styles for watermark
+    SSG.watermarkStyle = '';
+    if ( SSG.cfg.watermarkImage || SSG.cfg.watermarkText ) {
+        var watermarkFontSize = SSG.isMobile ? SSG.cfg.watermarkFontSize * 0.8 : SSG.cfg.watermarkFontSize;
+        var width = Math.round( SSG.cfg.watermarkWidth / 1260 * 1000 ) / 10;
+
+        SSG.watermarkStyle = "max-width:" + SSG.cfg.watermarkWidth + "px; min-width:" + Math.round( SSG.cfg.watermarkWidth * 0.69 ) + 
+        "px; width:" + width + "vmax; background-image: url(" + SSG.cfg.watermarkImage + ");" +
+        "left:" +  SSG.cfg.watermarkOffsetX + "%; bottom:" + SSG.cfg.watermarkOffsetY + "vmin; height:" +  SSG.cfg.watermarkWidth * 1.5 + "px;" +
+        "max-height: 48vmin;" + "font-size:" + watermarkFontSize + "px;opacity:" + SSG.cfg.watermarkOpacity;
+        // for IE 11
+        SSG.watermarkStyle = "width:" + width + "vw;" + SSG.watermarkStyle;
+    }
 };
 
 // Searching for the first image which match the hash in URL.
@@ -218,7 +249,7 @@ SSG.getHash = function ( justResult ) {
 
 
     // these variables are needed before the gallery is running
-    SSG.isMobile = window.matchMedia( '(max-width: 900px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
+    SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     var userAgent = navigator.userAgent.toLowerCase();
     SSG.isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
 
@@ -261,11 +292,11 @@ SSG.FSmode = function ( event ) {
     jQuery( document ).on( 'fullscreenerror', function () {
         SSG.createGallery( SSG.initEvent );
         window.setTimeout( function () {
-            SSG.showFsTip( true );
+            SSG.showFsTip( 'fsOffer' );
         }, 600 );
     } );
 
-    var mobileLandscape = window.matchMedia( '(max-width: 900px) and (orientation: landscape)' ).matches;
+    var mobileLandscape = window.matchMedia( '(max-width: 933px) and (orientation: landscape)' ).matches;
     var mobilePortrait = window.matchMedia( '(max-width: 500px) and (orientation: portrait) ' ).matches;
 
     // event.fs and event.fsa isn't a browser's object. MobileLandscape and isTablet goes everytime in FS, it solves problems with mobile browsers
@@ -308,7 +339,7 @@ SSG.FSmode = function ( event ) {
     if ( !SSG.fullscreenMode && SSG.fullscreenModeWanted && SSG.fullScreenSupport ) {
         window.setTimeout( function () {
             // It shows an offer of FS mode.    
-            SSG.showFsTip( true );
+            SSG.showFsTip( 'fsOffer' );
         }, 600 );
     }
 };
@@ -385,7 +416,7 @@ SSG.initGallery = function ( event ) {
     // Adding event listeners
     jQuery( document ).keydown( SSG.keyFunction );
     jQuery( '#SSG_exit' ).click( function () {
-        SSG.exitClicked = true;
+        SSG.destroyOnFsChange = false;
         SSG.destroyGallery();
     } );
     jQuery( '#SSG_gallery' ).click( SSG.touchScroll );
@@ -400,7 +431,7 @@ SSG.initGallery = function ( event ) {
     !SSG.isMobile && jQuery( window ).resize( SSG.onResize );    
     SSG.cfg.rightClickProtection && jQuery( '#SSG_gallery, #SSG_exit' ).on( "contextmenu", function ( event ) {
         event.preventDefault();
-        SSG.showFsTip( false );
+        SSG.showFsTip( 'hint' );
     } );
     if ( SSG.isMobile ) {
 
@@ -416,7 +447,7 @@ SSG.initGallery = function ( event ) {
     // if a user wants to touch scroll to next photo, the tip window shows that there is a better way    
     jQuery( document ).on( 'touchmove', function badTouchMove() {
         if ( SSG.landscapeMode && !SSG.jumpScrollUsed && !SSG.fsTipShown && SSG.running ) {
-            SSG.showFsTip( false );
+            SSG.showFsTip( 'hint' );
             jQuery( document ).off( 'touchmove', badTouchMove );
         }
     } );
@@ -488,7 +519,10 @@ SSG.getAlt = function ( el ) {
     // If A tag has a children (img tag) with an alt atribute.
     if ( el.children[ 0 ] && el.children[ 0 ].alt )
         return el.children[ 0 ].alt;
-
+    // if A tag has Picture tag as a children        
+    else if ( el.children[ 0 ] && el.children[ 0 ].tagName == 'PICTURE') {
+        return el.children[ 0 ].children[el.children[ 0 ].children.length-1].alt;
+    }    
     // If A tag has inner text.
     else if ( el.innerText && el.innerText != ' ' )
         return el.innerText;
@@ -517,7 +551,7 @@ SSG.getImgList = function ( event ) {
         clickedGalleryID = -1;
     }
 
-    // Call invokes forEach method in the context of jQuery output        
+    // Call invokes forEach method in the context of jQuery output     
     Array.prototype.forEach.call( SSG.jQueryImgCollection.toArray(), function ( el ) {
         // don't include image with gossg class unless it was clicked
         var noGossg =  !SSG.hasClass( el.classList, 'gossg' ) || clickedImgID == el.attributes.ssgid.nodeValue;
@@ -577,18 +611,21 @@ SSG.onFS = function () {
     SSG.isMobile && SSG.onResize();
 
     // Exitfullscreen is true, that means than FS mode is ending
-    if ( SSG.fullscreenMode && SSG.exitFullscreen && !SSG.exitClicked ) {
+    if ( SSG.fullscreenMode && SSG.exitFullscreen ) {
         SSG.fullscreenMode = false;
         SSG.exitFullscreen = false;
         if ( SSG.isOrientationChanged ) {
             SSG.isOrientationChanged = false;
             return;
         }
-        // Destroys gallery on exit from FS or removes exit icon.
-        SSG.exitMode ? SSG.destroyGallery() : jQuery( '#SSG_exit' ).remove();
-
-    // browser was just turned into FS
-    } else if ( !SSG.exitFullscreen ) {
+        // Destroys gallery on exit from FS (if destroyOnFsChange) or removes exit icon.        
+        if (SSG.exitMode) {
+            SSG.destroyOnFsChange && SSG.destroyGallery();
+        } else {
+            jQuery( '#SSG_exit' ).remove();
+        }
+        SSG.destroyOnFsChange = true;
+    } else if ( !SSG.exitFullscreen ) {  // browser was just turned into FS
         if ( !SSG.isGalleryCreated ) {
             SSG.createGallery( SSG.initEvent );
         }
@@ -599,9 +636,12 @@ SSG.onFS = function () {
             jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
 
             // It fires onFS func and removes the Exit button & set all booleans.
-            jQuery( '#SSG_exit' ).click( SSG.closeFullscreen );
+            jQuery( '#SSG_exit' ).click( function() {
+                SSG.destroyOnFsChange = true;                
+                SSG.closeFullscreen(); 
+            } );
         }
-    }
+    }    
 };
 
 
@@ -626,6 +666,7 @@ SSG.scrollToActualImg = function () {
     if ( !SSG.running ) {
         return;
     }
+    // displayedLock holds the index of the last displayed image before onresize event.
     SSG.isDisplayedLocked = false;
     if ( SSG.loaded != -1 && ( typeof SSG.imgs[ SSG.displayedLock ] != 'undefined' ) ) {
         SSG.ScrollTo( SSG.imgs[ SSG.displayedLock ].pos - SSG.countImageIndent( SSG.displayedLock ) );
@@ -644,16 +685,15 @@ SSG.refreshFormat = function () {
 };
 
 SSG.onResize = function () {
-    // negative displayedLock holds the index of the last displayed image before onresize event.
     // onresize event can fire several times, so re-countiong the gallery is conditioned by isDisplayedLocked
     var fraction = SSG.isOrientationChanged ? 1 : 0.4;
 
     if ( !SSG.isDisplayedLocked ) {
         SSG.isDisplayedLocked = true;
-        window.setTimeout( SSG.countResize, 580 * fraction );
+        window.setTimeout( SSG.countResize, 220 * fraction );
         // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-        window.setTimeout( SSG.refreshFormat, 660 * fraction );
-        window.setTimeout( SSG.refreshPos, 960 * fraction );
+        window.setTimeout( SSG.refreshFormat, 330 * fraction );
+        window.setTimeout( SSG.refreshPos, 930 * fraction );
         window.setTimeout( SSG.scrollToActualImg, 1000 * fraction );
     }
 };
@@ -718,26 +758,56 @@ SSG.onLoadError = function ( event ) {
     SSG.onImageLoad( event );
 };
 
-SSG.addImage = function () {
+SSG.escapeHtml = function(string) {
+    var entityMap = {  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': '&quot;', "'": '&#39;', "/": '&#x2F;' };
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+};
+
+
+SSG.addImage = function () { 
+
 
     // Newone is index of a image which will be load.
     var newOne = SSG.loaded + 1;
 
     if ( newOne < SSG.imgs.length ) {
-        var noTitle = '';
+        var noTitle = 'title';
+
+        if (SSG.cfg.socialShare) {
+        var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
+        var urlToShareEnc = encodeURIComponent(window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href));
+
+        var textToShare =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + SSG.imgs[ newOne ].alt));
+        var windowOpen = "onclick='window.open(\"";
+        var WindoOpenParams = '\", \"_blank\", \"width=1100,height=550\");';
+        
+        var shareMenu = "<span class='share'><span class='share-menu'>" +                 
+                "<a class='pin' " + windowOpen + "http://www.pinterest.com/pin/create/button/?url="+ urlToShareEnc + "&amp;media=" + 
+                SSG.imgs[ newOne ].href + "&amp;description=" + textToShare + WindoOpenParams + "'></a>" +
+                "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'>🔗</a>" +
+                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShare + "&url=" + urlToShareEnc + WindoOpenParams + "'/></a>" + 
+                "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + "'></a>" + 
+                "<a class='ico'></a></span></span>";
+        } else {
+            shareMenu ='';
+        }
+
         var uwCaption = '';
         if ( !SSG.imgs[ newOne ].alt ) {
             noTitle = 'notitle';
         }
 
-        //  Condition NewOne == 0 leaves P tag for the "next photo" link if there is no alt text.
+        //  Condition NewOne == 0 leaves P tag for the "down arrow" if there is no alt text.
         if ( SSG.imgs[ newOne ].alt || newOne == 0 ) {
-            uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + SSG.imgs[ newOne ].alt + "</p>";
+            uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + SSG.imgs[ newOne ].alt + shareMenu + "</p>";
         }
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
-            newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo'></span></span></div>";
-        var caption = "<p class='title' id='p" + newOne + "'><span>" + SSG.imgs[ newOne ].alt + "</span></p>";
-        
+            newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
+             SSG.cfg.watermarkText +"</span>"+ shareMenu +"</span></div>";
+        var caption = "<p class='title' id='p" + newOne + "'><span>" + SSG.imgs[ newOne ].alt + shareMenu + "</span></p>";
+                
         img = new Image();
         img.src = SSG.imgs[ newOne ].href;
         // decoding the image just after loading, image is completly ready to render, it makes scroll animation more fluent
@@ -756,6 +826,24 @@ SSG.addImage = function () {
         jQuery( '#i' + newOne ).on( 'error', {
             imgid: newOne
         }, SSG.onLoadError );
+        jQuery( '.share' ).click( function ( event ) {
+            event.stopPropagation();
+        } );
+
+        //onclick for share menu to work properly on touch devices
+        jQuery( '#f' + newOne + ' .share-menu > a' ).click( function () {
+            jQuery( '#f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
+            if (this.classList[0] != 'ico') {
+                SSG.fullscreenMode && SSG.closeFullscreen();
+                SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens                
+            }
+        } );
+
+        window.setTimeout( function() {
+        if ( jQuery('#uwp'+ (newOne)).outerHeight() < SSG.scrHeight * 0.9) {
+            jQuery('#uwp'+ (newOne)).addClass('share-overflow');
+        }}, 666
+        );
     }
 
     // NewOne is now actually by +1 larger than array index. 
@@ -769,7 +857,7 @@ SSG.addImage = function () {
             event.stopPropagation();
         } );
         jQuery( '#SSG_exit2' ).click( function () {
-            SSG.exitClicked = true;
+            SSG.destroyOnFsChange = false;
             SSG.destroyGallery();
         } );
         jQuery( '#SSG_first' ).click( function () {
@@ -800,10 +888,10 @@ SSG.addImage = function () {
     // Append a little help to the first image.
     if ( newOne == 0 ) {
         jQuery( '#p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
-        jQuery( '#uwp0' ).append( '<span><a class="SSG_tipCall">&nbsp;</a></span>' );
+        jQuery( '#uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
         SSG.cfg.showLandscapeHint && jQuery( '#f0').after("<div class='golandscape'>"+ SSG.cfg.landscapeHint +"<div>");
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
-            SSG.showFsTip( false );
+            SSG.showFsTip( 'hint' );
             event.stopPropagation();
         } );
     }
@@ -1020,24 +1108,31 @@ SSG.jumpScroll = function () {
 SSG.countImageIndent = function ( index ) {
     var screen = jQuery( window ).height();
     var img = jQuery( '#i' + index ).outerHeight( true );
-    var pIn = jQuery( '#p' + index ).innerHeight();
-    var pOut = jQuery( '#p' + index ).outerHeight( true );
-    var pMargin = pOut - pIn;
-    var ppMargin;
+    var pIn = jQuery( '#p' + index ).innerHeight();    
+    var centerPos, marginAfterP;
 
-    // If index > 0 use margin-bottom of previous p tag    
-    if ( index > 0 ) {
-        ppMargin = jQuery( '#p' + ( index - 1 ) ).outerHeight( true ) - jQuery( '#p' + ( index - 1 ) ).innerHeight();
+    // get previous index unless index = 0
+    var useIndex = index == 0 ? 0 : index-1;
+
+    // if a title is under and image
+    if ( jQuery( '#f' + useIndex ).hasClass('title') &&  !jQuery( '#f' + useIndex ).hasClass('SSG_uwide') ) {
+        marginAfterP = parseInt(jQuery( '#p' + useIndex ).css('marginBottom'));
+    }  
+    else {
+        marginAfterP = jQuery( '#p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#p' + ( useIndex ) ).innerHeight();
+    }    
+     
+    if ( jQuery( '#f' + index ).hasClass('title') &&  !jQuery( '#f' + index ).hasClass('SSG_uwide') ) {
+        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#p' + index ).css('marginTop')) ) ) / 2 ) + 1;    
     } else {
-        ppMargin = pMargin;
+        centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     }
-    var centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     if ( centerPos < 0 ) {
         centerPos = ( centerPos * 2 ) - 2;
     }
 
     // It prevents fraction of previous image appears above centered image.
-    return centerPos > ppMargin ? ppMargin : centerPos;
+    return centerPos > marginAfterP? marginAfterP: centerPos;
 };
 
 // prevents scrolling, finds out its direction and activates jump scroll
@@ -1108,7 +1203,6 @@ SSG.destroyGallery = function () {
     if ( window.screen.orientation ) {
         window.screen.orientation.removeEventListener( 'change', SSG.orientationChanged );
     }
-    SSG.fullscreenMode && SSG.closeFullscreen();
 
     var restoredPos;    
     //if orientation has changed, restore a page position on the hyperlink which activated the gallery
@@ -1126,6 +1220,8 @@ SSG.destroyGallery = function () {
     } else {
         window.scrollTo( 0, restoredPos );
     }
+
+    SSG.fullscreenMode && SSG.closeFullscreen();
     SSG.running = false;
     jQuery( '#SSG_galBg, #SSG_gallery, #SSG_exit, #SSG_lastone, #SSG_tip' ).remove();
     jQuery( 'html' ).removeClass( 'ssg-active' );
@@ -1133,28 +1229,42 @@ SSG.destroyGallery = function () {
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
 };
 
-SSG.showFsTip = function ( justFsOffer ) {
+SSG.showFsTip = function ( content ) {
     if ( jQuery( '#SSG_tip' ).length == 0 ) {
-        var begin = "<div id='SSG_tip'><span><div id='SSG_tipClose'>&times;</div>";
-        var man1 = "<div class='classic'>" + SSG.cfg.hint1 + "<br>" + SSG.cfg.hint2 + "<br>";
-        var man2 =  SSG.cfg.hint3 + "</div>";
-        var touch = "<div class='touch'>" + SSG.cfg.hintTouch + "</div>";
-        var hr = "<hr>";
-        var fs =  SSG.cfg.hintFS + "<br>";
+        var begin = "<div id='SSG_tip'><span class='" + (content.length > 8 ? 'linkShare' : content) + "'><div id='SSG_tipClose'>&times;</div>";
         var end = "</span></div>";
-        if ( justFsOffer ) {
-            jQuery( 'body' ).append( begin + fs + end );
-        } else if ( !SSG.fullscreenMode && SSG.fullScreenSupport ) {
-            jQuery( 'body' ).append( begin + man1 + man2 + touch + hr + fs + end );
-            SSG.fsTipShown = true;
-        } else {
-            jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
-            SSG.fsTipShown = true;
-        }
-        !SSG.fullscreenMode && jQuery( '#SSG_tip' ).click( function () {
+        var fs =  SSG.cfg.hintFS + "<br>";
+        var gofs = function() {
             SSG.openFullscreen();
             jQuery( '#SSG_tip' ).remove();
-        } );
+        }
+
+        if ( content == 'fsOffer' ) {
+            jQuery( 'body' ).append( begin + fs + end );
+            jQuery( '#SSG_tip' ).click( gofs );
+        } else if (content.length > 8) {
+            var linkInput = '<textarea readonly rows="2"  id="linkText" >'+content+'</textarea><br/><button id="copyLink">' + SSG.cfg.copyButton + '</button>';
+            jQuery( 'body' ).append( begin + "<p>" + SSG.cfg.imageLink + "</p>" + linkInput + "<div>" + SSG.cfg.linkPaste + "</div>" + end );
+            jQuery('#copyLink').click( function() {
+                jQuery('#linkText').select(); 
+                document.execCommand("copy");
+            });
+        } else if (content == 'hint') {            
+            var man1 = "<div class='classic'>" + SSG.cfg.hint1 + "<br>" + SSG.cfg.hint2 + "<br>";
+            var man2 =  SSG.cfg.hint3 + "</div>";
+            var touch = "<div class='touch'>" + SSG.cfg.hintTouch + "</div>";
+            var hr = "<hr>";
+
+            if ( !SSG.fullscreenMode && SSG.fullScreenSupport ) {
+                jQuery( 'body' ).append( begin + man1 + man2 + touch + hr + fs + end );
+                jQuery( '#SSG_tip' ).click( gofs );
+                SSG.fsTipShown = true;
+            } else {
+                jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
+                SSG.fsTipShown = true;
+            }
+        }
+        
         jQuery( '#SSG_tipClose' ).click( function () {
             jQuery( '#SSG_tip' ).remove();
         } );
