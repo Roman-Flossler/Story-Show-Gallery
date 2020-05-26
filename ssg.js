@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.7.0
+//   Story Show Gallery (SSG) ver: 2.7.1
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -686,15 +686,15 @@ SSG.refreshFormat = function () {
 
 SSG.onResize = function () {
     // onresize event can fire several times, so re-countiong the gallery is conditioned by isDisplayedLocked
-    var fraction = SSG.isOrientationChanged ? 1 : 0.4;
+    var fraction = SSG.isOrientationChanged ? 1 : 3;
 
     if ( !SSG.isDisplayedLocked ) {
         SSG.isDisplayedLocked = true;
-        window.setTimeout( SSG.countResize, 220 * fraction );
+        window.setTimeout( SSG.countResize, 600 / fraction );
         // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-        window.setTimeout( SSG.refreshFormat, 330 * fraction );
-        window.setTimeout( SSG.refreshPos, 930 * fraction );
-        window.setTimeout( SSG.scrollToActualImg, 1000 * fraction );
+        window.setTimeout( SSG.refreshFormat, 690 / fraction );
+        window.setTimeout( SSG.refreshPos, 1110 / fraction );
+        window.setTimeout( SSG.scrollToActualImg, 1200 / fraction );
     }
 };
 

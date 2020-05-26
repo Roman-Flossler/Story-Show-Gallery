@@ -1,5 +1,5 @@
 /*
-*  Story Show Gallery (SSG) ver: 2.7.0
+*  Story Show Gallery (SSG) ver: 2.7.1
 *  Copyright (C) 2018 Roman Flössler - flor@flor.cz
 *
 *  Try Story Show Gallery at - http://ssg.flor.cz/
@@ -258,6 +258,7 @@
     overflow: hidden;
     margin-bottom: -5px;
     margin-top: -5px;
+    margin-right: -11px;
     margin-left: 0.5em;
     cursor: pointer;
 }
@@ -270,7 +271,7 @@
     position: absolute !important;
     top: auto;    
     bottom: calc(3vh + 20px);
-    right: -21px;
+    right: -10px;
     background: transparent;
 }
 
@@ -542,17 +543,17 @@
 
 #SSG_tip #SSG_tipClose {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: -6px;
+    right: -6px;
     font-family: "Times New Roman", monospace !important;
     font-size: 200%;
-    color: #bbb;
-    background: #000000a1;
-    padding: 0 6px;
-    border-radius: 0px 4px 0 11px;
-    height: 30px;
+    color: #989898;
+    background: #111111;    
+    border-radius: 3px 11px;
+    height: 40px;
     width: 33px;
-    line-height: 30px;
+    line-height: 40px;
+    text-align: center;
 }
 
 #SSG_tip span {
@@ -593,7 +594,7 @@ button#copyLink::first-letter {
     font-size: 27px;
     top: -5px;
     vertical-align: text-top;
-    color: #c4c4c4;
+    color: #6bddff;
     padding-right: 8px;
 }
 
@@ -697,7 +698,7 @@ button#copyLink::first-letter {
 
     #SSG_gallery .SSG_forlogo span.share {
         bottom: -6px;
-        right: 5%;
+        right: 8%;
     }
 }
 
