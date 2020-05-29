@@ -1,6 +1,6 @@
 # Story Show Gallery - minimalist, vertical photo gallery, mobile friendly
 
-SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing. The gallery is vertical - optimized for use on smart­phones.
+SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can will your brand and mar­ket­ing. The gallery is vertical - optimized for use on smart­phones.
  
 View demo gallery and documentation at [ssg.Flor.cz](https://ssg.flor.cz/) <br>
 SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/)
@@ -15,11 +15,11 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 ## Not another photo gallery
 
 - On smartphones, full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
-- Brand building (image or text), social sharing icon that can be hardly miss
-- Easy browsing without clicking and thinking
+- Brand building (image or text), social sharing icon that can be [hardly miss](https://ssg.flor.cz/#brand)
+- Easy browsing without [clicking and thinking](https://ssg.flor.cz/#browsing)
 - Goo­gle Analytics support 
 - Deeplinking
-- HTML signpost to other galleries
+- [HTML signpost](https://ssg.flor.cz/#signpost) to other galleries
 - No e×it mode for galleries based on bare HTML
 - SSG is probably the only gallery which can place each caption individually according to image size vs. screen size:
 

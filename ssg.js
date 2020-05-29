@@ -1192,10 +1192,9 @@ SSG.destroyGallery = function () {
     if (SSG.cfg.logIntoGA && typeof ga == 'function' ) {
         ga( 'send', 'pageview', location.pathname );
     }
-    // DOMMouseScroll event is for FF, mousewheel for other browsers, true (capturing phase) is for IE11
-    document.removeEventListener( "mousewheel", SSG.seizeScrolling, false );
+    // DOMMouseScroll event is for FF, mousewheel for other browsers, true means capturing phase
     document.removeEventListener( "mousewheel", SSG.seizeScrolling, true );
-    document.removeEventListener( "DOMMouseScroll", SSG.seizeScrolling, false );
+    document.removeEventListener( "DOMMouseScroll", SSG.seizeScrolling, true );
     jQuery( window ).off( 'resize', SSG.onResize );
     jQuery( document ).off( 'keydown', SSG.keyFunction );
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
