@@ -1,4 +1,4 @@
-//   Story Show Gallery (SSG) ver: 2.7.1
+//   Story Show Gallery (SSG) ver: 2.7.3
 //   Copyright (C) 2018 Roman Flössler - flor@flor.cz
 //
 //   Try Story Show Gallery at - https://ssg.flor.cz/
@@ -44,14 +44,14 @@ SSG.cfg.rightClickProtection = true;
 SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 // in other cases caption position depends on photo size vs. screen size.
 
-// Watermark - logo configuration. Enter watermark text or image to display it
+// Watermark - logo configuration. Enter watermark text or image URL to display it
 SSG.cfg.watermarkWidth = 147; // watermark width in pixels, it is downsized on smaller screens.
-SSG.cfg.watermarkImage = '';  // watermark image URL
+SSG.cfg.watermarkImage = '';  // watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'
 SSG.cfg.watermarkText = '';  //  watermark text, text will wrap according to watermark width
-SSG.cfg.watermarkOffsetX = 2; // watermark horizontal offset from left in percents
-SSG.cfg.watermarkOffsetY = 1.2; // watermark vertical offset from bottom in percent of display size
-SSG.cfg.watermarkOpacity = 0.36; // opacity
 SSG.cfg.watermarkFontSize = 20; // font size in pixels  
+SSG.cfg.watermarkOffsetX = 2; // watermark horizontal offset from left in percents of photo
+SSG.cfg.watermarkOffsetY = 1.2; // watermark vertical offset from bottom in percents of photo
+SSG.cfg.watermarkOpacity = 0.36; // opacity
 
 // Here you can translate SSG into other language. Leave tags <> and "" as they are.
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
@@ -226,18 +226,19 @@ SSG.setVariables = function () {
     SSG.location = window.location.href.split( '#', 1 )[ 0 ];
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
+    SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.landscapeModeOriginal = SSG.landscapeMode;
 
     // Styles for watermark
     SSG.watermarkStyle = '';
     if ( SSG.cfg.watermarkImage || SSG.cfg.watermarkText ) {
-        var watermarkFontSize = SSG.isMobile ? SSG.cfg.watermarkFontSize * 0.8 : SSG.cfg.watermarkFontSize;
+        var watermarkFontSize = SSG.smallScreen ? SSG.cfg.watermarkFontSize * 0.8 : SSG.cfg.watermarkFontSize;
         var width = Math.round( SSG.cfg.watermarkWidth / 1260 * 1000 ) / 10;
 
         SSG.watermarkStyle = "max-width:" + SSG.cfg.watermarkWidth + "px; min-width:" + Math.round( SSG.cfg.watermarkWidth * 0.69 ) + 
         "px; width:" + width + "vmax; background-image: url(" + SSG.cfg.watermarkImage + ");" +
-        "left:" +  SSG.cfg.watermarkOffsetX + "%; bottom:" + SSG.cfg.watermarkOffsetY + "vmin; height:" +  SSG.cfg.watermarkWidth * 1.5 + "px;" +
+        "left:" +  SSG.cfg.watermarkOffsetX + "%; bottom:" + SSG.cfg.watermarkOffsetY + "%; height:" +  SSG.cfg.watermarkWidth * 1.5 + "px;" +
         "max-height: 48vmin;" + "font-size:" + watermarkFontSize + "px;opacity:" + SSG.cfg.watermarkOpacity;
         // for IE 11
         SSG.watermarkStyle = "width:" + width + "vw;" + SSG.watermarkStyle;
@@ -248,10 +249,11 @@ SSG.setVariables = function () {
 SSG.getHash = function ( justResult ) {
 
 
-    // these variables are needed before the gallery is running
+    // isMobile is needed before the gallery is running
     SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     var userAgent = navigator.userAgent.toLowerCase();
-    SSG.isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+    var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+    if (isTablet) SSG.isMobile = true;  // isMobile includes even tablets
 
     var hash = window.location.hash;
     var findex;
@@ -278,7 +280,7 @@ SSG.getHash = function ( justResult ) {
 
             // Only if justResult is false            
             SSG.run( {
-                fsa: SSG.hasClass( allimgs[findex].classList, 'fs' ) || SSG.isTablet || SSG.isMobile,
+                fsa: SSG.hasClass( allimgs[findex].classList, 'fs' ) || SSG.isMobile,
                 initImgID: findex
             } );
         }
@@ -296,8 +298,8 @@ SSG.FSmode = function ( event ) {
         }, 600 );
     } );
 
-    var mobileLandscape = window.matchMedia( '(max-width: 933px) and (orientation: landscape)' ).matches;
-    var mobilePortrait = window.matchMedia( '(max-width: 500px) and (orientation: portrait) ' ).matches;
+    var mobileLandscape = SSG.isMobile &&  SSG.landscapeMode;
+    var mobilePortrait = SSG.isMobile && !SSG.landscapeMode;
 
     // event.fs and event.fsa isn't a browser's object. MobileLandscape and isTablet goes everytime in FS, it solves problems with mobile browsers
     if (SSG.cfg.alwaysFullscreen) {
@@ -307,7 +309,7 @@ SSG.FSmode = function ( event ) {
     } else if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.fullscreenModeWanted = true;
-    } else if ( mobileLandscape || SSG.isTablet || ( event && event.fs ) ) {
+    } else if ( mobileLandscape || ( event && event.fs ) ) {
         SSG.openFullscreen();
     } else if ( ( event && event.currentTarget ) && ( SSG.hasClass( event.currentTarget.classList, 'fs' ) ) && !event.altKey ) {
         SSG.openFullscreen();
@@ -777,19 +779,23 @@ SSG.addImage = function () {
 
         if (SSG.cfg.socialShare) {
         var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
-        var urlToShareEnc = encodeURIComponent(window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href));
+        var urlToShareEnc = encodeURIComponent(urlToShare);
 
-        var textToShare =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + SSG.imgs[ newOne ].alt));
+        var h1ToShare = SSG.escapeHtml(jQuery('h1').first().text());
+        var captionToShare = SSG.escapeHtml(SSG.imgs[ newOne ].alt);
+        var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + SSG.imgs[ newOne ].alt ));
         var windowOpen = "onclick='window.open(\"";
         var WindoOpenParams = '\", \"_blank\", \"width=1100,height=550\");';
         
-        var shareMenu = "<span class='share'><span class='share-menu'>" +                 
-                "<a class='pin' " + windowOpen + "http://www.pinterest.com/pin/create/button/?url="+ urlToShareEnc + "&amp;media=" + 
-                SSG.imgs[ newOne ].href + "&amp;description=" + textToShare + WindoOpenParams + "'></a>" +
+        var shareMenu = "<span class='share'><span class='share-menu'>" +
+                "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + "'></a>" + 
                 "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'>🔗</a>" +
-                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShare + "&url=" + urlToShareEnc + WindoOpenParams + "'/></a>" + 
+                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShareEnc + "&url=" + urlToShareEnc + WindoOpenParams + "'/></a>" + 
+                "<a class='pin' " + windowOpen + "http://www.pinterest.com/pin/create/button/?url="+ urlToShareEnc + "&amp;media=" + 
+                SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + "'></a>" +
+                "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' ><b>@</b></a>" +
                 "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + "'></a>" + 
-                "<a class='ico'></a></span></span>";
+                "</span><a class='ico'></a></span>";
         } else {
             shareMenu ='';
         }
@@ -831,11 +837,13 @@ SSG.addImage = function () {
         } );
 
         //onclick for share menu to work properly on touch devices
-        jQuery( '#f' + newOne + ' .share-menu > a' ).click( function () {
+        jQuery( '#f' + newOne + ' .share a' ).click( function () {
             jQuery( '#f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
+            if(this.classList[0] == 'link' && SSG.fullscreenMode ) SSG.closeFullscreen();
             if (this.classList[0] != 'ico') {
-                SSG.fullscreenMode && SSG.closeFullscreen();
-                SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens                
+                SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
+                // in case that browser stays in FS mode
+                setTimeout(function(){ SSG.destroyOnFsChange = true }, 500); 
             }
         } );
 
@@ -1107,7 +1115,7 @@ SSG.jumpScroll = function () {
 // Function counts how much to indent image from the top of the screen to center image.
 SSG.countImageIndent = function ( index ) {
     var screen = jQuery( window ).height();
-    var img = jQuery( '#i' + index ).outerHeight( true );
+    var img = jQuery( '#i' + index ).outerHeight();
     var pIn = jQuery( '#p' + index ).innerHeight();    
     var centerPos, marginAfterP;
 
@@ -1123,7 +1131,7 @@ SSG.countImageIndent = function ( index ) {
     }    
      
     if ( jQuery( '#f' + index ).hasClass('title') &&  !jQuery( '#f' + index ).hasClass('SSG_uwide') ) {
-        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#p' + index ).css('marginTop')) ) ) / 2 ) + 1;    
+        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#p' + index ).css('marginTop')) ) ) / 2 );
     } else {
         centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     }
