@@ -1,38 +1,45 @@
 {
   "name": "story-show-gallery",
-  "version": "2.7.3",
+  "version": "2.8.0",
   "author": "Roman Flössler",
   "license": "MPL-2.0",
   "description": "Vertical photo gallery optimized for smartphones (notch area included). SSG can support your brand and marketing. Optimally placed captions, no ugly arrows.",
   "homepage": "http://ssg.flor.cz/",
   "main": "ssg.js",
   "scripts": {
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "uglifyJS": "uglifyjs src/ssg.js --compress --mangle --comments /^/*!/ --output dist/ssg.min.js",
+    "uglifyCSS": "uglifycss --debug src/ssg.css > dist/ssg.min.css",
+    "dist": "del /Q dist && npm run uglifyJS && npm run uglifyCSS"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git"
   },
-  "dependencies": {  
+  "dependencies": {
     "jquery": "^3.3.1"
   },
-  "keywords": [    
+  "devDependencies": {
+    "uglify-js": "^3.9.4",
+    "uglifycss": "0.0.29"
+  },
+  "keywords": [
     "gallery",
     "photo",
     "image",
     "lightbox",
     "vertical",
     "jquery",
-    "fullscreen",    
+    "fullscreen",
     "jquery-plugin",
     "ecosystem:jquery",
     "responsive",
-    "minimalist",    
+    "minimalist",
     "photo gallery",
     "scroll",
     "touch",
     "mobile"
-  ],  
+  ],
   "bugs": {
     "url": "https://github.com/Roman-Flossler/Simple-Scroll-Gallery/issues"
   }

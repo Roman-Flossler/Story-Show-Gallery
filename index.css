@@ -18,7 +18,7 @@
     box-sizing: border-box;
 }
 
-#SSG_gallery span.SSG_logo b {
+#SSG1 span.SSG_logo b {
     padding-right: 4px;
     display: inline-block;
     transform: scaleX(1.4) !important;
