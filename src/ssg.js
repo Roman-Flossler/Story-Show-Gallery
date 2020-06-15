@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.8.0 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.8.1 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -711,6 +711,15 @@ SSG.displayFormat = function ( e ) {
     var titleSideRatio = ( vwidth * photoFrameWidth ) / vheight;
     var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.38;
 
+    
+    window.setTimeout( function() {
+        if ( jQuery('#uwp'+ index).outerHeight() < SSG.scrHeight * 0.9) {
+            jQuery('#uwp'+ index).addClass('share-overflow');
+        } else {
+            jQuery('#uwp'+ index).removeClass('share-overflow');
+        }}, 666
+        );
+
     // sideCaptionforSmallerLandscapeImg would disable side captions completely, so there are two conditions, which allow side captions
     // Portrait mode condition is important for removing SSG_uwide class when the gallery is switched into portrait mode
     if ( SSG.cfg.sideCaptionforSmallerLandscapeImg || vheight < imgHeight * 1.2 ||  imgHeight >= imgWidth || !SSG.landscapeMode ) {
@@ -842,11 +851,7 @@ SSG.addImage = function () {
             }
         } );
 
-        window.setTimeout( function() {
-        if ( jQuery('#uwp'+ (newOne)).outerHeight() < SSG.scrHeight * 0.9) {
-            jQuery('#uwp'+ (newOne)).addClass('share-overflow');
-        }}, 666
-        );
+
     }
 
     // NewOne is now actually by +1 larger than array index. 

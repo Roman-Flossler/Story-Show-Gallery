@@ -69,12 +69,16 @@ Or copy selected settings into your document to override default configuration. 
         SSG.cfg.watermarkFontSize = 18;
     </script>
 ```    
+Complete HTML5 example of SSG implementation and configuration:
+
+[![HTML5 example of SSG implementation](https://ssg.flor.cz/img/html5-sample-source-code-ssg.png)](https://ssg.flor.cz/#html5)
+
 
 ## Minifying
 If you modify source files (src folder), you will probably want to minify the result. Use existing npm script:
 ``` js
 npm install   // it will install uglify-JS and uglify-CSS which are needed for minifying
-npm run-script dist  // it will minify of the source files and put them into the dist directory. 
+npm run-script dist  // it will minify the source files and put them into the dist directory. 
 ```
 
 

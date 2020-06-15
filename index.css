@@ -70,8 +70,8 @@ p, li, h1, h2 {
 }
 
 p.compare {
-    width: 110%;
-    margin-left: -5%;
+    width: 105%;
+    margin-left: -4.4%;
     padding-top: 2em;
     position: relative;
 }
@@ -107,7 +107,7 @@ p.compare img:nth-child(2) {
 }
 
 h2 {
-    font-size: 288%;
+    font-size: 313%;
     line-height: 1.2em;
     margin-bottom: 0.8em;
     margin-top: 1.6em;    
@@ -119,7 +119,7 @@ h2 {
 }
 
 h3 {
-    font-size: 222%;
+    font-size: 266%;
     margin-bottom: 0.4em;
     margin-top: 1.8em;
     background: white;
@@ -183,22 +183,23 @@ a img {
     border: none;
 }
 
+
 img.imglink {
     width:100%; 
     cursor: pointer; 
-    margin: 0.5em 0; 
+    margin-top: 1.8em;
     padding-bottom: 3px; 
     border-bottom: 3px solid #d40039;
     border-radius: 0.6em;    
 }
 
-img#gag {
-    filter: invert(1) hue-rotate(126deg) brightness(1.3) contrast(0.7);
+img[alt*='watermark'] {
+    filter: contrast(1.13);
 }
 
 .limg {
     display: block;
-    margin-top: 0.88em;
+    margin: 0.88em 0 2em 0;
     max-width: 100%;
     border-radius: 6px
 }
@@ -346,7 +347,7 @@ ul li {
     overflow: hidden;
     width: 100%;
     max-width: 788px;
-    margin-top:2em;
+    margin-top:2.6em;
 }
 
 .topimg img {
@@ -836,8 +837,11 @@ footer {
 
 @media (min-height: 888px) {
 	h1 {
-		margin-top: 1.2em;
-	}
+		margin-top: 8.8vh;
+    }
+    #before-menu {
+		margin-top: 8vh;
+    }
 }
 
 #bulb {
@@ -856,6 +860,11 @@ footer {
     opacity: 1;
 }
 
+@media ( min-resolution: 120dpi), (-webkit-min-device-pixel-ratio: 1.25) {
+    #SSG1 img[src*='html5-sample'] { 
+        image-rendering: pixelated !important; 
+    }
+}
 
 /* dark scheme */
 
@@ -880,7 +889,7 @@ footer {
     }
 
     .dark ol.content {
-        border: 3px solid #161a1b;
+        border: 3px solid #0e0e0e;
     }
 
     .dark ol.content li a {
@@ -911,12 +920,12 @@ footer {
     }   
 
     .dark .ficol h1::after {
-        border-top: 9px solid #161a1b;
-        border-right: 9px solid #161a1b;
+        border-top: 9px solid #0e0e0e;
+        border-right: 9px solid #0e0e0e;
     }
 
     .dark .ficol h2 {
-        border-top: 9px solid #161a1b;
+        border-top: 9px solid #0e0e0e;
     }
 
     .dark .secol {
@@ -934,7 +943,7 @@ footer {
     }
 
     .dark h3 {
-        border-top: 0.18em dotted #243e3e;        
+        border-top: 0.18em dotted #0e0e0e;
     }    
 
     .dark strong {    
@@ -982,7 +991,7 @@ footer {
     }
     
     .dark .secol .topimg.wider {
-        filter: contrast(1.1) brightness(0.88);
+        filter: contrast(1.3) brightness(0.66);
     }
 
     .dark .ssgafter {
@@ -1048,3 +1057,4 @@ footer {
             background: #3f4b4b;
         }
     }
+

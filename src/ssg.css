@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.8.0 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.8.1 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -76,8 +76,8 @@
 }
 
 #SSG_bg {
-    background: #131313;
-    color: #a0a0a0;
+    background: rgb(22, 22, 22);
+    color: #696969;
     width: 100%;
     font-size: 33px;
     text-align: center;
@@ -96,11 +96,12 @@
     font-size: 86%;
     margin-left: 0.1em;
     margin-right: 0.2em;
+    text-shadow: 0px 0px 18px #bfbfbf;
 }
 
 
 #SSG1 {
-    background: #131313;
+    background: rgb(22, 22, 22);
     position: absolute;
     top: 0px;
     z-index: 9999991;
@@ -115,7 +116,8 @@
     max-width: 96vw;
     max-height: 92vh;
     display: inline;
-    border: 1px solid black;
+    border: 1px solid rgb(10, 10, 10);
+    box-shadow: 0 0 8px 0px rgb(12, 12, 12) !important;
 }
 
 #SSG1 p.title {
@@ -151,17 +153,21 @@
     display: block;
     margin: auto;
     line-height: 1.44em;
-    color: #b2b2b2;
+    color:#b1b1b1;
     text-align: center;
-    background: #282828;
+    background: rgb(38, 38, 38);
     padding: 0.4em;
     padding-bottom: 0.3em;
     margin-bottom: 28vh;
     font-size: 108%;
 }
 
+#SSG_lastone p {
+    background-color: rgb(44, 44, 44);
+}
+
 #SSG_menu a.SSG_link {
-    text-shadow: #000 0px 0px 16px;
+    text-shadow: 0 0 16px black;
 }
 
 #SSG1 .notitle p.title,
@@ -459,7 +465,8 @@
 
 #SSG_lastone #SSG_menu {
     overflow: auto;
-    text-align: right;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 #SSG_menu a.SSG_link {
@@ -814,7 +821,7 @@ button#copyLink::first-letter {
     }
 
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipPlace {
-        background-color: #282828;
+        background: rgb(38, 38, 38);
         position: sticky;
         bottom: -2px;
         padding: 0.4em 0 0.6em 0;
@@ -1058,10 +1065,6 @@ button#copyLink::first-letter {
         margin-top: 0.3em;
     }
 
-    #SSG1 figure:not(.notitle) #p0 > span {
-        padding-right: 1.5em;
-    }    
-
     #SSG1 #p0 {
         padding-right: 1em;
     }
@@ -1154,6 +1157,10 @@ button#copyLink::first-letter {
 
     #SSG1 figure.notitle:not(.SSG_uwide) #p0 {    
         margin-top: 0px;
+    }
+
+    #SSG1 figure:not(.notitle) #p0 > span {
+        padding-right: 1.5em;
     }
     
     #SSG1 p.title {
@@ -1314,36 +1321,80 @@ button#copyLink::first-letter {
  * media query for touch devices, no scrollbar for IE and FF
  */
 
-html.ssg-active {
-    scrollbar-color: #505050 #0e0e0e;
-    scrollbar-width: thin;
-    scroll-behavior: auto !important;
-}
 
 html.ssg-active body {
     scroll-behavior: auto !important;
     overflow-x: hidden;
 }
 
+/* Firefox scrollbar */
+html.ssg-active {
+    scrollbar-color: #393939 #0F0F0F; 
+    scrollbar-width: thin;
+    scroll-behavior: auto !important;
+}
+
+/* Webkit scrollbar */
+
 html.ssg-active ::-webkit-scrollbar {
-    background: #0e0e0e;
-    /* prev #191919; */
+    background: #0F0F0F;
     width: 9px;
+}
+
+html.ssg-active ::-webkit-scrollbar:hover  {
+    border-left: 2px dashed #555555;
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    background: #505050;
+    background: rgb(26, 26, 26);
     background-size: 100%;
     margin-top: 6px;
     min-height: 81px;
 }
 
+html.ssg-active ::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
+
 html.ssg-active ::-webkit-scrollbar-button {
     height: 20px;
-    background: black;
+    background: #0F0F0F;
     height: 2px;
 }
+
+/* scrollbars inside the gallery */
+
+#SSG1 ::-webkit-scrollbar-thumb, #SSG_tip ::-webkit-scrollbar-thumb {
+    background: #393939;
+    height: auto;
+}
+
+/* IE11 scrollbar */
+html.ssg-active {
+    scrollbar-base-color: #393939;
+    scrollbar-track-color: #0F0F0F;
+    scrollbar-3dlight-color: #505050;
+    scrollbar-highlight-color: #505050;
+    /* prev #191919; */
+    scrollbar-arrow-color: #191919;
+    scrollbar-shadow-color: black;
+}
+
+/* 
+No scrollbar for Edge in landscape mode, 'cause it can't paint it black
+and it is realy irritating. Set !important to overwrite site's styles. 
+ */
+@supports (-ms-ime-align:auto) {
+    @media (orientation: landscape) {
+        html.ssg-active body,
+        html.ssg-active {
+            overflow: hidden !important;
+        }
+    }
+}
+
+/* cursors */
 
 html.ssg-active body {
     cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
@@ -1367,6 +1418,14 @@ html.ssg-active .wait {
 
     .share-overflow-coarse {
         overflow: visible !important;
+    }
+
+    html #SSG1::after {
+        background: linear-gradient(to top, rgba(22, 22, 22, 0) 44%, rgba(22, 22, 22, 1) 100%);
+    }
+
+    #SSG1 ::-webkit-scrollbar {
+        width: 3px;
     }
 
     /* loading icon for touch devices */
@@ -1430,29 +1489,6 @@ html.ssg-active .wait {
         }
     }
 
-html.ssg-active {
-    scrollbar-base-color: #505050;
-    scrollbar-3dlight-color: #505050;
-    scrollbar-highlight-color: #505050;
-    scrollbar-track-color: #0e0e0e;
-    /* prev #191919; */
-    scrollbar-arrow-color: #191919;
-    scrollbar-shadow-color: black;
-}
-
-/* ***  
-No scrollbar for Edge in landscape mode, 'cause it can't paint it black
-and it is realy irritating. Set !important to overwrite site's styles. 
- */
-@supports (-ms-ime-align:auto) {
-    @media (orientation: landscape) {
-        html.ssg-active body,
-        html.ssg-active {
-            overflow: hidden !important;
-        }
-    }
-}
-
 /* ***  IE10 & IE11 bug solution. IE doesn't change bg color back from black */
 @media all and (-ms-high-contrast: none),
 (-ms-high-contrast: active) {
@@ -1460,89 +1496,3 @@ and it is realy irritating. Set !important to overwrite site's styles.
         background-color: white;
     }
 }
-
-
-/************ Dark theme - default ********************************/
-
-
-html #SSG1 {
-    background: rgb(22, 22, 22);
-}
-
-@media (pointer: coarse) {
-    html #SSG1::after {
-        background: linear-gradient(to top, rgba(22, 22, 22, 0) 44%, rgba(22, 22, 22, 1) 100%);
-    }
-}
-
-html #SSG_bg {
-    background: rgb(22, 22, 22);
-    color: #696969;
-}
-
-html #SSG_bg b {
-    text-shadow: 0px 0px 18px #bfbfbf;
-}
-
-html #SSG1 img {
-    border: 1px solid rgb(10, 10, 10);
-    box-shadow: 0 0 8px 0px rgb(12, 12, 12) !important;
-}
-
-html #SSG1 p, 
-html #SSG1 p.title span {
-	text-shadow: none;
-	color:#b1b1b1;
-	}
-
-html #SSG_menu a.SSG_link {
-	text-shadow: 0 0 16px black;
-}
-
-html #SSG1 .SSG_uwide p.uwtitle .SSG_tipPlace, 
-html #SSG1 p, 
-html #SSG_lastone p {
-	box-shadow: none;
-    background: rgb(38, 38, 38);
-}
-
-html #SSG_lastone p {
-	box-shadow: none;
-    background: rgb(44, 44, 44);
-}
-
-
-html.ssg-active ::-webkit-scrollbar, html.ssg-active ::-webkit-scrollbar-button {
-    background: #0F0F0F;
-}
-
-html.ssg-active ::-webkit-scrollbar:hover  {
-    border-left: 2px dashed #555555;
-}
-
-html.ssg-active ::-webkit-scrollbar-thumb {
-    background: rgb(26, 26, 26);
-}
-
-html.ssg-active ::-webkit-scrollbar-thumb:hover {
-    background: #555555;
-}
-
-/* scrollbars inside the gallery */
-
-#SSG1 ::-webkit-scrollbar-thumb, #SSG_tip ::-webkit-scrollbar-thumb {
-    background: #393939;
-    height: auto;
-}
-
-/* Firefox scrollbar */
-html.ssg-active {
-    scrollbar-color: #393939 #0F0F0F; 
-}
-
-/* IE11 scrollbar */
-html.ssg-active {
-    scrollbar-base-color: #393939;
-    scrollbar-track-color: #0F0F0F;
-}
-

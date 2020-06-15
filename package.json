@@ -1,8 +1,8 @@
 {
   "name": "story-show-gallery",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "author": "Roman Flössler",
-  "license": "MPL-2.0",
+  "license": "GPL-3.0",
   "description": "Vertical photo gallery optimized for smartphones (notch area included). SSG can support your brand and marketing. Optimally placed captions, no ugly arrows.",
   "homepage": "http://ssg.flor.cz/",
   "main": "ssg.js",
