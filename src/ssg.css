@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.8.1 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.8.2 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -360,7 +360,7 @@
 }
 
 #SSG1 .share-menu .FB {   
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20px' height='20px'%3E%3Cg fill-opacity='0.48' fill='%23ffffff' stroke-opacity='0.6' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M11.5,18.8V13h3.2l0.7-3.9 h-3.7l0-0.8c0-1.4,0.5-1.4,0.7-1.4h3.1V3.4L14,3.2c-0.1,0-0.2,0-0.4,0c-0.4,0-0.9-0.1-1.7-0.1c-2.9,0-4.5,1.7-4.5,4.8l0,1.2h-3 l0,3.9h2.9v5.7c-4.2-1-7.1-4.7-7.1-9.1c0-5.1,4.2-9.3,9.3-9.3c5.1,0,9.2,4.2,9.2,9.4C18.8,14.1,15.8,17.8,11.5,18.8L11.5,18.8z'/%3E%3C/g%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-0.5 -0.5 20 20' width='20px' height='20px'%3E%3Cg fill-opacity='0.48' fill='%23ffffff' stroke-opacity='0.6' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M11.5,18.8V13h3.2l0.7-3.9 h-3.7l0-0.8c0-1.4,0.5-1.4,0.7-1.4h3.1V3.4L14,3.2c-0.1,0-0.2,0-0.4,0c-0.4,0-0.9-0.1-1.7-0.1c-2.9,0-4.5,1.7-4.5,4.8l0,1.2h-3 l0,3.9h2.9v5.7c-4.2-1-7.1-4.7-7.1-9.1c0-5.1,4.2-9.3,9.3-9.3c5.1,0,9.2,4.2,9.2,9.4C18.8,14.1,15.8,17.8,11.5,18.8L11.5,18.8z'/%3E%3C/g%3E%3C/svg%3E%0A");
     background-color: #414D9A;
     box-shadow: inset 0px 0px 11px #4464ff80;
 }
@@ -386,6 +386,7 @@
     border-radius: 20px;
     width: 28px;
     height: 28px;
+    margin-top: 11px;
     display: inline-block;
     line-height: 25px;
     box-shadow: none;
@@ -394,7 +395,7 @@
 }
 
 #SSG1 .share-menu .pin {    
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20px' height='20px'%3E%3Cg fill-opacity='0.48' fill='%23ffffff' stroke-opacity='0.66' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M9.6,18.8c-0.7,0-1.5-0.1-2.2-0.3 c0.7-1.2,0.9-2.4,1.3-3.7c3.5,3,7.3-1.8,7.7-5c0.5-3.7-2-6.9-5.8-7.2C6.8,2.3,2.7,4.8,2.7,9c0,1.6,0.6,3.4,2.2,4.1 c0.9,0.4,1-0.7,1.2-1.3c0.2-0.8-0.8-1.7-0.8-2.5c0-3.6,5.5-6.3,7.6-2.7c0.9,1.5,0.5,3.8-0.4,5.2c-0.4,0.7-1,1.3-1.9,1.3 c-1.7,0-1.1-1.8-0.8-2.7c0.4-1.3,1.1-4-1.2-4c-1.9,0-2.5,2.4-2.1,3.9c0.5,2.3-1.2,5-1.2,7.5C1.1,15.6-0.9,10.4,0.9,6 c1.8-4.3,6.7-6.7,11.2-5.5c4.3,1.2,7.2,5.5,6.7,10C18.3,15.2,14.3,18.8,9.6,18.8L9.6,18.8'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-0.5 -0.5 20 20' width='20px' height='20px'%3E%3Cg fill-opacity='0.48' fill='%23ffffff' stroke-opacity='0.66' stroke='%23ffffff' stroke-width='1'%3E%3Cpath d='M9.6,18.8c-0.7,0-1.5-0.1-2.2-0.3 c0.7-1.2,0.9-2.4,1.3-3.7c3.5,3,7.3-1.8,7.7-5c0.5-3.7-2-6.9-5.8-7.2C6.8,2.3,2.7,4.8,2.7,9c0,1.6,0.6,3.4,2.2,4.1 c0.9,0.4,1-0.7,1.2-1.3c0.2-0.8-0.8-1.7-0.8-2.5c0-3.6,5.5-6.3,7.6-2.7c0.9,1.5,0.5,3.8-0.4,5.2c-0.4,0.7-1,1.3-1.9,1.3 c-1.7,0-1.1-1.8-0.8-2.7c0.4-1.3,1.1-4-1.2-4c-1.9,0-2.5,2.4-2.1,3.9c0.5,2.3-1.2,5-1.2,7.5C1.1,15.6-0.9,10.4,0.9,6 c1.8-4.3,6.7-6.7,11.2-5.5c4.3,1.2,7.2,5.5,6.7,10C18.3,15.2,14.3,18.8,9.6,18.8L9.6,18.8'/%3E%3C/g%3E%3C/svg%3E");
     background-color: rgb(209, 0, 24);
 }
 
@@ -516,7 +517,7 @@
     padding: 1em;
     display: inline;
     position: relative;    
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20.5px' height='17.8px'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.3' id='svg-arrow'%3E%3Cpolyline points='0.3,0.3 10.3,10.3 10.3,10.3 20.3,0.3 '/%3E%3Cpolyline points='0.3,7.3 10.3,17.3 10.3,17.3 20.3,7.3 '/%3E%3C/g%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20.5px' height='18.8px'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.3' id='svg-arrow'%3E%3Cpolyline points='0.3,0.3 10.3,10.3 10.3,10.3 20.3,0.3 '/%3E%3Cpolyline points='0.3,7.3 10.3,17.3 10.3,17.3 20.3,7.3 '/%3E%3C/g%3E%3C/svg%3E%0A");
     background-repeat: no-repeat;
     background-position: center;    
     background-size: 18px;
@@ -1259,8 +1260,18 @@ button#copyLink::first-letter {
  */
 
  @supports (-webkit-overflow-scrolling: touch) {
+
+    /* solving problem with calc */
+
+    #SSG1 figure.title #p0 > span {
+        width: auto;
+    }
+
+    #SSG1 figure.title #p0 {
+        min-width: auto;
+    }
      
-    @media (min-width: 760px) and (max-width: 933px) and (orientation: landscape) {
+    @media (min-width: 760px) and (max-width: 933px) and (orientation: landscape) {        
         
         #SSG1 figure:not(.SSG_uwide):not(.notitle) p.title {
             padding-bottom: 1em;
@@ -1303,6 +1314,10 @@ button#copyLink::first-letter {
             transform: scale(1.16);
             transform-origin: bottom left;
         }
+
+        html.ssg-active body {
+            background-color: #161616;
+        }
     }
 
     @media (min-width: 660px) and (max-width: 760px) and (orientation: landscape) {
@@ -1322,16 +1337,15 @@ button#copyLink::first-letter {
  */
 
 
-html.ssg-active body {
+html.ssg-active body, html.ssg-active {
     scroll-behavior: auto !important;
-    overflow-x: hidden;
 }
 
 /* Firefox scrollbar */
 html.ssg-active {
     scrollbar-color: #393939 #0F0F0F; 
     scrollbar-width: thin;
-    scroll-behavior: auto !important;
+    overflow-x: hidden;
 }
 
 /* Webkit scrollbar */
@@ -1401,9 +1415,7 @@ html.ssg-active body {
     cursor: -webkit-image-set(
         url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
         url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
-), auto;
-    overflow-x: hidden;
-    background-color: #0e0e0e;
+), auto;    
 }
 
 html.ssg-active .wait {
@@ -1489,10 +1501,4 @@ html.ssg-active .wait {
         }
     }
 
-/* ***  IE10 & IE11 bug solution. IE doesn't change bg color back from black */
-@media all and (-ms-high-contrast: none),
-(-ms-high-contrast: active) {
-    html.ssg-active body {
-        background-color: white;
-    }
-}
+

@@ -5,6 +5,8 @@ SSG nicely combines photos and captions to show a whole story in full ­screen, 
 View demo gallery and documentation at [ssg.Flor.cz](https://ssg.flor.cz/) <br>
 SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/)
 
+<br>
+
 *Story Show Gallery (on the left) versus usual gallery lightbox. Do you want more icons or more from a photo? SSG use whole smartphone display - even notch area and even on iPhone.*
 
 [![Google Analytics](https://ssg.flor.cz/img/gallery-compare.jpg)](https://ssg.flor.cz/#gallery-compare)
@@ -12,9 +14,11 @@ SSG is also in the form of a [Wordpress plugin](https://ssg.flor.cz/wordpress/)
 
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc.
 
+<br>
+
 ## Not another photo gallery
 
-- On smartphones (and tablets), full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
+- On smartphones, full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
 - Brand building (image or text), social sharing icon that can be [hardly miss](https://ssg.flor.cz/#brand)
 - Easy browsing without [clicking and thinking](https://ssg.flor.cz/#browsing)
 - Goo­gle Analytics support 
@@ -24,6 +28,8 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 - SSG is probably the only gallery which can place each caption individually according to image size vs. screen size:
 
 [![SSG is fully responsive image gallery](https://ssg.flor.cz/img/story-show-gallery-responsive-modes-fullscreen.jpg)](https://ssg.flor.cz/#responsive)
+
+<br>
 
 ## Implementation
 
@@ -57,6 +63,9 @@ Story Show Gallery can also work as a Javascript module. Just add into ssg.js fi
 ```
 export default SSG;
 ```
+
+<br>
+
 ##  Configuration
 Default SSG configuration and language localization are at the begining of ssg.js file. You can edit source ssg.js file and then minify it. 
 Or copy selected settings into your document to override default configuration. Place the settings after ssg.min.js: 
@@ -74,6 +83,8 @@ Complete HTML5 example of SSG implementation and configuration:
 [![HTML5 example of SSG implementation](https://ssg.flor.cz/img/html5-sample-source-code-ssg.png)](https://ssg.flor.cz/#html5)
 
 
+<br>
+
 ## Minifying
 If you modify source files (src folder), you will probably want to minify the result. Use existing npm script:
 ``` js
@@ -81,6 +92,7 @@ npm install   // it will install uglify-JS and uglify-CSS which are needed for m
 npm run-script dist  // it will minify the source files and put them into the dist directory. 
 ```
 
+<br>
 
 ## License
 You can use Story Show Gallery freely within open source GNU GPL-3.0 license.<br>

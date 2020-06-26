@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.8.1 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.8.2 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -42,6 +42,9 @@ SSG.cfg.rightClickProtection = true;
 // Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false
 SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 // in other cases caption position depends on photo size vs. screen size.
+
+// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
+SSG.cfg.scaleLock1 = false; 
 
 // Watermark - logo configuration. Enter watermark text or image URL to display it
 SSG.cfg.watermarkWidth = 147; // watermark width in pixels, it is downsized on smaller screens.
@@ -125,7 +128,11 @@ SSG.run = function ( event ) {
     SSG.setVariables();
     
     // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
-    jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
+    if (!SSG.cfg.scaleLock1) {
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
+    } else {
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no, ' );
+    }
     if ( SSG.themeColor ) {
         jQuery( "meta[name='theme-color']" ).attr( 'content', '#131313' );
     } else {
@@ -698,8 +705,7 @@ SSG.onResize = function () {
 SSG.displayFormat = function ( e ) {
     var index = e.data.imgid;
     var imgHeight = jQuery( '#i' + index ).innerHeight();
-    var imgWidth = jQuery( '#i' + index ).innerWidth();
-    var titleHeight = jQuery( '#i' + index ).outerHeight( true ) - imgHeight + jQuery( '#p' + index ).innerHeight();
+    var imgWidth = jQuery( '#i' + index ).innerWidth();    
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = jQuery( window ).height();
@@ -707,34 +713,34 @@ SSG.displayFormat = function ( e ) {
     if ( vwidth > 1333 ) {
         photoFrameWidth = 0.85;
     }
-    var titleUnderRatio = vwidth / ( vheight - titleHeight );
-    var titleSideRatio = ( vwidth * photoFrameWidth ) / vheight;
-    var tooNarrow = vwidth * photoFrameWidth > imgWidth * 1.38;
+    var titleSideRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97);
+    var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
+    var preferSideCaption = tooNarrow && SSG.cfg.sideCaptionforSmallerLandscapeImg;
+    var balanceShift = SSG.smallScreen ? -7 : 4;
 
     
+    // if caption frame is smaller than screen Height, overflow is set to visible due to social sharing menu.
     window.setTimeout( function() {
         if ( jQuery('#uwp'+ index).outerHeight() < SSG.scrHeight * 0.9) {
             jQuery('#uwp'+ index).addClass('share-overflow');
         } else {
             jQuery('#uwp'+ index).removeClass('share-overflow');
-        }}, 666
-        );
-
-    // sideCaptionforSmallerLandscapeImg would disable side captions completely, so there are two conditions, which allow side captions
-    // Portrait mode condition is important for removing SSG_uwide class when the gallery is switched into portrait mode
-    if ( SSG.cfg.sideCaptionforSmallerLandscapeImg || vheight < imgHeight * 1.2 ||  imgHeight >= imgWidth || !SSG.landscapeMode ) {
-        if ( ( Math.abs( imgRatio - titleUnderRatio ) - 0.36 > Math.abs( imgRatio - titleSideRatio ) ) || tooNarrow ) {
-            jQuery( '#f' + index ).addClass( 'SSG_uwide' );
-        } else {
-            jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
         }
+    }, 666);
+    
+//    console.log(SSG.getName(SSG.imgs[index].href) + '  ' +  ((imgRatio - titleSideRatio) * 100));
 
-        // If the photo is too narrow shift the caption towards the photo.
-        if ( tooNarrow ) {
-            jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
-        } else {
-            jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
-        }
+    if ( ((imgRatio - titleSideRatio) * 100 ) + balanceShift < 0 || preferSideCaption ) {
+        jQuery( '#f' + index ).addClass( 'SSG_uwide' );
+    } else {
+        jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
+    }
+
+    //If the photo is too narrow shift the caption towards the photo.
+    if ( tooNarrow ) {
+        jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
+    } else {
+        jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
     }
 };
 
@@ -1228,12 +1234,13 @@ SSG.destroyGallery = function () {
         window.scrollTo( 0, restoredPos );
     }
 
-    SSG.inFullscreenMode && SSG.closeFullscreen();
-    SSG.running = false;
     jQuery( '#SSG_bg, #SSG1, #SSG_exit, #SSG_lastone, #SSG_tip' ).remove();
     jQuery( 'html' ).removeClass( 'ssg-active' );
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
+
+    SSG.inFullscreenMode && SSG.closeFullscreen();
+    SSG.running = false;
 };
 
 SSG.showFsTip = function ( content ) {
