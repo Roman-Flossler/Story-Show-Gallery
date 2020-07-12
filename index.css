@@ -152,6 +152,10 @@ ul {
     padding: 0;
 }
 
+ol.text li {
+    margin-bottom: 1em;
+}
+
 a {
     color: #d40025;
     background: white;
@@ -230,6 +234,54 @@ code span {
     background: rgba(255, 255, 255, 0.9);
     font-weight: bold;
 }
+
+#bigcode {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;    
+    padding: 5vh 6vw;
+    background: rgba(171, 185, 190, 0.808);
+    z-index: 11;
+    display: none;
+}
+
+#bigcode.visible {
+    display: block;
+}
+
+#bigcode p {
+    background: white;
+    margin: 0;
+    line-height: 5vh;
+    text-align: center;
+    position: relative;
+}
+
+#bigcode p span {
+     position: absolute;
+     left: auto;
+     right: 1em;
+     font-size: 44px;
+     color: #518b99;
+     cursor: pointer;
+}
+
+#bigcode code {
+    height: 85vh;
+    margin: 0;
+    border-bottom: 22px solid #f1f1f1;
+    white-space: pre-wrap;
+}
+
+#bigcode code span {
+    font-weight: normal;
+}
+#bigcode code em {
+    color: #004d70;
+}
+
 
 .column {
     float: left;
@@ -854,6 +906,7 @@ footer {
     background-size: 100%; 
     opacity: 0.4;    
     cursor: pointer;
+    z-index: 13;
 }
 
 #bulb:hover {
@@ -1015,6 +1068,21 @@ footer {
         opacity: 0.8;
     }
 
+    .dark #bigcode p {
+        background: black;
+    }
+
+    .dark #bigcode {
+        background: rgba(13, 19, 24, 0.808);
+    }
+
+    .dark #bigcode code {
+        border-bottom: 22px solid #171e1f;
+    }
+
+    .dark #bigcode code em {
+        color: #51e7ff;
+    }
 
     @media screen and (max-width: 950px) {
         .dark .ficol {

@@ -200,26 +200,28 @@
                 (extensions: jpg, jpeg, JPG, png, PNG, gif, GIF, webp). And adds to all these hyper&shy;links an <strong>onclick function</strong> 
                 which runs the gallery. Unless nossg class is used. </p>   
  
-             <p>A <strong>photo caption</strong> a is taken from a thumbnail's alt att&shy;ribute or a link text. 
+             <p>A <strong>photo caption</strong> a is taken from a thumbnail's <em>alt</em> att&shy;ribute or a link text. 
+                You can also add author's name - enter it into <em>data-author</em> attribute of hyperlink.
                  SSG will create a gallery from all these three images (BigImage1~3):</p>
              
              <code>
                  &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
-                 &lt;a href='<span>BigImage2.jpg</span>'&gt; <b>Another text caption</b> &lt;/a&gt;<br>
+                 &lt;a href='<span>BigImage2.jpg</span> data-author='<span>photo by…</span>''&gt; <b>Another caption</b> &lt;/a&gt;<br>
                  &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i><br>
                  // Hyperlinks with &lt;Picture&gt; tag inside are also supported.
              </code>
 
              <p>
-                Default <strong>SSG configuration</strong> and language localization are at the begining of ssg.js file. 
-                You can edit source ssg.js file and then minify it. Or copy selected settings into your HTML to override 
-                default configuration. Place it after ssg.min.js, as it is shown on the following picture.<br>
+                Default <strong>SSG configuration</strong> and language localization is at the 
+                <a href="javascript:jQuery('#bigcode').toggleClass('visible');" >begining of ssg.js file. Settings are com&shy;mented</a>. 
+                You can edit settings in ssg.js file and then minify it. Or copy selected settings into your HTML to override 
+                default config&shy;uration. Place it after ssg.min.js, as it is shown on the following picture.<br>
                 Complete example of SSG implementation and configuration:
             </p>            
 
-            <a href="https://ssg.flor.cz/img/html5-sample-source-code-ssg.png" >
+            <a href="https://ssg.flor.cz/img/html5-sample-source-code-ssg.png" data-author="by Flor" >
                 <img src="https://ssg.flor.cz/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example of SSG implementation"></a>
-   
+
 
             <a name='minify'></a>
             <h2>SSG files and minifying</h2>
@@ -278,6 +280,41 @@
             <p>Image linked with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user want to see it and clicks on it. 
                 Otherwise image linked with gossg class won't show in the gallery.
             </p>
+
+            <a name='events'></a>
+            <h2>Gallery events</h2>
+                <!-- _____________________________________ -->      
+                <p>
+                SSG offers four <strong>gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
+                <ol class="text">
+                    <li><em>SSG.cfg.onGalleryStart</em> fires after creating a gallery </li>
+                    <li><em>SSG.cfg.onImgChange</em> fires on every image change (even the first one)</li>
+                    <li><em>SSG.cfg.onSignpost</em> fires when a user reach the HTML signpost after photos or if he scrolls after the final menu</li>
+                    <li><em>SSG.cfg.onGalleryExit</em> fires on the gallery exit</li>
+                </ol>
+                Example:
+                
+
+            </p>
+            <code style="white-space: pre;">
+SSG.cfg.onGalleryStart = function(data) {                  
+    console.log( data.imgCount + ' images in the gallery. 
+                 Starting with image: ' + data.imgName);
+};
+
+// data object:
+data.imgCount // count of images in the gallery
+data.imgGalleryId // ID of current Image in the gallery
+data.imgPageId // ID of current image on the page
+data.imgPath // whole path to current image
+data.imgName  // image name of current image (no extension)
+data.imageCaption // image caption for current image
+
+// if signpost is diplayed, data object is null
+
+            </code>
+            <p> You can find complete example in the source code of this page (at the end). It writes a little statistic of the gallery usage into the JS console. </p>
+
 
 
             <a name='order'></a>
@@ -358,7 +395,7 @@
             If you don't define imgs parameter, imgsPos will be ignored.
             </p>
             <code>
-                SSG.run( {imgs: [ { href: '<span>img URL</span>', alt: '<span>img caption</span>' }, {...} ], imgsPos:'<span>start</span>'} );
+                SSG.run( {imgs: [ { href: '<span>img URL</span>', alt: '<span>img caption</span>, author: '<span>photo by…</span>' }, {...} ], imgsPos:'<span>start</span>'} );
             </code>
 
 
@@ -420,11 +457,11 @@ iceland = [];
  };
  iceland[ 1 ] = {
     href: 'img/Seljalandsfoss.jpg',
-    alt: 'Aurora behind Seljalandsfoss waterfall'
+    alt: 'Aurora behind Seljalandsfoss waterfall',
+    author: 'photo by Flor'
  };
  iceland[ 2 ] = {
-     href: 'img/iceland-horses.jpg',
-     alt: 'Icelandic horses'
+     href: 'img/iceland-horses.jpg'     
  };                        
                     </code>
                 <p>
@@ -459,27 +496,27 @@ iceland = [];
                 </div>
                 
                 <section class="gallery ssg wider vipssg fs">
-                    <a href='https://www.flor.cz/blog/wp-content/uploads/its-time.jpg'>
+                    <a href='https://www.flor.cz/blog/wp-content/uploads/its-time.jpg'  data-author="photo by Flor">
                         <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-dilna-200x200.jpg" alt="It's time! For a photo shoot of course." />
                     </a>
                     <a href="https://www.flor.cz/blog/wp-content/uploads/na-haku.jpg">
                         <img src="https://www.flor.cz/blog/wp-content/uploads/na-haku-200x200.jpg" alt="I couldn't believe my eyes. She just climbed up and hanged on the hook." />
                     </a>
-                    <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg' class="third">
+                    <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo.jpg' class="third" >
                         <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-umyvadlo-200x200.jpg" alt="" />
                     </a>
 
                     <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">Fork it on GitHub</a></span>
 
                     <div class="topimg">
-                        <a href="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo.jpg">
+                        <a href="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo.jpg" data-author="photo by Flor">
                             <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-kolo-650x398.jpg" alt="I like steampunk style, so this is my dream place for shooting."  /></a>
                     </div>
 
                     <a href='https://www.flor.cz/blog/wp-content/uploads/cervena-navijak.jpg'>
                         <img src="https://www.flor.cz/blog/wp-content/uploads/cervena-navijak-200x200.jpg" alt="All the photos are from Michal coal mine in Ostrava city. This is the engine room." />
                     </a>
-                    <a href='https://www.flor.cz/blog/wp-content/uploads/cerna-detail.jpg'>
+                    <a href='https://www.flor.cz/blog/wp-content/uploads/cerna-detail.jpg' data-author="photo by Flor">
                         <img src="https://www.flor.cz/blog/wp-content/uploads/cerna-detail-200x200.jpg" alt="" /></a>
                     <a href='https://www.flor.cz/blog/wp-content/uploads/paty-element.jpg' class="third">
                         <img src="https://www.flor.cz/blog/wp-content/uploads/paty-element-200x200.jpg" alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
@@ -504,7 +541,8 @@ iceland = [];
                 <li><a href="#license">License</a></li></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
-                <li><a href="#classes">Controling SSG by CSS classes</a></li>                
+                <li><a href="#classes">Controling SSG by CSS classes</a></li>
+                <li><a href="#events">Gallery events</a></li>
                 <li><a href="#order">Order of photos in the gallery</a></li>
                 <li><a href="#deeplinking">Deep linking</a></li>
                 <li><a href="#scrolling">Vertical scrolling</a></li>
@@ -521,6 +559,75 @@ iceland = [];
     </main>
     <a id="bulb" onclick="setColorMode()" title="light / dark mode" ></a>
 
+<div id="bigcode">
+<p>SSG configuration as it is at the begining of ssg.js file: <span onclick="jQuery('#bigcode').toggleClass('visible');" >×</span></p>
+<code>
+<span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
+SSG.cfg.scrollDuration = <em>500;</em>
+
+<span>// Force SSG to always display in fullscreen - true/false</span>
+SSG.cfg.alwaysFullscreen = <em>false;</em>
+
+<span>// Force SSG to never display in fullscreen - true/false</span>
+SSG.cfg.neverFullscreen = <em>false;</em>
+
+<span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
+<span>// HTML file has to be loaded over http due to a browser's cors policy. Set to null if you don't want it.</span>
+SSG.cfg.fileToLoad = <em>null;</em>
+
+<span>// display social share icon and menu</span>
+SSG.cfg.socialShare = <em>true;</em>
+
+<span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
+SSG.cfg.logIntoGA = <em>true;</em>
+
+<span>// Protect photos from being copied via right click menu - true/false</span>
+SSG.cfg.rightClickProtection = <em>true;</em>
+
+<span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false</span>
+SSG.cfg.sideCaptionforSmallerLandscapeImg = <em>false;</em>  <span>// false means caption below</span>
+<span>// in other cases caption position depends on photo size vs. screen size.</span>
+
+<span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
+SSG.cfg.scaleLock1 = <em>false;</em> 
+
+<span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
+SSG.cfg.watermarkWidth = <em>147;</em> <span>// watermark width in pixels, it is downsized on smaller screens.</span>
+SSG.cfg.watermarkImage = <em>'';</em>  <span>// watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'</span>
+SSG.cfg.watermarkText = <em>'';</em>  <span>//  watermark text, text will wrap according to watermark width</span>
+SSG.cfg.watermarkFontSize = <em>20;</em> <span>// font size in pixels  </span>
+SSG.cfg.watermarkOffsetX = <em>2;</em> <span>// watermark horizontal offset from left in percents of photo</span>
+SSG.cfg.watermarkOffsetY = <em>1.2;</em> <span>// watermark vertical offset from bottom in percents of photo</span>
+SSG.cfg.watermarkOpacity = <em>0.36;</em> <span>// opacity</span>
+
+<span>// Here you can translate SSG into other language. Leave tags <> and "" as they are.</span>
+SSG.cfg.hint1 = <em>"Browse through Story Show Gallery by:";</em>
+SSG.cfg.hint2 = <em>"a mouse wheel &lt;strong&gt;⊚&lt;/strong&gt; or arrow keys &lt;strong&gt;↓→↑←&lt;/strong&gt;";</em>
+SSG.cfg.hint3 = <em>"or &lt;strong&gt;TAP&lt;/strong&gt; on the bottom (top) of the screen";</em>
+SSG.cfg.hintTouch = <em>"&lt;strong&gt;TAP&lt;/strong&gt; on the bottom (top) of the screen&lt;br&gt; to browse through Story Show Gallery.";</em>
+SSG.cfg.hintFS = <em>"For a better experience &lt;br&gt;&lt;a&gt;click for fullscreen mode&lt;/a&gt;"</em>
+SSG.cfg.toTheTop = <em>"Scroll to top";</em>
+SSG.cfg.exitLink = <em>"Exit the Gallery";</em>
+
+<span>// share link dialog</span>
+SSG.cfg.imageLink = <em>"The link to selected image:";</em>
+SSG.cfg.copyButton  = <em>"⎘ Copy the link to clipboard";</em>
+SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
+
+<span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
+SSG.cfg.showLandscapeHint = <em>true;</em>
+SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;😉&lt;/span&gt;';</em>
+
+<span>// SSG events - see complete example of SSG events in the example directory</span>
+SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires after creating a gallery</span>
+SSG.cfg.onImgChange = <em>null;</em> <span>// fires on every image change (even the first one)</span>
+SSG.cfg.onSignpost = <em>null;</em> <span>// fires when a user reach HTML signpost after photos or if he scrolls after the final menu</span>
+SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span>
+
+
+</code>
+</div>    
+
     <footer>&nbsp;</footer>
 
 
@@ -533,11 +640,11 @@ iceland = [];
             };
             iceland[ 1 ] = {
                 href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/Seljalandsfoss.jpg',
-                alt: 'Northern lights behind Seljalandsfoss waterfall'     
+                alt: 'Northern lights behind Seljalandsfoss waterfall',
+                author: 'photo by Flor'
             };
             iceland[ 2 ] = {
-                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg',
-                alt: 'Icelandic horses are little but strong. They are typically friendly and curious, which you will find out when you encounter them.'
+                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg'
             };
 
 
@@ -596,11 +703,26 @@ iceland = [];
                 }
             }
     </script>
-
+    
     <script src="src/ssg.js"></script>
     <script>
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
     SSG.cfg.watermarkText = '<b>ꐠ</b> SSG';
+    
+    // little gallery's statistics - example of SSG events. See output in JS console
+    var counter = 0;
+    var finished = false;
+    SSG.cfg.onGalleryStart = function(data) {
+        console.log('----------');
+        console.log( data.imgCount + ' images in the gallery. Starting with image: ' + data.imgName) 
+    };
+    SSG.cfg.onImgChange = function(data) { counter++; };
+    SSG.cfg.onSignpost = function() { finished = true; };
+    SSG.cfg.onGalleryExit = function(data) {
+        console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
+        counter = 0;
+        finished = false;
+    };
     </script>
 </body>
 

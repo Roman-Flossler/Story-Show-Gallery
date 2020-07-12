@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.8.2 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.0 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -72,6 +72,13 @@ SSG.cfg.linkPaste = "…and you can paste it anywhere via ctrl+v";
 // in the portrait mode the gallery suggest to turn phone into landscape mode
 SSG.cfg.showLandscapeHint = true;
 SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>';
+
+// SSG events - see complete example of SSG events in the example directory
+SSG.cfg.onGalleryStart = null; // fires after creating a gallery
+SSG.cfg.onImgChange = null; // fires on every image change (even the first one)
+SSG.cfg.onSignpost = null; // fires when a user reach the HTML signpost after photos or if he scrolls after the final menu
+SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
+
 
 // -------------- end of configuration ----------------------------------------
 
@@ -388,6 +395,7 @@ SSG.createGallery = function ( event ) {
         // use just images on the page
         SSG.getImgList( event );
     }
+    SSG.cfg.onGalleryStart && SSG.cfg.onGalleryStart(this.createDataObject(0));
 
     SSG.addImage();
 
@@ -567,6 +575,11 @@ SSG.getImgList = function ( event ) {
             obj.href = el.href;
             obj.alt = SSG.getAlt( el );
             obj.id = el.attributes.ssgid.nodeValue;
+            if (el.attributes['data-author']) {
+                obj.author = el.attributes['data-author'].nodeValue;
+            } else {
+                obj.author = '';
+            }
             SSG.imgs.push( obj );
             obj = {};
         }
@@ -655,7 +668,7 @@ SSG.refreshPos = function () {
         return;
     }
     for ( var i = 0; i <= SSG.justLoadedImg; i++ ) {
-        SSG.imgs[ i ].pos = Math.round( jQuery( '#i' + i ).offset().top );
+        SSG.imgs[ i ].pos = Math.round( jQuery( '#SSG1 #i' + i ).offset().top );
     }
 };
 
@@ -704,8 +717,8 @@ SSG.onResize = function () {
 
 SSG.displayFormat = function ( e ) {
     var index = e.data.imgid;
-    var imgHeight = jQuery( '#i' + index ).innerHeight();
-    var imgWidth = jQuery( '#i' + index ).innerWidth();    
+    var imgHeight = jQuery( '#SSG1 #i' + index ).innerHeight();
+    var imgWidth = jQuery( '#SSG1 #i' + index ).innerWidth();    
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = jQuery( window ).height();
@@ -721,26 +734,27 @@ SSG.displayFormat = function ( e ) {
     
     // if caption frame is smaller than screen Height, overflow is set to visible due to social sharing menu.
     window.setTimeout( function() {
-        if ( jQuery('#uwp'+ index).outerHeight() < SSG.scrHeight * 0.9) {
-            jQuery('#uwp'+ index).addClass('share-overflow');
+        if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.9) {
+            jQuery('#SSG1 #uwp'+ index).addClass('share-overflow');
         } else {
-            jQuery('#uwp'+ index).removeClass('share-overflow');
+            jQuery('#SSG1 #uwp'+ index).removeClass('share-overflow');
         }
     }, 666);
     
 //    console.log(SSG.getName(SSG.imgs[index].href) + '  ' +  ((imgRatio - titleSideRatio) * 100));
 
     if ( ((imgRatio - titleSideRatio) * 100 ) + balanceShift < 0 || preferSideCaption ) {
-        jQuery( '#f' + index ).addClass( 'SSG_uwide' );
+        jQuery( '#SSG1 #f' + index ).addClass( 'SSG_uwide' );
     } else {
-        jQuery( '#f' + index ).removeClass( 'SSG_uwide' );
+        jQuery( '#SSG1 #f' + index ).removeClass( 'SSG_uwide' );
+        // jQuery( '#SSG1 #p' + index ).css('minWidth',imgWidth+'px');
     }
 
     //If the photo is too narrow shift the caption towards the photo.
     if ( tooNarrow ) {
-        jQuery( '#f' + index ).addClass( 'SSG_captionShift' );
+        jQuery( '#SSG1 #f' + index ).addClass( 'SSG_captionShift' );
     } else {
-        jQuery( '#f' + index ).removeClass( 'SSG_captionShift' );
+        jQuery( '#SSG1 #f' + index ).removeClass( 'SSG_captionShift' );
     }
 };
 
@@ -765,8 +779,8 @@ SSG.onLoadError = function ( event ) {
     // Image "Eror loading image" in base 64 encoding
     var ip1 = 'data:image/gif;base64,R0lGODlhUQAKAIABADVsagAAACH5BAEAAAEALAAAAABRAAoAAAJkjI+py+0PYwQyUCpx3bNqDiIANlpkaYr';
     var ip2 = 'GqKHm9R5scrHujZaktfb9x2updrCgT8ZLfopMm/JYRApjxOdu6DsxX65n0oj9iY3V77i8XV5bOdoKpwXHw+ucPYTv5M37vqjLMZNQAAA7';
-    jQuery( '#i' + event.data.imgid ).attr( 'src', ip1 + ip2 );
-    jQuery( '#uwb' + event.data.imgid ).addClass( 'serror' );
+    jQuery( '#SSG1 #i' + event.data.imgid ).attr( 'src', ip1 + ip2 );
+    jQuery( '#SSG1 #uwb' + event.data.imgid ).addClass( 'serror' );
     SSG.onImageLoad( event );
 };
 
@@ -785,18 +799,20 @@ SSG.addImage = function () {
     var newOne = SSG.justLoadedImg + 1;
 
     if ( newOne < SSG.imgs.length ) {
-        var noTitle = 'title';
 
         if (SSG.cfg.socialShare) {
         var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
         var urlToShareEnc = encodeURIComponent(urlToShare);
+        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
+        var authorbr = author ? "<br>" + author : author;
+        var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
 
         var h1ToShare = SSG.escapeHtml(jQuery('h1').first().text());
-        var captionToShare = SSG.escapeHtml(SSG.imgs[ newOne ].alt);
-        var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + SSG.imgs[ newOne ].alt ));
+        var captionToShare = SSG.escapeHtml(caption);
+        var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
         var windowOpen = "onclick='window.open(\"";
         var WindoOpenParams = '\", \"_blank\", \"width=1100,height=550\");';
-        
+     
         var shareMenu = "<span class='share'><span class='share-menu'>" +
                 "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + "'></a>" + 
                 "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'>🔗</a>" +
@@ -811,18 +827,23 @@ SSG.addImage = function () {
         }
 
         var uwCaption = '';
-        if ( !SSG.imgs[ newOne ].alt ) {
-            noTitle = 'notitle';
+        var titleClass = 'title';
+        if ( !SSG.imgs[ newOne ].alt && !SSG.imgs[ newOne ].author ) {
+            titleClass = 'notitle';
+        } else if (!SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].author) {
+            titleClass = 'title author-only';
+        } else if ( SSG.imgs[ newOne ].author ) {
+            titleClass = 'title author';
         }
 
         //  Condition NewOne == 0 leaves P tag for the "down arrow" if there is no alt text.
-        if ( SSG.imgs[ newOne ].alt || newOne == 0 ) {
-            uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + SSG.imgs[ newOne ].alt + shareMenu + "</p>";
+        if ( SSG.imgs[ newOne ].alt || newOne == 0 || SSG.imgs[ newOne ].author ) {
+            uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + authorbr + "</p>";
         }
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
              SSG.cfg.watermarkText +"</span>"+ shareMenu +"</span></div>";
-        var caption = "<p class='title' id='p" + newOne + "'><span>" + SSG.imgs[ newOne ].alt + shareMenu + "</span></p>";
+        var caption = "<p class='title' id='p" + newOne + "'><span>" + caption + author + shareMenu + "</span></p>";
                 
         var img = new Image();
         img.src = SSG.imgs[ newOne ].href;
@@ -831,28 +852,31 @@ SSG.addImage = function () {
         if (img.decode) {
             img.decode().catch( function() { console.log('no image to decode') } );
         }
-        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + noTitle + "'><div id='uwb" +
+        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
         
         // it would be better to bind onImageLoad and onLoadError to img.decode, but older browsers :(
         // Imgid is an argument passed into SSG.onImageLoad.
-        jQuery( '#i' + newOne ).on( 'load', {
+        jQuery( '#SSG1 #i' + newOne ).on( 'load', {
             imgid: newOne
         }, SSG.onImageLoad );
-        jQuery( '#i' + newOne ).on( 'error', {
+        jQuery( '#SSG1 #i' + newOne ).on( 'error', {
             imgid: newOne
         }, SSG.onLoadError );
         jQuery( '.share' ).click( function ( event ) {
             event.stopPropagation();
         } );
 
-        //onclick for share menu to work properly on touch devices
-        jQuery( '#f' + newOne + ' .share a' ).click( function () {
-            jQuery( '#f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
-            if(this.classList[0] == 'link' && SSG.inFullscreenMode ) SSG.closeFullscreen();
-            if (this.classList[0] != 'ico') {
+        //onclick for share menu 
+        jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
+            jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
+            if(this.classList[0] == 'link' && SSG.inFullscreenMode ) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
-                // in case that browser stays in FS mode
+                SSG.closeFullscreen();
+            }
+            if (this.classList[0] != 'ico') {
+                SSG.destroyOnFsChange = false; // opening new tab with will close FS mode
+                // in case that browser stays in FS mode (email client on Windows) set destroyOnFsChange back
                 setTimeout(function(){ SSG.destroyOnFsChange = true }, 500); 
             }
         } );
@@ -901,9 +925,9 @@ SSG.addImage = function () {
 
     // Append a little help to the first image.
     if ( newOne == 0 ) {
-        jQuery( '#p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
-        jQuery( '#uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
-        SSG.cfg.showLandscapeHint && jQuery( '#f0').after("<div class='golandscape'>"+ SSG.cfg.landscapeHint +"<div>");
+        jQuery( '#SSG1 #p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
+        jQuery( '#SSG1 #uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
+        SSG.cfg.showLandscapeHint && jQuery( '#SSG1 #f0').after("<div class='golandscape'>"+ SSG.cfg.landscapeHint +"<div>");
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( 'hint' );
             event.stopPropagation();
@@ -984,16 +1008,25 @@ SSG.metronome = function () {
             if ( j < SSG.imgs.length - 1 ) {
                 topPos = SSG.imgs[ j + 1 ].pos;
             } else {
-
                 // Get topPos of the last image's bottom
-                topPos = SSG.imgs[ j ].pos + SSG.scrHeight;
+                topPos = SSG.imgs[ j ].pos + jQuery('#SSG1 #f'+ j).outerHeight(true);
+                var finalPos = topPos;
             }
             
             if ( ( treshold > SSG.imgs[ j ].pos ) && ( treshold < topPos ) ) {
-                SSG.displayedImg != j && SSG.setHashGA( j );
-                SSG.displayedImg = j;
+                if (SSG.displayedImg != j || SSG.atLastone) {
+                    SSG.setHashGA( j );
+                    SSG.cfg.onImgChange && SSG.cfg.onImgChange(SSG.createDataObject(j));
+                } 
+                SSG.displayedImg = j;                
                 SSG.imgDelta = 0;
+                SSG.atLastone = false;
                 break;
+            } else if (!SSG.atLastone && treshold > finalPos) {
+                SSG.atLastone = true;
+                SSG.displayedImg =  SSG.imgs.length - 1;
+                SSG.setHashGA( -1 );
+                SSG.cfg.onSignpost && SSG.cfg.onSignpost();
             }
         }
     }
@@ -1011,14 +1044,14 @@ SSG.metronome = function () {
 SSG.ScrollTo = function ( posY, direction ) {
     SSG.jumpScrollingNow = true;
     if ( direction ) {
-        jQuery( 'figure[id=f' + ( SSG.displayedImg + direction ) + ']' ).fadeTo( 0, 0 );
-        jQuery( 'figure[id=f' + ( SSG.displayedImg ) + ']' ).fadeTo( SSG.cfg.scrollDuration*0.8, 0 );
+        jQuery( '#SSG1 figure[id=f' + ( SSG.displayedImg + direction ) + ']' ).fadeTo( 0, 0 );
+        jQuery( '#SSG1 figure[id=f' + ( SSG.displayedImg ) + ']' ).fadeTo( SSG.cfg.scrollDuration*0.8, 0 );
     }    
     jQuery( 'html, body' ).animate( { scrollTop: posY }, SSG.cfg.scrollDuration, 'swing', 
                             function() { SSG.jumpScrollingNow = false; } );
     if ( direction ) {
-        jQuery( 'figure[id=f' + ( SSG.displayedImg + direction ) + ']' ).fadeTo( SSG.cfg.scrollDuration*1.33, 1 );
-        jQuery( 'figure[id=f' + ( SSG.displayedImg ) + ']' ).fadeTo( SSG.cfg.scrollDuration, 1 );
+        jQuery( '#SSG1 figure[id=f' + ( SSG.displayedImg + direction ) + ']' ).fadeTo( SSG.cfg.scrollDuration*1.33, 1 );
+        jQuery( '#SSG1 figure[id=f' + ( SSG.displayedImg ) + ']' ).fadeTo( SSG.cfg.scrollDuration, 1 );
     }
 };
 
@@ -1042,13 +1075,13 @@ SSG.jumpScroll = function () {
     // finds out if the crucial image is sufficiently big for fading animation
     var bigImage = 0;
     if ( SSG.landscapeMode ) {
-        if ( SSG.scrHeight * 0.3 < jQuery( '#i' + SSG.displayedImg ).outerHeight( true ) ) {
+        if ( SSG.scrHeight * 0.3 < jQuery( '#SSG1 #i' + SSG.displayedImg ).outerHeight( true ) ) {
             bigImage = 1;
         }
         if ( bigImage == 0 && SSG.imageUp ) {
             bigImage = 1;
         }
-        if ( SSG.scrHeight * 0.3 > jQuery( '#i' + ( SSG.displayedImg - 1 ) ).outerHeight( true ) && SSG.imageUp ) {
+        if ( SSG.scrHeight * 0.3 > jQuery( '#SSG1 #i' + ( SSG.displayedImg - 1 ) ).outerHeight( true ) && SSG.imageUp ) {
             bigImage = 0;
         }
     }
@@ -1095,21 +1128,11 @@ SSG.jumpScroll = function () {
     // If the lastone is true, i am out of the index, so scroll on the last image in index.
     else if ( SSG.imageUp && SSG.atLastone ) {
         SSG.ScrollTo( SSG.imgs[ SSG.displayedImg ].pos - SSG.countImageIndent( SSG.displayedImg ), 0 );
-        SSG.atLastone = false;
-        SSG.setHashGA( SSG.displayedImg );
     } else {
-
         // If the bottom menu exists scroll to it
         if ( typeof jQuery( '#SSG_menu' ).offset() !== 'undefined' ) {
             var menuPosition = SSG.fileLoaded ? SSG.scrHeight / 10 : SSG.scrHeight - SSG.scrHeight / 5;
-            SSG.imageDown && jQuery( 'html, body' ).animate( {
-                scrollTop: jQuery( '#SSG_menu' ).offset().top - menuPosition
-            }, SSG.cfg.scrollDuration, 'swing', function () {
-                if ( !SSG.atLastone ) {
-                    SSG.atLastone = true;
-                    SSG.setHashGA( -1 );
-                }
-            } );
+            SSG.imageDown && SSG.ScrollTo( jQuery( '#SSG_menu' ).offset().top - menuPosition, 0 );
         }
     }
 
@@ -1121,23 +1144,23 @@ SSG.jumpScroll = function () {
 // Function counts how much to indent image from the top of the screen to center image.
 SSG.countImageIndent = function ( index ) {
     var screen = jQuery( window ).height();
-    var img = jQuery( '#i' + index ).outerHeight();
-    var pIn = jQuery( '#p' + index ).innerHeight();    
+    var img = jQuery( '#SSG1 #i' + index ).outerHeight();
+    var pIn = jQuery( '#SSG1 #p' + index ).innerHeight();    
     var centerPos, marginAfterP;
 
     // get previous index unless index = 0
     var useIndex = index == 0 ? 0 : index-1;
 
     // if a title is under and image
-    if ( jQuery( '#f' + useIndex ).hasClass('title') &&  !jQuery( '#f' + useIndex ).hasClass('SSG_uwide') ) {
-        marginAfterP = parseInt(jQuery( '#p' + useIndex ).css('marginBottom'));
+    if ( jQuery( '#SSG1 #f' + useIndex ).hasClass('title') &&  !jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_uwide') ) {
+        marginAfterP = parseInt(jQuery( '#SSG1 #p' + useIndex ).css('marginBottom'));
     }  
     else {
-        marginAfterP = jQuery( '#p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#p' + ( useIndex ) ).innerHeight();
+        marginAfterP = jQuery( '#SSG1 #p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#SSG1 #p' + ( useIndex ) ).innerHeight();
     }    
      
-    if ( jQuery( '#f' + index ).hasClass('title') &&  !jQuery( '#f' + index ).hasClass('SSG_uwide') ) {
-        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#p' + index ).css('marginTop')) ) ) / 2 );
+    if ( jQuery( '#SSG1 #f' + index ).hasClass('title') &&  !jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
+        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 );
     } else {
         centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     }
@@ -1200,6 +1223,17 @@ SSG.closeFullscreen = function () {
     }
 };
 
+SSG.createDataObject = function (imgIndex) {
+    var data = {};
+    data.imgCount = SSG.imgs.length;
+    data.imgGalleryId = imgIndex;
+    data.imgPageId = SSG.imgs[imgIndex].id;
+    data.imgPath = SSG.imgs[imgIndex].href;
+    data.imgName =  SSG.getName(data.imgPath);
+    data.imageCaption = SSG.imgs[imgIndex].alt;
+    return data;
+}
+
 SSG.destroyGallery = function () {
     history.replaceState( null, null, SSG.location );
     clearInterval( SSG.metronomInterval );
@@ -1241,6 +1275,7 @@ SSG.destroyGallery = function () {
 
     SSG.inFullscreenMode && SSG.closeFullscreen();
     SSG.running = false;
+    SSG.cfg.onGalleryExit && SSG.cfg.onGalleryExit(SSG.atLastone ? null : this.createDataObject( SSG.displayedImg));
 };
 
 SSG.showFsTip = function ( content ) {
@@ -1259,8 +1294,8 @@ SSG.showFsTip = function ( content ) {
         } else if (content.length > 8) {
             var linkInput = '<textarea readonly rows="2"  id="linkText" >'+content+'</textarea><br/><button id="copyLink">' + SSG.cfg.copyButton + '</button>';
             jQuery( 'body' ).append( begin + "<p>" + SSG.cfg.imageLink + "</p>" + linkInput + "<div>" + SSG.cfg.linkPaste + "</div>" + end );
-            jQuery('#copyLink').click( function() {
-                jQuery('#linkText').select(); 
+            jQuery('#SSG_tip #copyLink').click( function() {
+                jQuery('#SSG_tip #linkText').select(); 
                 document.execCommand("copy");
             });
         } else if (content == 'hint') {            

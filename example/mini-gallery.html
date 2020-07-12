@@ -31,6 +31,21 @@
         // The gallery will behave like a simple webpage, without SSG a user would see just a poor page with two links. 
         SSG.run( { noExit:true } );
         // SSG.run( { noExit:true, fsa:true } ); an offer of fullscreen mode, there have to be an active click from a user.
+
+        // little gallery's statistics - example of SSG events. See output in JS console
+        var counter = 0;
+        var finished = false;
+        SSG.cfg.onGalleryStart = function(data) {
+            console.log('----------');
+            console.log( data.imgCount + ' images in the gallery. Starting with image: ' + data.imgName) 
+        };
+        SSG.cfg.onImgChange = function(data) { counter++; };
+        SSG.cfg.onSignpost = function() { finished = true; };
+        SSG.cfg.onGalleryExit = function(data) {
+            console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
+            counter = 0;
+            finished = false;
+        };
      </script>
 
 </body>
