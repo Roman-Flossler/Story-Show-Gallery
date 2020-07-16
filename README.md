@@ -48,8 +48,8 @@ Add ssg.min.css and jQuery in the &lt;head&gt; of the document. Add ssg.min.js b
 SSG binds onto image hyper­links on the page auto­mati­cally, BigImage1-3 will be in the gallery. You can control this proccess by CSS classes. 
 ``` html
 <div class='ssg fs'>
-    <a href='BigImage1.jpg'> <img alt='text caption' src='thumbnail.jpg'> </a>
-    <a href='BigImage2.jpg'> Another text caption </a>
+    <a href='BigImage1.jpg'> <img alt='This text will appear under picture as a caption' src='thumbnail.jpg'> </a>
+    <a href='BigImage2.jpg' data-author='photo by Misty'> Also image caption </a>
     <a href='BigImage3.jpg'></a> <!-- an empty link, no caption -->
 
     <a href='BigImage4.jpg' class='nossg'> don't include me into SSG </a>
@@ -68,7 +68,7 @@ export default SSG;
 
 ##  Configuration
 Default SSG configuration and language localization are at the begining of ssg.js file. You can edit source ssg.js file and then minify it. 
-Or copy selected settings into your document to override default configuration. Place the settings after ssg.min.js: 
+Or copy selected settings into your document to override default configuration. [See all possible settings](https://ssg.flor.cz/#SSGconfig). Place the selected settings after ssg.min.js: 
 
 ``` html
    <script type="text/javascript" src="ssg.min.js"></script>    
@@ -82,6 +82,7 @@ Complete HTML5 example of SSG implementation and configuration:
 
 [![HTML5 example of SSG implementation](https://ssg.flor.cz/img/html5-sample-source-code-ssg.png)](https://ssg.flor.cz/#html5)
 
+Part of the configuration are also [SSG events](https://ssg.flor.cz/#events), you can use them to run your functions on the gallery start, on an image change, etc.
 
 <br>
 

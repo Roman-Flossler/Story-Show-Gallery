@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Story Show Gallery - minimal example</title>
     <!-- ssg.js and jquery have to be in the head --> 
-    <link rel="stylesheet" href="../src/ssg.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.css">
     <script type='text/javascript' src='https://ssg.flor.cz/wordpress/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
 </head>
 
@@ -18,21 +18,17 @@
             The whole page is just a few bare HTML tags, no reason to show it to a user.</a>
 
     <!-- ssg.css goes before body tag -->
-    <script type="text/javascript" src="../src/ssg.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js"> </script>
     
     <script>
-        // after loading ssg.js you can overwrite settings inside ssg.js and customize the gallery for current page
-        // url of a signpost to load behind the gallery
-        SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
+        // after loading ssg.js (and before SSG.run) you can override default settings inside ssg.js and customize the gallery:
+        // the complete list of possible settings: https://ssg.flor.cz/#SSGconfig        
+        
+        SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';  // html file (signpost) to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Minimal';  // watermark - logo
         SSG.cfg.watermarkFontSize = 18;
-
-        // The gallery will run just after loading the page and noExit parameter will prevent a user to quit the gallery.
-        // The gallery will behave like a simple webpage, without SSG a user would see just a poor page with two links. 
-        SSG.run( { noExit:true } );
-        // SSG.run( { noExit:true, fsa:true } ); an offer of fullscreen mode, there have to be an active click from a user.
-
-        // little gallery's statistics - example of SSG events. See output in JS console
+        
+        // an example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
         var counter = 0;
         var finished = false;
         SSG.cfg.onGalleryStart = function(data) {
@@ -45,7 +41,12 @@
             console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
             counter = 0;
             finished = false;
-        };
+        };        
+
+        // SSG.run will start the gallery immediately after loading the page and noExit parameter will prevent to quit the gallery.
+        SSG.run( { noExit:true } );
+        // The gallery will behave like a simple webpage. If a user could exit the gallery he would see just a poor page with two links.
+
      </script>
 
 </body>

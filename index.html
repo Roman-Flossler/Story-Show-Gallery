@@ -540,6 +540,7 @@ iceland = [];
                 <li><a href="#">SSG features, sample gallery</a></li>
                 <li><a href="#license">License</a></li></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
+                <li><a href="javascript:jQuery('#bigcode').toggleClass('visible')">Complete configuration</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
@@ -568,11 +569,11 @@ SSG.cfg.scrollDuration = <em>500;</em>
 <span>// Force SSG to always display in fullscreen - true/false</span>
 SSG.cfg.alwaysFullscreen = <em>false;</em>
 
-<span>// Force SSG to never display in fullscreen - true/false</span>
+<span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
 SSG.cfg.neverFullscreen = <em>false;</em>
 
 <span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
-<span>// HTML file has to be loaded over http due to a browser's cors policy. Set to null if you don't want it.</span>
+<span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>
 SSG.cfg.fileToLoad = <em>null;</em>
 
 <span>// display social share icon and menu</span>
@@ -648,9 +649,12 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             };
 
 
-            jQuery(window).on('load', function() { 
+            jQuery(window).on('load', function() {
                 lightInt = setInterval( lightning , 450 );
                 calcTop();
+                if (location.hash == '#SSGconfig') {
+                    jQuery('#bigcode').toggleClass('visible');
+                }
               }
             );
             jQuery( window ).on('resize', calcTop);
@@ -709,7 +713,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
     SSG.cfg.watermarkText = '<b>ꐠ</b> SSG';
     
-    // little gallery's statistics - example of SSG events. See output in JS console
+    // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;
     var finished = false;
     SSG.cfg.onGalleryStart = function(data) {

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.0 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.1 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -23,11 +23,11 @@ SSG.cfg.scrollDuration = 500;
 // Force SSG to always display in fullscreen - true/false
 SSG.cfg.alwaysFullscreen = false;
 
-// Force SSG to never display in fullscreen - true/false
+// Force SSG to never display in fullscreen - true/false. There is an exception for smartphones and tablets
 SSG.cfg.neverFullscreen = false;
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). 
-// HTML file has to be loaded over http due to a browser's cors policy. Set to null if you don't want it.
+// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.
 SSG.cfg.fileToLoad = null;
 
 // display social share icon and menu
@@ -870,14 +870,13 @@ SSG.addImage = function () {
         //onclick for share menu 
         jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
             jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
-            if(this.classList[0] == 'link' && SSG.inFullscreenMode ) {
+            if(this.classList[0] == 'link' && SSG.inFullscreenMode && navigator.platform != 'MacIntel' ) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
-                SSG.closeFullscreen();
-            }
-            if (this.classList[0] != 'ico') {
+                SSG.closeFullscreen();                
+            } else if (this.classList[0] != 'ico') {
                 SSG.destroyOnFsChange = false; // opening new tab with will close FS mode
                 // in case that browser stays in FS mode (email client on Windows) set destroyOnFsChange back
-                setTimeout(function(){ SSG.destroyOnFsChange = true }, 500); 
+                setTimeout(function(){ SSG.destroyOnFsChange = true }, 1500);
             }
         } );
 
