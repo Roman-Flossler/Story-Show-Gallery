@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.1 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.2 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -240,7 +240,7 @@ SSG.setVariables = function () {
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
     SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
-    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
+    SSG.landscapeMode = window.screen.width > window.screen.height;
     SSG.landscapeModeOriginal = SSG.landscapeMode;
 
     // Styles for watermark
@@ -476,7 +476,9 @@ SSG.orientationChanged = function () {
     // if a portrait mode is in FS mode, turning into landscape won't fire onFS event (gallery resize), so else branch is needed
     // and also for iPhone which doesn't have any FS mode
     if ( SSG.fullScreenSupport && ( (!SSG.landscapeMode && !SSG.inFullscreenMode) || (SSG.landscapeMode && SSG.inFullscreenMode) ) ) {
-        window.screen.width > window.screen.height ? SSG.openFullscreen() : SSG.closeFullscreen();
+        // landscapeMode is an old info - when phone is rotated into portrait landscapeMode is true.
+        // So landscapeMode doesn't depend on a browser speed of actualization present orientation.
+        !SSG.landscapeMode ? SSG.openFullscreen() : SSG.closeFullscreen();
     } else {
         SSG.onResize();
     }
@@ -676,7 +678,7 @@ SSG.refreshPos = function () {
 SSG.countResize = function () {
     SSG.scrHeight = jQuery( window ).height();
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
-    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
+    SSG.landscapeMode = window.screen.width > window.screen.height;
 };
 
 SSG.scrollToActualImg = function () {
@@ -870,7 +872,7 @@ SSG.addImage = function () {
         //onclick for share menu 
         jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
             jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
-            if(this.classList[0] == 'link' && SSG.inFullscreenMode && navigator.platform != 'MacIntel' ) {
+            if(this.classList[0] == 'link' && SSG.inFullscreenMode) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
                 SSG.closeFullscreen();                
             } else if (this.classList[0] != 'ico') {
