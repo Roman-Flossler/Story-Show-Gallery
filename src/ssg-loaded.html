@@ -42,6 +42,27 @@
         font-weight: lighter;
     }
 
+    #SSG_lastone .SSG_icell .link-outside::before {
+        content: '⧉ ';
+        color: #71a7b7;
+    }
+
+    #SSG_lastone .SSG_icell .gallery-link::before {
+        content: '▣ ';
+        color: #71a7b7;        
+    }
+
+    #SSG_lastone .SSG_icell .hash-link::before {
+        content: '# ';
+        color: #71a7b7;        
+        font-size: 113%;
+    }    
+
+    #SSG_lastone .SSG_icell .info-link::before {
+        content: 'ⓘ ';
+        color: #71a7b7;
+    }
+
     #SSG_lastone a {
         text-decoration: none;
     }
@@ -66,7 +87,7 @@
 
     #SSG_lastone .SSG_icell img {
         width: 11vw;
-        max-width: 150px;
+        max-width: 150px !important;
         border: none;
         opacity: 1;
         margin: 0;
@@ -179,62 +200,63 @@
 
 <div id="opening">
     <span class="SSG_signpostH1">See other galleries</span><br clear='all' />
-    <p class="SSG_signpostText">After the last image SSG can load this html file, edit it to your liking.</p>
+    <p class="SSG_signpostText">After the last image, SSG can load this html file. Edit it to your liking.</p>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/foceni-akt/">
-        <img src="https://www.flor.cz/blog/img/photos/akt.jpg">
-        <span class="SSG_icapt SSG_text">Shooting<br /> an Act</span>
+    <a href="javascript: SSG.restart({ initImgID: 2, fs: true })">
+        <img src="https://ssg.flor.cz/img/thumb-code.jpg">
+        <span class="SSG_icapt SSG_text gallery-link">Sample HTML code<br /> & SSG features</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/ceske-svycarsko-podzimni-fotosklizen/">
-        <img src="https://www.flor.cz/blog/img/photos/g-cs.jpg">
-        <span class="SSG_icapt SSG_text">Bohemian <br />Switzerland</span>
+    <a href="javascript: SSG.restart({ initImgID: 11 })">
+        <img src="https://ssg.flor.cz/img/thumb-rabbit.jpg">
+        <span class="SSG_icapt SSG_text gallery-link">Sample gallery <br />with an error</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/urbex-ostrava-a-foceni-modelek-v-dole-michal/">
+    <a href="javascript: SSG.restart({ initImgID: 7, fs: true })">
         <img src="https://www.flor.cz/blog/img/photos/ostrava-urbex.jpg">
-        <span class="SSG_icapt SSG_text">Models shooting <br />in Michal mine</span>
+        <span class="SSG_icapt SSG_text gallery-link">Models shooting <br />in Michal mine</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/foto-vylet-na-island/">
+    <a href="javascript: SSG.restart( { imgs: iceland, initImgID: 1, fs: true });">
         <img src="https://www.flor.cz/blog/img/photos/island.jpg">
-        <span class="SSG_icapt SSG_text">Iceland <br />Aurora</span>
+        <span class="SSG_icapt SSG_text gallery-link">Iceland <br />Aurora</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/kostel-duchu-a-kralik-lidozrout//">
-        <img src="https://www.flor.cz/blog/img/photos/g-kostel-duchu.jpg">
-        <span class="SSG_icapt SSG_text">Ghost church</span>
+    <a href="#deeplinking">
+        <img src="https://ssg.flor.cz/img/deeplinkimage.png">
+        <span class="SSG_icapt SSG_text hash-link">Deep linking in SSG</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/cestovani-a-foceni-na-bali-a-lomboku/">
-        <img src="https://www.flor.cz/blog/img/photos/bali-lombok.jpg">
-        <span class="SSG_icapt SSG_text">Bali &amp; Lombok</span>
+    <a href="https://ssg.flor.cz/example/index.html#svetlusky" target="_blank"  onclick="SSG.preventExit()">
+        <img src="https://ssg.flor.cz/img/thumb-noexit.jpg">
+        <span class="SSG_icapt SSG_text link-outside">No e×it mode</span>
     </a>
 </div>
 
 <div class="SSG_icell">
-    <a href="https://www.flor.cz/blog/hrbitov-vlaku/">
-        <img src="https://www.flor.cz/blog/img/photos/hrbitov_vlaku.jpg">
-        <span class="SSG_icapt SSG_text">Train cemetery</span>
+    <a href="https://ssg.flor.cz/wordpress/" target="_blank" onclick="SSG.preventExit()">
+        <img src="https://ssg.flor.cz/img/thumb-ssg.jpg">
+        <span class="SSG_icapt SSG_text link-outside">SSG for Wordpress</span>
     </a>
 </div>
 
+
 <div class="SSG_icell">
-	<a href="https://www.flor.cz/blog/faerske-ostrovy-severska-romantika-mapa-mist/">
-        <img src="https://www.flor.cz/blog/img/photos/faery.jpg">
-        <span class="SSG_icapt">Faroe Islands</span>
+    <a href="https://www.flor.cz/blog/foceni-akt/" target="_blank" onclick="SSG.preventExit()">
+        <img src="https://www.flor.cz/blog/img/photos/akt.jpg">
+        <span class="SSG_icapt SSG_text link-outside">Shooting<br /> an Act</span>
     </a>
 </div>
 

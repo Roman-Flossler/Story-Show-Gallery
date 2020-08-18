@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- Google Analytics 
+    <!-- Google Analytics  -->
     <script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
@@ -13,7 +13,7 @@
         ga('create', 'UA-832000-17', 'auto');
         ga('send', 'pageview');
     </script>
-    -- End Google Analytics -->
+    <!-- End Google Analytics -->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -100,8 +100,8 @@
             <h3>Neverending story</h3>
             <p>
             Behind the last image Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries. 
-            <a href='example/index.html' target="_blank">See a sample</a>
-            <a href='example/index.html' target="_blank"><img src="https://ssg.flor.cz/img/signpost.jpg" alt="signpost behind ssg" class="limg imglink darken"></a>
+            <a class="showgal" onclick='SSG.run( { imgs: signpost, fs:true });' >See a sample</a>
+            <a onclick='SSG.run( { imgs: signpost, fs:true });' ><img src="https://ssg.flor.cz/img/signpost.jpg" alt="signpost behind ssg" class="limg imglink darken"></a>
             </p>            
             
             <a name='browsing'></a>
@@ -213,7 +213,7 @@
 
              <p>
                 Default <strong>SSG configuration</strong> and language localization is at the 
-                <a href="javascript:jQuery('#bigcode').toggleClass('visible');" >begining of ssg.js file. Settings are com&shy;mented</a>. 
+                <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');" >begining of ssg.js file. Settings are com&shy;mented</a>. 
                 You can edit settings in ssg.js file and then minify it. Or copy selected settings into your HTML to override 
                 default config&shy;uration. Place it after ssg.min.js, as it is shown on the following picture.<br>
                 Complete example of SSG implementation and configuration:
@@ -284,7 +284,7 @@
             <a name='events'></a>
             <h2>Gallery events</h2>
                 <!-- _____________________________________ -->      
-                <p>
+            <p>
                 SSG offers four <strong>gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
                 <ol class="text">
                     <li><em>SSG.cfg.onGalleryStart</em> fires after creating a gallery </li>
@@ -306,6 +306,7 @@ SSG.cfg.onGalleryStart = function(data) {
 data.imgCount // count of images in the gallery
 data.imgGalleryId // ID of current Image in the gallery
 data.imgPageId // ID of current image on the page
+data.GalleryId // ID of a gallery which belongs to initial image
 data.imgPath // whole path to current image
 data.imgName  // image name of current image (no extension)
 data.imageCaption // image caption for current image
@@ -323,8 +324,9 @@ data.imageCaption // image caption for current image
 
             <p>The picture a user clicked on <strong>is shown first</strong>, then Story Show Gallery displays following pictures and then the rest. 
                 Example: A user clicked on the fourth picture. Pictures are shown in the following order - 4,5,6,7 and then it continues with picture 1,2,3. <br>
-                If a picture is part of a separate gallery (.ssg class) and a user click up to third picture of the gallery, 
-                SSG prefers to show initial pictures of a gallery together: 3,1,2,4,5,6,7.            
+
+                If a picture is part of a separate gallery (.ssg class), SSG prefers to show first three pictures of a gallery together. 
+                Example: if a user click on the third image, the order of images in the gallery will be 3,1,2,4,5,6. This behaviour can be deactivated in the settings.
             </p>            
 
             <a name='deeplinking'></a>
@@ -384,7 +386,7 @@ data.imageCaption // image caption for current image
             <p><a href="example/index.html#svetlusky" target="_blank">Sample gallery with no e×it mode</a></p>
 
             <p>
-                <br>Use <strong>initImgId</strong> parameter to set the initial image in the gallery. SSG auto&shy;mati&shy;cally numbers photos on the page, the first photo has ID 0.</p>
+                <br>Use <strong>initImgId</strong> parameter to set the initial image in the gallery. SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first photo has ID 0.</p>
             <code>
                 &lt;button onclick="<span>SSG.run( {initImgID: 6} )</span>"&gt; Click me &lt;/button&gt;
             </code>
@@ -398,6 +400,10 @@ data.imageCaption // image caption for current image
                 SSG.run( {imgs: [ { href: '<span>img URL</span>', alt: '<span>img caption</span>, author: '<span>photo by…</span>' }, {...} ], imgsPos:'<span>start</span>'} );
             </code>
 
+            <h3>SSG.restart() method</h3>
+            <p>Restart method ends the running SSG gallery and then calls SSG.run with new parameters. It has the same parameters as the SSG.run method. 
+               On this page the restart method is used in singpost after the gallery. It runs another gallery without exit fullscreen mode or reloading a page.
+            </p>
 
             <a name='examples'></a>
 
@@ -412,18 +418,18 @@ data.imageCaption // image caption for current image
                     SSG.run()
                     </code>
             <p>
-                The first picture in this gallery will be the picture with ID 3, because previous pictures on this page have gossg class. SSG.run without para&shy;meters shows photos from all galleries on the page.
+                The first picture in this gallery will be the picture with ID 0 (unless it doesn't have nossg class ). SSG.run without para&shy;meters shows photos from all galleries on the page.
             </p>
             <br>
             <p>
                 <a class="showgal"  
-                onclick="SSG.run({ fs:true, initImgID: 0 });"
+                onclick="SSG.run({ fs:true, initImgID: 7 });"
                 >            
                 <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                 <p></p>
-                <code>SSG.run({ initImgID: 0, fs:true })</code>
+                <code>SSG.run({ initImgID: 7, fs:true })</code>
                 <p>
-                The first photo will be the photo with ID 0, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
+                The first photo will be the photo with ID 7, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
                 The  fs:true activates full screen mode.
             </p><br>
 
@@ -538,29 +544,29 @@ iceland = [];
 
             <ol class="content">
                 <li><a href="#">SSG features, sample gallery</a></li>
-                <li><a href="#license">License</a></li></li>
+                <li><a href="#license">License</a></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
-                <li><a href="javascript:jQuery('#bigcode').toggleClass('visible')">Complete configuration ⧉</a></li>
+                <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">Complete configuration ⧉</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
                 <li><a href="#order">Order of photos in the gallery</a></li>
                 <li><a href="#deeplinking">Deep linking</a></li>
                 <li><a href="#scrolling">Vertical scrolling</a></li>
-                <li><a href="#ssg-run">SSG.run() method</a></li>
+                <li><a href="#ssg-run">SSG.run & SSG.restart method</a></li>
                 <li><a href="#examples">SSG.run() examples</a></li>
                 <li><a href="#js-module">SSG as a Javascript module</a></li>
             </ol>
 
             <div class="topimg ssgafter" > 
-                <img src="https://ssg.flor.cz/img/ssg-arrow.png" alt="SSG logo"></a>
+                <img src="https://ssg.flor.cz/img/ssg-arrow.png" alt="SSG logo">
             </div>
 
         </article>
     </main>
     <a id="bulb" onclick="setColorMode()" title="light / dark mode" ></a>
 
-<div id="bigcode">
+<div id="bigcode"> 
 <p>SSG configuration as it is at the begining of ssg.js file: <span onclick="jQuery('#bigcode').toggleClass('visible');" >×</span></p>
 <code>
 <span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
@@ -592,16 +598,19 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = <em>false;</em>  <span>// false mean
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
 SSG.cfg.scaleLock1 = <em>false;</em> 
 
+<span>// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...</span>
+SSG.cfg.showFirst3ImgsTogether = <em>true;</em>
+
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
-SSG.cfg.watermarkWidth = <em>147;</em> <span>// watermark width in pixels, it is downsized on smaller screens.</span>
+SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
 SSG.cfg.watermarkImage = <em>'';</em>  <span>// watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'</span>
-SSG.cfg.watermarkText = <em>'';</em>  <span>//  watermark text, text will wrap according to watermark width</span>
+SSG.cfg.watermarkText = <em>'';</em>  <span>//  watermark text, use &lt;br&gt; tag for word wrap</span>
 SSG.cfg.watermarkFontSize = <em>20;</em> <span>// font size in pixels  </span>
-SSG.cfg.watermarkOffsetX = <em>2;</em> <span>// watermark horizontal offset from left in percents of photo</span>
+SSG.cfg.watermarkOffsetX = <em>1.8;</em> <span>// watermark horizontal offset from left in percents of photo</span>
 SSG.cfg.watermarkOffsetY = <em>1.2;</em> <span>// watermark vertical offset from bottom in percents of photo</span>
 SSG.cfg.watermarkOpacity = <em>0.36;</em> <span>// opacity</span>
 
-<span>// Here you can translate SSG into other language. Leave tags <> and "" as they are.</span>
+<span>// Here you can translate SSG into other language. Leave tags &lt;&gt; and "" as they are.</span>
 SSG.cfg.hint1 = <em>"Browse through Story Show Gallery by:";</em>
 SSG.cfg.hint2 = <em>"a mouse wheel &lt;strong&gt;⊚&lt;/strong&gt; or arrow keys &lt;strong&gt;↓→↑←&lt;/strong&gt;";</em>
 SSG.cfg.hint3 = <em>"or &lt;strong&gt;TAP&lt;/strong&gt; on the bottom (top) of the screen";</em>
@@ -646,6 +655,13 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             };
             iceland[ 2 ] = {
                 href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg'
+            };
+
+            signpost = [];
+
+            signpost[ 0 ] = {
+                href: 'https://ssg.flor.cz/wordpress/wp-content/uploads/2019/01/iceland-horses.jpg',
+                alt: 'Scroll down to see an example of HTML signpost after the gallery'
             };
 
 
@@ -710,7 +726,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     
     <script src="src/ssg.js"></script>
     <script>
-    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
+    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';    
     SSG.cfg.watermarkText = '<b>ꐠ</b> SSG';
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
@@ -718,7 +734,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     var finished = false;
     SSG.cfg.onGalleryStart = function(data) {
         console.log('----------');
-        console.log( data.imgCount + ' images in the gallery. Starting with image: ' + data.imgName) 
+        console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName);
     };
     SSG.cfg.onImgChange = function(data) { counter++; };
     SSG.cfg.onSignpost = function() { finished = true; };

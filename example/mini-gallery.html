@@ -24,9 +24,10 @@
         // after loading ssg.js (and before SSG.run) you can override default settings inside ssg.js and customize the gallery:
         // the complete list of possible settings: https://ssg.flor.cz/#SSGconfig        
         
-        SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';  // html file (signpost) to load behind the gallery
+        SSG.cfg.fileToLoad = 'https://ssg.flor.cz/example/ssg-loaded.html';  // html file (signpost) to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Minimal';  // watermark - logo
         SSG.cfg.watermarkFontSize = 18;
+        SSG.cfg.rightClickProtection = false;
         
         // an example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
         var counter = 0;

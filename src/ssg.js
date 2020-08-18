@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.2 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.3 - https://ssg.flor.cz/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -46,12 +46,15 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 // Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
 SSG.cfg.scaleLock1 = false; 
 
+// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...
+SSG.cfg.showFirst3ImgsTogether = true;
+
 // Watermark - logo configuration. Enter watermark text or image URL to display it
-SSG.cfg.watermarkWidth = 147; // watermark width in pixels, it is downsized on smaller screens.
+SSG.cfg.watermarkWidth = 147; // image watermark width in pixels, it is downsized on smaller screens.
 SSG.cfg.watermarkImage = '';  // watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'
-SSG.cfg.watermarkText = '';  //  watermark text, text will wrap according to watermark width
+SSG.cfg.watermarkText = '';  //  watermark text, use <br> tag for word wrap
 SSG.cfg.watermarkFontSize = 20; // font size in pixels  
-SSG.cfg.watermarkOffsetX = 2; // watermark horizontal offset from left in percents of photo
+SSG.cfg.watermarkOffsetX = 1.8; // watermark horizontal offset from left in percents of photo
 SSG.cfg.watermarkOffsetY = 1.2; // watermark vertical offset from bottom in percents of photo
 SSG.cfg.watermarkOpacity = 0.36; // opacity
 
@@ -173,10 +176,6 @@ SSG.setVariables = function () {
 
     // change of currently displayed photo. delta -1 is a previous photo.  
     SSG.imgDelta = 1;
-
-    // Intial and actual vertical scroll of a page.    
-    SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;    
-    SSG.actualPos = SSG.originalPos;
     SSG.scrHeight = jQuery( window ).height();
 
     // Different screen fraction for different screen aspect ratios
@@ -241,7 +240,17 @@ SSG.setVariables = function () {
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
     SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.landscapeMode = window.screen.width > window.screen.height;
-    SSG.landscapeModeOriginal = SSG.landscapeMode;
+    SSG.actualPos = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Intial scroll, rotation and height. Don't overwrite originals if the gallery is being restarted 
+    
+    if ( SSG.initEvent && !SSG.initEvent.restart ) {
+        SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;
+        SSG.originalBodyHeight = jQuery( 'body' ).height();
+        SSG.landscapeModeOriginal = window.screen.width > window.screen.height;
+    }
+    
+
 
     // Styles for watermark
     SSG.watermarkStyle = '';
@@ -332,9 +341,12 @@ SSG.FSmode = function ( event ) {
         SSG.createGallery( SSG.initEvent );
     }
 
-    // if a browser is already in FS mode
+    // if a browser is already in FS mode. But fullscreenElement detects only FS turned on by Javascript, not by F11 key
+    // if the browser is in FS via F11 key, surprisingly fullscreenRequest will successfuly fire fullscreenchange event
     if( document.fullscreenElement ) {
         SSG.inFullscreenMode = true;
+        SSG.readyToExitFullScreen = true;
+        SSG.createGallery( SSG.initEvent );
     }
 
     // if a browser doesn't support FS mode
@@ -344,13 +356,10 @@ SSG.FSmode = function ( event ) {
         SSG.fullScreenSupport = false;
     }
 
-    // for browsers which don't have fully implemented FS API and when the
-    // gallery goes into FS without a user's click, there is no fullscreenerror event 
-    if ( typeof document.fullscreenEnabled == 'undefined') {
+    // for browsers which don't have fully implemented FS API and when FS mode fails for whatever reason
         window.setTimeout( function () {
             SSG.createGallery( SSG.initEvent );
         }, 1333 );
-    }    
 
     if ( !SSG.inFullscreenMode && SSG.isFullscreenModeWanted && SSG.fullScreenSupport ) {
         window.setTimeout( function () {
@@ -390,7 +399,7 @@ SSG.createGallery = function ( event ) {
             Array.prototype.push.apply( SSG.imgs, deepCopy );
         }
         
-
+    SSG.clickedGalleryID = -1;
     } else {
         // use just images on the page
         SSG.getImgList( event );
@@ -437,6 +446,8 @@ SSG.initGallery = function ( event ) {
         SSG.destroyGallery();
     } );
     jQuery( '#SSG1' ).click( SSG.touchScroll );
+
+    window.addEventListener("hashchange", SSG.onHashExit );
 
     // passive:false is due to Chrome, it sets the mousewheel event as passive:true by default and then preventDefault cannot be used
     document.addEventListener( 'mousewheel', SSG.seizeScrolling, {
@@ -564,6 +575,7 @@ SSG.getImgList = function ( event ) {
         // there is no gallery specified
         clickedGalleryID = -1;
     }
+    SSG.clickedGalleryID = clickedGalleryID;
 
     // Call invokes forEach method in the context of jQuery output     
     Array.prototype.forEach.call( SSG.jQueryImgCollection.toArray(), function ( el ) {
@@ -598,7 +610,8 @@ SSG.getImgList = function ( event ) {
             }
         }
 
-        //  If a user click up to third image of the gallery, SSG prefers to show initial images together - e.g. 2,1,3,4,5,6..
+        if ( SSG.cfg.showFirst3ImgsTogether ) {
+        //  If a user click up to third image of the gallery, SSG prefers to show first three images together - e.g. 2,1,3,4,5,6..
         if ( typeof clickedImgSubID != 'undefined' && ( clickedImgSubID == 1 || clickedImgSubID == 2 ) ) {
 
             // condition prevents to switch initial images when the gossg class is used in the gallery and there is a gap in the images' IDs 
@@ -611,6 +624,7 @@ SSG.getImgList = function ( event ) {
                 //  The image that a user clicked is added before the first image of current gallery, arrayImgID has to be actulized
                 SSG.imgs.splice( arrayImgID - clickedImgSubID, 0, spliced[ 0 ] );
                 arrayImgID = arrayImgID - clickedImgSubID;
+                }
             }
         }
         if ( arrayImgID > 0 ) {
@@ -687,8 +701,10 @@ SSG.scrollToActualImg = function () {
     }
     // lockedImg holds the index of the last displayed image before onresize event.
     SSG.isImgLocked = false;
-    if ( SSG.justLoadedImg != -1 && ( typeof SSG.imgs[ SSG.lockedImg ] != 'undefined' ) ) {
+    if ( SSG.justLoadedImg != -1 && ( typeof SSG.imgs[ SSG.lockedImg ] != 'undefined' && !SSG.atLastone ) ) {
         SSG.ScrollTo( SSG.imgs[ SSG.lockedImg ].pos - SSG.countImageIndent( SSG.lockedImg ) );
+    } else if (SSG.atLastone) {
+        SSG.ScrollTo( jQuery( '#SSG_menu' ).offset().top - (SSG.scrHeight / 10), 0 );
     }
 };
 
@@ -802,27 +818,30 @@ SSG.addImage = function () {
 
     if ( newOne < SSG.imgs.length ) {
 
+        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
+        var authorbr = author ? "<br>" + author : author;
+        var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';        
+
         if (SSG.cfg.socialShare) {
         var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
         var urlToShareEnc = encodeURIComponent(urlToShare);
-        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
-        var authorbr = author ? "<br>" + author : author;
-        var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
-
         var h1ToShare = SSG.escapeHtml(jQuery('h1').first().text());
         var captionToShare = SSG.escapeHtml(caption);
         var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
-        var windowOpen = "onclick='window.open(\"";
-        var WindoOpenParams = '\", \"_blank\", \"width=1100,height=550\");';
+        var windowOpen = ' target="_blank" href="';
+        var WindoOpenParams =  '" ';
      
         var shareMenu = "<span class='share'><span class='share-menu'>" +
-                "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + "'></a>" + 
-                "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'>🔗</a>" +
-                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShareEnc + "&url=" + urlToShareEnc + WindoOpenParams + "'/></a>" + 
+                "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + "></a>" + 
+                "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + "></a>" + 
+                "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + "></a>" + 
+                "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + "></a>" + 
+                "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'></a>" +
+                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShareEnc + "&url=" + urlToShareEnc + WindoOpenParams + "></a>" + 
                 "<a class='pin' " + windowOpen + "http://www.pinterest.com/pin/create/button/?url="+ urlToShareEnc + "&amp;media=" + 
-                SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + "'></a>" +
+                SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + "></a>" +
                 "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' ><b>@</b></a>" +
-                "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + "'></a>" + 
+                "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + "></a>" + 
                 "</span><a class='ico'></a></span>";
         } else {
             shareMenu ='';
@@ -872,11 +891,11 @@ SSG.addImage = function () {
         //onclick for share menu 
         jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
             jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
-            if(this.classList[0] == 'link' && SSG.inFullscreenMode) {
+            if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
-                SSG.closeFullscreen();                
-            } else if (this.classList[0] != 'ico') {
-                SSG.destroyOnFsChange = false; // opening new tab with will close FS mode
+                SSG.closeFullscreen();
+            } else if (this.classList[0] == 'email') {
+                SSG.destroyOnFsChange = false; // opening email window could close FS mode and it would exit even the gallery
                 // in case that browser stays in FS mode (email client on Windows) set destroyOnFsChange back
                 setTimeout(function(){ SSG.destroyOnFsChange = true }, 1500);
             }
@@ -889,7 +908,7 @@ SSG.addImage = function () {
     if ( newOne == SSG.imgs.length ) {
         var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfg.toTheTop + "</a>";
         var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfg.exitLink + "</a>" : "";
-        var menuItem3 = "<a id='SSGL' target='_blank' href='https://ssg.flor.cz/wordpress/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
+        var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://ssg.flor.cz/wordpress/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
         jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
             "</p> <div id='SSG_loadInto'></div></div>" );
         jQuery( '#SSG_menu' ).click( function ( event ) {
@@ -1227,6 +1246,7 @@ SSG.closeFullscreen = function () {
 SSG.createDataObject = function (imgIndex) {
     var data = {};
     data.imgCount = SSG.imgs.length;
+    data.GalleryId = SSG.clickedGalleryID;
     data.imgGalleryId = imgIndex;
     data.imgPageId = SSG.imgs[imgIndex].id;
     data.imgPath = SSG.imgs[imgIndex].href;
@@ -1235,8 +1255,29 @@ SSG.createDataObject = function (imgIndex) {
     return data;
 }
 
-SSG.destroyGallery = function () {
-    history.replaceState( null, null, SSG.location );
+// for hash links in signost - when hash link is clicked, destroy gallery and don't restore scroll 
+SSG.onHashExit = function() { 
+    setTimeout( function() 
+        { SSG.atLastone && SSG.running && SSG.destroyGallery(false, true) }
+        , 333) 
+}
+
+
+SSG.preventExit = function() {
+    // opening new tab will close FS mode and it would exit even the gallery
+    SSG.destroyOnFsChange = false; 
+}
+
+SSG.restart = function(config) { 
+    SSG.destroyGallery(true);
+    if (config) config.restart = true;    
+    SSG.run(config);
+}
+
+SSG.destroyGallery = function (dontExitFS, dontRestoreScroll) {
+    if(!dontRestoreScroll) {
+        history.replaceState( null, null, SSG.location );
+    }
     clearInterval( SSG.metronomInterval );
     if (SSG.cfg.logIntoGA && typeof ga == 'function' ) {
         ga( 'send', 'pageview', location.pathname );
@@ -1244,6 +1285,7 @@ SSG.destroyGallery = function () {
     // DOMMouseScroll event is for FF, mousewheel for other browsers, true means capturing phase
     document.removeEventListener( "mousewheel", SSG.seizeScrolling, true );
     document.removeEventListener( "DOMMouseScroll", SSG.seizeScrolling, true );
+    window.removeEventListener('hashChange', SSG.onHashExit );
     jQuery( window ).off( 'resize', SSG.onResize );
     jQuery( document ).off( 'keydown', SSG.keyFunction );
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
@@ -1256,17 +1298,21 @@ SSG.destroyGallery = function () {
     //if orientation has changed, restore a page position on the hyperlink which activated the gallery
     if ( SSG.landscapeMode != SSG.landscapeModeOriginal && SSG.initEvent && SSG.initEvent.currentTarget ) {
         restoredPos = jQuery( 'a[ssgid="' + SSG.initEvent.currentTarget.attributes.ssgid.nodeValue + '"]' ).offset().top - SSG.scrHeight/3;
+    }   else if ( SSG.landscapeMode != SSG.landscapeModeOriginal)  {
+        restoredPos = (jQuery( 'body' ).height() / ( SSG.originalBodyHeight / SSG.originalPos ));      
     }   else {
         restoredPos = SSG.originalPos;
     }
 
     // Renew an original scroll of a page. SetTimeout solves problem with return from FS, simple scrollTo doesn't work.
-    if ( SSG.inFullscreenMode ) {
-        window.setTimeout( function () {
+    if(!dontRestoreScroll) {
+        if ( SSG.inFullscreenMode ) {
+            window.setTimeout( function () {
+                window.scrollTo( 0, restoredPos );
+            }, 200 );
+        } else {
             window.scrollTo( 0, restoredPos );
-        }, 50 );
-    } else {
-        window.scrollTo( 0, restoredPos );
+        }
     }
 
     jQuery( '#SSG_bg, #SSG1, #SSG_exit, #SSG_lastone, #SSG_tip' ).remove();
@@ -1274,7 +1320,8 @@ SSG.destroyGallery = function () {
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
 
-    SSG.inFullscreenMode && SSG.closeFullscreen();
+    if( SSG.inFullscreenMode && !dontExitFS ) {
+         SSG.closeFullscreen(); }
     SSG.running = false;
     SSG.cfg.onGalleryExit && SSG.cfg.onGalleryExit(SSG.atLastone ? null : this.createDataObject( SSG.displayedImg));
 };
