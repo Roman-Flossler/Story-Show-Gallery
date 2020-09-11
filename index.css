@@ -62,7 +62,7 @@ body {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 100%;
     font-size: 17px;
-    background-image: url(https://ssg.flor.cz/img/bg.png);
+    background-image: url(https://roman-flossler.github.io/StoryShowGallery/img/bg.png);
 }
 
 p, li, h1, h2 {
@@ -688,7 +688,7 @@ footer {
         cursor: pointer;
         color: #b8b8b8;
         text-shadow: 0 0 11px #57e2ff;    
-        background-image: url(https://ssg.flor.cz/img/simple-scroll-gallery.jpg);
+        background-image: url(https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg);
         background-size: 99.3%; 
         filter: brightness(1.2) saturate(1.8) hue-rotate(-8deg);
         border-bottom: 2px solid #081010;
@@ -902,7 +902,7 @@ footer {
     bottom: 5vh;
     width: 33px;
     height: 40px;  
-    background: url('https://ssg.flor.cz/img/bulb-off.png') no-repeat center center;
+    background: url('https://roman-flossler.github.io/StoryShowGallery/img/bulb-off.png') no-repeat center center;
     background-size: 100%; 
     opacity: 0.4;    
     cursor: pointer;
@@ -922,7 +922,7 @@ footer {
 /* dark scheme */
 
     .dark #bulb {
-        background: url('https://ssg.flor.cz/img/bulb-on.png') no-repeat center center;
+        background: url('https://roman-flossler.github.io/StoryShowGallery/img/bulb-on.png') no-repeat center center;
         background-size: 100%; 
         width: 34px;
         height: 42px;
@@ -1082,6 +1082,16 @@ footer {
 
     .dark #bigcode code em {
         color: #51e7ff;
+    }
+
+    .dark #badges img {
+        filter: brightness(0.8) contrast(1.4) saturate(0.6);
+        box-shadow: 0 0 7px #282828;
+        margin-left: 3px;
+    }
+
+    .dark #badges img:hover {
+        filter: brightness(0.9) contrast(1.5) saturate(1);
     }
 
     @media screen and (max-width: 950px) {

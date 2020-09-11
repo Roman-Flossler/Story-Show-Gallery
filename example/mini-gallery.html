@@ -7,7 +7,7 @@
     <title>Story Show Gallery - minimal example</title>
     <!-- ssg.js and jquery have to be in the head --> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.css">
-    <script type='text/javascript' src='https://ssg.flor.cz/wordpress/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"> </script>
 </head>
 
 <body style="background:#0e0e0e;">
@@ -22,9 +22,9 @@
     
     <script>
         // after loading ssg.js (and before SSG.run) you can override default settings inside ssg.js and customize the gallery:
-        // the complete list of possible settings: https://ssg.flor.cz/#SSGconfig        
+        // the complete list of possible settings: https://roman-flossler.github.io/StoryShowGallery/#SSGconfig
         
-        SSG.cfg.fileToLoad = 'https://ssg.flor.cz/example/ssg-loaded.html';  // html file (signpost) to load behind the gallery
+        SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html';  // html file (signpost) to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Minimal';  // watermark - logo
         SSG.cfg.watermarkFontSize = 18;
         SSG.cfg.rightClickProtection = false;

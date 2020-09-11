@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.3 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -208,7 +208,7 @@ SSG.setVariables = function () {
     // If it was scrolled to the the bottom menu - the last element in the gallery.
     SSG.atLastone = false;
 
-    // Set to true when a user clicks the exit button, prevents call SSG.destroyGallery twice.
+    // prevents exit the gallery onFullscreenChange event. e.g. link with target=_blank will close FS
     SSG.destroyOnFsChange = true;
 
     // If the inExitMode is true a user can exit the gallery.
@@ -404,7 +404,7 @@ SSG.createGallery = function ( event ) {
         // use just images on the page
         SSG.getImgList( event );
     }
-    SSG.cfg.onGalleryStart && SSG.cfg.onGalleryStart(this.createDataObject(0));
+    SSG.cfg.onGalleryStart && SSG.cfg.onGalleryStart( SSG.createDataObject(0) );
 
     SSG.addImage();
 
@@ -441,10 +441,7 @@ SSG.initGallery = function ( event ) {
 
     // Adding event listeners
     jQuery( document ).keydown( SSG.keyFunction );
-    jQuery( '#SSG_exit' ).click( function () {
-        SSG.destroyOnFsChange = false;
-        SSG.destroyGallery();
-    } );
+    jQuery( '#SSG_exit' ).click( SSG.destroyGallery );
     jQuery( '#SSG1' ).click( SSG.touchScroll );
 
     window.addEventListener("hashchange", SSG.onHashExit );
@@ -908,16 +905,13 @@ SSG.addImage = function () {
     if ( newOne == SSG.imgs.length ) {
         var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfg.toTheTop + "</a>";
         var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfg.exitLink + "</a>" : "";
-        var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://ssg.flor.cz/wordpress/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
+        var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/' class='SSG_link'><b>&#xA420;</b>SSG</a>";
         jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
             "</p> <div id='SSG_loadInto'></div></div>" );
         jQuery( '#SSG_menu' ).click( function ( event ) {
             event.stopPropagation();
         } );
-        jQuery( '#SSG_exit2' ).click( function () {
-            SSG.destroyOnFsChange = false;
-            SSG.destroyGallery();
-        } );
+        jQuery( '#SSG_exit2' ).click( SSG.destroyGallery );
         jQuery( '#SSG_first' ).click( function () {
             SSG.isFirstImageCentered = false;
         } );
@@ -926,8 +920,11 @@ SSG.addImage = function () {
         SSG.cfg.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.cfg.fileToLoad, function ( response, status, xhr ) {
             if ( status == "success" ) {
                 SSG.fileLoaded = true;
-                jQuery( '.SSG_icell' ).click( function ( event ) {
+                jQuery( '.SSG_icell a' ).click( function ( event ) {
                     event.stopPropagation();
+                    if(!event.ctrlKey && !event.shiftKey) {
+                        SSG.preventExit();
+                    }
                 } );
 
                 // load styles also into the head section, it force a browser to load styles properly
@@ -1258,7 +1255,7 @@ SSG.createDataObject = function (imgIndex) {
 // for hash links in signost - when hash link is clicked, destroy gallery and don't restore scroll 
 SSG.onHashExit = function() { 
     setTimeout( function() 
-        { SSG.atLastone && SSG.running && SSG.destroyGallery(false, true) }
+        { SSG.atLastone && SSG.running && SSG.destroyGallery('hashlink') }
         , 333) 
 }
 
@@ -1269,13 +1266,13 @@ SSG.preventExit = function() {
 }
 
 SSG.restart = function(config) { 
-    SSG.destroyGallery(true);
+    SSG.destroyGallery('restart');
     if (config) config.restart = true;    
     SSG.run(config);
 }
 
-SSG.destroyGallery = function (dontExitFS, dontRestoreScroll) {
-    if(!dontRestoreScroll) {
+SSG.destroyGallery = function (mode) {
+    if( mode != 'hashlink' && mode != 'restart' ) {
         history.replaceState( null, null, SSG.location );
     }
     clearInterval( SSG.metronomInterval );
@@ -1305,7 +1302,7 @@ SSG.destroyGallery = function (dontExitFS, dontRestoreScroll) {
     }
 
     // Renew an original scroll of a page. SetTimeout solves problem with return from FS, simple scrollTo doesn't work.
-    if(!dontRestoreScroll) {
+    if( mode != 'hashlink' && mode != 'restart' ) {
         if ( SSG.inFullscreenMode ) {
             window.setTimeout( function () {
                 window.scrollTo( 0, restoredPos );
@@ -1320,10 +1317,10 @@ SSG.destroyGallery = function (dontExitFS, dontRestoreScroll) {
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
 
-    if( SSG.inFullscreenMode && !dontExitFS ) {
+    if( SSG.inFullscreenMode &&  mode != 'restart' ) {
          SSG.closeFullscreen(); }
     SSG.running = false;
-    SSG.cfg.onGalleryExit && SSG.cfg.onGalleryExit(SSG.atLastone ? null : this.createDataObject( SSG.displayedImg));
+    SSG.cfg.onGalleryExit && SSG.cfg.onGalleryExit(SSG.atLastone ? null : SSG.createDataObject( SSG.displayedImg));
 };
 
 SSG.showFsTip = function ( content ) {

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.3 - https://ssg.flor.cz/
+    Story Show Gallery (SSG) ver: 2.9.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -1453,7 +1453,7 @@ and it is realy irritating. Set !important to overwrite site's styles.
 /* cursors */
 
 html.ssg-active body {
-    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
+    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://roman-flossler.github.io/StoryShowGallery/img/cross-ssg.cur), text;
     cursor: -webkit-image-set(
         url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
         url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
