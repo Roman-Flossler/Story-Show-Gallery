@@ -10,7 +10,7 @@ SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io
 
 <br>
 
-*Story Show Gallery (on the left) versus usual gallery lightbox. Do you want more icons or more from a photo? SSG use whole smartphone display - even notch area and even on iPhone.*
+*Story Show Gallery versus usual gallery lightbox. Do you want more icons or more from a photo? SSG use whole smartphone display - even notch area and even on iPhone.*
 
 [![Google Analytics](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
 

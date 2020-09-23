@@ -83,6 +83,7 @@ p.compare:after {
     color: white;
     left: 18px;
     font-size: 20px;
+    text-shadow: 0 0 13px #173c589e;
 }
 
 p.compare em {
@@ -633,7 +634,13 @@ footer {
         width: 100%;
         height: 100%;
         margin: 0; 
-        padding: 5em 1.5em 0 2.5em;        
+        padding: 5em 1.5em 1.5em 2.5em;
+        overflow: auto;
+    }
+
+    ol.content li {
+        max-width: 440px;
+        margin: auto;
     }
 
     .mobileonly #menuicon {

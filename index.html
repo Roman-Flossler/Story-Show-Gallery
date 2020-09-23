@@ -13,7 +13,7 @@
         ga('create', 'UA-832000-17', 'auto');
         ga('send', 'pageview');
     </script>
-    <!-- End Google Analytics -->
+    <!-- End Google Analytics --> 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -23,8 +23,18 @@
     <meta property="og:title" content="Story Show Gallery"/>
     <meta property="og:url" content="https://roman-flossler.github.io/StoryShowGallery/"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:image" content="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg"/>
+    <meta property="og:image" content="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-share.jpg"/>
     <meta property="og:description" content="Vertical photo gallery optimized for smartphones (notch area included). SSG will support your brand and marketing. Optimally placed captions, full screen lightbox, no ugly arrows"/>
+
+    <meta name="twitter:title" content="Story Show Gallery"/>
+	<meta name="twitter:url" content="https://roman-flossler.github.io/StoryShowGallery/"/>
+	<meta name="twitter:description" content="Vertical photo gallery optimized for smartphones (notch area included). SSG will support your brand and marketing. Optimally placed captions, full screen lightbox, no ugly arrows"/>
+	<meta name="twitter:image" content="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-share.jpg"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta itemprop="name" content="Story Show Gallery"/>
+	<meta itemprop="description" content="Vertical photo gallery optimized for smartphones (notch area included). SSG will support your brand and marketing. Optimally placed captions, full screen lightbox, no ugly arrows"/>
+    <meta itemprop="image" content="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-share.jpg"/>
+    
     <link rel='stylesheet' href='index.css' type='text/css' media='all' />
     <link rel="stylesheet" href="src/ssg.css" type="text/css" media="all">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -51,7 +61,7 @@
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 4 });" alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 5 });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 6 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />                    
@@ -156,7 +166,7 @@
             <p>
                 <strong>No e&times;it mode:</strong> You can write just minimal HTML code and SSG will crea&shy;te a vertical gallery which behaves like a simple webpage.
                 Because there is not much to dis&shy;play without SSG, the gallery can run in the 
-                <a href="example/index.html#svetlusky" target="_blank">no e×it mode</a>.
+                <a href="https://roman-flossler.github.io/StoryShowGallery/example/#svetlusky" target="_blank">no e×it mode</a>.
             </p>
             <p>
             Story Show Gallery supports <strong>Goo&shy;gle analytics</strong> to measure views of each photo. SSG optionally detects and uses GA tracking code on your site.
@@ -171,13 +181,6 @@
                 You can use Story Show Gallery freely within open source GNU GPL-3.0 license.<br>
                 There is one <strong>exception</strong> from the license: Distributing Story Show Gallery within a Wordpress plugin or theme is 
                 only allowed for the author of Story Show Gallery.</p>
-            <p>
-                If you want to use Story Show Gallery within your commercially distributed SW, the <strong>Commercial license</strong> is appropriate. 
-                With this option, your source code is kept proprietary. Contact me at 
-                <script type="text/javascript"> pron4 = "flo"; pron3 = "r@f"; pron1 = "lor"; pron2 = ".cz";
-                    document.write('<a href="mailto:'+pron4+pron3+pron1+pron2+'" >'+pron4+pron3+pron1+pron2+'</a>');
-                </script> to get the Commercial license.
-            </p>
 
 
             <a name='implementation'></a>
@@ -190,7 +193,7 @@
 
 
             <p>
-               You can link files directly from CDN, just copy these lines into your HTML:
+               You can link files directly from CDN (faster loading), just copy these lines into your HTML:
             </p>
             
             <code>
@@ -387,13 +390,22 @@ data.imageCaption // image caption for current image
             <code>                
                 &lt;body onload='<span>SSG.run({noExit:true})</span>'&gt; 
             </code>
-            <p><a href="example/index.html#svetlusky" target="_blank">Sample gallery with no e×it mode</a></p>
+            <p><a href="https://roman-flossler.github.io/StoryShowGallery/example/svetlusky" target="_blank">Sample gallery with no e×it mode</a></p>
 
             <p>
                 <br>Use <strong>initImgId</strong> parameter to set the initial image in the gallery. SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first photo has ID 0.</p>
             <code>
                 &lt;button onclick="<span>SSG.run( {initImgID: 6} )</span>"&gt; Click me &lt;/button&gt;
             </code>
+
+            <p>
+                <br>With the <strong>cfg</strong> parameter you can override global configuration, it applies only for the actual gallery run.
+                 The cfg parameter is an object which have the same parameters as the 
+                 <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');">global configuration</a>. </p>
+            <code>
+                &lt;a onclick="<span>SSG.run(  cfg: { scrollDuration: 1333, fileToLoad = 'speciallinks.html' } )</span>"&gt; Click me &lt;/a&gt;
+            </code>
+
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
                 If you also add imgsPos parameter, images can be combined with photos from the page.
             The <em>imgsPos:'start'</em> places <em>imgs</em> before photos from the page, <em>imgsPos:'end'</em> after them. 
@@ -478,6 +490,18 @@ iceland = [];
                     Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.
         
                 </p>
+                <br>
+
+                <p>
+                    <a class="showgal"  
+                    onclick="SSG.run({ imgs: iceland, cfg: { scrollDuration: 1333, watermarkText: '🌋 Iceland', fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html' }});"
+                    >            
+                    <span>&#8984;</span> Run the gallery</a> by Javascript calling:
+                    <p></p>
+                    <code>SSG.run( { imgs: iceland, cfg: { scrollDuration: 1333, watermarkText = '🌋 Iceland', fileToLoad = 'bloglinks.html' }} )</code>
+                    <p>
+                    The gallery with local settings. It has slower transition between photos, different watermark and signpost.
+                </p><br>                
 
         
         <a name='js-module'></a>
@@ -668,12 +692,38 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 alt: 'Scroll down to see an example of HTML signpost after the gallery'
             };
 
+            demo = [];
+            demo[ 0 ] = {
+                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center-sq.jpg',
+                alt: 'With Story Show Gallery you can present your photo stories in full screen.'
+            };
+            demo[ 1 ] = {
+                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg',
+                alt: 'You can easily browse the gallery just by scrolling. No need to clicking on arrows.'
+            };
+            demo[ 2 ] = {
+                href: 'https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg',
+                alt: 'SSG vs. usual web gallery. SSG use even notch area of a phone and doesn\'t display bars and icons over a photo.'
+            };
+            demo[ 3 ] = {
+                href: 'https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg',
+                alt: 'Captions can be below the image or next to the image according to space on display.'
+            };                                    
+
 
             jQuery(window).on('load', function() {
                 lightInt = setInterval( lightning , 450 );
                 calcTop();
+              }
+            );
+            jQuery( document ).ready( function () {
                 if (location.hash == '#SSGconfig') {
                     jQuery('#bigcode').toggleClass('visible');
+                }
+                if (location.hash == '#play') {
+                    jQuery('body:not(#SSG1) img').attr( 'src', function() { return '#' + this.src }  );                    
+                    SSG.run( { imgs: demo, fsa:true, cfg: {  fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/play.html' }  });
+                    SSG.imgSrcHashed = true;
                 }
               }
             );
@@ -731,14 +781,15 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script src="src/ssg.js"></script>
     <script>
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
-    SSG.cfg.watermarkText = '<b>ꐠ</b> SSG';    
+    SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
+    SSG.cfg.watermarkFontSize = 18;
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;
     var finished = false;
     SSG.cfg.onGalleryStart = function(data) {
         console.log('----------');
-        console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName);
+        console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );
     };
     SSG.cfg.onImgChange = function(data) { counter++; };
     SSG.cfg.onSignpost = function() { finished = true; };
