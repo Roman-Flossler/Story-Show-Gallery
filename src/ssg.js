@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.5 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.9.6 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -306,8 +306,8 @@ SSG.getHash = function ( justResult ) {
             }
 
             // Only if justResult is false
-            jQuery('body:not(#SSG1) img').attr( 'src', function() { return '#' + this.src }  );
-            SSG.imgSrcHashed = true;
+            window.stop();
+            SSG.loadingStopped = true;
             SSG.run( {
                 fsa: SSG.hasClass( allimgs[findex].classList, 'fs' ) || SSG.isMobile || SSG.isTablet,
                 initImgID: findex
@@ -1277,15 +1277,21 @@ SSG.preventExit = function() {
 
 SSG.restart = function(config) { 
     SSG.destroyGallery('restart');
-    if (config) config.restart = true;    
+    if (config) config.restart = true;
     SSG.run(config);
 }
 
 SSG.destroyGallery = function (mode) {
+    if ( SSG.loadingStopped && mode != 'restart' ) {        
+        if (mode == 'hashlink') {            
+            window.location.reload();
+        } else {
+            window.location.href = window.location.href.substring( 0, window.location.href.lastIndexOf('#') );
+        }
+    }
     if( mode != 'hashlink' && mode != 'restart' ) {
         history.replaceState( null, null, SSG.location );
     }
-    SSG.imgSrcHashed && jQuery('body:not(#SSG1) img').attr( 'src', function() { return this.src.substring( this.src.lastIndexOf('#') + 1 ) } );
     clearInterval( SSG.metronomInterval );
     if (SSG.cfgFused.logIntoGA && typeof ga == 'function' ) {
         ga( 'send', 'pageview', location.pathname );

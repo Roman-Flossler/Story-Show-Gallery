@@ -721,9 +721,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     jQuery('#bigcode').toggleClass('visible');
                 }
                 if (location.hash == '#play') {
-                    jQuery('body:not(#SSG1) img').attr( 'src', function() { return '#' + this.src }  );                    
+                    window.stop();                    
                     SSG.run( { imgs: demo, fsa:true, cfg: {  fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/play.html' }  });
-                    SSG.imgSrcHashed = true;
+                    SSG.loadingStopped = true;
                 }
               }
             );
