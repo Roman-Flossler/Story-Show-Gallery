@@ -1,4 +1,4 @@
-# Story Show Gallery - minimalist, vertical photo gallery, mobile friendly
+# The Story Show Gallery - minimalist, vertical photo gallery and mobile friendly
 
 [![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)
 [![Known Vulnerabilities](https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg)](https://snyk.io/test/npm/story-show-gallery/2.9.3)
