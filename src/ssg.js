@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.9.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.0 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -25,6 +25,9 @@ SSG.cfg.alwaysFullscreen = false;
 
 // Force SSG to never display in fullscreen - true/false. There is an exception for smartphones and tablets
 SSG.cfg.neverFullscreen = false;
+
+// Visual theme of the gallery - four possible values: dim, light, black, dark (default)
+SSG.cfg.theme = 'dark'
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). 
 // HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.
@@ -110,6 +113,10 @@ jQuery( document ).ready( function () {
     // adding of fs class to all thumbnails in a gallery, it activates full screen
     jQuery( '.fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
     jQuery( '.vipssg a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'vipssg' );
+    jQuery( '.ssglight a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssglight' );
+    jQuery( '.ssgdim a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdim' );
+    jQuery( '.ssgdark a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdark' );
+    jQuery( '.ssgblack a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgblack' );
     !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
     SSG.jQueryImgCollection.click( SSG.run );
 
@@ -131,7 +138,37 @@ SSG.run = function ( event ) {
     SSG.running = true;
 
     // .ssg-active has to be add asap, it overrides possible scroll-behavior:smooth which mess with gallery jump scrolling
-    jQuery( 'html' ).addClass( 'ssg-active' );
+    jQuery( 'html' ).addClass( 'ssg-active' );    
+
+    // fuse of global settings and local settings of the current gallery. 
+    SSG.cfgFused = {};
+    if( event && event.cfg && Object.assign ) {
+        Object.assign(SSG.cfgFused, SSG.cfg, event.cfg );
+    } else {
+        SSG.cfgFused = SSG.cfg;
+    }
+
+    // setting of Visual theme - also has to be done asap, otherwise there are problems with right coloring of the scrollbar
+    var imgClassList, theme;
+    theme = SSG.cfgFused.theme;
+
+    if ( event && event.currentTarget ) {
+        imgClassList =  event.currentTarget.classList
+    } else if (event && event.initImgID && !event.imgs ) {
+        imgClassList = SSG.jQueryImgCollection[event.initImgID].classList
+    }
+    if ( SSG.hasClass( imgClassList, 'ssgdim' ))  theme='dim'
+    else if  ( SSG.hasClass( imgClassList, 'ssglight' )) theme='light'
+    else if  ( SSG.hasClass( imgClassList, 'ssgblack' )) theme='black'
+    else if  ( SSG.hasClass( imgClassList, 'ssgdark' )) theme='dark';    
+
+    if (event && event.cfg && event.cfg.theme ) {
+            theme = event.cfg.theme;
+    }
+    
+    SSG.theme = theme;
+    jQuery( 'html' ).removeClass( 'ssgdim ssglight ssgblack' );
+    (theme != 'dark') && jQuery( 'html' ).addClass( 'ssg' + SSG.theme );
 
     // If there is no start image specified (in the noExit mode), try to get image from hash.
     if ( event && event.noExit && !event.initImgID ) {
@@ -139,30 +176,12 @@ SSG.run = function ( event ) {
         if ( initImgID != null ) {
          event.initImgID = initImgID;
         }
-    }    
-    SSG.cfgFused = {};
-    if( event && event.cfg ) {
-        Object.assign(SSG.cfgFused, SSG.cfg, event.cfg );        
-    } else {
-        SSG.cfgFused = SSG.cfg;
     }
 
     SSG.initEvent = event;
     SSG.setVariables();
+    SSG.initGallery( event );
     
-    // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
-    if (!SSG.cfgFused.scaleLock1) {
-        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
-    } else {
-        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no, ' );
-    }
-    if ( SSG.themeColor ) {
-        jQuery( "meta[name='theme-color']" ).attr( 'content', '#131313' );
-    } else {
-        jQuery( 'head' ).append( "<meta name='theme-color' content='#131313'>" );
-    }
-    jQuery( 'body' ).append( "<div id='SSG_bg'><b>&#xA420;</b> Story Show Gallery</div>" );
-
     // SSG firstly switch the browser into FS mode (if wanted) and then the fullscreenchange event creates the gallery
     // It is because of problems (Chrome mobile, Firefox) with initiation of the gallery when switching into FS mode. 
     // if no FS mode is wanted, then the createGallery() is called directly from FSmode()
@@ -257,7 +276,7 @@ SSG.setVariables = function () {
     
     // Intial scroll, rotation and height. Don't overwrite originals if the gallery is being restarted 
     
-    if ( SSG.initEvent && !SSG.initEvent.restart ) {
+    if ( SSG.initEvent && !SSG.initEvent.restart || !SSG.initEvent ) {    
         SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;
         SSG.originalBodyHeight = jQuery( 'body' ).height();
         SSG.landscapeModeOriginal = window.screen.width > window.screen.height;
@@ -381,7 +400,18 @@ SSG.createGallery = function ( event ) {
     } else {
         return;
     }
-    SSG.initGallery( event );
+    
+    // Append gallery's HTML tags
+    jQuery( 'body' ).append( "<div id='SSG1'></div>" );
+    SSG.setNotchRight();
+    SSG.inExitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
+    // event listeners for SSG tags    
+    jQuery( '#SSG_exit' ).click( SSG.destroyGallery );
+    jQuery( '#SSG1' ).click( SSG.touchScroll );
+    SSG.cfgFused.rightClickProtection && jQuery( '#SSG1, #SSG_exit' ).on( "contextmenu", function ( event ) {
+        event.preventDefault();
+        SSG.showFsTip( 'hint' );
+    } );
 
     if ( event && event.imgs ) {
 
@@ -425,10 +455,19 @@ SSG.initGallery = function ( event ) {
     }
     window.scrollTo( 0, 0 );
 
-    // Append gallery's HTML tags
-    jQuery( 'body' ).append( "<div id='SSG1'></div>" );
-    SSG.setNotchRight();
-    SSG.inExitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
+    // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
+    if (!SSG.cfgFused.scaleLock1) {
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
+    } else {
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no, ' );
+    }    
+    var themecolor = SSG.theme == 'light' ? '#fafafa' : '#131313';
+    if ( SSG.themeColor ) {
+        jQuery( "meta[name='theme-color']" ).attr( 'content', themecolor );
+    } else {
+        jQuery( 'head' ).append( "<meta name='theme-color' content='" + themecolor + "'>" );
+    }
+    jQuery( 'body' ).append( "<div id='SSG_bg'><b>&#xA420;</b> Story Show Gallery</div>" );    
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
     SSG.jQueryImgCollection.each( function ( index ) {
@@ -447,9 +486,6 @@ SSG.initGallery = function ( event ) {
 
     // Adding event listeners
     jQuery( document ).keydown( SSG.keyFunction );
-    jQuery( '#SSG_exit' ).click( SSG.destroyGallery );
-    jQuery( '#SSG1' ).click( SSG.touchScroll );
-
     window.addEventListener("hashchange", SSG.onHashExit );
 
     // passive:false is due to Chrome, it sets the mousewheel event as passive:true by default and then preventDefault cannot be used
@@ -459,11 +495,8 @@ SSG.initGallery = function ( event ) {
     document.addEventListener( 'DOMMouseScroll', SSG.seizeScrolling, {
         passive: false, capture: true
     } );
-    !SSG.isMobile && jQuery( window ).resize( SSG.onResize );    
-    SSG.cfgFused.rightClickProtection && jQuery( '#SSG1, #SSG_exit' ).on( "contextmenu", function ( event ) {
-        event.preventDefault();
-        SSG.showFsTip( 'hint' );
-    } );
+    !SSG.isMobile && jQuery( window ).resize( SSG.onResize );
+
     if ( SSG.isMobile ) {
         if ( window.screen.orientation ) {
             // new standard - works on Android
@@ -513,6 +546,7 @@ SSG.setNotchRight = function () {
 };
 
 SSG.hasClass = function ( classList, classToFind ) {
+    if ( !classList) return false;
     for ( var i = 0; i < classList.length; i++ ) {
         if ( classList[ i ] == classToFind ) {
             return true;
@@ -569,7 +603,7 @@ SSG.getImgList = function ( event ) {
         clickedGalleryID = event.currentTarget.attributes.ssg.nodeValue;
         if ( event.currentTarget.attributes.ssgsid ) {
             clickedImgSubID = event.currentTarget.attributes.ssgsid.nodeValue;
-        }        
+        }
     } else if ( event && typeof event.initImgID != 'undefined' ) {
         clickedImgID = event.initImgID;
         clickedImgSubID = jQuery( 'a[ssgid=' + clickedImgID + ']' ).attr( 'ssgsid' );
@@ -656,7 +690,7 @@ SSG.onFS = function () {
         }
         // Destroys gallery on exit from FS (if destroyOnFsChange) or removes exit icon.        
         if (SSG.inExitMode) {
-            SSG.destroyOnFsChange && SSG.destroyGallery();
+            SSG.destroyOnFsChange && SSG.destroyGallery('fsexit');
         } else {
             jQuery( '#SSG_exit' ).remove();
         }
@@ -1278,6 +1312,8 @@ SSG.preventExit = function() {
 SSG.restart = function(config) { 
     SSG.destroyGallery('restart');
     if (config) config.restart = true;
+    if(!config.cfg) config.cfg = {};
+    config.cfg.theme = SSG.theme;
     SSG.run(config);
 }
 
@@ -1320,7 +1356,7 @@ SSG.destroyGallery = function (mode) {
 
     // Renew an original scroll of a page. SetTimeout solves problem with return from FS, simple scrollTo doesn't work.
     if( mode != 'hashlink' && mode != 'restart' ) {
-        if ( SSG.inFullscreenMode ) {
+        if ( SSG.inFullscreenMode || mode == 'fsexit' ) {
             window.setTimeout( function () {
                 window.scrollTo( 0, restoredPos );
             }, 200 );

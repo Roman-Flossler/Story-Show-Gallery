@@ -51,7 +51,7 @@
 
 <body>
     <main class="row">
-        <article class="column ficol ssg fs">
+        <article class="column ficol ssg fs ssgdark">
 
             <!--  following opening block with mini gallery will be displayed only on small screens  -->
             <div class="mobileonly">
@@ -256,14 +256,14 @@
             <a name='classes'></a>
             <h2>Controling SSG by CSS classes</h2>
             <!-- _____________________________________ -->
-            <p>By default SSG will make one big gallery from all linked image on the page. CSS classes can change this behaviour. 
-               There are five classes: ssg, nossg, gossg, vipssg and fs. Classes have to be assigned to a hyper&shy;link tag or to 
+            <p>By default SSG will make one big gallery from all linked images on the page. CSS classes can change this behaviour. 
+               There are nine classes: ssg, nossg, gossg, vipssg, fs and four themes. Classes have to be assigned to a hyper&shy;link tag or to 
                any tag which contains image hyper&shy;links - they all will be affected:
             </p>
             
             <code>
                 &lt;a href='<em>outsideImg.jpg</em>' class='<span>fs</span>' &gt; caption &lt;/a&gt;<br>
-                &lt;section class='<span>ssg fs vipssg</span>'&gt;<br>
+                &lt;section class='<span>ssg fs vipssg ssgblack</span>'&gt;<br>
                 &nbsp;&nbsp;&lt;div&gt;<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='<em>insideImg.jpg</em>'&gt; caption &lt;/a&gt;<br>
                 &nbsp;&nbsp;&lt;/div&gt;<br>
@@ -272,7 +272,7 @@
             </code>
 
             <p>The <strong>ssg</strong> class creates a separate gallery, assign it to some parent element of many picture hyper&shy;links. 
-                In the gallery will show only the pictures that are linked inside a tag with the ssg class.</p>
+                In the gallery will show only the pictures that are inside the element with the ssg class. Outside images creates a gallery with id#0.</p>
 
             <p>The <strong>fs</strong> class will activate full screen mode.</p>
 
@@ -281,11 +281,15 @@
                If you click on the <em>outsideImg.jpg</em> hyperlink, it will display in the gallery together with inside images. But when you click on some inside image hyperlink, 
                only images inside <em>section.ssg</em> will display in the gallery. </p>
 
-            <p>SSG will ignore image hyperlinks with <strong>nossg</strong> class. They will open normally into browser's tab.
+            <p>SSG will ignore image hyperlinks (or the whole gallery) with <strong>nossg</strong> class. Images will open normally into browser's tab.
             </p>    
 
             <p>Image linked with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user want to see it and clicks on it. 
                 Otherwise image linked with gossg class won't show in the gallery.
+            </p>
+
+            <p>SSG offers four themes and each has its own class, which you can assign to some gallery:<br> light theme -> class: <strong>ssglight</strong>,
+                 dim theme -> class:  <strong>ssgdim</strong>, dark theme -> class:  <strong>ssgdark</strong> and black theme -> class:  <strong>ssgblack</strong>.
             </p>
 
             <a name='events'></a>
@@ -403,7 +407,7 @@ data.imageCaption // image caption for current image
                  The cfg parameter is an object which have the same parameters as the 
                  <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');">global configuration</a>. </p>
             <code>
-                &lt;a onclick="<span>SSG.run(  cfg: { scrollDuration: 1333, fileToLoad = 'speciallinks.html' } )</span>"&gt; Click me &lt;/a&gt;
+                &lt;a onclick="<span>SSG.run(  cfg: { scrollDuration: 1333, theme:'black', fileToLoad = 'speciallinks.html' } )</span>"&gt; Click me &lt;/a&gt;
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -424,8 +428,8 @@ data.imageCaption // image caption for current image
             <a name='examples'></a>
 
             <h2>Examples of initiating the gallery by SSG.run() method</h2>
-            <!-- _____________________________________ -->           
-            
+            <!-- _____________________________________ -->
+
             <p>
                 <a class="showgal" onclick="SSG.run();" >
                     <span>&#8984;</span> Run the gallery</a> by Javascript calling:
@@ -439,14 +443,14 @@ data.imageCaption // image caption for current image
             <br>
             <p>
                 <a class="showgal"  
-                onclick="SSG.run({ fs:true, initImgID: 7 });"
+                onclick="SSG.run({ fs:true, initImgID: 12 });"
                 >            
                 <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                 <p></p>
-                <code>SSG.run({ initImgID: 7, fs:true })</code>
+                <code>SSG.run({ initImgID: 12, fs:true })</code>
                 <p>
-                The first photo will be the photo with ID 7, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
-                The  fs:true activates full screen mode.
+                The first photo will be the photo with ID 12, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
+                Also the gallery theme is taken from css class of related gallery. The fs:true activates full screen mode.
             </p><br>
 
             <p>
@@ -494,13 +498,13 @@ iceland = [];
 
                 <p>
                     <a class="showgal"  
-                    onclick="SSG.run({ imgs: iceland, cfg: { scrollDuration: 1333, watermarkText: '🌋 Iceland', fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html' }});"
+                    onclick="SSG.run({ imgs: iceland, cfg: { scrollDuration: 1333, theme:'black', watermarkText: '🌋 Iceland', fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html' }});"
                     >            
                     <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                     <p></p>
-                    <code>SSG.run( { imgs: iceland, cfg: { scrollDuration: 1333, watermarkText = '🌋 Iceland', fileToLoad = 'bloglinks.html' }} )</code>
+                    <code>SSG.run( { imgs: iceland, cfg: { scrollDuration: 1333, watermarkText = '🌋 Iceland', theme:'black', fileToLoad = 'bloglinks.html' }} )</code>
                     <p>
-                    The gallery with local settings. It has slower transition between photos, different watermark and signpost.
+                    The gallery with local settings. It has slower transition between photos, black color and different watermark and signpost.
                 </p><br>                
 
         
@@ -521,9 +525,12 @@ iceland = [];
 
         <!-- _____________________________________ column-article division _____________________________________ -->
 
-        <article class="column secol">
+
+        <article class="column secol">        
+    
             
             <div id="before-menu">
+                <a name='themes'></a>
                 <div class="topimg wider">
                     <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" class="fs gossg">
                     <img src="https://roman-flossler.github.io/StoryShowGallery/img/ssg-arrow.png" alt="" style="cursor: pointer;"></a>
@@ -557,12 +564,19 @@ iceland = [];
                     </a>
                     <br clear='all'/>
                 </section>
+                <p id="scheme">
+                    <span>Themes:</span>
+                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'dim' }})">Dim</a>
+                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'dark' }})">Dark</a>
+                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'black' }})">Black</a>
+                    <a class="color" style="background: #e7e7e7; color: #333333;" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
+                </p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
                 <p>
                     Story Show Gallery also supports text hyper&shy;links. All four follow&shy;ing pict&shy;ures will appear in separate gallery (because of .ssg class):
                 </p>
-                <p class="ssg">
+                <p class="ssg ssglight">
                         <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-eating-man.jpg'>	&#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpg" target="_blank">Enlightment inside Bankang cave</a> <br>
                         <a href='some-nice-image.jpg' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
@@ -579,11 +593,11 @@ iceland = [];
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
                 <li><a href="#order">Order of photos in the gallery</a></li>
-                <li><a href="#deeplinking">Deep linking</a></li>
-                <li><a href="#scrolling">Vertical scrolling</a></li>
+                <li><a href="#deeplinking">Deep linking, scrolling</a></li>                
                 <li><a href="#ssg-run">SSG.run & SSG.restart method</a></li>
                 <li><a href="#examples">SSG.run() examples</a></li>
                 <li><a href="#js-module">SSG as a Javascript module</a></li>
+                <li class="mobileonli"><a href="#themes">🎨 Visual themes</a></li>
             </ol>
 
             <div class="topimg ssgafter" > 
@@ -605,6 +619,9 @@ SSG.cfg.alwaysFullscreen = <em>false;</em>
 
 <span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
 SSG.cfg.neverFullscreen = <em>false;</em>
+
+<span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
+SSG.cfg.theme = <em>'dark'</em>
 
 <span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>
@@ -734,7 +751,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 });            
 
             function calcTop () {
-                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 20 });
+                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 33 });
             }
 
             function setColorMode () {
@@ -780,13 +797,15 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     
     <script src="src/ssg.js"></script>
     <script>
-    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
-    SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
-    SSG.cfg.watermarkFontSize = 18;
+    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';    
+    SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
+    SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
+    SSG.cfg.theme = 'dim'
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;
     var finished = false;
+    console.log('A little statistics made via SSG events and a user functions:');
     SSG.cfg.onGalleryStart = function(data) {
         console.log('----------');
         console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );

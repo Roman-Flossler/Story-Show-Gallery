@@ -22,10 +22,11 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 ## Not another photo gallery
 
 - On smartphones, full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
-- Brand building (image or text), social sharing icon that can be [hardly miss](https://roman-flossler.github.io/StoryShowGallery/#brand)
+- Brand building (image or text), social sharing icon that can be [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand)
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
 - Goo­gle Analytics support 
 - Deeplinking
+- Four visual themes
 - [HTML signpost](https://roman-flossler.github.io/StoryShowGallery/#signpost) to other galleries
 - No e×it mode for galleries based on bare HTML
 - SSG is probably the only gallery which can place each caption individually according to image size vs. screen size:

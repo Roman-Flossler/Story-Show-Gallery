@@ -184,6 +184,28 @@ a.showgal {
     cursor:pointer; text-decoration:underline
 }
 
+a.color {
+    cursor: pointer;
+    padding: 0.2em 0;
+    border-radius: 6px;
+    box-shadow: 0 0 4px #4e4e4e;
+}
+
+#scheme * {
+    display: inline-block;
+    width: 18%;
+    text-align: center;
+}
+
+#scheme {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+a.color:hover {
+    box-shadow: 0 0 4px #4bcbd8;    
+}
+
 a img {
     border: none;
 }
@@ -299,7 +321,7 @@ code span {
     width: 30%;
 }
 
-.column .mobileonly {
+.column .mobileonly, .mobileonli {
     display: none;
     opacity: 1;
 }
@@ -668,6 +690,10 @@ footer {
         font-size: 28px;
     }
 
+    .mobileonli {
+        display: list-item;
+    }
+
     .toggle-menu {        
         display: block !important;        
     }
@@ -842,7 +868,7 @@ footer {
         font-size: 106%;
     }
 
-    .secol .wider {
+    .secol .wider, #scheme {
         width: 108%;
         margin-left: -7%;
     }
