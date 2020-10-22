@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.0 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.1 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -253,6 +253,10 @@
     /* background: linear-gradient(-6deg, #005967cc 18%, #0b1617f0 49%, #00a0d000 276%), repeating-linear-gradient(292deg, #00a8b1c4 0px, #001919 11px, #00000000 30px),  repeating-linear-gradient(477deg, #00a8b1 0px, #001919 11px, #000000 8px);    */
 }
 
+#SSG1 figure#f0 {
+    overflow: hidden;
+}
+
 @keyframes invert {
     0% {  filter: brightness(1.3) contrast(1.2) hue-rotate(0deg) invert(0); }
     15% { filter: brightness(1.3) contrast(1.2) hue-rotate(0deg) invert(0); }
@@ -368,7 +372,7 @@
     border-radius: 13px;
     width: 28px;
     height: 28px;
-    left: 5px;
+    left: 4px;
     background-size: 20px;
     opacity: 0.6;
     background-color: #0c0c0c;
@@ -1130,7 +1134,7 @@ button#copyLink::first-letter {
         width: 23px;
         height: 23px;        
         background-size: 17px;
-        left: 7px;
+        left: 6px;
     }    
 
     #SSG1 .SSG_uwBlock {
@@ -1660,7 +1664,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar, html.ssg-active.ssgblack ::-webkit
 }
 
 html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
-    background: rgb(18, 18, 18);
+    background: rgb(15, 15, 15);
 }
 
 
@@ -1668,17 +1672,17 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 /***----------- light grey -----------**/
 
 .ssglight #SSG1 {
-    background: rgb(231, 231, 231);
+    background: rgb(241, 241, 241);
 }
 
 @media (pointer: coarse) {
     .ssglight #SSG1::after {
-        background: linear-gradient(to top, rgba(231, 231, 231,0) 44%, rgba(231, 231, 231,1) 100%);
+        background: linear-gradient(to top, rgba(241, 241, 241,0) 44%, rgba(241, 241, 241,1) 100%);
     }
 }
 
 .ssglight #SSG_bg {
-    background: rgb(231, 231, 231);
+    background: rgb(241, 241, 241);
     color: #a5a5a5;
 }
 
@@ -1766,21 +1770,21 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
     /* scrollbar color */
 
 html.ssg-active.ssglight {
-    scrollbar-color: rgb(188, 188, 188) #F2F2F2; 
+    scrollbar-color: rgb(188, 188, 188) #F5F5F5; 
 }    
 
 html.ssg-active.ssglight {
     scrollbar-base-color: white;
-    scrollbar-track-color: #F2F2F2;
+    scrollbar-track-color:#F5F5F5;
 }
 
 
 html.ssg-active.ssglight ::-webkit-scrollbar, html.ssg-active.ssglight ::-webkit-scrollbar-button {
-    background: #EEEEEE;
+    background:#F5F5F5;
 }
 
 html.ssg-active.ssglight ::-webkit-scrollbar-thumb {
-    background: white;
+    background: rgb(222, 222, 222);
 }
 
 html.ssg-active.ssglight ::-webkit-scrollbar:hover  {
@@ -1788,7 +1792,7 @@ html.ssg-active.ssglight ::-webkit-scrollbar:hover  {
 }
 
 html.ssg-active.ssglight ::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0 !important;
+    background: #8d8d8d !important;
 }
 
 

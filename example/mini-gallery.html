@@ -29,21 +29,6 @@
         SSG.cfg.watermarkFontSize = 18;
         SSG.cfg.rightClickProtection = false;
         
-        // an example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
-        var counter = 0;
-        var finished = false;
-        SSG.cfg.onGalleryStart = function(data) {
-            console.log('----------');
-            console.log( data.imgCount + ' images in the gallery. Starting with image: ' + data.imgName) 
-        };
-        SSG.cfg.onImgChange = function(data) { counter++; };
-        SSG.cfg.onSignpost = function() { finished = true; };
-        SSG.cfg.onGalleryExit = function(data) {
-            console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
-            counter = 0;
-            finished = false;
-        };        
-
         // SSG.run will start the gallery immediately after loading the page and noExit parameter will prevent to quit the gallery.
         SSG.run( { noExit:true } );
         // The gallery will behave like a simple webpage. If a user could exit the gallery he would see just a poor page with two links.
