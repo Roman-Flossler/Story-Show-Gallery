@@ -100,11 +100,11 @@
                 
             </p>
             
-            <h2>Your photos in the main role</h2>
+            <h2 style="margin-top: 1.6em;">Your photos in the main role</h2>
             <!-- _____________________________________ -->
 
            
-            <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly arrows ←→ next to a photo, 
+            <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
                 vertical slider and cur­sor are subtle.</p>
             <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
             <p>The gallery doesn't have an icon for full screen mode. I did a little research and users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
@@ -115,7 +115,9 @@
             <p>
             Behind the last image Story Show Gallery can load a HTML <strong>signpost</strong> to other photo galleries. 
             <a class="showgal" onclick='SSG.run( { imgs: signpost, fs:true });' >See a sample</a>
-            <a onclick='SSG.run( { imgs: signpost, fs:true });' ><img src="https://roman-flossler.github.io/StoryShowGallery/img/signpost.jpg" alt="signpost behind ssg" class="limg imglink darken"></a>
+            <a onclick='SSG.run( { imgs: signpost, fs:true });' >
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/signpost.jpg" alt="signpost behind ssg" class="limg imglink darken boost">
+            </a>
             </p>            
             
             <a name='browsing'></a>
@@ -130,17 +132,23 @@
             <h3>Brand building and social sharing</h3>
             <!-- _____________________________________ -->
             <p>SSG can display your logo or some text (emoji) over images. You can configure it in the SSG settings.
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/watermark.jpg" alt="photo watermark" class="limg darken"></p><p>
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/watermark.jpg" alt="photo watermark" class="limg darken boost"></p><p>
 
                 Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" alt="social share icon" class="limg darken"></p><p>
+                <a onclick="SSG.run({initImgID:11,  cfg: { theme:'dim'} })">
+                <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
+                alt="social share icon" class="limg darken imglink"></p><p>
+                </a>
                 
             </p>
                 
                 <p>You can <strong>deep link into the gallery</strong> to show a
-                    <a href='https://www.faroeislands.io/#kunoy' target="_blank">part&shy;icular pict&shy;ure</a>. Just use image name in the hashtag:
-                    <img src="https://roman-flossler.github.io/StoryShowGallery/img/deep-linking.png" alt="deep linking" class="limg">
+                    <a href='https://www.faroeislands.io/#klaksvik' target="_blank">part&shy;icular pict&shy;ure</a>. Just use image name in the hashtag:
+                    <a id="deepurl" href='https://www.faroeislands.io/#klaksvik' target="_blank">
+                        <span >&nbsp;<em class="sheep">🐑</em> https://FaroeIslands.io<i>#klaksvik</i></span>
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/img/deep-linking.png" alt="deep linking" class="limg imglink">
+                    </a>
             </p>
 
             
@@ -346,8 +354,8 @@ data.imageCaption // image caption for current image
             
             <p>
                 SSG can be initiated by a link with photo's name in a hashtag. For example this link 
-                <a href="https://www.faroeislands.io/#klakkur" target="_blank" style="word-break: break-all">FaroeIslands.io/#klakkur</a> 
-                will activate Story Show Gallery and show the photo named fifth-element. It is enough to have in the hashtag crucial part of the name - <strong>#element</strong>.
+                <a href="https://www.faroeislands.io/#klakkur-kalsoy" target="_blank" style="word-break: break-all">FaroeIslands.io/#klakkur-kalsoy</a> 
+                will activate Story Show Gallery and show the photo named klakkur-kalsoy. It is enough to have in the hashtag crucial part of the name - <strong>#klakkur</strong>.
             </p>
             <p>
                 An address of each photo is shown in a browser’s navi&shy;gation bar while browsing through the gallery.
@@ -394,7 +402,7 @@ data.imageCaption // image caption for current image
             <code>                
                 &lt;body onload='<span>SSG.run({noExit:true})</span>'&gt; 
             </code>
-            <p><a href="https://roman-flossler.github.io/StoryShowGallery/example/svetlusky" target="_blank">Sample gallery with no e×it mode</a></p>
+            <p><a href="https://roman-flossler.github.io/StoryShowGallery/example/#svetlusky" target="_blank">Sample gallery with no e×it mode</a></p>
 
             <p>
                 <br>Use <strong>initImgId</strong> parameter to set the initial image in the gallery. SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first photo has ID 0.</p>
@@ -793,6 +801,30 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     actimg++;
                 }
             }
+            var countShow = 0;
+            var imgCount = 0;
+            function showHover() {                
+                countShow = (countShow + 1) % 10;
+                jQuery('.gallery > a:nth-child(' +  countShow  + ')').toggleClass('show');
+                jQuery('.gallery > a:nth-child(' +  (countShow - 1)  + ')').toggleClass('show');   
+                SSG.running && stopShow();
+            }
+
+            function stopShow() {
+                if (!window.show) return;
+                clearInterval(show);
+                jQuery('.gallery a:nth-child(' +  (countShow)  + ')').removeClass('show');
+            }
+
+            function initShow() {                
+                show = setInterval( showHover, 444);
+                jQuery('.gallery > a').on('mouseover', stopShow );                
+            }
+
+            jQuery('.gallery img').on('load', function() {
+                imgCount++;
+                if (imgCount==7) initShow();
+            });            
     </script>
     
     <script src="src/ssg.js"></script>

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1322,7 +1322,9 @@ SSG.destroyGallery = function (mode) {
         if (mode == 'hashlink') {            
             window.location.reload();
         } else {
-            window.location.href = window.location.href.substring( 0, window.location.href.lastIndexOf('#') );
+            window.scrollTo( 0, 0 );
+            var newUrl = window.location.href.substring( 0, window.location.href.lastIndexOf('#') );
+            (newUrl != '') ? window.location.assign(newUrl) : window.location.reload();
         }
     }
     if( mode != 'hashlink' && mode != 'restart' ) {
