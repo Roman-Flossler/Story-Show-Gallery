@@ -26,7 +26,7 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
 - Goo­gle Analytics support 
 - Deeplinking
-- Four visual themes
+- [Four visual themes](https://roman-flossler.github.io/StoryShowGallery/#themes)
 - [HTML signpost](https://roman-flossler.github.io/StoryShowGallery/#signpost) to other galleries
 - No e×it mode for galleries based on bare HTML
 - SSG is probably the only gallery which can place each caption individually according to image size vs. screen size:
@@ -103,7 +103,3 @@ npm run-script dist  // it will minify the source files and put them into the di
 You can use Story Show Gallery freely within open source GNU GPL-3.0 license.<br>
 
 There is one **exception** from the license: Distributing Story Show Gallery within a Wordpress plugin or theme is only allowed for the author of Story Show Gallery.
-
-If you want to use Story Show Gallery within your commercially distributed SW, the Commercial license is appropriate. With this option, your source code 
-is kept proprietary. Email me at flor@flor.cz for the Commercial license.
-

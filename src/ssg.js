@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -25,6 +25,9 @@ SSG.cfg.alwaysFullscreen = false;
 
 // Force SSG to never display in fullscreen - true/false. There is an exception for smartphones and tablets
 SSG.cfg.neverFullscreen = false;
+
+// When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.
+SSG.cfg.mobilePortraitFS = false;
 
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
 SSG.cfg.theme = 'dark'
@@ -82,44 +85,16 @@ SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>'
 // SSG events - see complete example of SSG events in the example directory
 SSG.cfg.onGalleryStart = null; // fires after creating a gallery
 SSG.cfg.onImgChange = null; // fires on every image change (even the first one)
-SSG.cfg.onSignpost = null; // fires when a user reach the HTML signpost after photos or if he scrolls after the final menu
+SSG.cfg.onBeyondGallery = null; // fires when a user gets beyond the gallery - usually on a signpost
 SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
 
 
 // -------------- end of configuration ----------------------------------------
 
-
-// isMobile is needed before the gallery is running
-SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
-var userAgent = navigator.userAgent.toLowerCase();
-var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
-var newIpads = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-SSG.isTablet = isTablet || newIpads;
-
-// get a collection of all anchor tags from the page, which links to an image
-SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
-SSG.getJQueryImgCollection = function () {
-    SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
-};
-
 jQuery( document ).ready( function () {
-    // two lines below are for use SSG with Wordpress. Outside of Wordpress leave both lines inactiv. Condition booleans aren't defined, they are false 
-    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
-    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' ); 
-    
-    // looks for galleries with nossg class and marks every jQueryImgSelector element inside by nossg class
-    jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
-
-    // adding of fs class to all thumbnails in a gallery, it activates full screen
-    jQuery( '.fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
-    jQuery( '.vipssg a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'vipssg' );
-    jQuery( '.ssglight a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssglight' );
-    jQuery( '.ssgdim a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdim' );
-    jQuery( '.ssgdark a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdark' );
-    jQuery( '.ssgblack a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgblack' );
-    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
+    !SSG.jQueryImgCollection && SSG.beforeRun();
     SSG.jQueryImgCollection.click( SSG.run );
-
+    
     // The possible SSG.run in body's onload will run first thanks to delayed run of getHash. It is important in the noExit mode.
     // If the getHash would initiate SSG first, there wouldn't be any information about the noExit mode.
     window.setTimeout( function () {
@@ -127,9 +102,34 @@ jQuery( document ).ready( function () {
     }, 10 );
 } );
 
+SSG.beforeRun = function () {
+    // all hyperlinks from the page, which links to an image file
+    SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.JPEG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
+
+    // adding of control classes to hyperlinks which match jQueryImgSelector
+    jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
+    jQuery( '.fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    jQuery( '.vipssg a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'vipssg' );
+    jQuery( '.ssglight a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssglight' );
+    jQuery( '.ssgdim a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdim' );
+    jQuery( '.ssgdark a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdark' );
+    jQuery( '.ssgblack a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgblack' );
+
+    // two lines below are for use SSG with Wordpress. Outside of Wordpress leave both lines inactiv. Condition booleans aren't defined, they are false 
+    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
+    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );     
+    
+    SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;    
+    var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase());
+    var newIpads = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    SSG.isTablet = isTablet || newIpads;
+
+    // collection of all img hypelinks which can be in the gallery
+    SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
+};
 
 SSG.run = function ( event ) {
-    !SSG.jQueryImgCollection && SSG.getJQueryImgCollection();
+    !SSG.jQueryImgCollection && SSG.beforeRun();
 
     // It prevents to continue if SSG is already running or there is no photo on the page to display.
     if ( SSG.running || (SSG.jQueryImgCollection.length == 0 && !event.imgs )) {
@@ -140,6 +140,8 @@ SSG.run = function ( event ) {
     // .ssg-active has to be add asap, it overrides possible scroll-behavior:smooth which mess with gallery jump scrolling
     jQuery( 'html' ).addClass( 'ssg-active' );    
 
+    // backward compatibility due to renaming SSG.cfg.onSignpost to SSG.cfg.onBeyondGallery
+    if (SSG.cfg.onSignpost && !SSG.cfg.onBeyondGallery) { SSG.cfg.onBeyondGallery = SSG.cfg.onSignpost; }
     // fuse of global settings and local settings of the current gallery. 
     SSG.cfgFused = {};
     if( event && event.cfg && Object.assign ) {
@@ -239,6 +241,9 @@ SSG.setVariables = function () {
 
     // If it was scrolled to the the bottom menu - the last element in the gallery.
     SSG.atLastone = false;
+
+    // it the SSG.cfg.fileToLoad was successfully loaded
+    SSG.fileLoaded = false;
 
     // prevents exit the gallery onFullscreenChange event. e.g. link with target=_blank will close FS
     SSG.destroyOnFsChange = true;
@@ -348,18 +353,18 @@ SSG.FSmode = function ( event ) {
 
     var mobileLandscape = SSG.isMobile &&  SSG.landscapeMode;
     var mobilePortrait = SSG.isMobile && !SSG.landscapeMode;
+    SSG.pageFS = event && event.fs || ( event && event.currentTarget && SSG.hasClass( event.currentTarget.classList, 'fs' ) && !event.altKey );
+    var mobilePortraitFS = mobilePortrait && SSG.pageFS && SSG.cfgFused.mobilePortraitFS;
 
-    // event.fs and event.fsa isn't a browser's object. MobileLandscape (tablets included) goes everytime in FS, it solves problems with mobile browsers
-    if (SSG.cfgFused.alwaysFullscreen) {
+    // event.fs and event.fsa isn't a browser's object. MobileLandscape & tablets goes everytime in FS, it solves problems with mobile browsers
+    if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
     } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
         SSG.createGallery( SSG.initEvent );
     } else if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
-    } else if ( mobileLandscape || SSG.isTablet || ( event && event.fs ) ) {
-        SSG.openFullscreen();
-    } else if ( ( event && event.currentTarget ) && ( SSG.hasClass( event.currentTarget.classList, 'fs' ) ) && !event.altKey ) {
+    } else if ( SSG.pageFS ) {
         SSG.openFullscreen();
     } else {
         // if no FS mode is wanted, call createGallery directly
@@ -519,6 +524,13 @@ SSG.initGallery = function ( event ) {
 
 SSG.orientationChanged = function () {
     SSG.isOrientationChanged = true;
+    
+    // if the gallery should stay in fullscreen
+    if ( SSG.inFullscreenMode && ( (SSG.cfgFused.mobilePortraitFS && SSG.pageFS ) || SSG.cfgFused.alwaysFullscreen )) {
+        SSG.onResize();
+        SSG.setNotchRight();
+        return;
+    }
 
     // if a portrait mode is in FS mode, turning into landscape won't fire onFS event (gallery resize), so else branch is needed
     // and also for iPhone which doesn't have any FS mode
@@ -873,16 +885,16 @@ SSG.addImage = function () {
         var WindoOpenParams =  '" ';
      
         var shareMenu = "<span class='share'><span class='share-menu'>" +
-                "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + "></a>" + 
-                "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + "></a>" + 
-                "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + "></a>" + 
-                "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + "></a>" + 
-                "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")'></a>" +
-                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShareEnc + "&url=" + urlToShareEnc + WindoOpenParams + "></a>" + 
+                "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Linkedin'></a>" + 
+                "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + " title='Share on WhatsApp'></a>" + 
+                "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + " title='Share on Messenger'></a>" + 
+                "<a class='reddit' " + windowOpen + "https://www.reddit.com/submit?url=" + urlToShareEnc + "&title=" + textToShareEnc + WindoOpenParams + " title='Share on Reddit'></a>" + 
+                "<a class='link' onclick='SSG.showFsTip(\"" + urlToShare + "\")' title='Get a link to share'></a>" +
+                "<a class='tweet' " + windowOpen + "http://twitter.com/share?text=" + textToShareEnc + "&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Twitter'></a>" + 
                 "<a class='pin' " + windowOpen + "http://www.pinterest.com/pin/create/button/?url="+ urlToShareEnc + "&amp;media=" + 
-                SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + "></a>" +
-                "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' ><b>@</b></a>" +
-                "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + "></a>" + 
+                SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + " title='Share on Pinterest'></a>" +
+                "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' title='Send by email' ><b>@</b></a>" +
+                "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + " title='Share on Facebook'></a>" + 
                 "</span><a class='ico'></a></span>";
         } else {
             shareMenu ='';
@@ -1087,7 +1099,7 @@ SSG.metronome = function () {
                 SSG.atLastone = true;
                 SSG.displayedImg =  SSG.imgs.length - 1;
                 SSG.setHashGA( -1 );
-                SSG.cfgFused.onSignpost && SSG.cfgFused.onSignpost();
+                SSG.cfgFused.onBeyondGallery && SSG.cfgFused.onBeyondGallery( SSG.fileLoaded );
             }
         }
     }
@@ -1375,7 +1387,7 @@ SSG.destroyGallery = function (mode) {
     if( SSG.inFullscreenMode &&  mode != 'restart' ) {
          SSG.closeFullscreen(); }
     SSG.running = false;
-    SSG.cfgFused.onGalleryExit && SSG.cfgFused.onGalleryExit(SSG.atLastone ? null : SSG.createDataObject( SSG.displayedImg));
+    SSG.cfgFused.onGalleryExit && SSG.cfgFused.onGalleryExit(SSG.atLastone ? SSG.fileLoaded : SSG.createDataObject( SSG.displayedImg));
 };
 
 SSG.showFsTip = function ( content ) {

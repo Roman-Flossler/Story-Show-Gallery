@@ -58,16 +58,16 @@
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />                
 
                 <div id="front-gallery">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 4 });" alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 5 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 6 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />                    
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 5 });" alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 6 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />                    
                 </div>
                 
-                <span onclick="SSG.run({fs:true, initImgID: 3 });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true, initImgID: 4 });"><b>&#xA420;</b> View demo gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -105,7 +105,8 @@
 
            
             <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
-                vertical slider and cur­sor are subtle.</p>
+                vertical slider and cur­sor are subtle. 
+                <a href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
             <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
             <p>The gallery doesn't have an icon for full screen mode. I did a little research and users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
 
@@ -136,7 +137,7 @@
 
                 Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
-                <a onclick="SSG.run({initImgID:11,  cfg: { theme:'dim'} })">
+                <a onclick="SSG.run({initImgID:12,  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
                 alt="social share icon" class="limg darken imglink"></p><p>
                 </a>
@@ -289,7 +290,8 @@
                If you click on the <em>outsideImg.jpg</em> hyperlink, it will display in the gallery together with inside images. But when you click on some inside image hyperlink, 
                only images inside <em>section.ssg</em> will display in the gallery. </p>
 
-            <p>SSG will ignore image hyperlinks (or the whole gallery) with <strong>nossg</strong> class. Images will open normally into browser's tab.
+            <p>SSG will ignore image hyperlinks (or the whole gallery) with <strong>nossg</strong> class. Images will open normally into browser's tab. 
+                <a href="https://roman-flossler.github.io/StoryShowGallery/photos/Reykjadalur.jpg" class="nossg" target="_blank">Example</a>
             </p>    
 
             <p>Image linked with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user want to see it and clicks on it. 
@@ -308,7 +310,8 @@
                 <ol class="text">
                     <li><em>SSG.cfg.onGalleryStart</em> fires after creating a gallery </li>
                     <li><em>SSG.cfg.onImgChange</em> fires on every image change (even the first one)</li>
-                    <li><em>SSG.cfg.onSignpost</em> fires when a user reach the HTML signpost after photos or if he scrolls after the final menu</li>
+                    <li><em>SSG.cfg.onBeyondGallery</em> fires when a user gets beyond the gallery - usually on a signpost.
+                       If a page is longer than the gallery, a user can manually scroll beyond the gallery into a "void".</li>
                     <li><em>SSG.cfg.onGalleryExit</em> fires on the gallery exit</li>
                 </ol>
                 Example:
@@ -330,7 +333,9 @@ data.imgPath // whole path to current image
 data.imgName  // image name of current image (no extension)
 data.imageCaption // image caption for current image
 
-// if signpost is diplayed, data object is null
+// If a user is beyond the gallery data is just true or false. 
+// True if a HTML file (signpost) is displayed behind the gallery. 
+// Otherwise data is false.
 
             </code>
             <p> You can find complete example in the source code of this page (at the end). It writes a little statistic of the gallery usage into the JS console. </p>
@@ -451,25 +456,25 @@ data.imageCaption // image caption for current image
             <br>
             <p>
                 <a class="showgal"  
-                onclick="SSG.run({ fs:true, initImgID: 12 });"
+                onclick="SSG.run({ fs:true, initImgID: 13 });"
                 >            
                 <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                 <p></p>
-                <code>SSG.run({ initImgID: 12, fs:true })</code>
+                <code>SSG.run({ initImgID: 13, fs:true })</code>
                 <p>
-                The first photo will be the photo with ID 12, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
+                The first photo will be the photo with ID 13, even if it has gossg class. The initImgID parameter respects .ssg classes and shows only pictures from galleries related to initImgID picture.
                 Also the gallery theme is taken from css class of related gallery. The fs:true activates full screen mode.
             </p><br>
 
             <p>
                 <a class="showgal"  
-                onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 11 });"
+                onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 12 });"
                 >
                 <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                 </p>
-                <code>SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff' } ], imgsPos:'start', initImgID: 11 });</code>
+                <code>SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff' } ], imgsPos:'start', initImgID: 12 });</code>
                 <p>
-                The imgsPos parameter tells the gallery to put traelanipa.jpg before the gallery which contains image with ID 11.
+                The imgsPos parameter tells the gallery to put traelanipa.jpg before the gallery which contains image with ID 12.
             </p>
             <br>            
 
@@ -506,13 +511,13 @@ iceland = [];
 
                 <p>
                     <a class="showgal"  
-                    onclick="SSG.run({ imgs: iceland, cfg: { scrollDuration: 1333, theme:'black', watermarkText: '🌋 Iceland', fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html' }});"
+                    onclick="SSG.run({ imgs: iceland, fs:true, cfg: { scrollDuration: 1111, theme:'black', mobilePortraitFS:true, watermarkText: '🌋 Iceland', fileToLoad: null }});"
                     >            
                     <span>&#8984;</span> Run the gallery</a> by Javascript calling:
                     <p></p>
-                    <code>SSG.run( { imgs: iceland, cfg: { scrollDuration: 1333, watermarkText = '🌋 Iceland', theme:'black', fileToLoad = 'bloglinks.html' }} )</code>
+                    <code>SSG.run( { imgs: iceland, fs:true, cfg: { scrollDuration: 1111, theme:'black', mobilePortraitFS:true, watermarkText: '🌋 Iceland', fileToLoad: null }} )</code>
                     <p>
-                    The gallery with local settings. It has slower transition between photos, black color and different watermark and signpost.
+                    The gallery with local settings. It has slower scroll animation, black theme, portrait fullscreen, different watermark and no signpost.
                 </p><br>                
 
         
@@ -555,7 +560,7 @@ iceland = [];
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
                     </a>
 
-                    <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">Fork it on GitHub</a></span>
+                    <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">&nbsp;Fork it on GitHub&nbsp;</a></span>
 
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg" data-author="photo by Flor">
@@ -574,10 +579,10 @@ iceland = [];
                 </section>
                 <p id="scheme">
                     <span>Themes:</span>
-                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'dim' }})">Dim</a>
-                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'dark' }})">Dark</a>
-                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { theme: 'black' }})">Black</a>
-                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 4, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
+                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dim' }})">Dim</a>
+                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dark' }})">Dark</a>
+                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'black' }})">Black</a>
+                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
                 </p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -585,10 +590,10 @@ iceland = [];
                     Story Show Gallery also supports text hyper&shy;links. All four follow&shy;ing pict&shy;ures will appear in separate gallery (because of .ssg class):
                 </p>
                 <p class="ssg ssglight">
-                        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-eating-man.jpg'>	&#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
-                        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpg" target="_blank">Enlightment inside Bankang cave</a> <br>
-                        <a href='some-nice-image.jpg' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
-                        <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
+                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG'>&#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
+                    <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> <br>
+                    <a href='some-nice-image.JPEG' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
+                    <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
                 </p>
             </div>
 
@@ -596,7 +601,7 @@ iceland = [];
                 <li><a href="#">SSG features, sample gallery</a></li>
                 <li><a href="#license">License</a></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
-                <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">Complete configuration ⧉</a></li>
+                <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">⚙️Live SSG configuration ⧉</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
@@ -617,16 +622,22 @@ iceland = [];
     <a id="bulb" onclick="setColorMode()" title="light / dark mode" ></a>
 
 <div id="bigcode"> 
-<p>SSG configuration as it is at the begining of ssg.js file: <span onclick="jQuery('#bigcode').toggleClass('visible');" >×</span></p>
+<p>Global SSG configuration as it is at the begining of ssg.js file: <span onclick="jQuery('#bigcode').toggleClass('visible');" >×</span></p>
+
 <code>
+<em>Click on <u class="switchable" style="cursor: auto;">underlined</u> values to <u class="switchable" style="cursor: auto;text-decoration-style: wavy;">change</u> them. It will affect all galleries on this page.</em>
+
 <span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
 SSG.cfg.scrollDuration = <em>500;</em>
 
 <span>// Force SSG to always display in fullscreen - true/false</span>
-SSG.cfg.alwaysFullscreen = <em>false;</em>
+SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFullscreen',this)">false;</em>
 
 <span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
-SSG.cfg.neverFullscreen = <em>false;</em>
+SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFullscreen',this)">false;</em>
+
+<span>// When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.</span>
+SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false;</em>
 
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
 SSG.cfg.theme = <em>'dark'</em>
@@ -636,23 +647,23 @@ SSG.cfg.theme = <em>'dark'</em>
 SSG.cfg.fileToLoad = <em>null;</em>
 
 <span>// display social share icon and menu</span>
-SSG.cfg.socialShare = <em>true;</em>
+SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true;</em>
 
 <span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
 SSG.cfg.logIntoGA = <em>true;</em>
 
 <span>// Protect photos from being copied via right click menu - true/false</span>
-SSG.cfg.rightClickProtection = <em>true;</em>
+SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('rightClickProtection',this)">true;</em>
 
 <span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false</span>
-SSG.cfg.sideCaptionforSmallerLandscapeImg = <em>false;</em>  <span>// false means caption below</span>
+SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false;</em>  <span>// false means caption below</span>
 <span>// in other cases caption position depends on photo size vs. screen size.</span>
 
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
 SSG.cfg.scaleLock1 = <em>false;</em> 
 
 <span>// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...</span>
-SSG.cfg.showFirst3ImgsTogether = <em>true;</em>
+SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('showFirst3ImgsTogether',this)">true;</em>
 
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
 SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
@@ -678,13 +689,13 @@ SSG.cfg.copyButton  = <em>"⎘ Copy the link to clipboard";</em>
 SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
 
 <span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
-SSG.cfg.showLandscapeHint = <em>true;</em>
+SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true;</em>
 SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;😉&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
 SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires after creating a gallery</span>
 SSG.cfg.onImgChange = <em>null;</em> <span>// fires on every image change (even the first one)</span>
-SSG.cfg.onSignpost = <em>null;</em> <span>// fires when a user reach HTML signpost after photos or if he scrolls after the final menu</span>
+SSG.cfg.onBeyondGallery = <em>null;</em> <span>// fires when a user gets beyond the gallery - usually on a signpost</span>
 SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span>
 
 
@@ -824,7 +835,14 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             jQuery('.gallery img').on('load', function() {
                 imgCount++;
                 if (imgCount==7) initShow();
-            });            
+            });
+
+            function switchParam(param, elem) {                
+                SSG.cfg[param] = !SSG.cfg[param];
+                elem.textContent = SSG.cfg[param] + ';';
+                elem.style.textDecorationStyle = 'wavy';
+            }
+
     </script>
     
     <script src="src/ssg.js"></script>
@@ -836,18 +854,19 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;
-    var finished = false;
+    var status;
+    var signpostReached = false;
     console.log('A little statistics made via SSG events and a user functions:');
     SSG.cfg.onGalleryStart = function(data) {
         console.log('----------');
         console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );
     };
     SSG.cfg.onImgChange = function(data) { counter++; };
-    SSG.cfg.onSignpost = function() { finished = true; };
+    SSG.cfg.onBeyondGallery = function(data) { if(data) { signpostReached = true; status = 'on a signpost' } else { status = 'in a void' }  };    
     SSG.cfg.onGalleryExit = function(data) {
-        console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
+        console.log( counter + ' images' + ( signpostReached ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data.imgName ? 'with image: ' + data.imgName : status ) );
         counter = 0;
-        finished = false;
+        signpostReached = false;
     };
     </script>
 </body>

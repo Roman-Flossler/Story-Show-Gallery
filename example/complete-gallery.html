@@ -16,8 +16,7 @@
         body { background:#d7e8e9; display: flex; justify-content: center; flex-wrap: wrap; 
                overflow-x: hidden; text-align: center; }
         p, code { background: #c2dde0; font-family: sans-serif; line-height: 2em; padding: 1em; }
-        code { display: block; font-family: monospace; }
-        code a { cursor: pointer; }
+        code { display: block; font-family: monospace; cursor: pointer; }        
         .gallery { margin-top: 6em; width: 100%; max-width: 555px; }
         #textcol {  width: 100%; max-width: 600px; }
         h2 { margin: 1.3em 0 -0.4em 0; color: #ac0025; font-family: monospace; }
@@ -54,11 +53,11 @@
         <!-- Gallery 2 --------------------------------------------> 
         <h2>Gallery #2:</h2><br clear="all">
         <p class="ssg ssglight" >    
-            <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-eating-man.jpg'>
+            <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG'>
                 &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
-            <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpg" target="_blank">
+            <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">
                 Enlightment inside Bankang cave</a> <br>
-            <a href='some-nice-image.jpg' target="_blank">	&#128279; 
+            <a href='some-nice-image.JPEG' target="_blank">	&#128279; 
                 A broken link - You will notice it before site visitors do</a><br> 
             <a target="_blank" href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" class="nossg">
                 🚫 link with nossg class, image will open into new tab</a>
@@ -66,23 +65,19 @@
         
         <!-- SSG.run examples --------------------------------------------> 
         <h2>SSG.run method examples:</h2><br clear="all">
-        <code>
-            <a onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });"> » SSG.run( { imgs: iceland, fs:true, initImgID: 1 }); </a>
-            
-        </code><br>            
+        <code onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });">
+            <a> » SSG.run( { imgs: iceland, fs:true, initImgID: 1 }); </a>            
+        </code><br>
         
-        <code>            
-        <a class="showgal" onclick="SSG.run( { 
+        <code onclick="SSG.run( { 
             imgs: [ { href: 'https://www.faroeislands.io/photos/sorvagsvatn-lake.jpg', 
-                    alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 0 });">
-        » SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 0 });</a>
+                    alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 4 });">
         <!-- The initImgID parameter respects .ssg class and shows only pictures from the gallery related to initImgID picture  -->
+        <a>» SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 4 });</a>        
         </code><br>
                 
-        <code>
-            <a class="showgal"  
-            onclick="SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});"
-            >» SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
+        <code onclick="SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});">
+            <a>» SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
         </code>
 
         <h2>Outsider</h2><br clear="all">
@@ -107,18 +102,19 @@
 
         // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
         var counter = 0;
-        var finished = false;
+        var status;
+        var signpostReached = false;
         console.log('A little statistics made via SSG events and a user functions:');
         SSG.cfg.onGalleryStart = function(data) {
             console.log('----------');
             console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );
         };
         SSG.cfg.onImgChange = function(data) { counter++; };
-        SSG.cfg.onSignpost = function() { finished = true; };
+        SSG.cfg.onBeyondGallery = function(data) { if(data) { signpostReached = true; status = 'on a signpost' } else { status = 'in a void' }  };
         SSG.cfg.onGalleryExit = function(data) {
-            console.log( counter + ' images' + (finished ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data ? 'with image: ' + data.imgName : 'on signpost' ) );
+            console.log( counter + ' images' + ( signpostReached ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data.imgName ? 'with image: ' + data.imgName : status ) );
             counter = 0;
-            finished = false;
+            signpostReached = false;
         };
 
             // definition of Iceland image gallery - it is an array of objects
