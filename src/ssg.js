@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -257,7 +257,7 @@ SSG.setVariables = function () {
     // initial value for scroll event time stamp
     SSG.savedTimeStamp = 0;
 
-    // If a user used jump scroll. Due to showing the tip window on touchmove event
+    // If a user used jump scroll in Landscape mode. Due to showing the tip window on touchmove event
     SSG.wasJumpScrollUsed = false;
 
     // prevents to load a next image while animated jump scroll is performed
@@ -331,9 +331,11 @@ SSG.getHash = function ( justResult ) {
 
             // Only if justResult is false
             window.stop();
+            var fsClass = SSG.hasClass( allimgs[findex].classList, 'fs' );
             SSG.loadingStopped = true;
             SSG.run( {
-                fsa: SSG.hasClass( allimgs[findex].classList, 'fs' ) || SSG.isMobile || SSG.isTablet,
+                fsa: ( fsClass && !SSG.isMobile && !SSG.cfg.neverFullscreen ) ||  ( fsClass && SSG.isMobile && SSG.cfg.mobilePortraitFS ) || SSG.isTablet || SSG.cfg.alwaysFullscreen,
+                fs: fsClass && !SSG.cfg.neverFullscreen,  // just due to SSG.pageFS, it has to be true for right function of SSG.cfg.mobilePortraitFS
                 initImgID: findex
             } );
         }
@@ -357,13 +359,13 @@ SSG.FSmode = function ( event ) {
     var mobilePortraitFS = mobilePortrait && SSG.pageFS && SSG.cfgFused.mobilePortraitFS;
 
     // event.fs and event.fsa isn't a browser's object. MobileLandscape & tablets goes everytime in FS, it solves problems with mobile browsers
-    if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
-        SSG.openFullscreen();
-    } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
-        SSG.createGallery( SSG.initEvent );
-    } else if ( event && event.fsa ) {
+    if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
+    } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
+        SSG.openFullscreen();
+    } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
+        SSG.createGallery( SSG.initEvent );    
     } else if ( SSG.pageFS ) {
         SSG.openFullscreen();
     } else {
@@ -520,6 +522,13 @@ SSG.initGallery = function ( event ) {
             jQuery( document ).off( 'touchmove', badTouchMove );
         }
     } );
+
+    jQuery( document ).on( 'touchmove', function removeArrowDown() {
+        if ( !SSG.landscapeMode ) {
+            jQuery('.SSG_tipCall').addClass('hide');            
+            jQuery( document ).off( 'touchmove', removeArrowDown );
+        }
+    })
 };
 
 SSG.orientationChanged = function () {

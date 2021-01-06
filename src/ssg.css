@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -237,7 +237,7 @@
 }
 
 #SSG1 figure#f0 {
-    overflow: auto; /* bug fix */
+    overflow: hidden; /* bug fix */
 }
 
 #SSG1 figure .serror img {
@@ -764,9 +764,23 @@ button#copyLink::first-letter {
         text-shadow: 1px 1px 3px black;
     }
 
-   .SSG_tipCall,
-    #SSG_arrowdown {
-        display: none !important;
+    #SSG1 .SSG_tipCall {
+        display: block;
+        position: fixed ;
+        left: calc( 50vw - 16px );
+        top: auto;
+        bottom: 1vh;
+        height: 32px;
+        width: 32px;
+        background-color: rgb(22, 22, 22);
+        border-radius: 50%;
+        z-index: 6;
+        opacity: 0.8;
+        animation-name: arrow-trans-down;
+    }
+
+    #SSG1 .SSG_tipCall.hide {
+        display: none;
     }
 
     html.ssg-active body {
@@ -936,7 +950,7 @@ button#copyLink::first-letter {
     }
 
     #SSG1 .notitle .SSG_imgWrap img {
-        max-width: calc(96vw - 16px);
+        max-width: calc(98vw - 16px);
     }
 
     #SSG1 #f0.notitle:not(.SSG_uwide) .SSG_imgWrap img {
