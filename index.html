@@ -133,18 +133,17 @@
             <h3>Brand building and social sharing</h3>
             <!-- _____________________________________ -->
             <p>SSG can display your logo or some text (emoji) over images. You can configure it in the SSG settings.
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/watermark.jpg" alt="photo watermark" class="limg darken boost"></p><p>
-
-                Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/watermark.jpg" alt="photo watermark" class="limg darken boost">
+            </p>
+            <p>Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
                 <a onclick="SSG.run({initImgID:12,  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
-                alt="social share icon" class="limg darken imglink"></p><p>
-                </a>
-                
+                alt="social share icon" class="limg darken imglink">
+                </a>                
             </p>
                 
-                <p>You can <strong>deep link into the gallery</strong> to show a
+            <p>You can <strong>deep link into the gallery</strong> to show a
                     <a href='https://www.faroeislands.io/#klaksvik' target="_blank">part&shy;icular pict&shy;ure</a>. Just use image name in the hashtag:
                     <a id="deepurl" href='https://www.faroeislands.io/#klaksvik' target="_blank">
                         <span >&nbsp;<em class="sheep">🐑</em> https://FaroeIslands.io<i>#klaksvik</i></span>
@@ -616,9 +615,13 @@ SSG.cfg.logIntoGA = <em>true;</em>
 <span>// Protect photos from being copied via right click menu - true/false</span>
 SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('rightClickProtection',this)">true;</em>
 
-<span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false</span>
-SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false;</em>  <span>// false means caption below</span>
-<span>// in other cases caption position depends on photo size vs. screen size.</span>
+<span>// Caption location depends on a photo size vs. screen size and SSG.cfg.preferedCaptionLocation.</span>
+<span>// Negative number => more likely side caption. Positive number => more likely caption below the photo.</span>
+<span>// If the number will be too large (eg: 300 or -300 ) a caption will be only in one location.</span>
+SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('preferedCaptionLocation',this)" > 0 </em>;
+
+<span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.</span>
+SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false;</em>  <span>// false means caption below, true side caption</span>
 
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
 SSG.cfg.scaleLock1 = <em>false;</em> 
@@ -798,7 +801,13 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 if (imgCount==7) initShow();
             });
 
-            function switchParam(param, elem) {                
+            function switchParam(param, elem) {
+                if (param == 'preferedCaptionLocation') {
+                    SSG.cfg.preferedCaptionLocation = SSG.cfg.preferedCaptionLocation == 0 ? 16 : 0;
+                    elem.textContent = ' ' + SSG.cfg.preferedCaptionLocation + ' ';
+                    elem.style.textDecorationStyle = 'wavy';
+                    return;
+                }
                 SSG.cfg[param] = !SSG.cfg[param];
                 elem.textContent = SSG.cfg[param] + ';';
                 elem.style.textDecorationStyle = 'wavy';

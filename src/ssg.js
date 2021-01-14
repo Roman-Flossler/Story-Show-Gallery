@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.4 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.5 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -45,9 +45,13 @@ SSG.cfg.logIntoGA = true;
 // Protect photos from being copied via right click menu - true/false
 SSG.cfg.rightClickProtection = true;
 
-// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side. true/false
-SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
-// in other cases caption position depends on photo size vs. screen size.
+// Caption location depends on a photo size vs. screen size and SSG.cfg.preferedCaptionLocation.
+// Negative number => more likely side caption. Positive number => more likely caption below the photo.
+// If the number will be too large (eg: 300 or -300 ) a caption will be only in one location.
+SSG.cfg.preferedCaptionLocation = 0;
+
+// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.
+SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below, true side caption
 
 // Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
 SSG.cfg.scaleLock1 = false; 
@@ -330,9 +334,11 @@ SSG.getHash = function ( justResult ) {
             }
 
             // Only if justResult is false
-            window.stop();
-            var fsClass = SSG.hasClass( allimgs[findex].classList, 'fs' );
-            SSG.loadingStopped = true;
+            if (window.stop) {
+                window.stop();
+                SSG.loadingStopped = true;
+            }
+            var fsClass = SSG.hasClass( allimgs[findex].classList, 'fs' );            
             SSG.run( {
                 fsa: ( fsClass && !SSG.isMobile && !SSG.cfg.neverFullscreen ) ||  ( fsClass && SSG.isMobile && SSG.cfg.mobilePortraitFS ) || SSG.isTablet || SSG.cfg.alwaysFullscreen,
                 fs: fsClass && !SSG.cfg.neverFullscreen,  // just due to SSG.pageFS, it has to be true for right function of SSG.cfg.mobilePortraitFS
@@ -802,15 +808,13 @@ SSG.displayFormat = function ( e ) {
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = jQuery( window ).height();
-    var photoFrameWidth = 0.8;
+    var photoFrameWidth = 0.77;
     if ( vwidth > 1333 ) {
-        photoFrameWidth = 0.85;
+        photoFrameWidth = 0.82;
     }
-    var titleSideRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97);
+    var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
-    var balanceShift = SSG.smallScreen ? -7 : 4;
-
     
     // if caption frame is smaller than screen Height, overflow is set to visible due to social sharing menu.
     window.setTimeout( function() {
@@ -820,10 +824,8 @@ SSG.displayFormat = function ( e ) {
             jQuery('#SSG1 #uwp'+ index).removeClass('share-overflow');
         }
     }, 666);
-    
-//    console.log(SSG.getName(SSG.imgs[index].href) + '  ' +  ((imgRatio - titleSideRatio) * 100));
 
-    if ( ((imgRatio - titleSideRatio) * 100 ) + balanceShift < 0 || preferSideCaption ) {
+    if ( ((imgRatio - imageBoxRatio) * 100 ) + SSG.cfgFused.preferedCaptionLocation < 0 || preferSideCaption ) {
         jQuery( '#SSG1 #f' + index ).addClass( 'SSG_uwide' );
     } else {
         jQuery( '#SSG1 #f' + index ).removeClass( 'SSG_uwide' );
@@ -1308,12 +1310,14 @@ SSG.closeFullscreen = function () {
 SSG.createDataObject = function (imgIndex) {
     var data = {};
     data.imgCount = SSG.imgs.length;
-    data.GalleryId = SSG.clickedGalleryID;
-    data.imgGalleryId = imgIndex;
-    data.imgPageId = SSG.imgs[imgIndex].id ? SSG.imgs[imgIndex].id : -1;
-    data.imgPath = SSG.imgs[imgIndex].href;
-    data.imgName =  SSG.getName(data.imgPath);
-    data.imageCaption = SSG.imgs[imgIndex].alt;
+    data.GalleryId = SSG.clickedGalleryID;    
+    if (imgIndex >= 0) {
+        data.imgGalleryId = imgIndex;
+        data.imgPageId = SSG.imgs[imgIndex].id ? SSG.imgs[imgIndex].id : -1;
+        data.imgPath = SSG.imgs[imgIndex].href;
+        data.imgName =  SSG.getName(data.imgPath);
+        data.imageCaption = SSG.imgs[imgIndex].alt;
+    }
     return data;
 }
 
