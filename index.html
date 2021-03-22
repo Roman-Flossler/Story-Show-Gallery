@@ -106,7 +106,7 @@
            
             <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
                 vertical slider and cur­sor are subtle. 
-                <a href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
+                <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
             <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
             <p>The gallery doesn't have an icon for full screen mode. I did a little research and users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
 
@@ -140,7 +140,7 @@
                 <a onclick="SSG.run({initImgID:12,  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
                 alt="social share icon" class="limg darken imglink">
-                </a>                
+                </a>
             </p>
                 
             <p>You can <strong>deep link into the gallery</strong> to show a
@@ -163,9 +163,10 @@
                     alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
 
             <h3>Easy implementation</h3>
-            <p>
-                SSG has very easy setup, it binds onto image hyper&shy;links on the page auto&shy;mati&shy;cally. You can control this proccess by <strong>CSS classes</strong>. 
-                    Define sepa&shy;rate galleries, activate full screen mode, selectively deactivate SSG, etc.
+            <p>                
+                SSG has very easy setup, it binds onto image hyper&shy;links on the page auto&shy;mati&shy;cally and runs the gallery. 
+                You can control this proccess by <strong>CSS classes</strong>.
+                Define sepa&shy;rate galleries, activate full screen mode, selectively deactivate SSG, etc.
             </p>
             <p>
                 There are <strong>3 ways</strong> how a photo gallery can be created. Auto&shy;matically from images on the page, 
@@ -196,7 +197,7 @@
             <!-- _____________________________________ -->
 
             <p>All you need to do, is add <strong>ssg.min.css</strong> and jQuery in 
-                the &lt;head&gt; of the document and <strong>ssg.min.js</strong> before &lt;/body&gt;.
+                the &lt;head&gt; of the HTML page and <strong>ssg.min.js</strong> before &lt;/body&gt;.                
             </p>
 
 
@@ -205,9 +206,11 @@
             </p>
             
             <code>
+                    // -- inside &lt;head&gt;<br>
                     &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.css</span>"&gt;<br><br>
                     // SSG requires jQuery library at least in version 1.5<br>
                     &lt;script src="<span>https://code.jquery.com/jquery-3.5.1.min.js</span>"&gt; &lt;/script&gt;<br><br>
+                    // -- before &lt;/body&gt;<br>
                     &lt;script src="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js</span>"&gt; &lt;/script&gt;
             </code>            
 
@@ -215,14 +218,16 @@
                 (extensions: jpg, jpeg, JPG, JPEG, png, PNG, gif, GIF, webp). And adds to all these hyper&shy;links an <strong>onclick function</strong> 
                 which runs the gallery. Unless nossg class is used. </p>   
  
-             <p>A <strong>photo caption</strong> a is taken from a thumbnail's <em>alt</em> att&shy;ribute or a link text. 
-                You can also add author's name - enter it into <em>data-author</em> attribute of hyperlink.
-                 SSG will create a gallery from all these three images (BigImage1~3):</p>
+             <p>A <strong>photo caption</strong> is taken from a thumbnail's <em>alt</em> att&shy;ribute, link text or <em>data-caption</em> attribute. 
+             The <strong>data-caption</strong> has top priority, if it is empty then no caption will appear.</p>
+             <p>You can also add author's name - enter it into <em>data-author</em> attribute of hyperlink.
+                 SSG will create a gallery from all these four images (BigImage1~4):</p>
              
-             <code>
-                 &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>text caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
+             <code style="line-height: 3.3em;">
+                 &lt;a href='<span>BigImage1.jpg</span>'&gt; &lt;img alt='<span>img caption</span>' src='<span>thumb.jpg</span>'&gt; &lt;/a&gt;<br>
                  &lt;a href='<span>BigImage2.jpg</span> data-author='<span>photo by…</span>''&gt; <b>Another caption</b> &lt;/a&gt;<br>
                  &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i><br>
+                 &lt;a href='<span>BigImage4.jpg</span> data-caption='<span>img caption</span>'&gt; text &lt;/a&gt;<br>
                  // Hyperlinks with &lt;Picture&gt; tag inside are also supported.
              </code>
 
@@ -234,13 +239,13 @@
                 Complete example of SSG implementation and configuration:
             </p>            
 
-            <a href="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" data-author="by Flor" >
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example of SSG implementation"></a>
+            <a href="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" data-author="by Flor" data-caption="HTML5 example of SSG implementation" >
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example - this alt won't be a caption, it is for seo"></a>
 
 
             <a name='minify'></a>
             <h2>SSG files and minifying</h2>
-            <!-- _____________________________________ -->            
+            <!-- _____________________________________ -->
 
             <p>Story Show Gallery consists of three files placed in the <strong>src</strong> directory:</p>
                 <ul>
@@ -319,7 +324,7 @@
 
             </p>
             <code style="white-space: pre;">
-SSG.cfg.onGalleryStart = function(data) {                  
+SSG.cfg.onGalleryStart = function(data) {
     console.log( data.imgCount + ' images in the gallery. 
                  Starting with image: ' + data.imgName);
 };
@@ -415,7 +420,7 @@ data.imageCaption // image caption for current image
             </p>
             <code style="margin-bottom: 5.5em;">
                 &lt;body onload='<span>SSG.run( { noExit:true, fsa:true  } )</span>'&gt; 
-            </code>            
+            </code>
 
             <p>Use <strong>initImgId</strong> parameter to set the initial image and so the gallery. 
                 SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first photo has ID 0.
@@ -490,9 +495,6 @@ iceland = [];
         <p>Story Show Gallery can also work as a Javascript module. Just add into ssg.js file this line to export SSG object: 
         </p>
         <code> export default SSG; </code>
-                        
-
-
 
             <br style="clear: both" />
         </article>
@@ -500,7 +502,7 @@ iceland = [];
         <!-- _____________________________________ column-article division _____________________________________ -->
 
 
-        <article class="column secol">        
+        <article class="column secol">
     
             
             <div id="before-menu">
@@ -552,7 +554,7 @@ iceland = [];
                 </p>
                 <p class="ssg ssglight">
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG'>&#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
-                    <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> <br>
+                    <a data-caption="" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> - with empty data-caption<br>
                     <a href='some-nice-image.JPEG' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
                     <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
                 </p>
@@ -588,16 +590,16 @@ iceland = [];
 <em>Click on <u class="switchable" style="cursor: auto;">underlined</u> values to <u class="switchable" style="cursor: auto;text-decoration-style: wavy;">change</u> them. It will affect all galleries on this page.</em>
 
 <span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
-SSG.cfg.scrollDuration = <em>500;</em>
+SSG.cfg.scrollDuration = <em class="switchable" onclick="switchParam('scrollDuration',this, [500, 800])"> 500 </em><em>;</em>
 
 <span>// Force SSG to always display in fullscreen - true/false</span>
-SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFullscreen',this)">false;</em>
+SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFullscreen',this)">false</em><em>;</em>
 
 <span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
-SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFullscreen',this)">false;</em>
+SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFullscreen',this)">false</em><em>;</em>
 
 <span>// When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.</span>
-SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false;</em>
+SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false</em><em>;</em>
 
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
 SSG.cfg.theme = <em>'dark'</em>
@@ -607,27 +609,30 @@ SSG.cfg.theme = <em>'dark'</em>
 SSG.cfg.fileToLoad = <em>null;</em>
 
 <span>// display social share icon and menu</span>
-SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true;</em>
+SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true</em><em>;</em>
 
 <span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
 SSG.cfg.logIntoGA = <em>true;</em>
 
 <span>// Protect photos from being copied via right click menu - true/false</span>
-SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('rightClickProtection',this)">true;</em>
+SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('rightClickProtection',this)">true</em><em>;</em>
 
 <span>// Caption location depends on a photo size vs. screen size and SSG.cfg.preferedCaptionLocation.</span>
 <span>// Negative number => more likely side caption. Positive number => more likely caption below the photo.</span>
 <span>// If the number will be too large (eg: 300 or -300 ) a caption will be only in one location.</span>
-SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('preferedCaptionLocation',this)" > 0 </em>;
+SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('preferedCaptionLocation',this, [3,8])" > 3 </em><em>;</em>
 
 <span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.</span>
-SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false;</em>  <span>// false means caption below, true side caption</span>
+SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false</em><em>;</em>  <span>// false means caption below, true side caption</span>
 
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
-SSG.cfg.scaleLock1 = <em>false;</em> 
+SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',this)">false</em><em>;</em>
+
+<span>// an author signature (or some text), which will appear in every caption. The data-author attribute overrides it.</span>
+SSG.cfg.globalAuthorCaption = <em class="switchable" onclick="switchParam('globalAuthorCaption',this, ['','author: RF'])" > "" </em><em>;</em>
 
 <span>// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...</span>
-SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('showFirst3ImgsTogether',this)">true;</em>
+SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('showFirst3ImgsTogether',this)">true</em><em>;</em>
 
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
 SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
@@ -653,7 +658,7 @@ SSG.cfg.copyButton  = <em>"⎘ Copy the link to clipboard";</em>
 SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
 
 <span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
-SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true;</em>
+SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true</em><em>;</em>
 SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;😉&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
@@ -708,7 +713,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             demo[ 3 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg',
                 alt: 'Captions can be below the image or next to the image according to space on display.'
-            };                                    
+            };
 
 
             jQuery(window).on('load', function() {
@@ -721,7 +726,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     jQuery('#bigcode').toggleClass('visible');
                 }
                 if (location.hash == '#play') {
-                    window.stop();                    
+                    window.stop();
                     SSG.run( { imgs: demo, fsa:true, cfg: {  fileToLoad: 'https://roman-flossler.github.io/StoryShowGallery/play.html' }  });
                     SSG.loadingStopped = true;
                 }
@@ -747,7 +752,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
 
             var actimg = 1;
             var actimgInv = 7
-            var afterFirstRun = false;            
+            var afterFirstRun = false;
 
             function lightning() {
                 if ( SSG.running ) {
@@ -778,7 +783,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             }
             var countShow = 0;
             var imgCount = 0;
-            function showHover() {                
+            function showHover() {
                 countShow = (countShow + 1) % 10;
                 jQuery('.gallery > a:nth-child(' +  countShow  + ')').toggleClass('show');
                 jQuery('.gallery > a:nth-child(' +  (countShow - 1)  + ')').toggleClass('show');   
@@ -791,9 +796,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 jQuery('.gallery a:nth-child(' +  (countShow)  + ')').removeClass('show');
             }
 
-            function initShow() {                
+            function initShow() {
                 show = setInterval( showHover, 444);
-                jQuery('.gallery > a').on('mouseover', stopShow );                
+                jQuery('.gallery > a').on('mouseover', stopShow );
             }
 
             jQuery('.gallery img').on('load', function() {
@@ -801,15 +806,15 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 if (imgCount==7) initShow();
             });
 
-            function switchParam(param, elem) {
-                if (param == 'preferedCaptionLocation') {
-                    SSG.cfg.preferedCaptionLocation = SSG.cfg.preferedCaptionLocation == 0 ? 16 : 0;
-                    elem.textContent = ' ' + SSG.cfg.preferedCaptionLocation + ' ';
-                    elem.style.textDecorationStyle = 'wavy';
-                    return;
+            function switchParam(param, elem, values) {
+                if (values) {
+                    SSG.cfg[param] = SSG.cfg[param] == values[0] ? values[1] : values[0];
+                } else {
+                    SSG.cfg[param] = !SSG.cfg[param];
                 }
-                SSG.cfg[param] = !SSG.cfg[param];
-                elem.textContent = SSG.cfg[param] + ';';
+                var space = values ? ' ' : '';
+                var quotes = param == "globalAuthorCaption" ? '"' : '';
+                elem.textContent = space + quotes + SSG.cfg[param] + quotes + space;
                 elem.style.textDecorationStyle = 'wavy';
             }
 
@@ -820,9 +825,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';    
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
-    SSG.cfg.theme = 'dim';    
+    SSG.cfg.theme = 'dim';
     
-    // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
+    // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
     var counter = 0;
     var status;
     var signpostReached = false;

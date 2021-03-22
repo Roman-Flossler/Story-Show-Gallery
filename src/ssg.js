@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.5 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.6 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -48,10 +48,13 @@ SSG.cfg.rightClickProtection = true;
 // Caption location depends on a photo size vs. screen size and SSG.cfg.preferedCaptionLocation.
 // Negative number => more likely side caption. Positive number => more likely caption below the photo.
 // If the number will be too large (eg: 300 or -300 ) a caption will be only in one location.
-SSG.cfg.preferedCaptionLocation = 0;
+SSG.cfg.preferedCaptionLocation = 3;
 
 // Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.
 SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below, true side caption
+
+// an author signature (or some text), which will appear in every caption. The data-author attribute overrides it.
+SSG.cfg.globalAuthorCaption = "";
 
 // Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
 SSG.cfg.scaleLock1 = false; 
@@ -110,6 +113,10 @@ SSG.beforeRun = function () {
     // all hyperlinks from the page, which links to an image file
     SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.JPEG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
 
+    // two lines below are for use SSG with Wordpress. Outside of Wordpress are both lines inactiv.
+    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
+    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );     
+
     // adding of control classes to hyperlinks which match jQueryImgSelector
     jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
     jQuery( '.fs a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
@@ -118,10 +125,6 @@ SSG.beforeRun = function () {
     jQuery( '.ssgdim a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdim' );
     jQuery( '.ssgdark a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgdark' );
     jQuery( '.ssgblack a').filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'ssgblack' );
-
-    // two lines below are for use SSG with Wordpress. Outside of Wordpress leave both lines inactiv. Condition booleans aren't defined, they are false 
-    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
-    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );     
     
     SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;    
     var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase());
@@ -340,7 +343,9 @@ SSG.getHash = function ( justResult ) {
             }
             var fsClass = SSG.hasClass( allimgs[findex].classList, 'fs' );            
             SSG.run( {
-                fsa: ( fsClass && !SSG.isMobile && !SSG.cfg.neverFullscreen ) ||  ( fsClass && SSG.isMobile && SSG.cfg.mobilePortraitFS ) || SSG.isTablet || SSG.cfg.alwaysFullscreen,
+                fsa: ( fsClass && !SSG.isMobile && !SSG.cfg.neverFullscreen ) 
+                    ||  ( fsClass && SSG.isMobile && SSG.cfg.mobilePortraitFS && !SSG.cfg.showLandscapeHint ) 
+                    || SSG.isTablet || SSG.cfg.alwaysFullscreen || window.screen.width > window.screen.height,
                 fs: fsClass && !SSG.cfg.neverFullscreen,  // just due to SSG.pageFS, it has to be true for right function of SSG.cfg.mobilePortraitFS
                 initImgID: findex
             } );
@@ -354,9 +359,6 @@ SSG.FSmode = function ( event ) {
     jQuery( document ).on( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
     jQuery( document ).on( 'fullscreenerror', function () {
         SSG.createGallery( SSG.initEvent );
-        window.setTimeout( function () {
-            SSG.showFsTip( 'fsOffer' );
-        }, 600 );
     } );
 
     var mobileLandscape = SSG.isMobile &&  SSG.landscapeMode;
@@ -430,6 +432,12 @@ SSG.createGallery = function ( event ) {
 
         // SSG.imgs = event.imgs would create just reference to source array (and use it for storing pos), deep copy is needed:
         var deepCopy = JSON.parse( JSON.stringify( event.imgs ) );
+        
+        for(i=0; i<deepCopy.length; i++) {            
+            if ( typeof deepCopy[i].author == 'undefined') {                
+                deepCopy[i].author = SSG.cfgFused.globalAuthorCaption;
+            }
+        }
 
         // use just event.imgs 
         if ( event.imgsPos == 'whole' || !event.imgsPos ) {
@@ -606,7 +614,9 @@ SSG.touchScroll = function ( event ) {
 SSG.getAlt = function ( el ) {
 
     // If A tag has a children (img tag) with an alt atribute.
-    if ( el.children[ 0 ] && el.children[ 0 ].alt )
+    if ( el.attributes['data-caption'] ) {
+        return el.attributes['data-caption'].nodeValue;
+    } else if ( el.children[ 0 ] && el.children[ 0 ].alt )
         return el.children[ 0 ].alt;
     // if A tag has Picture tag as a children        
     else if ( el.children[ 0 ] && el.children[ 0 ].tagName == 'PICTURE') {
@@ -655,6 +665,8 @@ SSG.getImgList = function ( event ) {
             obj.id = el.attributes.ssgid.nodeValue;
             if (el.attributes['data-author']) {
                 obj.author = el.attributes['data-author'].nodeValue;
+            } else if( jQuery.trim(SSG.cfgFused.globalAuthorCaption).length !== 0 ) {
+                obj.author = SSG.cfgFused.globalAuthorCaption;
             } else {
                 obj.author = '';
             }
@@ -808,10 +820,7 @@ SSG.displayFormat = function ( e ) {
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = jQuery( window ).height();
-    var photoFrameWidth = 0.77;
-    if ( vwidth > 1333 ) {
-        photoFrameWidth = 0.82;
-    }
+    var photoFrameWidth =  vwidth > 1333 ? 0.82 : 0.77;
     var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
