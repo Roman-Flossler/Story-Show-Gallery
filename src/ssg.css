@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -82,7 +82,7 @@
     width: 100%;
     font-size: 33px;
     text-align: center;
-    padding-top: 75vh;
+    padding-top: 111vh;
     position: fixed;
     height: 111%;
     z-index: 9999990;
@@ -268,6 +268,23 @@
     85% { filter: brightness(1.3) contrast(1.2) hue-rotate(0deg) invert(0); }    
     100% { filter:brightness(1.3) contrast(1.2) hue-rotate(0deg) invert(0); }
   }
+
+  #SSG_bg {
+      animation: fadein;
+      animation-duration: 0.3s;
+      animation-timing-function: ease-in;
+      animation-iteration-count: 1;      
+  }
+
+  @keyframes fadein {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+  #SSG1 {
+    opacity: 0;
+  }
+
 
 /****************************************************************
  * 1.5. Social share menu
@@ -1510,7 +1527,7 @@ html.ssg-active .wait {
     }
 
     /* loading icon for touch devices */
-    html.ssg-active .wait #SSG1::after {
+    html.ssg-active body.wait::after {
         content: "";
         background-image: url("data:image/gif;base64,R0lGODlhGADQALMPAKOjo3Nzc0dHR42Nja2trcTExBISEjY2Nra2tmZmZpmZmSUlJYCAgFZWVszMzAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFDQAPACwAAAAAGADQAAAEUvDJSau9OOvNu/9gKI5kaZ5oqq5s675wLM90bd94ru987//AoHBILBqPyKRyyWw6n9CodEqtWq/YrHbL7Xq/4LB4TC6bz+i0es1uu9/wuHyuiwAAIfkEBQ0ADwAsAQADABcALgAABPrwydkYIBirsKaXBlM4ZGk6xPE9B3K+ZuIZI2w7sqS8AOMzilqpYHgsTojOx7AzBR4BE6K4kgBMhMe1lKsaTw+Ciep9CB1hU3kiLqXd6zdJ7hDE2/Mm6bnGo6NDd2pHJgp9ag96JIZxM2cOjI0SAi+RkgmVkhOYJ5aNnFJkny9Tmg8Cj6WaB6micaxIrmuwoaa0QyqrrbaPAKYsjw0PAxlZZbcOBXRxDScHfo1+AdBxgCTEiGuUJRjZZdsk3XDaWH52a80lAIqeK34MoCRdKwPOZicEDWQGCX7JEvFuvDiXSCCMeQ8SPLJRQNgKfv6GAEDoZYGAixeVrIgAACH5BAUNAA8ALAoAMAAFACEAAAQN0MlJq7046827/2DIRQAh+QQFDQAPACwBAFAAFwAuAAAE9PDJ2RhwGKuwppcGU2QkSRzfcyBlSyaeMbq0A0tKCzA8o8yZguGxKCE6H0OOFHgESIhhSnLJEB5VzG1KLD0IJCn3AXR8SeMJOHNmp9sYuEPwXseXmGbabn4G62hFJAp7aA94Gm9JZQ6EihMCLY6PDwmSlBKWJZOPmlBiip4ZUZgCjKSUB6egb6pGrGmun5iyQSipq7SMAJgqjA0PAwTDV2O1DgVybw0lB3yKfAHPb34YwoZpkVbT2SbcY9oYwyR0acwZAIicU3wMojZjA81kJQQNYgYJfMiZNf7lh/y52JKJEY0CwFLk2xcEAMExCwRIlIgkRQQAIfkEBQ0ADwAsCgB9AAUAIQAABA3QyUmrvTjrzbv/YMhFACH5BAUoAA8ALAEAnQAXADAAAATC8Mn5lqBPGMzXKE4oikiwccyoqkWDKWs8MlMq3467rESyTIsEaFQwBFQBzgQ2ShBGACXlKQKoXFJJYoRQnbICXHZiEI8l5nN6vD5PVG4OPE6Z09Gj+zuvf9jvf3SBcYM4MXKGhYl8dYsiiI4OhDeTMpWHbm1SmkqckJhqlGc7omMNnhRMMgemK0MhCVkHr1VEUg20IltQP0CqDrQPuQ4IBARdKgKqGZGxYSFaiQWxEkMTB1YyBL1axhhBDMYECgHcHBEAOw==");
         position: fixed;
@@ -1521,7 +1538,7 @@ html.ssg-active .wait {
         right: 13px;
         width: 22px;
         height: 88px;
-		z-index: 6;
+		z-index: 9999998;
         filter: opacity(0.81);
         background-repeat: no-repeat;
         background-size: 8px;
@@ -1542,7 +1559,7 @@ html.ssg-active .wait {
 
 	@media (max-width: 933px) and (orientation: landscape),
             (max-width: 550px) and (orientation: portrait) {
-	    html.ssg-active .wait #SSG1::after {
+	    html.ssg-active body.wait::after {
 			width: 14px;
 	        height: 80px;
 	        filter: opacity(0.66);
@@ -1563,10 +1580,10 @@ html.ssg-active .wait {
             padding: 2em 1em;
         }
 
-        html.ssg-active .wait #SSG1::after {
+        html.ssg-active body.wait::after {
             position: fixed;
             right: 13px;
-            top: 48vh;
+            top: 22vh;
         }
     }
 

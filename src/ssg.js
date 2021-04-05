@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -114,8 +114,8 @@ SSG.beforeRun = function () {
     SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.JPEG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
 
     // two lines below are for use SSG with Wordpress. Outside of Wordpress are both lines inactiv.
-    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon ")).addClass('nossg');
-    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );     
+    SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon, .gallery-caption ")).addClass('nossg');
+    SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
 
     // adding of control classes to hyperlinks which match jQueryImgSelector
     jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
@@ -463,7 +463,7 @@ SSG.createGallery = function ( event ) {
     }
     SSG.cfgFused.onGalleryStart && SSG.cfgFused.onGalleryStart( SSG.createDataObject(0) );
 
-    SSG.addImage();
+    window.setTimeout(SSG.addImage, 200);
 
     // Every 333 ms check if more images should be loaded and logged into Analytics. Jump-scrolling
     SSG.metronomInterval = setInterval( SSG.metronome, 333 );
@@ -474,7 +474,9 @@ SSG.initGallery = function ( event ) {
     if ( event && event.noExit ) {
         SSG.inExitMode = false;
     }
-    window.scrollTo( 0, 0 );
+    window.setTimeout( function()  { window.scrollTo( 0, 0 ); }, 388);
+    window.setTimeout( function()  { jQuery('#SSG_bg').css('padding-top','75vh')}, 888);
+
 
     // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
     if (!SSG.cfgFused.scaleLock1) {
@@ -613,9 +615,10 @@ SSG.touchScroll = function ( event ) {
 
 SSG.getAlt = function ( el ) {
 
-    // If A tag has a children (img tag) with an alt atribute.
+    // if data-caption exists it has top priority
     if ( el.attributes['data-caption'] ) {
         return el.attributes['data-caption'].nodeValue;
+    // If A tag has a children (img tag) with an alt atribute.
     } else if ( el.children[ 0 ] && el.children[ 0 ].alt )
         return el.children[ 0 ].alt;
     // if A tag has Picture tag as a children        
@@ -1214,8 +1217,9 @@ SSG.jumpScroll = function () {
     else if ( SSG.imgs[ 0 ].pos && !SSG.isFirstImageCentered ) {
         window.setTimeout( function () {
             SSG.ScrollTo( SSG.imgs[ 0 ].pos - SSG.countImageIndent( 0 ), 0 );
+            jQuery('#SSG1').animate({opacity:1}, 500);
             SSG.isFirstImageCentered = true;
-        }, 100 );
+        }, 55 );
     }
 
     // If the lastone is true, i am out of the index, so scroll on the last image in index.

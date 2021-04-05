@@ -49,14 +49,16 @@ Add ssg.min.css and jQuery in the &lt;head&gt; of the document. Add ssg.min.js b
 ```
 
 
-SSG binds onto image hyper­links on the page auto­mati­cally, BigImage1-3 will be in the gallery. You can control this proccess by CSS classes. 
+SSG binds onto image hyper­links on the page auto­mati­cally, BigImage1-4 will be in the gallery. You can control this proccess by CSS classes. 
 ``` html
 <div class='ssg fs'>
     <a href='BigImage1.jpg'> <img alt='This text will appear under picture as a caption' src='thumbnail.jpg'> </a>
     <a href='BigImage2.jpg' data-author='photo by Misty'> Also image caption </a>
-    <a href='BigImage3.jpg'></a> <!-- an empty link, no caption -->
+    <a href='BigImage3.jpg data-caption='this caption has priority over link text or alt'> some text </a>
+    <a href='BigImage4.jpg'></a> <!-- an empty link, no caption -->
+    
 
-    <a href='BigImage4.jpg' class='nossg'> don't include me into SSG </a>
+    <a href='BigImage5.jpg' class='nossg'> don't include me into SSG </a>
 </div>
 ```
 The **ssg class** creates a separate gallery, the **fs class** will activate full screen mode. 
