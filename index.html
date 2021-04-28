@@ -311,13 +311,15 @@
             <h2>Gallery events</h2>
                 <!-- _____________________________________ -->      
             <p>
-                SSG offers four <strong>gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
+                SSG offers <strong>six gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
                 <ol class="text">
-                    <li><em>SSG.cfg.onGalleryStart</em> fires after creating a gallery </li>
-                    <li><em>SSG.cfg.onImgChange</em> fires on every image change (even the first one)</li>
+                    <li><em>SSG.cfg.onGalleryStart</em> fires before loading and displaying of the first image.</li>
+                    <li><em>SSG.cfg.onImgScrollsIn</em> fires when the next/previous/first image starts scrolling in to display (doesn't apply on manual scrolling).</li>
+                    <li><em>SSG.cfg.onImgView</em> fires when an image is viewed.</li>
+                    <li><em>SSG.cfg.onOrientationChange</em> fires when a device orientation changes.</li>                    
                     <li><em>SSG.cfg.onBeyondGallery</em> fires when a user gets beyond the gallery - usually on a signpost.
                        If a page is longer than the gallery, a user can manually scroll beyond the gallery into a "void".</li>
-                    <li><em>SSG.cfg.onGalleryExit</em> fires on the gallery exit</li>
+                    <li><em>SSG.cfg.onGalleryExit</em> fires on the gallery exit.</li>
                 </ol>
                 Example:
                 
@@ -662,8 +664,10 @@ SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLan
 SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;😉&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
-SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires after creating a gallery</span>
-SSG.cfg.onImgChange = <em>null;</em> <span>// fires on every image change (even the first one)</span>
+SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires on the gallery start before loading and displaying of the first image.</span>
+SSG.cfg.onImgScrollsIn = <em>null;</em> <span>// fires when the next/previous/first image starts scrolling in to display (doesn't apply on manual scrolling)</span>
+SSG.cfg.onImgView = <em>null;</em> <span>// fires when an image is viewed</span>
+SSG.cfg.onOrientationChange = <em>null;</em> <span>// fires when a device orientation changes</span>
 SSG.cfg.onBeyondGallery = <em>null;</em> <span>// fires when a user gets beyond the gallery - usually on a signpost</span>
 SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span>
 
@@ -836,7 +840,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
         console.log('----------');
         console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );
     };
-    SSG.cfg.onImgChange = function(data) { counter++; };
+    SSG.cfg.onImgView = function(data) { counter++; };
     SSG.cfg.onBeyondGallery = function(data) { if(data) { signpostReached = true; status = 'on a signpost' } else { status = 'in a void' }  };    
     SSG.cfg.onGalleryExit = function(data) {
         console.log( counter + ' images' + ( signpostReached ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data.imgName ? 'with image: ' + data.imgName : status ) );

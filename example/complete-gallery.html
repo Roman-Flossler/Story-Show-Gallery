@@ -109,7 +109,7 @@
             console.log('----------');
             console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );
         };
-        SSG.cfg.onImgChange = function(data) { counter++; };
+        SSG.cfg.onImgView = function(data) { counter++; };
         SSG.cfg.onBeyondGallery = function(data) { if(data) { signpostReached = true; status = 'on a signpost' } else { status = 'in a void' }  };
         SSG.cfg.onGalleryExit = function(data) {
             console.log( counter + ' images' + ( signpostReached ? ' & signpost ' : ' ') + 'viewed. ' + 'Ended ' + ( data.imgName ? 'with image: ' + data.imgName : status ) );

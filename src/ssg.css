@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.8 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -818,7 +818,7 @@ button#copyLink::first-letter {
     }
     
     #SSG1 .notitle p.title {
-        margin: 4.8vh 0;
+        margin: 5.8vh 0;
     }
 
     #SSG1 .SSG_uwide p.title {
@@ -1323,7 +1323,7 @@ button#copyLink::first-letter {
     }
     
     #SSG1 .notitle p.title {
-        margin: 2em 0;
+        margin: 5vh 0;
     }
 
     #SSG_lastone p {
@@ -1343,7 +1343,7 @@ button#copyLink::first-letter {
     }
 
     #SSG1 p.title {
-        padding: 0.8em 1.5em .5em 1.5em;
+        padding: 1.1em 1.5em 0.8em 1.5em;
         margin-top: 0px;
     }
 }
@@ -1438,7 +1438,7 @@ html.ssg-active {
 
 html.ssg-active ::-webkit-scrollbar {
     background: #0F0F0F;
-    width: 9px;
+    width: 8px;
 }
 
 html.ssg-active ::-webkit-scrollbar:hover  {
@@ -1599,22 +1599,23 @@ html.ssg-active .wait {
 /***----------- dim grey -----------**/
 
 .ssgdim #SSG1 {
-    background: rgb(38, 38, 38);
+    background: rgb(43, 43, 43);
 }
 
 @media (pointer: coarse) {
     .ssgdim #SSG1::after {
-        background: linear-gradient(to top, rgba(38, 38, 38,0) 44%, rgba(38, 38, 38,1) 100%);
+        background: linear-gradient(to top, rgba(43, 43, 43,0) 44%, rgba(43, 43, 43,1) 100%);
     }
 }
 
 .ssgdim #SSG_bg {
-    background: rgb(38, 38, 38);
+    background: rgb(43, 43, 43);
+    color: #888888;
 }
 
 .ssgdim #SSG1 img {
     border-color: #161616;
-    box-shadow: 0 0 4px 0px #161616 !important;    
+    box-shadow: 0 0 6px 0px rgb(24, 24, 24) !important;
 }
 
 .ssgdim #SSG1 .SSG_uwide p.uwtitle>span, .ssgdim #SSG1 p, .ssgdim  #SSG_lastone p {
@@ -1630,24 +1631,24 @@ html.ssg-active .wait {
     /* scrollbar color */
 
 html.ssg-active.ssgdim {
-    scrollbar-color: rgb(66, 66, 66) rgb(29, 29, 29); 
-}    
+    scrollbar-color: rgb(66, 66, 66) rgb(33, 33, 33);
+}
 
 html.ssg-active.ssgdim {
     scrollbar-base-color: rgb(66, 66, 66);
-    scrollbar-track-color: rgb(29, 29, 29);
+    scrollbar-track-color: rgb(33, 33, 33);
 }
 
 html.ssg-active.ssgdim ::-webkit-scrollbar, html.ssg-active.ssgdim ::-webkit-scrollbar-button {
-    background: rgb(29, 29, 29);
+    background: rgb(33, 33, 33);
 }
 
 html.ssg-active.ssgdim ::-webkit-scrollbar-thumb {
-    background: rgb(35, 35, 35);
+    background: rgb(41, 41, 41);
 }
 
 html.ssg-active.ssgdim ::-webkit-scrollbar:hover  {
-    border-left: 2px dashed #696969;
+    border-left: 2px dashed #888888;
 }
 
 html.ssg-active.ssgdim ::-webkit-scrollbar-thumb:hover {

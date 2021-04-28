@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.8 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -90,8 +90,10 @@ SSG.cfg.showLandscapeHint = true;
 SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>';
 
 // SSG events - see complete example of SSG events in the example directory
-SSG.cfg.onGalleryStart = null; // fires after creating a gallery
-SSG.cfg.onImgChange = null; // fires on every image change (even the first one)
+SSG.cfg.onGalleryStart = null; // fires on the gallery start before loading and displaying of the first image.
+SSG.cfg.onImgScrollsIn = null; // fires when the next/previous/first image starts scrolling in to display (doesn't apply on manual scrolling)
+SSG.cfg.onImgView = null; // fires when an image is viewed
+SSG.cfg.onOrientationChange = null; // fires when a device orientation changes
 SSG.cfg.onBeyondGallery = null; // fires when a user gets beyond the gallery - usually on a signpost
 SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
 
@@ -433,7 +435,7 @@ SSG.createGallery = function ( event ) {
         // SSG.imgs = event.imgs would create just reference to source array (and use it for storing pos), deep copy is needed:
         var deepCopy = JSON.parse( JSON.stringify( event.imgs ) );
         
-        for(i=0; i<deepCopy.length; i++) {            
+        for ( var i = 0; i<deepCopy.length; i++ ) {
             if ( typeof deepCopy[i].author == 'undefined') {                
                 deepCopy[i].author = SSG.cfgFused.globalAuthorCaption;
             }
@@ -549,6 +551,7 @@ SSG.initGallery = function ( event ) {
 
 SSG.orientationChanged = function () {
     SSG.isOrientationChanged = true;
+    SSG.cfgFused.onOrientationChange && SSG.cfgFused.onOrientationChange(SSG.createDataObject( SSG.displayedImg ));
     
     // if the gallery should stay in fullscreen
     if ( SSG.inFullscreenMode && ( (SSG.cfgFused.mobilePortraitFS && SSG.pageFS ) || SSG.cfgFused.alwaysFullscreen )) {
@@ -1112,7 +1115,7 @@ SSG.metronome = function () {
             if ( ( treshold > SSG.imgs[ j ].pos ) && ( treshold < topPos ) ) {
                 if (SSG.displayedImg != j || SSG.atLastone) {
                     SSG.setHashGA( j );
-                    SSG.cfgFused.onImgChange && SSG.cfgFused.onImgChange(SSG.createDataObject(j));
+                    SSG.cfgFused.onImgView && SSG.cfgFused.onImgView(SSG.createDataObject(j));
                 } 
                 SSG.displayedImg = j;                
                 SSG.imgDelta = 0;
@@ -1204,12 +1207,14 @@ SSG.jumpScroll = function () {
     // If the imageDown is true and next image is loaded (pos exists) then scroll down.
     else if ( SSG.imageDown && SSG.displayedImg + 1 < SSG.imgs.length && SSG.imgs[ SSG.displayedImg + 1 ].pos ) {
         SSG.ScrollTo( SSG.imgs[ SSG.displayedImg + 1 ].pos - SSG.countImageIndent( SSG.displayedImg + 1 ), bigImage );
+        SSG.cfgFused.onImgScrollsIn && SSG.cfgFused.onImgScrollsIn(SSG.createDataObject(SSG.displayedImg + 1));
     }
 
     // If the imageUp is true then scroll on previous image.    
     else if ( SSG.imageUp && SSG.displayedImg - 1 >= 0 && !SSG.atLastone ) {
         SSG.imgDelta = -1;
         SSG.ScrollTo( SSG.imgs[ SSG.displayedImg - 1 ].pos - SSG.countImageIndent( SSG.displayedImg - 1 ), -bigImage );
+        SSG.cfgFused.onImgScrollsIn && SSG.cfgFused.onImgScrollsIn(SSG.createDataObject(SSG.displayedImg - 1));
     }
 
     // Center the first image after initiation of the gallery or can be used to jump to the 1st image.
@@ -1217,6 +1222,7 @@ SSG.jumpScroll = function () {
     else if ( SSG.imgs[ 0 ].pos && !SSG.isFirstImageCentered ) {
         window.setTimeout( function () {
             SSG.ScrollTo( SSG.imgs[ 0 ].pos - SSG.countImageIndent( 0 ), 0 );
+            SSG.cfgFused.onImgScrollsIn && SSG.cfgFused.onImgScrollsIn(SSG.createDataObject(0));
             jQuery('#SSG1').animate({opacity:1}, 500);
             SSG.isFirstImageCentered = true;
         }, 55 );
@@ -1225,6 +1231,7 @@ SSG.jumpScroll = function () {
     // If the lastone is true, i am out of the index, so scroll on the last image in index.
     else if ( SSG.imageUp && SSG.atLastone ) {
         SSG.ScrollTo( SSG.imgs[ SSG.displayedImg ].pos - SSG.countImageIndent( SSG.displayedImg ), 0 );
+        SSG.cfgFused.onImgScrollsIn && SSG.cfgFused.onImgScrollsIn(SSG.createDataObject(SSG.displayedImg));
     } else {
         // If the bottom menu exists scroll to it
         if ( typeof jQuery( '#SSG_menu' ).offset() !== 'undefined' ) {
