@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -1053,9 +1053,8 @@ button#copyLink::first-letter {
     }
 
     #SSG1 figure:not(.notitle) #p0 > span {
-        width: calc(100% - 71px);
         padding-right: 2.3em;
-        margin-right: 73px;
+        margin-right: 71px;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }    
 }
@@ -1497,10 +1496,10 @@ and it is realy irritating. Set !important to overwrite site's styles.
 /* cursors */
 
 html.ssg-active body {
-    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
+    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
     cursor: -webkit-image-set(
-        url('data:image/gif;base64,R0lGODlhEwATAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
-        url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAAJeXlwAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
+        url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
+        url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
 ), auto;    
 }
 

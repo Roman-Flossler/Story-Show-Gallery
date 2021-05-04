@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -219,7 +219,7 @@ SSG.setVariables = function () {
 
     // change of currently displayed photo. delta -1 is a previous photo.  
     SSG.imgDelta = 1;
-    SSG.scrHeight = jQuery( window ).height();
+    SSG.scrHeight = window.innerHeight;
 
     // Different screen fraction for different screen aspect ratios
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
@@ -776,7 +776,7 @@ SSG.refreshPos = function () {
 
 // Recounts variables on resize event
 SSG.countResize = function () {
-    SSG.scrHeight = jQuery( window ).height();
+    SSG.scrHeight = window.innerHeight;
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
     SSG.landscapeMode = window.screen.width > window.screen.height;
 };
@@ -825,7 +825,7 @@ SSG.displayFormat = function ( e ) {
     var imgWidth = jQuery( '#SSG1 #i' + index ).innerWidth();    
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
-    var vheight = jQuery( window ).height();
+    var vheight = window.innerHeight;
     var photoFrameWidth =  vwidth > 1333 ? 0.82 : 0.77;
     var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
@@ -1247,7 +1247,7 @@ SSG.jumpScroll = function () {
 
 // Function counts how much to indent image from the top of the screen to center image.
 SSG.countImageIndent = function ( index ) {
-    var screen = jQuery( window ).height();
+    var screen =  window.innerHeight;
     var img = jQuery( '#SSG1 #i' + index ).outerHeight();
     var pIn = jQuery( '#SSG1 #p' + index ).innerHeight();    
     var centerPos, marginAfterP;
