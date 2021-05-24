@@ -1,6 +1,6 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.9 - https://roman-flossler.github.io/StoryShowGallery/
-    Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  */
+    Story Show Gallery (SSG) ver: 2.10.10 - https://roman-flossler.github.io/StoryShowGallery/
+    Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
     SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git   
@@ -285,7 +285,7 @@ SSG.setVariables = function () {
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
     SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
-    SSG.landscapeMode = window.screen.width > window.screen.height;
+    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.actualPos = window.pageYOffset || document.documentElement.scrollTop;
     
     // Intial scroll, rotation and height. Don't overwrite originals if the gallery is being restarted 
@@ -293,7 +293,7 @@ SSG.setVariables = function () {
     if ( SSG.initEvent && !SSG.initEvent.restart || !SSG.initEvent ) {    
         SSG.originalPos = window.pageYOffset || document.documentElement.scrollTop;
         SSG.originalBodyHeight = jQuery( 'body' ).height();
-        SSG.landscapeModeOriginal = window.screen.width > window.screen.height;
+        SSG.landscapeModeOriginal = window.matchMedia( '(orientation: landscape)' ).matches;
     }
     
 
@@ -465,7 +465,7 @@ SSG.createGallery = function ( event ) {
     }
     SSG.cfgFused.onGalleryStart && SSG.cfgFused.onGalleryStart( SSG.createDataObject(0) );
 
-    window.setTimeout(SSG.addImage, 200);
+    SSG.addImage();
 
     // Every 333 ms check if more images should be loaded and logged into Analytics. Jump-scrolling
     SSG.metronomInterval = setInterval( SSG.metronome, 333 );
@@ -476,7 +476,7 @@ SSG.initGallery = function ( event ) {
     if ( event && event.noExit ) {
         SSG.inExitMode = false;
     }
-    window.setTimeout( function()  { window.scrollTo( 0, 0 ); }, 388);
+    window.setTimeout( function()  { window.scrollTo( 0, 0 ); }, 381);
     window.setTimeout( function()  { jQuery('#SSG_bg').css('padding-top','75vh')}, 888);
 
 
@@ -541,10 +541,11 @@ SSG.initGallery = function ( event ) {
         }
     } );
 
-    jQuery( document ).on( 'touchmove', function removeArrowDown() {
-        if ( !SSG.landscapeMode ) {
-            jQuery('.SSG_tipCall').addClass('hide');            
-            jQuery( document ).off( 'touchmove', removeArrowDown );
+    jQuery( document ).on( 'scroll', function removeArrowDown() {
+        // if the gallery is fully scrolled to the first image, on next scroll hide arrow down
+        if ( !SSG.landscapeMode && SSG.displayedImg >= 0 && SSG.actualPos > SSG.imgs[0].pos ) {
+            jQuery('.SSG_tipCall').addClass('hide');
+            jQuery( document ).off( 'scroll', removeArrowDown );
         }
     })
 };
@@ -554,7 +555,7 @@ SSG.orientationChanged = function () {
     SSG.cfgFused.onOrientationChange && SSG.cfgFused.onOrientationChange(SSG.createDataObject( SSG.displayedImg ));
     
     // if the gallery should stay in fullscreen
-    if ( SSG.inFullscreenMode && ( (SSG.cfgFused.mobilePortraitFS && SSG.pageFS ) || SSG.cfgFused.alwaysFullscreen )) {
+    if ( SSG.inFullscreenMode && ( (SSG.cfgFused.mobilePortraitFS && SSG.pageFS ) || SSG.cfgFused.alwaysFullscreen || SSG.userAcceptFs )) {
         SSG.onResize();
         SSG.setNotchRight();
         return;
@@ -563,7 +564,7 @@ SSG.orientationChanged = function () {
     // if a portrait mode is in FS mode, turning into landscape won't fire onFS event (gallery resize), so else branch is needed
     // and also for iPhone which doesn't have any FS mode
     if ( SSG.fullScreenSupport && ( (!SSG.landscapeMode && !SSG.inFullscreenMode) || (SSG.landscapeMode && SSG.inFullscreenMode) ) ) {
-        // landscapeMode is an old info - when phone is rotated into portrait landscapeMode is true.
+        // landscapeMode is an old info - it returns what is true before rotation
         // So landscapeMode doesn't depend on a browser speed of actualization present orientation.
         !SSG.landscapeMode ? SSG.openFullscreen() : SSG.closeFullscreen();
     } else {
@@ -778,7 +779,7 @@ SSG.refreshPos = function () {
 SSG.countResize = function () {
     SSG.scrHeight = window.innerHeight;
     SSG.scrFraction = ( jQuery( window ).width() / SSG.scrHeight >= 1 ) ? 2 : 3.5;
-    SSG.landscapeMode = window.screen.width > window.screen.height;
+    SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
 };
 
 SSG.scrollToActualImg = function () {
@@ -1387,6 +1388,7 @@ SSG.destroyGallery = function (mode) {
     jQuery( document ).off( 'keydown', SSG.keyFunction );
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
     window.removeEventListener( 'orientationchange', SSG.orientationChanged );
+    SSG.userAcceptFs = false;
     if ( window.screen.orientation ) {
         window.screen.orientation.removeEventListener( 'change', SSG.orientationChanged );
     }
@@ -1431,6 +1433,7 @@ SSG.showFsTip = function ( content ) {
         var gofs = function() {
             SSG.openFullscreen();
             jQuery( '#SSG_tip' ).remove();
+            SSG.userAcceptFs = true;
         }
 
         if ( content == 'fsOffer' ) {

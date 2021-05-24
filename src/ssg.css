@@ -1,6 +1,6 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.9 - https://roman-flossler.github.io/StoryShowGallery/
-    Copyright (C) 2020 Roman Flössler - SSG is Licensed under GPLv3  
+    Story Show Gallery (SSG) ver: 2.10.10 - https://roman-flossler.github.io/StoryShowGallery/
+    Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
     SSG on Github: https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git   
@@ -810,6 +810,7 @@ button#copyLink::first-letter {
         padding-left: 1em;
         padding-right: 1em;
         border-radius: 0;
+        margin-top: 0.6em;
     }
 
     #SSG1 p,
@@ -1054,6 +1055,7 @@ button#copyLink::first-letter {
 
     #SSG1 figure:not(.notitle) #p0 > span {
         padding-right: 2.3em;
+        width: calc(100% - 70px);
         margin-right: 71px;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }    
