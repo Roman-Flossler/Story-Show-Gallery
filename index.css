@@ -65,8 +65,16 @@ body {
     background-image: url(https://roman-flossler.github.io/StoryShowGallery/img/bg.png);
 }
 
-p, li, h1, h2 {
-    background: rgba(255, 255, 255, 0.36); 
+h1, article {
+    background: rgba(255, 255, 255, 0.21);
+}
+
+p, li, header {
+    background: rgba(255, 255, 255, 0.31);
+}
+
+h2, h3 {
+    background: rgba(255, 255, 255, 0.48);
 }
 
 p.compare {
@@ -130,7 +138,6 @@ h3 {
     font-size: 266%;
     margin-bottom: 0.4em;
     margin-top: 1.8em;
-    background: white;
     border-top: 0.18em dotted #e8eff1;
     padding-top: 0.3em;
 }
@@ -1124,7 +1131,7 @@ footer {
         border-bottom: 2px solid #840017;
     }
 
-    .dark p, .dark h1, .dark h2, .dark h3, .dark ul, .dark li {
+    .dark p, .dark h1, .dark h2, .dark h3, .dark ul, .dark li, .dark header, .dark article {
         background: none;
     }
 

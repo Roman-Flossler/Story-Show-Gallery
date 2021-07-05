@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.10 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.11 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -76,7 +76,7 @@ SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
 SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
 SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
 SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> to browse through Story Show Gallery.";
-SSG.cfg.hintFS = "For a better experience <br><a>click for fullscreen mode</a>"
+SSG.cfg.hintFS = 'For a better experience <br><a><abbr>⎚</abbr> go full screen</a>';
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
 
@@ -115,9 +115,16 @@ SSG.beforeRun = function () {
     // all hyperlinks from the page, which links to an image file
     SSG.jQueryImgSelector = "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.JPEG'],a[href$='.png'],a[href$='.PNG'],a[href$='.gif'],a[href$='.GIF'],a[href$='.webp']";
 
-    // two lines below are for use SSG with Wordpress. Outside of Wordpress are both lines inactiv.
+    // line below are for use SSG with Wordpress.
     SSG.cfg.respectOtherWpGalleryPlugins && jQuery("body [class*='gallery']").not( jQuery(".wp-block-gallery, .blocks-gallery-grid, .blocks-gallery-item, .gallery, .gallery-item, .gallery-icon, .gallery-caption ")).addClass('nossg');
     SSG.cfg.wordpressGalleryFS && jQuery( '.gallery a, .wp-block-gallery a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'fs' );
+    if (typeof SSG.cfg.wordpressGalleryFS !== 'undefined') {
+        if ( SSG.cfg.separateWpGalleries  ) {
+            jQuery( '.gallery, .wp-block-gallery, article[id^="post-"], div[id^="post-"]' ).addClass( 'ssg' );
+        } else {
+            jQuery( 'article[id^="post-"], div[id^="post-"]' ).addClass( 'ssg' );
+        }
+    }
 
     // adding of control classes to hyperlinks which match jQueryImgSelector
     jQuery( '.nossg a' ).filter( jQuery( SSG.jQueryImgSelector ) ).addClass( 'nossg' );
@@ -500,8 +507,7 @@ SSG.initGallery = function ( event ) {
         jQuery( this ).attr( 'ssg', 0 );
     } );
 
-    // "article and div[id^="post-"]" is for Wordpress
-    jQuery( 'article[id^="post-"], div[id^="post-"], .ssg' ).each( function (index) {
+    jQuery( '.ssg' ).each( function (index) {
         jQuery( this ).find( SSG.jQueryImgSelector ).each( function ( sindex ) {
             jQuery( this ).attr( 'ssgsid', sindex );
             jQuery( this ).attr( 'ssg', index + 1 );
