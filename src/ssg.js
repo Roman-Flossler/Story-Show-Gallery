@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.11 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.10.12 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -508,10 +508,11 @@ SSG.initGallery = function ( event ) {
     } );
 
     jQuery( '.ssg' ).each( function (index) {
+        SSG.tempi = index;
         jQuery( this ).find( SSG.jQueryImgSelector ).each( function ( sindex ) {
             jQuery( this ).attr( 'ssgsid', sindex );
-            jQuery( this ).attr( 'ssg', index + 1 );
-        }, index );
+            jQuery( this ).attr( 'ssg', SSG.tempi + 1 );
+        } );
     } );
 
 
