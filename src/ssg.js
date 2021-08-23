@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.12 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.0 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -38,6 +38,12 @@ SSG.cfg.fileToLoad = null;
 
 // display social share icon and menu
 SSG.cfg.socialShare = true;
+
+// display EXIF data in caption + link to EXIF listing
+SSG.cfg.showExif = false;
+// compact form of EXIF in caption - camera lens is shortened (it might be very long)
+SSG.cfg.showExifCompact = true;
+
 
 // log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
 SSG.cfg.logIntoGA = true;
@@ -101,6 +107,7 @@ SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
 // -------------- end of configuration ----------------------------------------
 
 jQuery( document ).ready( function () {
+    // beforeRun can be initiated from here or from SSG.run if jQueryImgCollection alrady exists
     !SSG.jQueryImgCollection && SSG.beforeRun();
     SSG.jQueryImgCollection.click( SSG.run );
     
@@ -841,7 +848,7 @@ SSG.displayFormat = function ( e ) {
     
     // if caption frame is smaller than screen Height, overflow is set to visible due to social sharing menu.
     window.setTimeout( function() {
-        if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.9) {
+        if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.96) {
             jQuery('#SSG1 #uwp'+ index).addClass('share-overflow');
         } else {
             jQuery('#SSG1 #uwp'+ index).removeClass('share-overflow');
@@ -869,6 +876,24 @@ SSG.onImageLoad = function ( event ) {
 
     // Index of the newest loaded image
     SSG.justLoadedImg = event.data.imgid;
+
+    if (SSG.cfgFused.showExif && window.exifr) {
+        window.exifr.parse(document.querySelector("#SSG1 #i" + SSG.justLoadedImg))
+        .then((exif) => {            
+            if (!exif) return;
+            SSG.exifTemp = SSG.getExif(exif, true);
+            if (SSG.exifTemp) {
+                jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").html(SSG.exifTemp);
+                jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").on('click',function(e) {
+                    e.stopPropagation(); SSG.showFsTip(SSG.getExif(exif, false));
+                });
+                jQuery("#SSG1 #f" + SSG.justLoadedImg).addClass('exif');
+                jQuery("#SSG1 #f" + SSG.justLoadedImg).removeClass('notitle');
+            }
+        } )
+        .catch(error => console.log('Exifr ' + error))
+    }
+
     SSG.displayFormat( event );
 
     // When img is loaded positions of images are recalculated.
@@ -878,6 +903,97 @@ SSG.onImageLoad = function ( event ) {
     SSG.loadNextImg = true;
 };
 
+SSG.getExif = function ( exif, linearExif ) {
+    function lensSpecStringify (lensExif) {
+        if (lensExif[0]== lensExif[1] ) {
+            return lensExif[0] + 'mm f/' + lensExif[2];
+        } else if (lensExif[2]== lensExif[3] ) {
+            return lensExif[0] + '&#8209;' + lensExif[1] + 'mm, f/' + lensExif[2];
+        } else {
+            return lensExif[0] + '&#8209;' + lensExif[1] + 'mm, f/' + lensExif[2] + '&#8209;' + lensExif[3];
+        }
+    }
+    
+    // if fix == false -> removes maker from exif.Model; if fix == true -> fix makers name
+    function fixMaker (name, fix) {
+        var makers = ['Sony', 'Canon', 'Nikon', 'Fujifilm', 'Olympus', 'Panasonic', 'Pentax', 'Leica', 'Samsung','Minolta', 'Ricoh', 'Hasselblad', 'Kodak', 'Sigma' ];
+        var index;
+        for(var i = 0; i < makers.length; i++) {
+            index = name.toLowerCase().indexOf(makers[i].toLowerCase());
+            if(index !== -1) {
+                if (fix) {
+                    return makers[i];                    
+                } else {
+                    return name.substring(0, index-1) + name.substring(index+makers[i].length + 1 );
+                }
+            }
+        }
+        return name;
+    }
+
+    function dash (value) {
+        if (value === undefined) {
+            return '-';
+        } else if (value.toString().includes('undefined') || value.toString().includes('NaN')) {            
+            return '-';
+        }
+        return value;
+    }
+
+    function fixModel (name) {
+        name = name.replace('ILCE-','α');
+        name = name.replace('DSC-','');
+        return name;
+    }
+
+    var maker = exif.Make ? fixMaker(exif.Make, true) + ' ' : '';
+    var camera = exif.Model ? fixModel(fixMaker(exif.Model,false)) : '';
+
+    // 42034 = LensInfo, 42036 = LensModel    
+    var lensExif = exif.LensModel || exif['42036'] || exif.LensInfo || exif['42034'];
+    if (typeof lensExif === 'object') lensExif = lensSpecStringify(lensExif);
+    // lensShort = short lens spec (if there is valid data in lens info) or shortened lensExif    
+    if (exif.LensInfo || exif['42034']) {
+        var lensInfoObj = exif.LensInfo || exif['42034'];
+        var lensShort = lensInfoObj[2] ? lensSpecStringify(lensInfoObj) : lensExif.substring(0,13)+'…';
+        var lens = SSG.cfgFused.showExifCompact ? lensShort : lensExif;
+    } else {
+        var lens = '';
+    }
+    var focalLengthExif = exif.FocalLengthIn35mmFormat || exif.FocalLength;
+    var focalmm = exif.FocalLengthIn35mmFormat ? 'mmEQ' : 'mm';
+    var focalLength = focalLengthExif ? ' <b>∢</b>' + focalLengthExif + focalmm : '';
+    var fNumber = exif.FNumber ? " <b>⌬</b>f/" + Math.round(exif.FNumber*10)/10 : '';
+    var iso =  exif.ISO ? " <b>▦</b>" + exif.ISO : '';
+    var exposureCalc = exif.ExposureTime <= 0.5 ? '1/' + 1/exif.ExposureTime : exif.ExposureTime;
+    var exposure = exif.ExposureTime ? " <b>◔</b>" + exposureCalc + 's' : '';
+    var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
+    if (linearExif) return exifLine;
+
+    var exifTable = `
+    <div id="table-wrap">
+    <table class="exif-table">
+        <tr><td>author:</td><td> ${ dash( exif.Artist || exif.Copyright || exif['42032'] ) } </td></tr>
+        <tr><td>camera${'\u00A0'}maker:</td><td> ${exif.Make} </td></tr>
+        <tr><td>camera${'\u00A0'}model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
+        <tr><td>lens:</td><td>  ${ dash(lensExif)}</td></tr>
+        <tr><td>focal length:</td><td>  ${dash(exif.FocalLength + ' mm')}</td></tr>
+        <tr><td>focal length 35mmEQ:</td><td>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
+        <tr><td>exposure time:</td><td>  ${exposureCalc}s<br></td></tr>
+        <tr><td>compensation:</td><td>  ${ dash(exif.ExposureCompensation).toString().substring(0,5) }<br></td></tr>
+        <tr><td>f-number:</td><td>  ${dash(Math.round(exif.FNumber*10)/10)}</td></tr>
+        <tr><td>ISO speed:</td><td>  ${dash(exif.ISO)}</td></tr>
+        <tr><td>flash:</td><td>  ${dash(exif.Flash)}</td></tr>
+        <tr><td>editor:</td><td>   ${dash(exif.Software)}<br></td></tr>
+        <tr><td>date & time:</td><td>  ${exif.DateTimeOriginal}</td></tr>
+        <tr><td>GPS Lat, Long:</td><td> <a target='_blank' href='https://www.google.com/maps/search/${exif.latitude + ',' + exif.longitude}'>
+        ${dash(exif.latitude + ', ' + exif.longitude)}</a></td></tr>
+        <tr><td>Altitude:</td><td>  ${dash(Math.round(exif.GPSAltitude) + ' metres' )} </td></tr>        
+    </table>
+    </div>
+    `
+    return exifTable;   
+}
 
 // A callback function when an image cannot be loaded.
 SSG.onLoadError = function ( event ) {
@@ -896,29 +1012,15 @@ SSG.escapeHtml = function(string) {
     });
 };
 
-
-SSG.addImage = function () { 
-
-
-    // Newone is index of a image which will be load.
-    var newOne = SSG.justLoadedImg + 1;
-
-    if ( newOne < SSG.imgs.length ) {
-
-        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
-        var authorbr = author ? "<br>" + author : author;
-        var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';        
-
-        if (SSG.cfgFused.socialShare) {
-        var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
-        var urlToShareEnc = encodeURIComponent(urlToShare);
-        var h1ToShare = SSG.escapeHtml(jQuery('h1').first().text());
-        var captionToShare = SSG.escapeHtml(caption);
-        var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
-        var windowOpen = ' target="_blank" href="';
-        var WindoOpenParams =  '" ';
-     
-        var shareMenu = "<span class='share'><span class='share-menu'>" +
+SSG.shareMenu = function(newOne, caption) {
+    var urlToShare = window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href);
+    var urlToShareEnc = encodeURIComponent(urlToShare);
+    var h1ToShare = SSG.escapeHtml(jQuery('h1').first().text());
+    var captionToShare = SSG.escapeHtml(caption);
+    var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
+    var windowOpen = ' target="_blank" href="';
+    var WindoOpenParams =  '" ';
+    var shareMenu = "<span class='share'><span class='share-menu'>" +
                 "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Linkedin'></a>" + 
                 "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + " title='Share on WhatsApp'></a>" + 
                 "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + " title='Share on Messenger'></a>" + 
@@ -930,28 +1032,45 @@ SSG.addImage = function () {
                 "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' title='Send by email' ><b>@</b></a>" +
                 "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + " title='Share on Facebook'></a>" + 
                 "</span><a class='ico'></a></span>";
+    return shareMenu;
+}
+
+SSG.addImage = function () {
+
+    // Newone is index of a image which will be load.
+    var newOne = SSG.justLoadedImg + 1;
+
+    if ( newOne < SSG.imgs.length ) {
+        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
+        var authorbr = author ? "<br>" + author : author;
+        var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
+
+        if (SSG.cfgFused.socialShare) {
+            shareMenu = SSG.shareMenu( newOne, caption );        
         } else {
             shareMenu ='';
         }
 
-        var uwCaption = '';
-        var titleClass = 'title';
+        
+        var titleClass = '';
+        if ( SSG.imgs[ newOne ].alt) {
+            titleClass = 'title';
+        }
+        if ( SSG.imgs[ newOne ].author) {
+            titleClass += ' author';
+        }
         if ( !SSG.imgs[ newOne ].alt && !SSG.imgs[ newOne ].author ) {
             titleClass = 'notitle';
-        } else if (!SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].author) {
-            titleClass = 'title author-only';
-        } else if ( SSG.imgs[ newOne ].author ) {
-            titleClass = 'title author';
         }
-
-        //  Condition NewOne == 0 leaves P tag for the "down arrow" if there is no alt text.
-        if ( SSG.imgs[ newOne ].alt || newOne == 0 || SSG.imgs[ newOne ].author ) {
-            uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + authorbr + "</p>";
-        }
+        if ( newOne == 0) {
+            titleClass += ' arrow';
+        }       
+        uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + authorbr + "</p>";
+        
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
              SSG.cfgFused.watermarkText +"</span>"+ shareMenu +"</span></div>";
-        var caption = "<p class='title' id='p" + newOne + "'><span>" + caption + author + shareMenu + "</span></p>";
+        var caption = "<p class='title' id='p" + newOne + "'><span>" + caption + "<q></q>" + author + shareMenu + "</span></p>";
                 
         var img = new Image();
         img.src = SSG.imgs[ newOne ].href;
@@ -975,7 +1094,7 @@ SSG.addImage = function () {
             event.stopPropagation();
         } );
 
-        //onclick for share menu 
+        //onclick for share menu; onclick a.ico toggles overflow:visible, onclick on a. othericons hides share menu (overflow:hidden)         
         jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
             jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
             if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
@@ -991,41 +1110,9 @@ SSG.addImage = function () {
 
     }
 
-    // NewOne is now actually by +1 larger than array index. 
-    if ( newOne == SSG.imgs.length ) {
-        var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
-        var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
-        var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/#play' class='SSG_link'><b>&#xA420;</b>SSG</a>";
-        jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
-            "</p> <div id='SSG_loadInto'></div></div>" );
-        jQuery( '#SSG_menu' ).click( function ( event ) {
-            event.stopPropagation();
-        } );
-        jQuery( '#SSG_exit2' ).click( SSG.destroyGallery );
-        jQuery( '#SSG_first' ).click( function () {
-            SSG.isFirstImageCentered = false;
-        } );
-
-        // Load a html file with links to other galleries.
-        SSG.cfgFused.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.cfgFused.fileToLoad, function ( response, status, xhr ) {
-            if ( status == "success" ) {
-                SSG.fileLoaded = true;
-                jQuery( '.SSG_icell a' ).click( function ( event ) {
-                    event.stopPropagation();
-                    if(!event.ctrlKey && !event.shiftKey) {
-                        SSG.preventExit();
-                    }
-                } );
-
-                // load styles also into the head section, it force a browser to load styles properly
-                var loadedStyles = jQuery( '#SSG_loadInto style' ).html();
-                var style = document.createElement('style');
-                style.type = 'text/css';
-                style.innerHTML = loadedStyles;
-                jQuery('head').append(style);
-            }
-        } );
-
+    // with the last image of the gallery load even signpost
+    if ( newOne == SSG.imgs.length - 1) {
+        SSG.beyondGallery();
         // All images are already loaded.
         SSG.finito = true;
     }
@@ -1041,6 +1128,41 @@ SSG.addImage = function () {
         } );
     }
 };
+
+SSG.beyondGallery = function() {
+    var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
+    var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
+    var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/#play' class='SSG_link'><b>&#xA420;</b>SSG</a>";
+    jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
+        "</p> <div id='SSG_loadInto'></div></div>" );
+    jQuery( '#SSG_menu' ).click( function ( event ) {
+        event.stopPropagation();
+    } );
+    jQuery( '#SSG_exit2' ).click( SSG.destroyGallery );
+    jQuery( '#SSG_first' ).click( function () {
+        SSG.isFirstImageCentered = false;
+    } );
+
+    // Load a html file with links to other galleries.
+    SSG.cfgFused.fileToLoad && jQuery( '#SSG_loadInto' ).load( SSG.cfgFused.fileToLoad, function ( response, status, xhr ) {
+        if ( status == "success" ) {
+            SSG.fileLoaded = true;
+            jQuery( '.SSG_icell a' ).click( function ( event ) {
+                event.stopPropagation();
+                if(!event.ctrlKey && !event.shiftKey) {
+                    SSG.preventExit();
+                }
+            } );
+
+            // load styles also into the head section, it force a browser to load styles properly
+            var loadedStyles = jQuery( '#SSG_loadInto style' ).html();
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = loadedStyles;
+            jQuery('head').append(style);
+        }
+    } );
+}
 
 
 // Acquire an image name from url address.
@@ -1446,14 +1568,14 @@ SSG.showFsTip = function ( content ) {
         if ( content == 'fsOffer' ) {
             jQuery( 'body' ).append( begin + fs + end );
             jQuery( '#SSG_tip' ).click( gofs );
-        } else if (content.length > 8) {
+        } else if (content.substring(0,8).indexOf('://') != -1) {
             var linkInput = '<textarea readonly rows="2"  id="linkText" >'+content+'</textarea><br/><button id="copyLink">' + SSG.cfgFused.copyButton + '</button>';
             jQuery( 'body' ).append( begin + "<p>" + SSG.cfgFused.imageLink + "</p>" + linkInput + "<div>" + SSG.cfgFused.linkPaste + "</div>" + end );
             jQuery('#SSG_tip #copyLink').click( function() {
                 jQuery('#SSG_tip #linkText').select(); 
                 document.execCommand("copy");
             });
-        } else if (content == 'hint') {            
+        } else if (content == 'hint') {
             var man1 = "<div class='classic'>" + SSG.cfgFused.hint1 + "<br>" + SSG.cfgFused.hint2 + "<br>";
             var man2 =  SSG.cfgFused.hint3 + "</div>";
             var touch = "<div class='touch'>" + SSG.cfgFused.hintTouch + "</div>";
@@ -1467,6 +1589,9 @@ SSG.showFsTip = function ( content ) {
                 jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
                 SSG.fsTipShown = true;
             }
+        } else if (content.length > 88) {            
+            jQuery( 'body' ).append( begin + content + end );
+            jQuery( '.exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
         }
         
         jQuery( '#SSG_tipClose' ).click( function () {

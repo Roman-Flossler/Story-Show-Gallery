@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.10.11 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.0 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -55,7 +55,7 @@
  *     3. The tip Window & exit icon
  *     4. Portrait mode
  *     5. Landscape mode 
- *     6. Smartphones - all 
+ *     6. Smartphones - all
  *     7. Smartphones - small
  *     8. Smartphones - portrait
  *     9. Iphone X
@@ -169,14 +169,78 @@
     display: inline-block;
 }
 
-#SSG1 p em::before {
-    content: '| ';
-    color: #71a7b7;
-    padding-left: 0.5em;
+#SSG1 p q::before, #SSG1 p q::after {
+    content: '';
 }
 
-#SSG1  .author-only p em::before {
-    content: none;        
+#SSG1 p em::before, #SSG1 figure.title.exif p.title q::before {
+    content: '| ';
+    color: #71a7b7;
+    padding-left: 0.88em;
+    font-style: italic;
+    letter-spacing: 0;
+}
+
+#SSG_tip .exif-table td {
+    padding: 0.1em 0.5em;
+    vertical-align: middle;    
+    font-weight: normal;
+    color: rgb(224, 224, 224);
+}
+
+#SSG_tip #table-wrap {
+    max-height: 81vh;
+    overflow-x: auto;
+}
+
+#SSG_tip .exif-table tr:nth-child(odd) {
+    background: linear-gradient(90deg, transparent, #1a1a1a, transparent);
+}
+
+#SSG_tip .exif-table tr td:nth-child(odd) {
+    color: rgb(201, 201, 201);
+    text-align: right;    
+}
+
+#SSG_tip .exif-table tr td:nth-child(even) {
+    text-align: left;
+}
+
+#SSG1 figure:not(.exif) p q {
+    display: none;
+}
+
+#SSG1 p q {
+    font-size: 90%;
+    letter-spacing: -0.03em;
+    cursor: pointer;
+}
+
+#SSG1 figure:not(.title) p q {
+    font-size: 100%;
+}
+
+#SSG1 p q b {
+    margin: 0 0.2em 0 0.6em;
+    color: #71a7b7;
+}
+
+#SSG1 p q u {
+    border-bottom: 1px dashed rgba(121, 121, 121, 0.66);
+}
+
+#SSG1 p q u::before {
+    content: '»\00a0';
+    color: rgb(121, 121, 121);
+}
+
+#SSG1 p.uwtitle q {
+    margin: 1.3em 0 0.8em 0;
+    display: inline-block   ;
+}
+
+#SSG1 figure:not(.title):not(.exif) p em::before {
+    content: none;
 }
 
 #SSG1 p.uwtitle em {
@@ -307,13 +371,14 @@
 
 #SSG1 .SSG_uwide span.share {
     top: 4px;
+    z-index: 2;
 }
 
 #SSG1 .SSG_uwide.author span.share {
     top: 0px;
 }
 
-#SSG1 .SSG_uwide.author-only span.share {
+#SSG1 figure.author.SSG_uwide:not(.title) span.share {
     top: 0px;
     margin: 0;
 }
@@ -343,6 +408,8 @@
 }
 
 #SSG1 figure.title .SSG_imgWrap .share,
+#SSG1 figure.author .SSG_imgWrap .share,
+#SSG1 figure.exif .SSG_imgWrap .share,
 #SSG1 figure.notitle p.title .share,
 #SSG1 figure.notitle.SSG_uwide #uwp0 .share {
     display: none;    
@@ -358,11 +425,16 @@
     flex-direction: column;
     align-items: flex-end;
     width: 150px;
-    height: 183px;
+    height: 183px;    
 }
 
 #SSG1.notchright figure.title.SSG_uwide .share-menu {
-    left: 0;
+    left: 0px;
+}
+
+#SSG1.notchright figure.exif.SSG_uwide .share-menu,
+#SSG1.notchright figure.author.SSG_uwide .share-menu {
+    left: 42px;
 }
 
 #SSG1 .share .ico {
@@ -627,7 +699,7 @@
     width: 99vw;
     padding: 0.33em 1em;
     position: fixed;
-    z-index: 9999992;
+    z-index: 9999994;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -730,7 +802,7 @@ button#copyLink::first-letter {
 #SSG_tip span.linkShare {
     line-height: 1.4em;
     width: 100%;
-    max-width: 513px;
+    max-width: 513px;    
 }
 
 #SSG_exit.notchright {
@@ -910,6 +982,10 @@ button#copyLink::first-letter {
         position: relative;
     }
 
+    #SSG1 figure.SSG_uwide.notitle:not(.arrow) p.uwtitle {
+        display: none;
+    }
+
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipCall {
         padding: 0px 1em;
     }
@@ -922,7 +998,7 @@ button#copyLink::first-letter {
         margin-top: 1em;
         display: block;
         text-align: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);        
     }
 
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipCall:after {
@@ -1159,6 +1235,14 @@ button#copyLink::first-letter {
         margin-top: 0.3em;
     }
 
+    #SSG1 p.uwtitle q {
+        margin: 0.8em 0 0 0; 
+    }    
+
+    #SSG1 figure:not(.title) p q {
+        font-size: 90%;
+    }
+
     #SSG1 #p0 {
         padding-right: 1em;
     }
@@ -1203,6 +1287,12 @@ button#copyLink::first-letter {
         padding: 0.13em;
         display: inline-block;
         border-radius: 0.1em;
+    }
+
+    #SSG1 figure.exif p.uwtitle .share-menu,
+    #SSG1 figure.author p.uwtitle .share-menu {
+        right: 42px;
+        top: -66px;
     }
 
     #SSG1 .SSG_tipCall {
@@ -1791,6 +1881,17 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 
 .ssglight #SSG_tip hr {
     border-bottom: 3px solid white;
+}
+
+.ssglight #SSG_tip .exif-table tr:nth-child(odd) {
+    background: linear-gradient(90deg, transparent, white, white, transparent);
+}
+.ssglight #SSG_tip .exif-table td {
+    color:#222222;
+}
+
+.ssglight #SSG_tip .exif-table tr td:nth-child(odd) {
+    color: rgb(56, 56, 56);
 }
 
 .ssglight #SSG1 figure .serror .SSG_forlogo {

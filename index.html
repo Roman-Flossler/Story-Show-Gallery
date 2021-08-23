@@ -19,6 +19,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name='theme-color' content='#083f4c'>
     <title>SSG - vertical JavaScript gallery optimized for smartphones - Show a story with your photos</title>
+    <link rel="icon" type="image/png" href="https://roman-flossler.github.io/StoryShowGallery/img/favicon.png" />
+
     <meta property="og:site_name" content="Story Show Gallery"/>
     <meta property="og:title" content="Story Show Gallery"/>
     <meta property="og:url" content="https://roman-flossler.github.io/StoryShowGallery/"/>
@@ -108,7 +110,7 @@
                 vertical slider and cur­sor are subtle. 
                 <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
             <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
-            <p>The gallery doesn't have an icon for full screen mode. I did a little research and users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
+            <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
 
 
             <a name='signpost'></a>
@@ -154,7 +156,11 @@
             
             <h3>Complete your photos with captions</h3>
             <!-- _____________________________________ -->
-            <p>With captions you can tell the whole story behind pictures or amuse a spec&shy;tator with some fun fact.</p><p>
+            <p>With captions you can tell the whole story behind pictures or amuse a spec&shy;tator with some fun fact.
+               Captions can also contain <strong>EXIF data</strong> (camera info, exposure, iso, etc.) with link to EXIF listing.
+               <a href="https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins" target="_blank">Example</a>
+
+            </p><p>
             Google treats captions as a text content. Especially when you haven't much text on your page, captions will help a lot your page to rank higher in Google search.</p><p>
              SSG is probably <strong>the only gallery</strong> which can place each caption individually according to image size vs. screen size. 
              It is really important on smartphones.</p>
@@ -197,7 +203,8 @@
             <!-- _____________________________________ -->
 
             <p>All you need to do, is add <strong>ssg.min.css</strong> and jQuery in 
-                the &lt;head&gt; of the HTML page and <strong>ssg.min.js</strong> before &lt;/body&gt;.                
+                the &lt;head&gt; of the HTML page and <strong>ssg.min.js</strong> before &lt;/body&gt;.
+                If you want to display EXIF data (camera info, exposure, iso, etc.), <strong>Exifr</strong> library is also needed.
             </p>
 
 
@@ -212,6 +219,9 @@
                     &lt;script src="<span>https://code.jquery.com/jquery-3.5.1.min.js</span>"&gt; &lt;/script&gt;<br><br>
                     // -- before &lt;/body&gt;<br>
                     &lt;script src="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js</span>"&gt; &lt;/script&gt;
+                    <br><br>
+                    // add also Exifr library if you want to display EXIF data<br>
+                    &lt;script src="<span>https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js</span>"&gt; &lt;/script&gt;                    
             </code>            
 
             <p>Story Show Gallery looks for all hyper&shy;links (&lt;a&gt; tags) on the page that points to a picture file 
@@ -242,6 +252,13 @@
             <a href="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" data-author="by Flor" data-caption="HTML5 example of SSG implementation" >
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example - this alt won't be a caption, it is for seo"></a>
 
+            <a name='exif'></a>
+            <h2>Enable EXIF</h2>            
+            <ol class="text">
+                <li>Add Exifr library as it is shown above.</li>
+                <li>By default EXIF is disabled. Set <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">SSG.cfg.showExif</a> to true.</li>
+                <li>Image files has to be on the same domain as website, otherwise reading of EXIF data is blocked by CORS policy.</li>
+            </ol>        
 
             <a name='minify'></a>
             <h2>SSG files and minifying</h2>
@@ -443,8 +460,8 @@ data.imageCaption // image caption for current image
                  Following gallery run has slower scroll animation, black theme, fullscreen portrait, different watermark and no signpost.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 999, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }})">
-                SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 999, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }} )
+            <code class="active" onclick="SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 800, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }})">
+                SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 800, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -528,7 +545,7 @@ iceland = [];
                     <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">&nbsp;Fork it on GitHub&nbsp;</a></span>
 
                     <div class="topimg">
-                        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg" data-author="photo by Flor">
+                        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg" data-author="">
                             <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt="I like steampunk style, so this is my dream place for shooting."  /></a>
                     </div>
 
@@ -555,7 +572,9 @@ iceland = [];
                     Story Show Gallery also supports text hyper&shy;links. All four follow&shy;ing pict&shy;ures will appear in separate gallery (because of .ssg class):
                 </p>
                 <p class="ssg ssglight">
-                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG'>&#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
+                    <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
+                     data-caption="This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.<br>">
+                        &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
                     <a data-caption="" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> - with empty data-caption<br>
                     <a href='some-nice-image.JPEG' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
                     <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
@@ -566,6 +585,7 @@ iceland = [];
                 <li><a href="#">SSG features, sample gallery</a></li>
                 <li><a href="#license">License</a></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
+                <li><a href="#exif">Enable EXIF</a></li>                
                 <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">⚙️Live SSG configuration ⧉</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
@@ -612,6 +632,12 @@ SSG.cfg.fileToLoad = <em>null;</em>
 
 <span>// display social share icon and menu</span>
 SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true</em><em>;</em>
+
+<span>//display EXIF data in caption + link to EXIF listing</span>
+SSG.cfg.showExif = <em class="switchable" onclick="switchParam('showExif',this)">false</em><em>;</em>
+
+<span>// compact form of EXIF in caption - camera lens is shortened (it might be very long)</span>
+SSG.cfg.showExifCompact = <em class="switchable" onclick="switchParam('showExifCompact',this)">true</em><em>;</em>
 
 <span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
 SSG.cfg.logIntoGA = <em>true;</em>
@@ -711,10 +737,15 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 alt: 'You can easily browse the gallery just by scrolling. No need to clicking on arrows.'
             };
             demo[ 2 ] = {
+                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG',
+                alt: 'This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don\'t pay attention.<br>',
+                author: 'sculptor: Adam Trbušek, photog: Roman Flössler'
+            };
+            demo[ 3 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg',
                 alt: 'SSG vs. usual web gallery. SSG use even notch area of a phone and doesn\'t display bars and icons over a photo.'
             };
-            demo[ 3 ] = {
+            demo[ 4 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg',
                 alt: 'Captions can be below the image or next to the image according to space on display.'
             };
@@ -824,12 +855,14 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
 
     </script>
     
+    <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
     <script src="src/ssg.js"></script>
     <script>
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';    
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
+    SSG.cfg.showExif = true;
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
     var counter = 0;

@@ -428,6 +428,16 @@ p {
     padding-right: 0.3em;
 }
 
+ol.text {
+    padding: 0 1em;
+    list-style-position: outside;
+    margin: 0;
+}
+
+ol.text li {
+    margin-bottom: 1em;
+}
+
 ul li {
     line-height: 1.6em;
     position: relative;

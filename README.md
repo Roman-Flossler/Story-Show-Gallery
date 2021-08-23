@@ -3,7 +3,7 @@
 [![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)
 [![Known Vulnerabilities](https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg)](https://snyk.io/test/npm/story-show-gallery/2.9.3)
 
-SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing. The gallery is vertical - optimized for use on smart­phones.
+SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing. The gallery is [vertical](https://roman-flossler.github.io/StoryShowGallery/#themes) - optimized for use on smart­phones.
  
 View demo gallery and documentation at [github.io](https://roman-flossler.github.io/StoryShowGallery/) <br>
 SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
@@ -24,9 +24,10 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 - On smartphones, full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
 - Brand building (image or text), social sharing icon that can be [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand)
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
+- [EXIF](https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins) info inside captions
+- Deeplinking 
+- Four visual themes
 - Goo­gle Analytics support 
-- Deeplinking
-- [Four visual themes](https://roman-flossler.github.io/StoryShowGallery/#themes)
 - [HTML signpost](https://roman-flossler.github.io/StoryShowGallery/#signpost) to other galleries
 - No e×it mode for galleries based on bare HTML
 - SSG is probably the only gallery which can place each caption individually according to image size vs. screen size:
@@ -45,6 +46,8 @@ Add ssg.min.css and jQuery in the &lt;head&gt; of the document. Add ssg.min.js b
 </head>
 ...
 <script src="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js"></script>
+<!--  add also Exifr library if you want to display EXIF info -->
+<script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
 </body>
 ```
 
@@ -82,6 +85,7 @@ Or copy selected settings into your document to override default configuration. 
         SSG.cfg.fileToLoad = 'signpost.html'; // HTML file to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Misty';  // watermark text overlaying a photo
         SSG.cfg.watermarkFontSize = 18;
+        SSG.cfg.showExif = true; // show EXIF (camera info, exposure, iso, etc.) 
     </script>
 ```    
 Complete HTML5 example of SSG implementation and configuration:
