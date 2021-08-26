@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.0 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.1 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -166,7 +166,6 @@
 
 #SSG1 p em {
     font-style: italic;
-    display: inline-block;
 }
 
 #SSG1 p q::before, #SSG1 p q::after {
@@ -174,9 +173,10 @@
 }
 
 #SSG1 p em::before, #SSG1 figure.title.exif p.title q::before {
-    content: '| ';
+    content: ' |';
     color: #71a7b7;
-    padding-left: 0.88em;
+    padding-left: 1.1em;
+    padding-right: 0.3em;
     font-style: italic;
     letter-spacing: 0;
 }
@@ -211,13 +211,16 @@
 }
 
 #SSG1 p q {
-    font-size: 90%;
+    font-size: 95%;
     letter-spacing: -0.03em;
     cursor: pointer;
+    opacity: 0.86;
 }
 
-#SSG1 figure:not(.title) p q {
-    font-size: 100%;
+#SSG1 figure:not(.title) p q:not(.exif-icon) {
+    font-size: 100%;    
+    opacity: 1;
+    letter-spacing: 0;
 }
 
 #SSG1 p q b {
@@ -226,17 +229,36 @@
 }
 
 #SSG1 p q u {
-    border-bottom: 1px dashed rgba(121, 121, 121, 0.66);
+    border-bottom: 1px dashed rgba(121, 121, 121, 0.81);
 }
 
 #SSG1 p q u::before {
     content: '»\00a0';
-    color: rgb(121, 121, 121);
+    color: rgb(133, 133, 133);
+}
+
+#SSG1 p q.exif-icon {
+    margin-left: 1.3em;
+    letter-spacing: 2px;    
+    text-decoration: overline;
+    font-size: 70%;    
+    line-height: 1.5em;
+    color: #8abac7;
+    padding-top: 11px;
+}
+
+#SSG1 p.uwtitle q.exif-icon {
+    padding: 1em 0 0 0;
+    margin: 0;
+}
+
+#SSG1 p q.exif-icon::before {
+    content: none !important;
 }
 
 #SSG1 p.uwtitle q {
     margin: 1.3em 0 0.8em 0;
-    display: inline-block   ;
+    display: block;
 }
 
 #SSG1 figure:not(.title):not(.exif) p em::before {
@@ -245,6 +267,7 @@
 
 #SSG1 p.uwtitle em {
     padding-top: 0.6em;
+    display: block;
 }
 
 #SSG1 p.uwtitle em::before  {    
@@ -288,8 +311,8 @@
 
 #SSG1 p.title {
     display: inline-block;
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: 2.8vw;
+    padding-right: 2.8vw;
     border-radius: 0.3em;
     min-width: 22vw;
 }
@@ -369,13 +392,11 @@
     cursor: pointer;
 }
 
-#SSG1 .SSG_uwide span.share {
-    top: 4px;
-    z-index: 2;
-}
-
-#SSG1 .SSG_uwide.author span.share {
-    top: 0px;
+#SSG1 p.uwtitle span.share {
+    top: 3px;
+    z-index: 2;    
+    margin-right: 0.3em;
+    margin-left: 0.3em;
 }
 
 #SSG1 figure.author.SSG_uwide:not(.title) span.share {
@@ -451,6 +472,14 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px'%3E%3Cpath fill='%23aaaaaa' stroke='%23000000' d='M14.5,17.5c-3.4-0.3-3-3.3-3-3.3l-5.9-3.1C5.1,11.7,4.3,12,3.5,12c-1.7,0-3.1-1.3-3.1-3 s1.4-3,3.1-3C4.3,6,5,6.3,5.6,6.9l6-3.1c0-2,1.3-3.3,3-3.3c1.7,0,3,1.3,3,3s-1.3,3-3,3c-0.7,0-1.3-0.2-1.8-0.6L6.8,9l5.9,3.1 c0.5-0.4,1.2-0.6,1.9-0.6c1.7,0,3,1.3,3,3C17.5,16,16.3,17.7,14.5,17.5z'/%3E%3C/svg%3E%0A");
     background-size: 17px;
     opacity: 0.66;
+}
+
+#SSG1 figure.exif:not(.author) .share .ico {
+    opacity: 0.86; 
+}
+
+#SSG1 figure.exif:not(.author) p.title .share {
+    margin-left: 1em;
 }
 
 #SSG1 .share .ico:hover {
@@ -1237,10 +1266,10 @@ button#copyLink::first-letter {
 
     #SSG1 p.uwtitle q {
         margin: 0.8em 0 0 0; 
-    }    
+    }
 
-    #SSG1 figure:not(.title) p q {
-        font-size: 90%;
+    #SSG1 figure:not(.title) p q:not(.exif-icon) {
+        font-size: 96%;
     }
 
     #SSG1 #p0 {
@@ -1440,6 +1469,38 @@ button#copyLink::first-letter {
     #SSG1 p.title {
         padding: 1.1em 1.5em 0.8em 1.5em;
         margin-top: 0px;
+    }
+
+    #SSG1 p.title q {
+        display: block;
+        padding: 0.5em 0;
+    }
+
+    #SSG1 figure.title.author:not(.exif) p.title q {
+        display: block;
+        margin: 0.5em 0 0 0;
+        padding: 0;
+    } 
+
+    #SSG1 p.title q.exif-icon {
+        display: inline-block;
+    }
+
+    #SSG1 p.title q::before {
+        content: '' !important;
+        padding-left: 0 !important;
+    }
+
+    #SSG1 figure.exif:not(.author) p.title .share {
+        margin: -4px 0;
+    }
+
+    #SSG1 figure.exif:not(.author) p.title {
+        padding-bottom: 0.2em;
+    }
+
+    #SSG1 figure.exif.author p.title em::before {
+        padding-left: 0;
     }
 }
 
@@ -1892,6 +1953,14 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 
 .ssglight #SSG_tip .exif-table tr td:nth-child(odd) {
     color: rgb(56, 56, 56);
+}
+
+.ssglight #SSG1 p q.exif-icon {
+    color: #1d6577;
+}
+
+.ssglight #SSG1 .share .ico {
+    opacity: 0.66 !important;
 }
 
 .ssglight #SSG1 figure .serror .SSG_forlogo {

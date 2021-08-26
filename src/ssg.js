@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.0 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.1 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -39,11 +39,9 @@ SSG.cfg.fileToLoad = null;
 // display social share icon and menu
 SSG.cfg.socialShare = true;
 
-// display EXIF data in caption + link to EXIF listing
-SSG.cfg.showExif = false;
-// compact form of EXIF in caption - camera lens is shortened (it might be very long)
-SSG.cfg.showExifCompact = true;
-
+// EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing
+// 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'
+SSG.cfg.captionExif = 'none';
 
 // log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
 SSG.cfg.logIntoGA = true;
@@ -877,13 +875,26 @@ SSG.onImageLoad = function ( event ) {
     // Index of the newest loaded image
     SSG.justLoadedImg = event.data.imgid;
 
-    if (SSG.cfgFused.showExif && window.exifr) {
+    SSG.displayFormat( event );
+
+    // When img is loaded positions of images are recalculated.
+    SSG.refreshPos();
+
+    // It secures to run addImage only once after image is loaded.
+    SSG.loadNextImg = true;
+
+    
+    // if captionExif = icon run EXIF parsing only if the image caption isn't empty
+    //if ( SSG.cfgFused.captionExif == 'icon' && ( !SSG.imgs[SSG.justLoadedImg].alt && !SSG.imgs[SSG.justLoadedImg].author )) return;
+
+    if (SSG.cfgFused.captionExif !=='none' && window.exifr) {
         window.exifr.parse(document.querySelector("#SSG1 #i" + SSG.justLoadedImg))
-        .then((exif) => {            
+        .then((exif) => {
             if (!exif) return;
             SSG.exifTemp = SSG.getExif(exif, true);
             if (SSG.exifTemp) {
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").html(SSG.exifTemp);
+                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").addClass('exif-icon');
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").on('click',function(e) {
                     e.stopPropagation(); SSG.showFsTip(SSG.getExif(exif, false));
                 });
@@ -893,17 +904,11 @@ SSG.onImageLoad = function ( event ) {
         } )
         .catch(error => console.log('Exifr ' + error))
     }
-
-    SSG.displayFormat( event );
-
-    // When img is loaded positions of images are recalculated.
-    SSG.refreshPos();
-
-    // It secures to run addImage only once after image is loaded.
-    SSG.loadNextImg = true;
 };
 
-SSG.getExif = function ( exif, linearExif ) {
+SSG.getExif = function ( exif, captionInfo ) {
+    if (SSG.cfgFused.captionExif == 'icon' && captionInfo) return 'EXIF';
+
     function lensSpecStringify (lensExif) {
         if (lensExif[0]== lensExif[1] ) {
             return lensExif[0] + 'mm f/' + lensExif[2];
@@ -956,7 +961,7 @@ SSG.getExif = function ( exif, linearExif ) {
     if (exif.LensInfo || exif['42034']) {
         var lensInfoObj = exif.LensInfo || exif['42034'];
         var lensShort = lensInfoObj[2] ? lensSpecStringify(lensInfoObj) : lensExif.substring(0,13)+'…';
-        var lens = SSG.cfgFused.showExifCompact ? lensShort : lensExif;
+        var lens = SSG.cfgFused.captionExif == 'trim' ? lensShort : lensExif;
     } else {
         var lens = '';
     }
@@ -968,7 +973,7 @@ SSG.getExif = function ( exif, linearExif ) {
     var exposureCalc = exif.ExposureTime <= 0.5 ? '1/' + 1/exif.ExposureTime : exif.ExposureTime;
     var exposure = exif.ExposureTime ? " <b>◔</b>" + exposureCalc + 's' : '';
     var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
-    if (linearExif) return exifLine;
+    if (captionInfo) return exifLine;
 
     var exifTable = `
     <div id="table-wrap">
@@ -1041,8 +1046,7 @@ SSG.addImage = function () {
     var newOne = SSG.justLoadedImg + 1;
 
     if ( newOne < SSG.imgs.length ) {
-        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';
-        var authorbr = author ? "<br>" + author : author;
+        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';        
         var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
 
         if (SSG.cfgFused.socialShare) {
@@ -1065,7 +1069,7 @@ SSG.addImage = function () {
         if ( newOne == 0) {
             titleClass += ' arrow';
         }       
-        uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + authorbr + "</p>";
+        uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +

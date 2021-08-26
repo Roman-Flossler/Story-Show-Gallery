@@ -256,7 +256,7 @@
             <h2>Enable EXIF</h2>            
             <ol class="text">
                 <li>Add Exifr library as it is shown above.</li>
-                <li>By default EXIF is disabled. Set <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">SSG.cfg.showExif</a> to true.</li>
+                <li>By default EXIF is disabled. Set <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">SSG.cfg.captionExif</a> option to enable it.</li>
                 <li>Image files has to be on the same domain as website, otherwise reading of EXIF data is blocked by CORS policy.</li>
             </ol>        
 
@@ -536,7 +536,7 @@ iceland = [];
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" alt="It's time! For a photo shoot of course." />
                     </a>
                     <a href="https://roman-flossler.github.io/StoryShowGallery/photos/on-the-hook.jpg">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" alt="I couldn't believe my eyes. She just climbed up and hanged on the hook." />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" alt="All the photos are from Michal coal mine in Ostrava city." />
                     </a>
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/refreshment.jpg' class="third" >
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
@@ -545,16 +545,16 @@ iceland = [];
                     <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">&nbsp;Fork it on GitHub&nbsp;</a></span>
 
                     <div class="topimg">
-                        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg" data-author="">
-                            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt="I like steampunk style, so this is my dream place for shooting."  /></a>
+                        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
+                            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt=""  /></a>
                     </div>
 
-                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg'>
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" alt="All the photos are from Michal coal mine in Ostrava city. This is the engine room." />
+                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg' data-author="photo by Flor">
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" alt="The engine room with giant steel cable winch." />
                     </a>
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/hook-portrait.jpg' data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" alt="" /></a>
-                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg' class="third">
+                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg' class="third" data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
                     </a>
                     <br clear='all'/>
@@ -612,7 +612,7 @@ iceland = [];
 <em>Click on <u class="switchable" style="cursor: auto;">underlined</u> values to <u class="switchable" style="cursor: auto;text-decoration-style: wavy;">change</u> them. It will affect all galleries on this page.</em>
 
 <span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
-SSG.cfg.scrollDuration = <em class="switchable" onclick="switchParam('scrollDuration',this, [500, 800])"> 500 </em><em>;</em>
+SSG.cfg.scrollDuration = <em class="switchable" onclick="switchParam('scrollDuration',this, [500, 800, 200])"> 500 </em><em>;</em>
 
 <span>// Force SSG to always display in fullscreen - true/false</span>
 SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFullscreen',this)">false</em><em>;</em>
@@ -624,7 +624,7 @@ SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFull
 SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false</em><em>;</em>
 
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
-SSG.cfg.theme = <em>'dark'</em>
+SSG.cfg.theme = <em class="switchable" onclick="switchParam('theme',this, [ 'dark', 'dim', 'black', 'light' ])"> "dark" </em><em>;</em>
 
 <span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>
@@ -633,11 +633,9 @@ SSG.cfg.fileToLoad = <em>null;</em>
 <span>// display social share icon and menu</span>
 SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true</em><em>;</em>
 
-<span>//display EXIF data in caption + link to EXIF listing</span>
-SSG.cfg.showExif = <em class="switchable" onclick="switchParam('showExif',this)">false</em><em>;</em>
-
-<span>// compact form of EXIF in caption - camera lens is shortened (it might be very long)</span>
-SSG.cfg.showExifCompact = <em class="switchable" onclick="switchParam('showExifCompact',this)">true</em><em>;</em>
+<span>// EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing</span>
+<span>// 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'</span>
+SSG.cfg.captionExif = <em class="switchable" onclick="switchParam('captionExif',this, ['none', 'standard', 'trim', 'icon' ])"> "none" </em><em>;</em>
 
 <span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
 SSG.cfg.logIntoGA = <em>true;</em>
@@ -648,7 +646,7 @@ SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('righ
 <span>// Caption location depends on a photo size vs. screen size and SSG.cfg.preferedCaptionLocation.</span>
 <span>// Negative number => more likely side caption. Positive number => more likely caption below the photo.</span>
 <span>// If the number will be too large (eg: 300 or -300 ) a caption will be only in one location.</span>
-SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('preferedCaptionLocation',this, [3,8])" > 3 </em><em>;</em>
+SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('preferedCaptionLocation',this, [3,8,55,-66])" > 3 </em><em>;</em>
 
 <span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.</span>
 SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false</em><em>;</em>  <span>// false means caption below, true side caption</span>
@@ -842,13 +840,16 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             });
 
             function switchParam(param, elem, values) {
+                var index;
+                var quotes = '';
                 if (values) {
-                    SSG.cfg[param] = SSG.cfg[param] == values[0] ? values[1] : values[0];
+                    quotes = typeof values[0] == 'string' ? '"' : '';
+                    index = values.indexOf(SSG.cfg[param]);
+                    SSG.cfg[param] =  index == values.length-1 ? values[0] : values[index+1]
                 } else {
                     SSG.cfg[param] = !SSG.cfg[param];
                 }
                 var space = values ? ' ' : '';
-                var quotes = param == "globalAuthorCaption" ? '"' : '';
                 elem.textContent = space + quotes + SSG.cfg[param] + quotes + space;
                 elem.style.textDecorationStyle = 'wavy';
             }
@@ -862,7 +863,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
-    SSG.cfg.showExif = true;
+    SSG.cfg.captionExif = 'trim';
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
     var counter = 0;

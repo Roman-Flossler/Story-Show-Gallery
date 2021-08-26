@@ -85,7 +85,7 @@ Or copy selected settings into your document to override default configuration. 
         SSG.cfg.fileToLoad = 'signpost.html'; // HTML file to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Misty';  // watermark text overlaying a photo
         SSG.cfg.watermarkFontSize = 18;
-        SSG.cfg.showExif = true; // show EXIF (camera info, exposure, iso, etc.) 
+        SSG.cfg.captionExif = 'trim'; // show EXIF with reduced lens info
     </script>
 ```    
 Complete HTML5 example of SSG implementation and configuration:
