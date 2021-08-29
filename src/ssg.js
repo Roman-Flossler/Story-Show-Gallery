@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -895,6 +895,7 @@ SSG.onImageLoad = function ( event ) {
             if (SSG.exifTemp) {
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").html(SSG.exifTemp);
                 SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").addClass('exif-icon');
+                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg ).addClass('eicon');
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").on('click',function(e) {
                     e.stopPropagation(); SSG.showFsTip(SSG.getExif(exif, false));
                 });
@@ -982,18 +983,20 @@ SSG.getExif = function ( exif, captionInfo ) {
         <tr><td>camera${'\u00A0'}maker:</td><td> ${exif.Make} </td></tr>
         <tr><td>camera${'\u00A0'}model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
         <tr><td>lens:</td><td>  ${ dash(lensExif)}</td></tr>
-        <tr><td>focal length:</td><td>  ${dash(exif.FocalLength + ' mm')}</td></tr>
-        <tr><td>focal length 35mmEQ:</td><td>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
-        <tr><td>exposure time:</td><td>  ${exposureCalc}s<br></td></tr>
+        <tr><td>focal length:</td><td> ${ !exif.FocalLengthIn35mmFormat && exif.FocalLength ? '<b>∢</b>' : '' } ${dash(exif.FocalLength + ' mm')}</td></tr>
+        
+        <tr><td>focal length 35mmEQ:</td><td><b>∢</b>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
+        <tr><td>f-number:</td><td><b>⌬</b>  ${dash('f/'+ Math.round(exif.FNumber*10)/10)}</td></tr>
+        <tr><td>ISO speed:</td><td><b>▦</b>  ${dash(exif.ISO)}</td></tr>
+        <tr><td>exposure time:</td><td><b>◔</b>  ${exposureCalc}s<br></td></tr>
+        
         <tr><td>compensation:</td><td>  ${ dash(exif.ExposureCompensation).toString().substring(0,5) }<br></td></tr>
-        <tr><td>f-number:</td><td>  ${dash(Math.round(exif.FNumber*10)/10)}</td></tr>
-        <tr><td>ISO speed:</td><td>  ${dash(exif.ISO)}</td></tr>
         <tr><td>flash:</td><td>  ${dash(exif.Flash)}</td></tr>
         <tr><td>editor:</td><td>   ${dash(exif.Software)}<br></td></tr>
-        <tr><td>date & time:</td><td>  ${exif.DateTimeOriginal}</td></tr>
+        <tr><td>date & time:</td><td>  ${exif.DateTimeOriginal.toLocaleString()}</td></tr>
         <tr><td>GPS Lat, Long:</td><td> <a target='_blank' href='https://www.google.com/maps/search/${exif.latitude + ',' + exif.longitude}'>
         ${dash(exif.latitude + ', ' + exif.longitude)}</a></td></tr>
-        <tr><td>Altitude:</td><td>  ${dash(Math.round(exif.GPSAltitude) + ' metres' )} </td></tr>        
+        <tr><td>Altitude:</td><td>  ${dash(Math.round(exif.GPSAltitude) + ' metres' )} </td></tr>
     </table>
     </div>
     `
@@ -1048,6 +1051,7 @@ SSG.addImage = function () {
     if ( newOne < SSG.imgs.length ) {
         var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';        
         var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
+        var shareMenu;
 
         if (SSG.cfgFused.socialShare) {
             shareMenu = SSG.shareMenu( newOne, caption );        
@@ -1069,7 +1073,7 @@ SSG.addImage = function () {
         if ( newOne == 0) {
             titleClass += ' arrow';
         }       
-        uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
+        var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +

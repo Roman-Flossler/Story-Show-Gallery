@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -175,7 +175,7 @@
 #SSG1 p em::before, #SSG1 figure.title.exif p.title q::before {
     content: ' |';
     color: #71a7b7;
-    padding-left: 1.1em;
+    padding-left: 0.8em;
     padding-right: 0.3em;
     font-style: italic;
     letter-spacing: 0;
@@ -204,6 +204,12 @@
 
 #SSG_tip .exif-table tr td:nth-child(even) {
     text-align: left;
+}
+
+#SSG_tip .exif-table td b {
+    margin: 0 0.2em 0 0.6em;
+    color: #71a7b7;
+    line-height: 1.6em;
 }
 
 #SSG1 figure:not(.exif) p q {
@@ -239,9 +245,14 @@
 
 #SSG1 p q.exif-icon {
     margin-left: 1.3em;
-    letter-spacing: 2px;    
-    text-decoration: overline;
-    font-size: 70%;    
+    letter-spacing: 2px;
+    text-decoration: underline;
+    text-decoration-color: #6d939e;    
+    text-underline-position: under;
+    text-decoration-style: dashed;
+    position: relative;
+    bottom: 1.44px;
+    font-size: 75%;
     line-height: 1.5em;
     color: #8abac7;
     padding-top: 11px;
@@ -476,10 +487,6 @@
 
 #SSG1 figure.exif:not(.author) .share .ico {
     opacity: 0.86; 
-}
-
-#SSG1 figure.exif:not(.author) p.title .share {
-    margin-left: 1em;
 }
 
 #SSG1 .share .ico:hover {
@@ -912,8 +919,8 @@ button#copyLink::first-letter {
 
     #SSG1 p.title {
         display: block;
-        padding-left: 1em;
-        padding-right: 1em;
+        padding-left: 2em;
+        padding-right: 2em;
         border-radius: 0;
         margin-top: 0.6em;
     }
@@ -946,6 +953,58 @@ button#copyLink::first-letter {
         bottom: -6px;
         right: 8%;
     }
+
+    #SSG1 figure.exif:not(.eicon) img {
+        max-height: 88vh;
+    }
+
+
+    /* spacious EXIF formatting for portrait mode  */
+    
+    #SSG1 p.title q.exif-icon {
+        display: inline-block;
+        padding-right: 0.5em;
+    }
+
+    #SSG1 figure.exif:not(.author):not(.eicon) p.title .share {
+        position: absolute;        
+        right: 2em;
+        top: 1em;
+    }
+
+    #SSG1 figure.exif:not(.author):not(.eicon) p.title {
+        padding-bottom: 0.2em;
+        padding-right: 3em;
+        position: relative;
+    }
+
+    #SSG1 figure.title.eicon.author p.title em::before {
+        content: '\A|';    
+        white-space: pre;
+    }
+
+    #SSG1 p.title q {
+        display: block;
+        padding: 0.5em 0;
+    }
+
+    #SSG1 figure.title.author:not(.exif) p.title q {
+        display: block;
+        margin: 0.4em 0 0 0;
+        padding: 0;
+    } 
+
+    #SSG1 p.title q::before {
+        content: '' !important;
+        padding-left: 0 !important;
+    }
+    
+
+    #SSG1 figure.exif.author p.title em::before {
+        padding-left: 0;
+    }
+
+
 }
 
 
@@ -1093,6 +1152,11 @@ button#copyLink::first-letter {
         content: none;
     }
 
+    /* offset of share icon from exif */
+    #SSG1 figure.exif:not(.author) p.title .share {
+        margin-left: 1em;
+    }
+
     /* ************** p0 styles ************** */
 
     #SSG1 figure.notitle:not(.SSG_uwide) #p0 {
@@ -1234,6 +1298,14 @@ button#copyLink::first-letter {
     }
 }
 
+/* ipad screen ratio */
+@media (aspect-ratio: 4/3) {
+    #SSG1 p.title {
+        line-height: 1.4em;
+    }
+}
+
+
 /****************************************************************
  * 6. Smartphones - all
  *
@@ -1270,10 +1342,6 @@ button#copyLink::first-letter {
 
     #SSG1 figure:not(.title) p q:not(.exif-icon) {
         font-size: 96%;
-    }
-
-    #SSG1 #p0 {
-        padding-right: 1em;
     }
 
     #SSG1 figure#f0 {
@@ -1471,36 +1539,8 @@ button#copyLink::first-letter {
         margin-top: 0px;
     }
 
-    #SSG1 p.title q {
-        display: block;
-        padding: 0.5em 0;
-    }
-
-    #SSG1 figure.title.author:not(.exif) p.title q {
-        display: block;
-        margin: 0.5em 0 0 0;
-        padding: 0;
-    } 
-
-    #SSG1 p.title q.exif-icon {
-        display: inline-block;
-    }
-
-    #SSG1 p.title q::before {
-        content: '' !important;
-        padding-left: 0 !important;
-    }
-
-    #SSG1 figure.exif:not(.author) p.title .share {
-        margin: -4px 0;
-    }
-
-    #SSG1 figure.exif:not(.author) p.title {
-        padding-bottom: 0.2em;
-    }
-
-    #SSG1 figure.exif.author p.title em::before {
-        padding-left: 0;
+    #SSG1 figure.exif:not(.eicon) img {
+        max-height: 81vh;
     }
 }
 
