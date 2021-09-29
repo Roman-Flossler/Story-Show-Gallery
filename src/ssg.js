@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -97,6 +97,7 @@ SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>'
 SSG.cfg.onGalleryStart = null; // fires on the gallery start before loading and displaying of the first image.
 SSG.cfg.onImgScrollsIn = null; // fires when the next/previous/first image starts scrolling in to display (doesn't apply on manual scrolling)
 SSG.cfg.onImgView = null; // fires when an image is viewed
+SSG.cfg.onImgLoad = null; // fires when an image is loaded from server
 SSG.cfg.onOrientationChange = null; // fires when a device orientation changes
 SSG.cfg.onBeyondGallery = null; // fires when a user gets beyond the gallery - usually on a signpost
 SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
@@ -470,7 +471,7 @@ SSG.createGallery = function ( event ) {
             Array.prototype.push.apply( SSG.imgs, deepCopy );
         }
         
-    SSG.clickedGalleryID = -1;
+        SSG.clickedGalleryID = event && event.id ? event.id : SSG.clickedGalleryID;
     } else {
         // use just images on the page
         SSG.getImgList( event );
@@ -668,7 +669,7 @@ SSG.getImgList = function ( event ) {
         // there is no gallery specified
         clickedGalleryID = -1;
     }
-    SSG.clickedGalleryID = clickedGalleryID;
+    SSG.clickedGalleryID = event && event.id ? event.id : clickedGalleryID;
 
     // Call invokes forEach method in the context of jQuery output     
     Array.prototype.forEach.call( SSG.jQueryImgCollection.toArray(), function ( el ) {
@@ -874,6 +875,7 @@ SSG.onImageLoad = function ( event ) {
 
     // Index of the newest loaded image
     SSG.justLoadedImg = event.data.imgid;
+    SSG.cfgFused.onImgLoad && SSG.cfgFused.onImgLoad(SSG.createDataObject(SSG.justLoadedImg));
 
     SSG.displayFormat( event );
 
@@ -908,7 +910,6 @@ SSG.onImageLoad = function ( event ) {
 };
 
 SSG.getExif = function ( exif, captionInfo ) {
-    if (SSG.cfgFused.captionExif == 'icon' && captionInfo) return 'EXIF';
 
     function lensSpecStringify (lensExif) {
         if (lensExif[0]== lensExif[1] ) {
@@ -968,12 +969,14 @@ SSG.getExif = function ( exif, captionInfo ) {
     }
     var focalLengthExif = exif.FocalLengthIn35mmFormat || exif.FocalLength;
     var focalmm = exif.FocalLengthIn35mmFormat ? 'mmEQ' : 'mm';
-    var focalLength = focalLengthExif ? ' <b>∢</b>' + focalLengthExif + focalmm : '';
+    var focalLength = focalLengthExif ? ' <b class="focal">∢</b>' + focalLengthExif + focalmm : '';
     var fNumber = exif.FNumber ? " <b>⌬</b>f/" + Math.round(exif.FNumber*10)/10 : '';
-    var iso =  exif.ISO ? " <b>▦</b>" + exif.ISO : '';
+    var iso =  exif.ISO ? " <b class='iso'>▦</b>" + exif.ISO : '';
     var exposureCalc = exif.ExposureTime <= 0.5 ? '1/' + 1/exif.ExposureTime : exif.ExposureTime;
     var exposure = exif.ExposureTime ? " <b>◔</b>" + exposureCalc + 's' : '';
     var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
+    
+    if (SSG.cfgFused.captionExif == 'icon' && captionInfo && exifLine) return 'EXIF';
     if (captionInfo) return exifLine;
 
     var exifTable = `
@@ -985,12 +988,12 @@ SSG.getExif = function ( exif, captionInfo ) {
         <tr><td>lens:</td><td>  ${ dash(lensExif)}</td></tr>
         <tr><td>focal length:</td><td> ${ !exif.FocalLengthIn35mmFormat && exif.FocalLength ? '<b>∢</b>' : '' } ${dash(exif.FocalLength + ' mm')}</td></tr>
         
-        <tr><td>focal length 35mmEQ:</td><td><b>∢</b>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
+        <tr><td>focal length 35mmEQ:</td><td><b class="focal">∢</b>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
         <tr><td>f-number:</td><td><b>⌬</b>  ${dash('f/'+ Math.round(exif.FNumber*10)/10)}</td></tr>
-        <tr><td>ISO speed:</td><td><b>▦</b>  ${dash(exif.ISO)}</td></tr>
+        <tr><td>ISO speed:</td><td><b class='iso'>▦</b>  ${dash(exif.ISO)}</td></tr>
         <tr><td>exposure time:</td><td><b>◔</b>  ${exposureCalc}s<br></td></tr>
         
-        <tr><td>compensation:</td><td>  ${ dash(exif.ExposureCompensation).toString().substring(0,5) }<br></td></tr>
+        <tr><td>compensation:</td><td>  ${ dash(exif.ExposureCompensation).toString().substring(0,5) + ' EV' }<br></td></tr>
         <tr><td>flash:</td><td>  ${dash(exif.Flash)}</td></tr>
         <tr><td>editor:</td><td>   ${dash(exif.Software)}<br></td></tr>
         <tr><td>date & time:</td><td>  ${exif.DateTimeOriginal.toLocaleString()}</td></tr>
@@ -1393,18 +1396,18 @@ SSG.countImageIndent = function ( index ) {
     // get previous index unless index = 0
     var useIndex = index == 0 ? 0 : index-1;
 
-    // if a title is under and image
-    if ( jQuery( '#SSG1 #f' + useIndex ).hasClass('title') &&  !jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_uwide') ) {
-        marginAfterP = parseInt(jQuery( '#SSG1 #p' + useIndex ).css('marginBottom'));
+    // if there is no title/caption under the image or title is on the side
+    if ( jQuery( '#SSG1 #f' + useIndex ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_uwide') ) {
+        marginAfterP = jQuery( '#SSG1 #p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#SSG1 #p' + ( useIndex ) ).innerHeight();        
     }  
     else {
-        marginAfterP = jQuery( '#SSG1 #p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#SSG1 #p' + ( useIndex ) ).innerHeight();
+        marginAfterP = parseInt(jQuery( '#SSG1 #p' + useIndex ).css('marginBottom'));
     }    
      
-    if ( jQuery( '#SSG1 #f' + index ).hasClass('title') &&  !jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
-        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 );
-    } else {
+    if ( jQuery( '#SSG1 #f' + index ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
         centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
+    } else {
+        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 );        
     }
     if ( centerPos < 0 ) {
         centerPos = ( centerPos * 2 ) - 2;
@@ -1597,7 +1600,7 @@ SSG.showFsTip = function ( content ) {
                 jQuery( 'body' ).append( begin + man1 + man2 + touch + end );
                 SSG.fsTipShown = true;
             }
-        } else if (content.length > 88) {            
+        } else if (content.length > 33) {
             jQuery( 'body' ).append( begin + content + end );
             jQuery( '.exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
         }

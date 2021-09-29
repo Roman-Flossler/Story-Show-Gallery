@@ -329,9 +329,10 @@
             <h2>Gallery events</h2>
                 <!-- _____________________________________ -->      
             <p>
-                SSG offers <strong>six gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
+                SSG offers <strong>seven gallery events</strong>, you can use them to run your functions. SSG events are part of the configuration.
                 <ol class="text">
                     <li><em>SSG.cfg.onGalleryStart</em> fires before loading and displaying of the first image.</li>
+                    <li><em>SSG.cfg.onImgLoad</em> fires when an image is completely loaded from a server.</li>
                     <li><em>SSG.cfg.onImgScrollsIn</em> fires when the next/previous/first image starts scrolling in to display (doesn't apply on manual scrolling).</li>
                     <li><em>SSG.cfg.onImgView</em> fires when an image is viewed.</li>
                     <li><em>SSG.cfg.onOrientationChange</em> fires when a device orientation changes.</li>                    
@@ -363,7 +364,9 @@ data.imageCaption // image caption for current image
 // Otherwise data is false.
 
             </code>
-            <p> You can find complete example in the source code of this page (at the end). It writes a little statistic of the gallery usage into the JS console. </p>
+            <p>SSG auto&shy;mati&shy;cally numbers image hyperlinks and galleries on the page, so IDs comes from this process. 
+                But you can also give some ID to current gallery run initiated via SSG.run function.</p>
+            <p>You can find complete example in the source code of this page (at the end). It writes a little statistic of the gallery usage into the JS console. </p>
 
 
 
@@ -420,15 +423,18 @@ data.imageCaption // image caption for current image
                 SSG.run without para­meters shows photos from all image hyperlinks on the page. 
                 Excluded are image hyperlinks with nossgg and gossg class.
             </p>
-            <code class="active" onclick="SSG.run();">                
+            <code class="active" onclick="SSG.run();">
                 SSG.run()
             </code>
 
             <p>The <strong>fs:true</strong> parameter will activate full screen mode. Use the <strong>fsa</strong> parameter instead, 
                 if the gallery is initiated without an active click from a user. That active click is needed for
                 entering fullscreen mode. The fsa para&shy;meter will ask if a user wants to switch into fullscreen mode.</p>
-            <code class="active" onclick="SSG.run( {fs:true} );">
-                SSG.run( { fs:true } )
+            <p>The <strong>id</strong> parameter assigns to gallery an ID, which identifies the gallery within SSG events.
+               Otherwise the ID of this gallery run would be -1. 
+            </p>
+            <code class="active" onclick="SSG.run( {fs:true, id:'4all8' } );">
+                SSG.run( { fs:true, id:'4all8' } )
             </code>
             
             
@@ -442,13 +448,13 @@ data.imageCaption // image caption for current image
                 &lt;body onload='<span>SSG.run( { noExit:true, fsa:true  } )</span>'&gt; 
             </code>
 
-            <p>Use <strong>initImgId</strong> parameter to set the initial image and so the gallery. 
-                SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first photo has ID 0.
-                In this case, the first photo will be the photo with ID 13, even if it has gossg class. 
+            <p>Use <strong>initImgId</strong> parameter to set the initial image and also the gallery. 
+                SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first image link has ID 0.
+                In this case, the first image will have page ID 13, even if it has gossg class. 
             </p>
             <p>
                 The initImgID parameter respects .ssg classes and shows only pictures from the gallery, which contains initImgID picture. 
-                Also the gallery theme is taken from css class of the related gallery. 
+                Also the gallery theme is taken from css class of the related gallery. The gallery ID will be 3, because 13th image link is in the third gallery.
             </p>
             <code class="active" onclick="SSG.run({ initImgID: 13 });">
                SSG.run( { initImgID: 13 } )
@@ -473,16 +479,16 @@ data.imageCaption // image caption for current image
             </p>
 
             <p>
-                The imgsPos parameter tells the gallery to put traelanipa.jpg before the gallery which contains image with ID 12.
+                The <strong>initImgID</strong> parameter defines what gallery to put after traelanipa.jpg and at the same time initial image with page id 13.
             </p>
-            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 12 });">
-               SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 12 });</code>
+            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 13 });">
+               SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 13 });</code>
 
             <p>
                 Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.                    
             </p>
             <code class="active" style="white-space: pre-wrap; overflow: visible" 
-            onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });"> SSG.run( { imgs: iceland, fs:true, initImgID: 1 });
+            onclick="SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });"> SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });
 --------
 
 iceland = [];
@@ -869,6 +875,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
     SSG.cfg.captionExif = 'trim';
+    SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : 'trim'; };
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
     var counter = 0;
