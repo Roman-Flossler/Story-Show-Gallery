@@ -108,7 +108,7 @@
 
            
             <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
-                vertical slider and cur­sor are subtle. 
+                vertical slider is subtle and cursor can be too.
                 <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
             <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
             <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
@@ -636,6 +636,9 @@ SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePo
 
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
 SSG.cfg.theme = <em class="switchable" onclick="switchParam('theme',this, [ 'dark', 'dim', 'black', 'light' ])"> "dark" </em><em>;</em>
+
+<span>// unobtrusive cross cursor</span>
+SSG.cfg.crossCursor = <em class="switchable" onclick="switchParam('crossCursor',this)">false</em><em>;</em>
 
 <span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>

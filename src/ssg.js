@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -31,6 +31,9 @@ SSG.cfg.mobilePortraitFS = false;
 
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
 SSG.cfg.theme = 'dark'
+
+// unobtrusive cross cursor
+SSG.cfg.crossCursor = false;
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). 
 // HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.
@@ -171,6 +174,7 @@ SSG.run = function ( event ) {
     } else {
         SSG.cfgFused = SSG.cfg;
     }
+    SSG.cfgFused.crossCursor && jQuery( 'html' ).addClass( 'crosscur' );
 
     // setting of Visual theme - also has to be done asap, otherwise there are problems with right coloring of the scrollbar
     var imgClassList, theme;
@@ -1197,8 +1201,7 @@ SSG.setHashGA = function ( index ) {
         hashName = '';
     }
 
-    // Opera browser has unfortunately problem with custom cursor when hash is changing.
-    navigator.userAgent.indexOf( 'OPR' ) == -1 && history.replaceState( null, null, SSG.location + hashName );
+    history.replaceState( null, null, SSG.location + hashName );
 };
 
 SSG.metronome = function () {

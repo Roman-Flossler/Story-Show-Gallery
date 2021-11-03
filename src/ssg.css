@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 2.11.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 2.11.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -1701,7 +1701,7 @@ and it is realy irritating. Set !important to overwrite site's styles.
 
 /* cursors */
 
-html.ssg-active body {
+html.ssg-active.crosscur {
     cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
     cursor: -webkit-image-set(
         url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
