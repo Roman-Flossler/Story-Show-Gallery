@@ -587,7 +587,7 @@ iceland = [];
 
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
-                            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt=""  /></a>
+                            <img id="checker" src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt=""  /></a>
                     </div>
 
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg' data-author="photo by Flor">
@@ -879,15 +879,27 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 jQuery('.gallery > a').on('mouseover', stopShow );
             }
 
-            jQuery('.gallery img').on('load', function() {
-                imgCount++;
-                if (imgCount==6) {
-                    initShow();
-                    window.setTimeout( function() {
+            function addImageAfter() {
+                window.setTimeout( function() {
                     jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
                         '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
                         ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
                     }, 3000);
+            }
+
+            jQuery('.gallery img').on('load', function() {
+                imgCount++;
+                if (imgCount==6) {
+                    initShow();
+                    addImageAfter()
+                }
+            });
+            
+            // if image is already loaded (offsetHeight > 1) on load event doesn't fire
+            jQuery( document ).ready( function () {            
+                if ( document.getElementById('checker').offsetHeight > 1 ) {
+                    initShow();
+                    addImageAfter()
                 }
             });
 

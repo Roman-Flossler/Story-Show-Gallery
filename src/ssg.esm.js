@@ -1,6 +1,6 @@
 /*!  
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.0.0 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.0.1 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
