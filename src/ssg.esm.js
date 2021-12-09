@@ -1,4 +1,5 @@
 /*!  
+    --- ESM module ---
     Story Show Gallery (SSG) ver: 3.0.0 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
@@ -13,6 +14,7 @@
 
 // Main object - namespace - the only global variable
 var SSG = {};
+export default SSG;
 SSG.cfg = {};
 
 // ---------------------- ⚙️⚙️⚙️ Story Show Gallery CONFIGURATION ⚙️⚙️⚙️ ---------------------------
@@ -110,32 +112,6 @@ SSG.cfg.onGalleryExit = null;  // fires on the gallery exit
 
 
 // -------------- end of configuration ----------------------------------------
-
-// document.ready and DOM observer - to be removed in SSG esm module
-jQuery( document ).ready( function () {
-    // beforeRun can be initiated from here or from SSG.run if jQueryImgCollection alrady exists
-    !SSG.jQueryImgCollection && SSG.beforeRun();
-    SSG.jQueryImgCollection.click( SSG.run );
-    
-    // The possible SSG.run in body's onload will run first thanks to delayed run of getHash. It is important in the noExit mode.
-    // If the getHash would initiate SSG first, there wouldn't be any information about the noExit mode.
-    window.setTimeout( function () {
-        !SSG.running && SSG.getHash( false );
-    }, 10 );
-
-    if ( SSG.cfg.observeDOM ) {
-        SSG.observerCallback = function() {
-            if (SSG.jQueryImgCollection && !SSG.running ) {                
-                SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
-                SSG.jQueryImgCollection.click( SSG.run );
-                SSG.addClasses();
-            }
-        }
-        SSG.observer = new MutationObserver( SSG.observerCallback );
-        SSG.observer.observe(document.body, { childList: true, subtree: true });
-    }
-} );
-
 
 SSG.addClasses = function() {
     // adding of control classes to hyperlinks which match jQueryImgSelector

@@ -18,7 +18,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name='theme-color' content='#083f4c'>
-    <title>SSG - vertical JavaScript gallery optimized for smartphones - Show a story with your photos</title>
+    <title>SSG - vertical JavaScript & React gallery optimized for smartphones - Show a story with your photos</title>
     <link rel="icon" type="image/png" href="https://roman-flossler.github.io/StoryShowGallery/img/favicon.png" />
 
     <meta property="og:site_name" content="Story Show Gallery"/>
@@ -75,7 +75,7 @@
 
             <header>
             <h1>Story Show Gallery</h1>            
-                <em class="subheading">Javascript vertical gallery created by Roman Flössler</em>
+                <em class="subheading">Javascript & React vertical gallery created by Roman Flössler</em>
                 <div id="badges">
                     <a target="_blank" href="https://www.jsdelivr.com/package/npm/story-show-gallery" data-clipboard-text="[![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)" data-original-title="" title=""><img src="https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded"></a>
                     <a target="_blank" href="https://snyk.io/test/npm/story-show-gallery/2.9.3"><img src="https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/npm/story-show-gallery/2.9.3" style="max-width:100%;"></a>
@@ -214,15 +214,17 @@
             </p>
             
             <code>
-                    // -- inside &lt;head&gt;<br>
-                    &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.css</span>"&gt;<br><br>
+                    // ------- inside &lt;head&gt;<br>
+                    &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css</span>"&gt;<br><br>
                     // SSG requires jQuery library at least in version 1.7<br>
                     &lt;script src="<span>https://code.jquery.com/jquery-3.5.1.min.js</span>"&gt; &lt;/script&gt;<br><br>
-                    // -- before &lt;/body&gt;<br>
-                    &lt;script src="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js</span>"&gt; &lt;/script&gt;
+                    // ------- before &lt;/body&gt;<br>
+                    &lt;script src="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.js</span>"&gt; &lt;/script&gt;
                     <br><br>
                     // add also Exifr library if you want to display EXIF data<br>
-                    &lt;script src="<span>https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js</span>"&gt; &lt;/script&gt;                    
+                    &lt;script src="<span>https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js</span>"&gt; &lt;/script&gt;  
+                    <br><br>
+                    // if you need IE11 compatibility, instead of <em>story-show-gallery@3</em> use <em>story-show-gallery@2.10. But it is without the EXIF support.</em>
             </code>            
 
             <p>Story Show Gallery looks for all hyper&shy;links (&lt;a&gt; tags) on the page that points to a picture file 
@@ -265,13 +267,17 @@
             <h2>SSG files and minifying</h2>
             <!-- _____________________________________ -->
 
-            <p>Story Show Gallery consists of three files placed in the <strong>src</strong> directory:</p>
+            <p>Story Show Gallery of six files placed in the <strong>src</strong> directory:</p>
                 <ul>
                     <li><strong>ssg.js</strong> - all Javascript - jQuery code. At the begining is default configuration and language localization.</li>
                     <li><strong>ssg.css</strong> - the gallery styles, includes icons and cursor</li>
                     <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
                         Edit it to your liking.
                     </li>
+                    <li><strong>ssg.esm.js</strong> - ESM module of Story Show Gallery, it can be imported.</li>
+                    <li><strong>react.js</strong> - StoryShowGallery component that can be used in React app.</li>
+                    <li><strong>react-exifr.js</strong> - same as the react.js, in addition it imports Exifr library to read EXIF data.</li>
+
                 </ul>            
             <p>
             There are minified files in the <strong>dist</strong> directory ready for deployment on your website. 
@@ -515,16 +521,40 @@ iceland = [];
         
         <a name='js-module'></a>
 
-        <h2>SSG as a Javascript module</h2>
+        <h2>StoryShowGallery for React ⚛</h2>
         <!-- _____________________________________ -->          
         
-        <p>Story Show Gallery can also work as a Javascript module. Just add into ssg.js file this line to export SSG object: 
+        <p>Story Show Gallery can also work as a React Component. How to use it: 
         </p>
-        <code> export default SSG; </code>
+        <code> 
+           <em>// install npm package: </em><br>
+           npm i story-show-gallery<br>
+           <br>
+           <em>// import into React app: </em><br>
+           import StoryShowGallery, { SSG } from "story-show-gallery/src/react"; <br>
+           <br>
+           <em>// if you want EXIF support use:</em><br>
+           import StoryShowGallery, { SSG } from "story-show-gallery/src/react-exifr"; <br>
+           <br>
+           <em>// use StoryShowGallery component and configure the gallery:</em><br>
+           &lt;StoryShowGallery config={{ theme: 'light' }} /&gt;
+                       
+        </code>
 
         <p>
-            Add it after definiton of SSG object: <em> var SSG = {}; </em>
+            Story Show Gallery for React works the same way as it is described above. Just put somewhere in your React app <strong>StoryShowGallery</strong> component
+            and every image hyperlink on the entire page will be asigned an onclick function, which opens image into the gallery. 
+            Image hyperlinks can be controled by CSS classes, as it is described above. 
         </p>
+        <p>
+            StoryShowGallery component has to be rendered in the same view (page) as image hyperlinks, but doesn't have to be inside the same component as image hyperlinks.
+        </p>
+        <p>
+            If you don't want in your code image hyperlinks, use <strong>SSG.run</strong> command with array which defines urls and captions of photos.
+            SSG.run parameters and its use is described above.
+        </p>
+
+        <p>There is the SsgReactExample.js file in the example directory.</p>
 
             <br style="clear: both" />
         </article>
@@ -542,7 +572,7 @@ iceland = [];
                     <img src="https://roman-flossler.github.io/StoryShowGallery/img/ssg-arrow.png" alt="" style="cursor: pointer;"></a>
                 </div>
                 
-                <section class="gallery ssg wider vipssg fs">
+                <section id="squareg" class="gallery ssg wider vipssg fs">
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg'  data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" alt="It's time! For a photo shoot of course." />
                     </a>
@@ -565,11 +595,8 @@ iceland = [];
                     </a>
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/hook-portrait.jpg' data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" alt="" /></a>
-                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg' class="third" data-author="photo by Flor">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
-                    </a>
-                    <br clear='all'/>
                 </section>
+                <br clear="all"/>
                 <p id="scheme">
                     <span>Themes:</span>
                     <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dim' }})">Dim</a>
@@ -604,7 +631,8 @@ iceland = [];
                 <li><a href="#order">Order of photos in the gallery</a></li>
                 <li><a href="#deeplinking">Deep linking, scrolling</a></li>                
                 <li><a href="#ssg-run">SSG.run & SSG.restart method</a></li>
-                <li><a href="#js-module">SSG as a Javascript module</a></li>
+                <li><a href="#js-module">StoryShowGallery for React</a>
+                    <sub style="font-size: 188%; color: #00507e; line-height: 0.8em; vertical-align: middle;">⚛</sub></li>
                 <li class="mobileonli"><a href="#themes">🎨 Visual themes</a></li>
             </ol>
 
@@ -665,14 +693,17 @@ SSG.cfg.preferedCaptionLocation = <em class="switchable" onclick="switchParam('p
 <span>// Side caption for smaller, landscape oriented photos, where is enough space below them as well as on their side.</span>
 SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="switchParam('sideCaptionforSmallerLandscapeImg',this)" >false</em><em>;</em>  <span>// false means caption below, true side caption</span>
 
-<span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
-SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',this)">false</em><em>;</em>
-
 <span>// an author signature (or some text), which will appear in every caption. The data-author attribute overrides it.</span>
 SSG.cfg.globalAuthorCaption = <em class="switchable" onclick="switchParam('globalAuthorCaption',this, ['','author: RF'])" > "" </em><em>;</em>
 
 <span>// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...</span>
 SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('showFirst3ImgsTogether',this)">true</em><em>;</em>
+
+<span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
+SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',this)">false</em><em>;</em>
+
+<span>// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render</span>
+SSG.cfg.observeDOM = <em>false;</em>
 
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
 SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
@@ -850,7 +881,14 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
 
             jQuery('.gallery img').on('load', function() {
                 imgCount++;
-                if (imgCount==7) initShow();
+                if (imgCount==6) {
+                    initShow();
+                    window.setTimeout( function() {
+                    jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
+                        '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
+                        ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
+                    }, 3000);
+                }
             });
 
             function switchParam(param, elem, values) {
@@ -867,13 +905,13 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 elem.textContent = space + quotes + SSG.cfg[param] + quotes + space;
                 elem.style.textDecorationStyle = 'wavy';
             }
-
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
     <script src="src/ssg.js"></script>
     <script>
-    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';    
+    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
+    SSG.cfg.observeDOM = true;
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';

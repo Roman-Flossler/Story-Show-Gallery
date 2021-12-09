@@ -1,11 +1,11 @@
 {
   "name": "story-show-gallery",
-  "version": "2.11.4",
+  "version": "3.0.0",
   "author": "Roman Flössler",
   "license": "GPL-3.0",
   "description": "Vertical photo gallery optimized for smartphones (notch area included). SSG can support your brand and marketing. Optimally placed captions, no ugly arrows.",
   "homepage": "https://roman-flossler.github.io/StoryShowGallery/",
-  "main": "src/ssg.js",
+  "main": "src/ssg.esm.js",
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "uglifyJS": "uglifyjs src/ssg.js --compress --mangle --comments /^/*!/ --output dist/ssg.min.js",
@@ -17,7 +17,8 @@
     "url": "git+https://github.com/Roman-Flossler/Simple-Scroll-Gallery.git"
   },
   "dependencies": {
-    "jquery": "^3.3.1"
+    "jquery": "3.x",
+    "exifr": "7.x"
   },
   "devDependencies": {
     "uglify-js": "^3.9.4",
