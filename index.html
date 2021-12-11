@@ -267,19 +267,25 @@
             <h2>SSG files and minifying</h2>
             <!-- _____________________________________ -->
 
-            <p>Story Show Gallery of six files placed in the <strong>src</strong> directory:</p>
+            <p>Story Show Gallery consists of three files placed in the <strong>src</strong> directory:</p>
                 <ul>
-                    <li><strong>ssg.js</strong> - all Javascript - jQuery code. At the begining is default configuration and language localization.</li>
+                    <li><strong>ssg.js</strong> - all Javascript - jQuery code. At the begining is default confi&shy;guration and language localization.</li>
                     <li><strong>ssg.css</strong> - the gallery styles, includes icons and cursor</li>
                     <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
                         Edit it to your liking.
                     </li>
-                    <li><strong>ssg.esm.js</strong> - ESM module of Story Show Gallery, it can be imported.</li>
-                    <li><strong>react.js</strong> - StoryShowGallery component that can be used in React app.</li>
+                </ul>
+                <br>
+            <p>There are other three files which are for React: </p>
+
+                <ul>
+                    <li><strong>ssg.esm.js</strong> - ssg.js in the form of ESM module, it can be imported.</li>
+                    <li><strong>react.js</strong> - StoryShowGallery component for use in React app.</li>
                     <li><strong>react-exifr.js</strong> - same as the react.js, in addition it imports Exifr library to read EXIF data.</li>
 
                 </ul>            
             <p>
+                <br>
             There are minified files in the <strong>dist</strong> directory ready for deployment on your website. 
             If you modify source files, you may want to minify the result. Use existing npm script:
             </p>
@@ -521,7 +527,7 @@ iceland = [];
         
         <a name='js-module'></a>
 
-        <h2>StoryShowGallery for React ⚛</h2>
+        <h2>StoryShowGallery for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"></h2>
         <!-- _____________________________________ -->          
         
         <p>Story Show Gallery can also work as a React Component. How to use it: 
@@ -542,7 +548,7 @@ iceland = [];
         </code>
 
         <p>
-            Story Show Gallery for React works the same way as it is described above. Just put somewhere in your React app <strong>StoryShowGallery</strong> component
+            Story Show Gallery for React works the same way as it is described above. Just put in your React app <strong>StoryShowGallery</strong> component
             and every image hyperlink on the entire page will be asigned an onclick function, which opens image into the gallery. 
             Image hyperlinks can be controled by CSS classes, as it is described above. 
         </p>
@@ -554,7 +560,7 @@ iceland = [];
             SSG.run parameters and its use is described above.
         </p>
 
-        <p>There is the SsgReactExample.js file in the example directory.</p>
+        <p>There is sample implementation ( <strong>SsgReactExample.js</strong> ) in the example directory.</p>
 
             <br style="clear: both" />
         </article>
@@ -632,7 +638,7 @@ iceland = [];
                 <li><a href="#deeplinking">Deep linking, scrolling</a></li>                
                 <li><a href="#ssg-run">SSG.run & SSG.restart method</a></li>
                 <li><a href="#js-module">StoryShowGallery for React</a>
-                    <sub style="font-size: 188%; color: #00507e; line-height: 0.8em; vertical-align: middle;">⚛</sub></li>
+                    <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"></li>
                 <li class="mobileonli"><a href="#themes">🎨 Visual themes</a></li>
             </ol>
 
@@ -861,6 +867,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             }
             var countShow = 0;
             var imgCount = 0;
+            var showStarted = false;
             function showHover() {
                 countShow = (countShow + 1) % 10;
                 jQuery('.gallery > a:nth-child(' +  countShow  + ')').toggleClass('show');
@@ -875,31 +882,28 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             }
 
             function initShow() {
+                if (showStarted) return;
                 show = setInterval( showHover, 444);
                 jQuery('.gallery > a').on('mouseover', stopShow );
-            }
-
-            function addImageAfter() {
                 window.setTimeout( function() {
                     jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
                         '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
                         ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
-                    }, 3000);
+                    }, 3333);
+                showStarted = true;
             }
 
-            jQuery('.gallery img').on('load', function() {
+            jQuery('.gallery img, .topimg.wider img').on('load', function() {
                 imgCount++;
-                if (imgCount==6) {
+                if (imgCount==7) {
                     initShow();
-                    addImageAfter()
                 }
             });
             
-            // if image is already loaded (offsetHeight > 1) on load event doesn't fire
-            jQuery( document ).ready( function () {            
+            // if image is already loaded (offsetHeight > 1), img onload event doesn't fire
+            jQuery( document ).ready( function () {
                 if ( document.getElementById('checker').offsetHeight > 1 ) {
                     initShow();
-                    addImageAfter()
                 }
             });
 

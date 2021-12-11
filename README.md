@@ -1,4 +1,4 @@
-# Story Show Gallery - minimalist, vertical photo gallery, mobile friendly
+# Story Show Gallery - JS & React - minimalist, vertical photo gallery, mobile friendly
 
 [![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)
 [![Known Vulnerabilities](https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg)](https://snyk.io/test/npm/story-show-gallery/2.9.3)
@@ -15,7 +15,7 @@ SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io
 [![Google Analytics](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
 
 
-Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc.
+Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
 <br>
 
@@ -68,10 +68,35 @@ The **ssg class** creates a separate gallery, the **fs class** will activate ful
 The BigImage4.jpg will open normally within a browser because of the **nossg class**.  [There are more control classes](https://roman-flossler.github.io/StoryShowGallery/#classes).
 
 You can also run the gallery by calling [SSG.run method](https://roman-flossler.github.io/StoryShowGallery/#ssg-run) and passing an JS array of images into SSG.
-Story Show Gallery can also work as a Javascript module. Just add into ssg.js file this line to export SSG object:
+
+<br>
+
+## React Component
+
+Story Show Gallery for React works the same way as it is described above. Just put in your React app StoryShowGallery component and every image hyperlink on the entire page will be asigned an onclick function, which opens image into the gallery. Image hyperlinks can be controled by CSS classes, as it is described above. 
+
+Or you can use SSG.run method with array of images. 
+
+How to install and use StoryShowGallery React component:
+
+
+``` javascript
+// install npm package:
+npm i story-show-gallery
+
+// import into React app:
+import StoryShowGallery, { SSG } from "story-show-gallery/src/react";
+
+// if you want EXIF support use:
+import StoryShowGallery, { SSG } from "story-show-gallery/src/react-exifr";
+
+// use StoryShowGallery component and configure the gallery:
+<StoryShowGallery config={{ theme: 'light' }} />
+
 ```
-export default SSG;
-```
+ There is sample implementation (**SsgReactExample.js**) in the example directory.
+
+
 
 <br>
 
@@ -82,10 +107,11 @@ Or copy selected settings into your document to override default configuration. 
 ``` html
    <script type="text/javascript" src="ssg.min.js"></script>    
     <script>
+        SSG.cfg.theme: 'light';  // visual theme
         SSG.cfg.fileToLoad = 'signpost.html'; // HTML file to load behind the gallery
         SSG.cfg.watermarkText = '〽️ Misty';  // watermark text overlaying a photo
         SSG.cfg.watermarkFontSize = 18;
-        SSG.cfg.captionExif = 'trim'; // show EXIF with reduced lens info
+        SSG.cfg.captionExif = 'trim'; // show EXIF with reduced lens info        
     </script>
 ```    
 Complete HTML5 example of SSG implementation and configuration:

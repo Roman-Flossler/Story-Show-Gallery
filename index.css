@@ -180,6 +180,18 @@ a {
     text-decoration-style: double !important;
 }
 
+h2 .react {
+    margin-bottom: -0.2em;
+    filter: brightness(0.66);
+    height: 1em;
+}
+
+li .react {
+    height: 33px;
+    margin-bottom: -11px;
+    filter: brightness(0.66);
+}
+
 .seegal {
     display: none;    
 }
@@ -445,7 +457,7 @@ ul li {
     background: rgba(255, 255, 255, 0.5); 
     /* background: radial-gradient(circle farthest-corner at 27px 33px, rgb(255, 255, 255) 0%, rgb(248, 248, 248) 28px); */
     list-style-type: square;    
-    margin-bottom: 2em;
+    margin-bottom: 0.6em;
     list-style-position: inside;
     list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24'%3E%3Cpath fill='%23ad002e' d='M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z'/%3E%3C/svg%3E");
     box-shadow: inset 0 0 33px rgb(250, 250, 250);
