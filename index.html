@@ -69,7 +69,7 @@
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />                    
                 </div>
                 
-                <span onclick="SSG.run({fs:true, initImgID: 4 });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true, initImgID: 5 });"><b>&#xA420;</b> View demo gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -678,6 +678,9 @@ SSG.cfg.crossCursor = <em class="switchable" onclick="switchParam('crossCursor',
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>
 SSG.cfg.fileToLoad = <em>null;</em>
 
+<span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
+SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
+
 <span>// display social share icon and menu</span>
 SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true</em><em>;</em>
 
@@ -736,7 +739,7 @@ SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
 
 <span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
 SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true</em><em>;</em>
-SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;😉&lt;/span&gt;';</em>
+SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;📱&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
 SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires on the gallery start before loading and displaying of the first image.</span>
@@ -782,19 +785,19 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 alt: 'With Story Show Gallery you can present your photo stories in full screen.'
             };
             demo[ 1 ] = {
-                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg',
+                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/mulafossur-panorama.jpg',
                 alt: 'You can easily browse the gallery just by scrolling. No need to clicking on arrows.'
             };
+            // demo[ 2 ] = {
+            //     href: 'https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG',
+            //     alt: 'This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don\'t pay attention.<br>',
+            //     author: 'sculptor: Adam Trbušek, photog: Roman Flössler'
+            // };
             demo[ 2 ] = {
-                href: 'https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG',
-                alt: 'This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don\'t pay attention.<br>',
-                author: 'sculptor: Adam Trbušek, photog: Roman Flössler'
-            };
-            demo[ 3 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg',
                 alt: 'SSG vs. usual web gallery. SSG use even notch area of a phone and doesn\'t display bars and icons over a photo.'
             };
-            demo[ 4 ] = {
+            demo[ 3 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg',
                 alt: 'Captions can be below the image or next to the image according to space on display.'
             };
@@ -931,6 +934,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
+    SSG.cfg.enlargeImg = true;
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : 'trim'; };
     

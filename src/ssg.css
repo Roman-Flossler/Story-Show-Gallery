@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.0.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.0.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -46,6 +46,51 @@
     So SSG_ * overwrites * from other CSS and leaves original selectors priority.
     it is possible bug, * {text-align:left} overwrites more specific selector  */
 }
+
+@media (min-width: 2500px) {
+    #SSG1,
+    #SSG1 *,
+    #SSG_exit,
+    #SSG_exit *,
+    #SSG_tip,
+    #SSG_bg,
+    #SSG_tip * {
+        font-size: 105%;
+    }
+    #SSG1 p em {
+        font-size: 100%;
+    }
+
+    #SSG_tip .exif-table * {
+        font-size: 19px;
+    }
+
+    #SSG_tip .exif-table td {
+        padding: 0.2em 0.5em !important;
+    }
+
+    #SSG_tip span.linkShare {    
+        max-width: 581px !important;
+    }
+
+    #SSG_exit {
+        transform: scale(1.13) !important;
+    }
+    
+    #SSG1 .SSG_tipCall {
+        background-size: 21px !important;
+    }
+
+    #SSG1 span.share {
+        transform: scale(1.13) !important;
+    }
+    
+    #SSG1 span.SSG_logo {
+        transform: scale(1.13);
+        transform-origin: bottom center;
+    }    
+}
+
 
 /****************************************************************
  * Table of contents:
@@ -349,7 +394,7 @@
 
 #SSG1 figure .serror img {
     border: 0;
-    height: 40px;
+    height: 40px !important;
     max-width: 83vw;
     padding: 28vh 13vw;
     box-shadow: 0 0 2px 0px #10334d !important;
@@ -418,6 +463,12 @@
     margin-right: 0.3em;
     margin-left: 0.3em;
 }
+
+#SSG1 :not(.SSG_imgWrap) span.share {
+    transform: scale(1.03);
+    transform-origin: bottom center;
+}
+
 
 #SSG1 figure.author.SSG_uwide:not(.title) span.share {
     top: 0px;
@@ -494,7 +545,9 @@
     opacity: 0.66;
 }
 
-#SSG1 figure.exif:not(.author) .share .ico {
+#SSG1 figure.exif:not(.author) .share .ico,
+#SSG1 figure.SSG_uwide .share .ico
+ {
     opacity: 0.86; 
 }
 
@@ -893,14 +946,23 @@ button#copyLink::first-letter {
     }
 
     #SSG1 .golandscape {
-        color: #bdbdbd;
+        color: #a9a9a9;
         margin-bottom: 3.2em;
         display: block;
         margin-top: -4.3vh;
         font-style: italic;
-        opacity: 0.55;
-        filter: invert(0%) grayscale(100%) contrast(160%);
+        opacity: 0.8;        
         text-shadow: 1px 1px 3px black;
+    }
+
+    #SSG1 .golandscape span {
+        display: inline-block;
+        transform: rotate(90deg);
+        font-size: 125%;
+        margin-left: 0.2em;
+        filter: saturate(1.5) contrast(1.3);
+        opacity: 0.69;
+        text-shadow: 0 0 16px #98c6ffbf;
     }
 
     #SSG1 .SSG_tipCall {
@@ -1122,6 +1184,8 @@ button#copyLink::first-letter {
 
     #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
        margin: 0 2vw 0 0;
+       flex-grow: 1;
+       max-width: 288px;
     }
 
     #SSG1.notchright .SSG_uwide.SSG_captionShift .SSG_imgWrap {
@@ -1264,6 +1328,13 @@ button#copyLink::first-letter {
 
     #SSG1 .SSG_uwide .SSG_imgWrap {
         width: auto;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 1800px) {
+    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
+        flex-grow: 0;
+        max-width: none;
     }
 }
 
@@ -1463,6 +1534,11 @@ button#copyLink::first-letter {
     #SSG1 p.title {
         line-height: 1.1em;
     }
+
+    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
+        max-width: 27vw;
+        padding: 1em;
+     }
 }
 
 
@@ -1579,7 +1655,7 @@ button#copyLink::first-letter {
 
         #SSG1,
         #SSG_tip {
-            font-size: 19px;
+            font-size: 18px;
         }
 
         #SSG1 {
@@ -1587,10 +1663,10 @@ button#copyLink::first-letter {
         }
 
         #SSG_exit {
-            top: 0;
-            right: 0;
-            background-position: 12px 24px;
-            background-size: 16px;
+            top: -4px;
+            right: -4px;
+            background-position: 11px 25px;
+            background-size: 15.5px;
         }
         
         #SSG1 .SSG_tipCall {
@@ -1598,12 +1674,17 @@ button#copyLink::first-letter {
         }
 
         #SSG1 span.share {
-            transform: scale(1.16);
+            transform: scale(1.1) !important;
         }
         
         #SSG1 span.SSG_logo {
-            transform: scale(1.16);
+            transform: scale(1.1);
             transform-origin: bottom left;
+        }
+
+        #SSG1 .golandscape span {
+            filter: none !important;
+            opacity: 1;
         }
 
         html.ssg-active body {
@@ -1611,12 +1692,6 @@ button#copyLink::first-letter {
         }
     }
 
-    @media (min-width: 660px) and (max-width: 760px) and (orientation: landscape) {
-        #SSG1,
-        #SSG_tip {
-            font-size: 18px;
-        }
-    }
 
  }
 

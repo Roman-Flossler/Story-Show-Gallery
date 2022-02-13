@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.0.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.0.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -41,6 +41,9 @@ SSG.cfg.fileToLoad = null;
 
 // display social share icon and menu
 SSG.cfg.socialShare = true;
+
+// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.
+SSG.cfg.enlargeImg = false; 
 
 // EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing
 // 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'
@@ -97,7 +100,7 @@ SSG.cfg.linkPaste = "…and you can paste it anywhere via ctrl+v";
 
 // in the portrait mode the gallery suggest to turn phone into landscape mode
 SSG.cfg.showLandscapeHint = true;
-SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>😉</span>';
+SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>📱</span>';
 
 // SSG events - see complete example of SSG events in the example directory
 SSG.cfg.onGalleryStart = null; // fires on the gallery start before loading and displaying of the first image.
@@ -901,6 +904,25 @@ SSG.onImageLoad = function ( event ) {
     SSG.justLoadedImg = event.data.imgid;
     SSG.cfgFused.onImgLoad && SSG.cfgFused.onImgLoad(SSG.createDataObject(SSG.justLoadedImg));
 
+    if ( SSG.cfgFused.enlargeImg && !SSG.isTablet && !SSG.isMobile ) {
+        var cImgH = jQuery('#SSG1 #i'+ event.data.imgid).innerHeight();
+        var cImgW = jQuery('#SSG1 #i'+ event.data.imgid).innerWidth();
+        var ww = window.innerWidth;
+        var wh = window.innerHeight;
+        var imgRatio = cImgW / cImgH;
+        var scrRatio = ww / wh;
+        
+        //console.log('img: ' + cImgW + ' x ' + cImgH + ' - screen: '  + ww + ' x ' + wh );
+        if ( cImgH < wh * 0.66 && cImgW < ww * 0.66 ) {
+                if (imgRatio < scrRatio) {
+                    jQuery('#SSG1 #i'+ event.data.imgid).css( {'height':'81vh'}); 
+                } else {
+                    jQuery('#SSG1 #i'+ event.data.imgid).css( {'width':'83vw'}); 
+                }
+        }
+    }
+
+
     SSG.displayFormat( event );
 
     // When img is loaded positions of images are recalculated.
@@ -1001,7 +1023,7 @@ SSG.getExif = function ( exif, captionInfo ) {
     var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
     
     if (SSG.cfgFused.captionExif == 'icon' && captionInfo && exifLine) return 'EXIF';
-    if (captionInfo) return exifLine;
+    if (captionInfo) return exifLine + ' …';
 
     var exifTable = `
     <div id="table-wrap">
@@ -1170,7 +1192,7 @@ SSG.addImage = function () {
 SSG.beyondGallery = function() {
     var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
     var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
-    var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/#play' class='SSG_link'><b>&#xA420;</b>SSG</a>";
+    var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://www.faroeislands.io/#ssg' class='SSG_link'><b>&#xA420;</b>SSG</a>";
     jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
         "</p> <div id='SSG_loadInto'></div></div>" );
     jQuery( '#SSG_menu' ).click( function ( event ) {

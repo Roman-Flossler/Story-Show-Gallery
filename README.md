@@ -41,11 +41,11 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 Add ssg.min.css and jQuery in the &lt;head&gt; of the document. Add ssg.min.js before end of &lt;/body&gt;. You can link files directly from CDN:
 ``` html
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"> </script>
 </head>
 ...
-<script src="https://cdn.jsdelivr.net/npm/story-show-gallery@2/dist/ssg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.js"></script>
 <!--  add also Exifr library if you want to display EXIF info -->
 <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
 </body>
