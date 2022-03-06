@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.0.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.0 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -75,13 +75,23 @@ SSG.cfg.scaleLock1 = false;
 // observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render
 SSG.cfg.observeDOM = false;
 
+// image border width and color
+SSG.cfg.imgBorderWidthX = "1";
+SSG.cfg.imgBorderWidthY = "1";
+SSG.cfg.imgBorderColor = "";
+// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
+SSG.cfg.imgBorderRadius = "0";
+// display shadow around the image (border) as it is defined in the theme
+SSG.cfg.imgBorderShadow = true;
+
 // Watermark - logo configuration. Enter watermark text or image URL to display it
 SSG.cfg.watermarkWidth = 147; // image watermark width in pixels, it is downsized on smaller screens.
 SSG.cfg.watermarkImage = '';  // watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'
 SSG.cfg.watermarkText = '';  //  watermark text, use <br> tag for word wrap
-SSG.cfg.watermarkFontSize = 20; // font size in pixels  
-SSG.cfg.watermarkOffsetX = 1.8; // watermark horizontal offset from left in percents of photo
-SSG.cfg.watermarkOffsetY = 1.2; // watermark vertical offset from bottom in percents of photo
+SSG.cfg.watermarkFontColor = ""; // custom font color, it will deactivate dark text-shadow from theme
+SSG.cfg.watermarkFontSize = 20; // font size in pixels
+SSG.cfg.watermarkOffsetX = 1.8; // watermark horizontal offset from left in percents of photo, for align to right use value near 100
+SSG.cfg.watermarkOffsetY = 1.2; // vertical offset from bottom in percents of photo OR in pixels if imgBorderWidthX >= watermarkFontSize
 SSG.cfg.watermarkOpacity = 0.36; // opacity
 
 // Here you can translate SSG into other language. Leave tags <> and "" as they are.
@@ -196,7 +206,7 @@ SSG.run = function ( event ) {
     if( event && event.cfg && Object.assign ) {
         Object.assign(SSG.cfgFused, SSG.cfg, event.cfg );
     } else {
-        SSG.cfgFused = SSG.cfg;
+        Object.assign(SSG.cfgFused, SSG.cfg);        
     }
     SSG.cfgFused.crossCursor && jQuery( 'html' ).addClass( 'crosscur' );
 
@@ -336,20 +346,55 @@ SSG.setVariables = function () {
         SSG.landscapeModeOriginal = window.matchMedia( '(orientation: landscape)' ).matches;
     }
     
+    SSG.radiusUnit = SSG.cfgFused.imgBorderRadius > 33 ? "%" : "vmax";
+    if ( SSG.cfgFused.imgBorderRadius > 50 ) SSG.cfgFused.imgBorderRadius = 50;
+    
+    // size adjustments for small screens
+    if (SSG.smallScreen) {
+        // change border width only if it is bigger then fontsize
+        if(SSG.cfgFused.imgBorderWidthX >= SSG.cfgFused.watermarkFontSize ) {
+            SSG.cfgFused.imgBorderWidthX *= 0.8;
+            if(SSG.cfgFused.imgBorderWidthY >= 2 ) {
+                SSG.cfgFused.imgBorderWidthY *= 0.8;
+            }
+        }
+        SSG.cfgFused.watermarkFontSize *= 0.8;
+        if (SSG.cfgFused.imgBorderRadius < 1) SSG.cfgFused.imgBorderRadius *= 1.4;
+    }
 
 
     // Styles for watermark
     SSG.watermarkStyle = '';
     if ( SSG.cfgFused.watermarkImage || SSG.cfgFused.watermarkText ) {
-        var watermarkFontSize = SSG.smallScreen ? SSG.cfgFused.watermarkFontSize * 0.8 : SSG.cfgFused.watermarkFontSize;
         var width = Math.round( SSG.cfgFused.watermarkWidth / 1260 * 1000 ) / 10;
 
-        SSG.watermarkStyle = "max-width:" + SSG.cfgFused.watermarkWidth + "px; min-width:" + Math.round( SSG.cfgFused.watermarkWidth * 0.69 ) + 
-        "px; width:" + width + "vmax; background-image: url(" + SSG.cfgFused.watermarkImage + ");" +
-        "left:" +  SSG.cfgFused.watermarkOffsetX + "%; bottom:" + SSG.cfgFused.watermarkOffsetY + "%; height:" +  SSG.cfgFused.watermarkWidth * 1.5 + "px;" +
-        "max-height: 48vmin;" + "font-size:" + watermarkFontSize + "px;opacity:" + SSG.cfgFused.watermarkOpacity;
-        // for IE 11
-        SSG.watermarkStyle = "width:" + width + "vw;" + SSG.watermarkStyle;
+        SSG.watermarkStyle = "left:" +  SSG.cfgFused.watermarkOffsetX + "%; bottom: calc( 2px + " + SSG.cfgFused.watermarkOffsetY + "% );" + 
+        "font-size:" + SSG.cfgFused.watermarkFontSize + "px;opacity:" + SSG.cfgFused.watermarkOpacity + ";";
+
+        if ( SSG.cfgFused.imgBorderWidthX > SSG.cfgFused.watermarkFontSize ) {
+            // use pixels for offsetY because img border width is in pixels
+            SSG.watermarkStyle = SSG.watermarkStyle + "bottom:" + SSG.cfgFused.watermarkOffsetY + "px;";
+        }
+
+        if ( SSG.cfgFused.watermarkFontColor ) {
+            SSG.watermarkStyle = SSG.watermarkStyle + "color: "  + SSG.cfgFused.watermarkFontColor + "; text-shadow:none; ";
+        }
+
+        
+
+        if ( SSG.cfgFused.watermarkImage  ) {
+            SSG.watermarkStyle = SSG.watermarkStyle + "max-width:" + SSG.cfgFused.watermarkWidth + "px; min-width:" +
+            Math.round( SSG.cfgFused.watermarkWidth * 0.69 ) + "px; width:" + width + "vmax; background-image: url(" + SSG.cfgFused.watermarkImage + ");" + 
+            "height:" +  SSG.cfgFused.watermarkWidth * 1.5 + "px;" + "max-height: 48vmin;"
+            // for IE 11
+            SSG.watermarkStyle = "width:" + width + "vw;" + SSG.watermarkStyle;
+        }
+
+        if (SSG.cfgFused.watermarkOffsetX > 33 && SSG.cfgFused.watermarkOffsetX < 66 ) {
+            SSG.watermarkStyle = SSG.watermarkStyle +  " transform: translate(-50%, 0px);"
+        } else if ( SSG.cfgFused.watermarkOffsetX >= 66 ) {
+            SSG.watermarkStyle = SSG.watermarkStyle +  " transform: translate(-100%, 0px);"
+        }        
     }
 };
 
@@ -933,7 +978,6 @@ SSG.onImageLoad = function ( event ) {
 
     
     // if captionExif = icon run EXIF parsing only if the image caption isn't empty
-    //if ( SSG.cfgFused.captionExif == 'icon' && ( !SSG.imgs[SSG.justLoadedImg].alt && !SSG.imgs[SSG.justLoadedImg].author )) return;
 
     if (SSG.cfgFused.captionExif !=='none' && window.exifr) {
         window.exifr.parse(document.querySelector("#SSG1 #i" + SSG.justLoadedImg))
@@ -1029,8 +1073,8 @@ SSG.getExif = function ( exif, captionInfo ) {
     <div id="table-wrap">
     <table class="exif-table">
         <tr><td>author:</td><td> ${ dash( exif.Artist || exif.Copyright || exif['42032'] ) } </td></tr>
-        <tr><td>camera${'\u00A0'}maker:</td><td> ${exif.Make} </td></tr>
-        <tr><td>camera${'\u00A0'}model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
+        <tr><td>camera&nbsp;maker:</td><td> ${exif.Make} </td></tr>
+        <tr><td>camera model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
         <tr><td>lens:</td><td>  ${ dash(lensExif)}</td></tr>
         <tr><td>focal length:</td><td> ${ !exif.FocalLengthIn35mmFormat && exif.FocalLength ? '<b>∢</b>' : '' } ${dash(exif.FocalLength + ' mm')}</td></tr>
         
@@ -1077,7 +1121,7 @@ SSG.shareMenu = function(newOne, caption) {
     var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
     var windowOpen = ' target="_blank" href="';
     var WindoOpenParams =  '" ';
-    var shareMenu = "<span class='share'><span class='share-menu'>" +
+    var shareMenu = "<span class='share' " + (SSG.cfgFused.imgBorderRadius > 6 ? ("style='bottom:"+ (SSG.cfgFused.imgBorderRadius-1) + SSG.radiusUnit + "'") : "")  + "'><span class='share-menu'>" +
                 "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Linkedin'></a>" + 
                 "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + " title='Share on WhatsApp'></a>" + 
                 "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + " title='Share on Messenger'></a>" + 
@@ -1124,8 +1168,15 @@ SSG.addImage = function () {
         }       
         var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
+        var bWidth = SSG.cfgFused.imgBorderWidthX && "border-width:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
+        var bColor = SSG.cfgFused.imgBorderColor && "border-color:" + SSG.cfgFused.imgBorderColor + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ";
+        var bRadius = SSG.cfgFused.imgBorderRadius && "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
+        var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";
+
+        var imgStyles = "style='" + bWidth + bColor + bRadius + bShadow + "'";
+
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
-            newOne + "' src='" + SSG.imgs[ newOne ].href + "'><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
+            newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
              SSG.cfgFused.watermarkText +"</span>"+ shareMenu +"</span></div>";
         var caption = "<p class='title' id='p" + newOne + "'><span>" + caption + "<q></q>" + author + shareMenu + "</span></p>";
                 

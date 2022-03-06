@@ -170,7 +170,7 @@
                     alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
 
             <h3>Easy implementation</h3>
-            <p>                
+            <p>
                 SSG has very easy setup, it binds onto image hyper&shy;links on the page auto&shy;mati&shy;cally and runs the gallery. 
                 You can control this proccess by <strong>CSS classes</strong>.
                 Define sepa&shy;rate galleries, activate full screen mode, selectively deactivate SSG, etc.
@@ -476,11 +476,11 @@ data.imageCaption // image caption for current image
                 With the <strong>cfg</strong> parameter you can override global configuration, it applies only for the current gallery run.
                  The cfg is an object which have the same properties as the 
                  <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');">global configuration</a>.
-                 Following gallery run has slower scroll animation, black theme, fullscreen portrait, different watermark and no signpost.
+                 Following gallery has photos shaped into ellipse with thick border at its top and bottom.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 800, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }})">
-                SSG.run( { initImgID:0, fs:true, cfg: { scrollDuration: 800, theme:'black', mobilePortraitFS:true, watermarkText: '〽️ Mia', fileToLoad: null }} )
+            <code class="active" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:8, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
+                SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:7,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -609,7 +609,12 @@ iceland = [];
                     <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dark' }})">Dark</a>
                     <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'black' }})">Black</a>
                     <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
-                </p>
+                </p>                
+
+                <p>
+                    &nbsp;&nbsp;⭕
+                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:1, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                    Extreme example of image border, radius and watermark settings</a></p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
                 <p>
@@ -714,13 +719,23 @@ SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',th
 <span>// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render</span>
 SSG.cfg.observeDOM = <em>false;</em>
 
+<span>// image border width, color and radius</span>
+SSG.cfg.imgBorderWidthX = <em>"1";</em>
+SSG.cfg.imgBorderWidthY = <em>"1";</em>
+SSG.cfg.imgBorderColor = <em>"";</em>
+<span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
+SSG.cfg.imgBorderRadius = <em>"0";</em>
+<span>// display shadow around the image (border) as it is defined in the theme</span>
+SSG.cfg.imgBorderShadow = <em>true;</em>
+
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
 SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
 SSG.cfg.watermarkImage = <em>'';</em>  <span>// watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'</span>
 SSG.cfg.watermarkText = <em>'';</em>  <span>//  watermark text, use &lt;br&gt; tag for word wrap</span>
 SSG.cfg.watermarkFontSize = <em>20;</em> <span>// font size in pixels  </span>
-SSG.cfg.watermarkOffsetX = <em>1.8;</em> <span>// watermark horizontal offset from left in percents of photo</span>
-SSG.cfg.watermarkOffsetY = <em>1.2;</em> <span>// watermark vertical offset from bottom in percents of photo</span>
+SSG.cfg.watermarkFontColor = <em>""</em>; <span>// text watermark color, it will deactivate dark text-shadow from theme. </span>
+SSG.cfg.watermarkOffsetX = <em>1.8;</em> <span>//  watermark horizontal offset from left in percents of photo, for align to right use value near 100</span>
+SSG.cfg.watermarkOffsetY = <em>1.2;</em> <span>// vertical offset from bottom in percents of photo OR in pixels if imgBorderWidthX >= watermarkFontSize</span>
 SSG.cfg.watermarkOpacity = <em>0.36;</em> <span>// opacity</span>
 
 <span>// Here you can translate SSG into other language. Leave tags &lt;&gt; and "" as they are.</span>
@@ -934,7 +949,8 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
-    SSG.cfg.enlargeImg = true;
+    SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
+    SSG.cfg.imgBorderRadius = "0.25";    
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : 'trim'; };
     
