@@ -110,7 +110,7 @@
             <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
                 vertical slider is subtle and cursor can be too.
                 <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
-            <p>On smartphones, full screen mode works like on <strong>You­Tube</strong>. It activa­tes after rotating a phone into landscape mode. </p> 
+            <p>On smartphones, full screen mode works like on <strong>YouTube</strong>. It activates after rotating a phone into landscape mode. </p> 
             <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
 
 
@@ -479,8 +479,8 @@ data.imageCaption // image caption for current image
                  Following gallery has photos shaped into ellipse with thick border at its top and bottom.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:8, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
-                SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:7,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
+            <code class="active" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
+                SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -613,7 +613,7 @@ iceland = [];
 
                 <p>
                     &nbsp;&nbsp;⭕
-                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:1, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
                     Extreme example of image border, radius and watermark settings</a></p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -719,24 +719,25 @@ SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',th
 <span>// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render</span>
 SSG.cfg.observeDOM = <em>false;</em>
 
-<span>// image border width, color and radius</span>
-SSG.cfg.imgBorderWidthX = <em>"1";</em>
-SSG.cfg.imgBorderWidthY = <em>"1";</em>
-SSG.cfg.imgBorderColor = <em>"";</em>
+<span>// image border width in pixels and color in CSS format</span>
+SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,33])"> 1 </em><em>;</em>
+SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,13,33])"> 1 </em><em>;</em>
+SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['white','black','rebeccapurple','#889A9F',''])"> "" </em><em>;</em>
 <span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
-SSG.cfg.imgBorderRadius = <em>"0";</em>
+SSG.cfg.imgBorderRadius = <em class="switchable" onclick="switchParam('imgBorderRadius',this, [0.3,3,50,0])"> 0 </em><em>;</em>
 <span>// display shadow around the image (border) as it is defined in the theme</span>
-SSG.cfg.imgBorderShadow = <em>true;</em>
+SSG.cfg.imgBorderShadow =  <em class="switchable" onclick="switchParam('imgBorderShadow',this)">true</em><em>;</em>
 
 <span>// Watermark - logo configuration. Enter watermark text or image URL to display it</span>
 SSG.cfg.watermarkWidth = <em>147;</em> <span>// image watermark width in pixels, it is downsized on smaller screens.</span>
-SSG.cfg.watermarkImage = <em>'';</em>  <span>// watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'</span>
-SSG.cfg.watermarkText = <em>'';</em>  <span>//  watermark text, use &lt;br&gt; tag for word wrap</span>
-SSG.cfg.watermarkFontSize = <em>20;</em> <span>// font size in pixels  </span>
-SSG.cfg.watermarkFontColor = <em>""</em>; <span>// text watermark color, it will deactivate dark text-shadow from theme. </span>
-SSG.cfg.watermarkOffsetX = <em>1.8;</em> <span>//  watermark horizontal offset from left in percents of photo, for align to right use value near 100</span>
-SSG.cfg.watermarkOffsetY = <em>1.2;</em> <span>// vertical offset from bottom in percents of photo OR in pixels if imgBorderWidthX >= watermarkFontSize</span>
-SSG.cfg.watermarkOpacity = <em>0.36;</em> <span>// opacity</span>
+SSG.cfg.watermarkImage = <em class="switchable" onclick="switchParam('watermarkImage',this, ['https://www.transparentpng.com/thumb/roman-reigns/dNWxRs-roman-reigns-amazing-image-download.png','' ])"> "" </em><em>;</em>  <span>  // watermark image URL e.g. 'https://www.flor.cz/img/florcz.png'</span>
+SSG.cfg.watermarkText = <em class="switchable" onclick="switchParam('watermarkText',this, ['Story Show Gallery', '➜ 📷 Leica 🐶 ⤾','' ])"> "" </em><em>;</em>  <span>//  watermark text, use &lt;br&gt; tag for word wrap</span>
+SSG.cfg.watermarkFontSize = <em class="switchable" onclick="switchParam('watermarkFontSize',this, [10,50,20])"> 20 </em><em>;</em> <span>// font size in pixels  </span>
+SSG.cfg.watermarkFontColor = <em class="switchable" onclick="switchParam('watermarkFontColor',this, ['','white','black','#ADC9F8','rebeccapurple'])"> "" </em><em>;</em> <span>// text watermark color, it will deactivate dark text-shadow from theme. </span>
+SSG.cfg.watermarkOffsetX = <em class="switchable" onclick="switchParam('watermarkOffsetX',this, [50,98,1.8])">1.8</em><em>;</em> <span>//   watermark horizontal offset from left border in percents of photo, for align to right use value near 100</span>
+SSG.cfg.watermarkOffsetY = <em class="switchable" onclick="switchParam('watermarkOffsetY',this, [-26,49,95,126,1.2])">1.2</em><em>;</em> <span>// vertical offset from bottom border in percents of photo, for align to top use value near 100 </span>
+<span>// Watermark can be also positioned inside image border, use negative values to do so. Negative values are in pixels - as border width</span>
+SSG.cfg.watermarkOpacity = <em class="switchable" onclick="switchParam('watermarkOpacity',this, [0.6,1,0.36])">0.42</em><em>;</em> <span>// opacity</span>
 
 <span>// Here you can translate SSG into other language. Leave tags &lt;&gt; and "" as they are.</span>
 SSG.cfg.hint1 = <em>"Browse through Story Show Gallery by:";</em>
@@ -952,7 +953,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
     SSG.cfg.imgBorderRadius = "0.25";    
     SSG.cfg.captionExif = 'trim';
-    SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : 'trim'; };
+    SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : SSG.cfg.captionExif; };
+    //SSG.cfg.watermarkText = "<a href=#>Just a test</a>";
+    //SSG.cfg.globalAuthorCaption = "<a href=#>Just a test</a>";
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
     var counter = 0;
