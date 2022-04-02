@@ -38,7 +38,7 @@
     <meta itemprop="image" content="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-share.jpg"/>
     
     <link rel='stylesheet' href='index.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="dist/ssg.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="src/ssg.css" type="text/css" media="all">
     <script src="https://code.jquery.com/jquery-1.7.min.js" ></script>
     <script>
         var colorMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';        
@@ -943,9 +943,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
-    <script src="dist/ssg.min.js"></script>
+    <script src="src/ssg.js"></script>
     <script>
-    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@3/src/ssg-loaded.html';
+    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@2/src/ssg-loaded.html';
     SSG.cfg.observeDOM = true;
     SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
