@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -349,6 +349,10 @@ SSG.setVariables = function () {
     
     SSG.radiusUnit = SSG.cfgFused.imgBorderRadius > 33 ? "%" : "vmax";
     if ( SSG.cfgFused.imgBorderRadius > 50 ) SSG.cfgFused.imgBorderRadius = 50;
+    if ( SSG.cfgFused.imgBorderWidthY === "") SSG.cfgFused.imgBorderWidthY = 1;
+    if ( SSG.cfgFused.imgBorderWidthX === "") SSG.cfgFused.imgBorderWidthX = 1;
+    if ( SSG.cfgFused.watermarkOffsetY === "") SSG.cfgFused.watermarkOffsetY = 1;
+    if ( SSG.cfgFused.watermarkOffsetX === "") SSG.cfgFused.watermarkOffsetX = 1;
     
     // size adjustments for small screens
     if (SSG.smallScreen) {
@@ -1202,7 +1206,7 @@ SSG.addImage = function () {
         var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
         var bWidth =  "border-width:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
-        var bColor =  SSG.cfgFused.imgBorderColor && ("border-color:" + SSG.cfgFused.imgBorderColor + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ");
+        var bColor =  SSG.cfgFused.imgBorderColor ? ("border-color:" + SSG.cfgFused.imgBorderColor + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ") : "";
         var bRadius =  "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
         var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";
 
