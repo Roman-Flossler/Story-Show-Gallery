@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -42,6 +42,9 @@ SSG.cfg.fileToLoad = null;
 // display social share icon and menu
 SSG.cfg.socialShare = true;
 
+// hide image captions, it doesn't impact global caption or exif
+SSG.cfg.hideImgCaptions = false;
+
 // Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.
 SSG.cfg.enlargeImg = false; 
 
@@ -75,9 +78,10 @@ SSG.cfg.scaleLock1 = false;
 // observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render
 SSG.cfg.observeDOM = false;
 
-// image border width in pixels and color in CSS format
+// image border width in pixels
 SSG.cfg.imgBorderWidthX = 1;
 SSG.cfg.imgBorderWidthY = 1;
+// image border color - optimally in hex format (eg. #366988), it prevents visual problem with borders
 SSG.cfg.imgBorderColor = "";
 // radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
 SSG.cfg.imgBorderRadius = 0;
@@ -376,7 +380,7 @@ SSG.setVariables = function () {
         if(SSG.cfgFused.imgBorderWidthY >= 2 ) SSG.cfgFused.imgBorderWidthY *= 0.8;
 
         SSG.cfgFused.watermarkFontSize *= 0.8;
-        if (SSG.cfgFused.imgBorderRadius < 1) SSG.cfgFused.imgBorderRadius *= 1.5;
+        if (SSG.cfgFused.imgBorderRadius < 2) SSG.cfgFused.imgBorderRadius =  SSG.cfgFused.imgBorderRadius * ( SSG.cfgFused.imgBorderRadius * -0.4 + 1.8 );
     }
 
 
@@ -414,7 +418,7 @@ SSG.setVariables = function () {
 
         if ( SSG.cfgFused.watermarkImage  ) {
             SSG.watermarkStyle = SSG.watermarkStyle + "max-width:" + SSG.cfgFused.watermarkWidth + "px; min-width:" +
-            Math.round( SSG.cfgFused.watermarkWidth * 0.69 ) + "px; width:" + width + "vmax; background-image: url(" + SSG.cfgFused.watermarkImage + ");" + 
+            Math.round( SSG.cfgFused.watermarkWidth * 0.75 ) + "px; width:" + width + "vmax; background-image: url(" + SSG.cfgFused.watermarkImage + ");" + 
             "height:" +  SSG.cfgFused.watermarkWidth * 1.5 + "px;" + "max-height: 48vmin;"
             // for IE 11
             SSG.watermarkStyle = "width:" + width + "vw;" + SSG.watermarkStyle;
@@ -790,7 +794,7 @@ SSG.getImgList = function ( event ) {
 
         if ( noGossg && (rightGallery || clickedGalleryID == -1 )) {
             obj.href = el.href;
-            obj.alt = SSG.getAlt( el );
+            obj.alt = SSG.cfgFused.hideImgCaptions ? "" : SSG.getAlt( el );
             obj.id = el.attributes.ssgid.nodeValue;
             if (el.attributes['data-author']) {
                 obj.author = el.attributes['data-author'].nodeValue;
@@ -1104,7 +1108,7 @@ SSG.getExif = function ( exif, captionInfo ) {
     var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
     
     if (SSG.cfgFused.captionExif == 'icon' && captionInfo && exifLine) return 'EXIF';
-    if (captionInfo) return exifLine + ' …';
+    if (captionInfo) return exifLine + ( exifLine ? ' …' : "" );
 
     var exifTable = `
     <div id="table-wrap">
@@ -1173,6 +1177,14 @@ SSG.shareMenu = function(newOne, caption) {
     return shareMenu;
 }
 
+SSG.fc = function(color) {
+    if (color.length == 7 && color.includes("#")) {
+        return color = color + "fc";
+    } else {
+        return color;
+    }
+}
+
 SSG.addImage = function () {
 
     // Newone is index of a image which will be load.
@@ -1206,7 +1218,7 @@ SSG.addImage = function () {
         var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
         var bWidth =  "border-width:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
-        var bColor =  SSG.cfgFused.imgBorderColor ? ("border-color:" + SSG.cfgFused.imgBorderColor + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ") : "";
+        var bColor =  SSG.cfgFused.imgBorderColor ? ("border-color:" + SSG.fc(SSG.cfgFused.imgBorderColor) + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ") : "";
         var bRadius =  "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
         var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";
 

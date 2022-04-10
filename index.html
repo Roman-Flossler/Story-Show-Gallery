@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="src/ssg.css" type="text/css" media="all">
     <script src="https://code.jquery.com/jquery-1.7.min.js" ></script>
     <script>
+        (window.jQuery || document.write('<script src="jQuery/jquery36.min.js"><\/script>'));
+    </script>
+    <script>
         var colorMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';        
         if ( localStorage && "colorMode" in localStorage ) {
             colorMode = localStorage.getItem("colorMode");
@@ -683,15 +686,18 @@ SSG.cfg.crossCursor = <em class="switchable" onclick="switchParam('crossCursor',
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>
 SSG.cfg.fileToLoad = <em>null;</em>
 
-<span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
-SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
-
 <span>// display social share icon and menu</span>
 SSG.cfg.socialShare = <em class="switchable" onclick="switchParam('socialShare',this)">true</em><em>;</em>
+
+<span>// hide image captions, it doesn't impact global caption or exif</span>
+SSG.cfg.hideImgCaptions = <em class="switchable" onclick="switchParam('hideImgCaptions',this)">false</em><em>;</em>
 
 <span>// EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing</span>
 <span>// 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'</span>
 SSG.cfg.captionExif = <em class="switchable" onclick="switchParam('captionExif',this, ['none', 'standard', 'trim', 'icon' ])"> "none" </em><em>;</em>
+
+<span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
+SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
 
 <span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
 SSG.cfg.logIntoGA = <em>true;</em>
@@ -719,10 +725,11 @@ SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',th
 <span>// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render</span>
 SSG.cfg.observeDOM = <em>false;</em>
 
-<span>// image border width in pixels and color in CSS format</span>
+<span>// image border width in pixels</span>
 SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,33])"> 1 </em><em>;</em>
 SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,13,33])"> 1 </em><em>;</em>
-SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['white','black','rebeccapurple','#889A9F',''])"> "" </em><em>;</em>
+<span>// image border color - optimally in hex format (eg. #366988), it prevents visual problem with borders</span>
+SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['#ffffff','#000000','rebeccapurple','#747480',''])"> "" </em><em>;</em>
 <span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
 SSG.cfg.imgBorderRadius = <em class="switchable" onclick="switchParam('imgBorderRadius',this, [0.3,3,50,0])"> 0 </em><em>;</em>
 <span>// display shadow around the image (border) as it is defined in the theme</span>
