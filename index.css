@@ -217,6 +217,50 @@ a.showgal span, a.seegal span {
     transform: rotate(22deg);
     display: inline-block;
 }
+  
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer; 
+}
+input[type="checkbox"]:focus {
+    outline: 0; }
+
+.toggle {
+    filter: invert(0.8) hue-rotate(188deg) contrast(2);
+    top: 6px;
+    left: 2px;
+    height: 22px;
+    width: 36px;
+    border-radius: 16px;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    border: 2px solid #474755;
+    background: linear-gradient(180deg, #2D2F39 0%, #1F2027 100%);
+    transition: all .2s ease; 
+}
+.toggle:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #4194ad;
+    box-shadow: 0 1px 2px rgba(44, 44, 44, 0.2);
+    transition: all 0.2s cubic-bezier(0.5, 0.1, 0.75, 1.35); 
+}
+.toggle:checked {
+    border-color: #eb6f84; 
+}
+.toggle:checked:after {
+    transform: translatex(14px); 
+}
+  
 
 a.showgal {
     cursor:pointer; text-decoration:underline
@@ -1128,6 +1172,14 @@ footer {
     .dark ol.content li:nth-child(even) {
         background: rgb(23, 30, 31);
         color: #ff4565;
+    }
+
+    .dark .toggle {
+        filter: none;
+    }
+
+    .dark .toggle:checked {
+        border-color: #be1b37; 
     }
 
     @media screen and (max-width: 550px) {

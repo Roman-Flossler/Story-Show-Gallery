@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -81,8 +81,10 @@ SSG.cfg.observeDOM = false;
 // image border width in pixels
 SSG.cfg.imgBorderWidthX = 1;
 SSG.cfg.imgBorderWidthY = 1;
-// image border color - optimally in hex format (eg. #366988), it prevents visual problem with borders
+// image border color in CSS format (eg: #366988 or black)
 SSG.cfg.imgBorderColor = "";
+// Light effect on image border - it looks good mainly on thicker borders
+SSG.cfg.imgBorderLightFx = false;
 // radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
 SSG.cfg.imgBorderRadius = 0;
 // display shadow around the image (border) as it is defined in the theme
@@ -95,7 +97,7 @@ SSG.cfg.watermarkText = '';  //  watermark text, use <br> tag for word wrap
 SSG.cfg.watermarkFontColor = ""; // custom font color, it will deactivate dark text-shadow from theme
 SSG.cfg.watermarkFontSize = 20; // font size in pixels, it is downsized on smaller screens.
 SSG.cfg.watermarkOffsetX = 1.8; // watermark horizontal offset from left border in percents of photo, for align to right use value near 100
-SSG.cfg.watermarkOffsetY = 1.2; // vertical offset from bottom border in percents of photo, for align to top use value near 100 
+SSG.cfg.watermarkOffsetY = 0.6; // vertical offset from bottom border in percents of photo, for align to top use value near 100 
 // Watermark can be also positioned inside image border, use negative values to do so. Negative values are in pixels - as border width
 SSG.cfg.watermarkOpacity = 0.42; // opacity
 
@@ -103,7 +105,7 @@ SSG.cfg.watermarkOpacity = 0.42; // opacity
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
 SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
 SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
-SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> to browse through Story Show Gallery.";
+SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> or <strong>swipe</strong> to left (right) <br> to browse through Story Show Gallery.";
 SSG.cfg.hintFS = 'For a better experience <br><a><abbr>⎚</abbr> go full screen</a>';
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
@@ -342,6 +344,7 @@ SSG.setVariables = function () {
     SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.actualPos = window.pageYOffset || document.documentElement.scrollTop;
+    SSG.slide = {};  // touchmove data
     
     // Intial scroll, rotation and height. Don't overwrite originals if the gallery is being restarted 
     
@@ -381,8 +384,10 @@ SSG.setVariables = function () {
 
         SSG.cfgFused.watermarkFontSize *= 0.8;
         if (SSG.cfgFused.imgBorderRadius < 2) SSG.cfgFused.imgBorderRadius =  SSG.cfgFused.imgBorderRadius * ( SSG.cfgFused.imgBorderRadius * -0.4 + 1.8 );
+        
+    } else {        
+        if (SSG.cfgFused.imgBorderRadius < 0.5) SSG.cfgFused.imgBorderRadius *= Math.pow( 1920 / window.innerWidth, 0.7 );
     }
-
 
     // Styles for watermark
     SSG.watermarkStyle = '';
@@ -546,6 +551,7 @@ SSG.createGallery = function ( event ) {
     
     // Append gallery's HTML tags
     jQuery( 'body' ).append( "<div id='SSG1'></div>" );
+    if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'border1' );
     SSG.setNotchRight();
     SSG.inExitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
     // event listeners for SSG tags    
@@ -659,16 +665,40 @@ SSG.initGallery = function ( event ) {
         }
     }
 
-    // if a user wants to touch scroll to next photo, the tip window shows that there is a better way    
-    jQuery( document ).on( 'touchmove', function badTouchMove() {
-        if ( SSG.landscapeMode && !SSG.wasJumpScrollUsed && !SSG.fsTipShown && SSG.running ) {
-            SSG.showFsTip( 'hint' );
-            jQuery( document ).off( 'touchmove', badTouchMove );
+    SSG.slideBrowse = function(event) {
+        if (  SSG.running && SSG.landscapeMode && SSG.slide.started == true ) {            
+            SSG.slide.count++;
+            if (  SSG.slide.count >= 4 ) {
+                SSG.slide.started = false;
+                SSG.slide.count = 0;
+
+                if( Math.abs( (event.originalEvent.touches[0].clientX - SSG.slide.startX) / (event.originalEvent.touches[0].clientY - SSG.slide.startY) ) > 2.2 ) {
+                    if ( event.originalEvent.touches[0].clientX < SSG.slide.startX) {
+                        SSG.imageDown = true;        
+                    } else {
+                        SSG.imageUp = true;
+                    }
+                } else {
+                    if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown) {
+                        SSG.showFsTip( 'hint' );
+                    }
+                }
+            }
         }
-    } );
+    }
+
+    SSG.slideStart = function (event) {        
+        if (  SSG.running && SSG.landscapeMode ) {
+            SSG.slide = { started: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
+        }
+    }    
+    
+    jQuery( document ).on( 'touchstart', SSG.slideStart );
+    jQuery( document ).on( 'touchmove', SSG.slideBrowse );    
 
     jQuery( document ).on( 'scroll', function removeArrowDown() {
-        // if the gallery is fully scrolled to the first image, on next scroll hide arrow down
+        // in portrait mode, if the gallery is fully scrolled to the first image, on next scroll hide arrow down
+        
         if ( !SSG.landscapeMode && SSG.displayedImg >= 0 && SSG.actualPos > SSG.imgs[0].pos ) {
             jQuery('.SSG_tipCall').addClass('hide');
             jQuery( document ).off( 'scroll', removeArrowDown );
@@ -954,6 +984,10 @@ SSG.displayFormat = function ( e ) {
     var vwidth = jQuery( window ).width();
     var vheight = window.innerHeight;
     var photoFrameWidth =  vwidth > 1333 ? 0.82 : 0.77;
+    // if there are no captions calculate with 90% width (10% is for the arrow next to the first photo)    
+    if ( !SSG.imgs[index].alt && !SSG.imgs[index].author && !SSG.imgs[index].exif && !SSG.cfgFused.globalAuthorCaption ) {
+        photoFrameWidth = 0.9;
+    }
     var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
@@ -967,6 +1001,7 @@ SSG.displayFormat = function ( e ) {
         }
     }, 666);
 
+    // SSG_uwide class can be given to a photo regardless if it has some captions. Empty captions space si hidden via CSS.
     if ( ((imgRatio - imageBoxRatio) * 100 ) + SSG.cfgFused.preferedCaptionLocation < 0 || preferSideCaption ) {
         jQuery( '#SSG1 #f' + index ).addClass( 'SSG_uwide' );
     } else {
@@ -984,10 +1019,11 @@ SSG.displayFormat = function ( e ) {
 
 
 // A callback function when an image is loaded.
-SSG.onImageLoad = function ( event ) {
+SSG.onImageLoad = async function ( event ) {
 
     // Index of the newest loaded image
     SSG.justLoadedImg = event.data.imgid;
+    SSG.imgs[event.data.imgid].exif = false;
     SSG.cfgFused.onImgLoad && SSG.cfgFused.onImgLoad(SSG.createDataObject(SSG.justLoadedImg));
 
     if ( SSG.cfgFused.enlargeImg && !SSG.isTablet && !SSG.isMobile ) {
@@ -1008,24 +1044,20 @@ SSG.onImageLoad = function ( event ) {
         }
     }
 
-
-    SSG.displayFormat( event );
-
-    // When img is loaded positions of images are recalculated.
-    SSG.refreshPos();
-
-    // It secures to run addImage only once after image is loaded.
-    SSG.loadNextImg = true;
-
     
     // if captionExif = icon run EXIF parsing only if the image caption isn't empty
 
     if (SSG.cfgFused.captionExif !=='none' && window.exifr) {
-        window.exifr.parse(document.querySelector("#SSG1 #i" + SSG.justLoadedImg))
-        .then((exif) => {
-            if (!exif) return;
+        try {
+            var exif = await window.exifr.parse(document.querySelector("#SSG1 #i" + SSG.justLoadedImg));
+        } catch(err) {
+            console.log('Exifr ' + err)
+        }
+    
+        if (exif) {
             SSG.exifTemp = SSG.getExif(exif, true);
             if (SSG.exifTemp) {
+                SSG.imgs[event.data.imgid].exif = true;
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").html(SSG.exifTemp);
                 SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").addClass('exif-icon');
                 SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg ).addClass('eicon');
@@ -1035,9 +1067,17 @@ SSG.onImageLoad = function ( event ) {
                 jQuery("#SSG1 #f" + SSG.justLoadedImg).addClass('exif');
                 jQuery("#SSG1 #f" + SSG.justLoadedImg).removeClass('notitle');
             }
-        } )
-        .catch(error => console.log('Exifr ' + error))
+        }
     }
+
+    SSG.displayFormat( event );
+
+    // When img is loaded positions of images are recalculated.
+    SSG.refreshPos();
+
+    // It secures to run addImage only once after image is loaded.
+    SSG.loadNextImg = true;
+
 };
 
 SSG.getExif = function ( exif, captionInfo ) {
@@ -1177,14 +1217,6 @@ SSG.shareMenu = function(newOne, caption) {
     return shareMenu;
 }
 
-SSG.fc = function(color) {
-    if (color.length == 7 && color.includes("#")) {
-        return color = color + "fc";
-    } else {
-        return color;
-    }
-}
-
 SSG.addImage = function () {
 
     // Newone is index of a image which will be load.
@@ -1217,12 +1249,13 @@ SSG.addImage = function () {
         }       
         var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
-        var bWidth =  "border-width:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
-        var bColor =  SSG.cfgFused.imgBorderColor ? ("border-color:" + SSG.fc(SSG.cfgFused.imgBorderColor) + "; background-color:" + SSG.cfgFused.imgBorderColor + "; ") : "";
+        var bWidth =  "padding:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
+        var lightFx =  SSG.cfgFused.imgBorderLightFx ? "background-image: linear-gradient(" + Math.round(Math.random()*359) +"deg, #00000030, #ffffff30,  #00000030); " : "";
+        var bColor =  SSG.cfgFused.imgBorderColor ? " background-color:" + SSG.cfgFused.imgBorderColor + "; " : "";
         var bRadius =  "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
         var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";
 
-        var imgStyles = "style='" + bWidth + bColor + bRadius + bShadow + "'";
+        var imgStyles = "style='" + bWidth + lightFx + bColor + bRadius + bShadow + "'";
 
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
@@ -1422,7 +1455,7 @@ SSG.metronome = function () {
     SSG.actualPos = actual;
 
     if ( SSG.imageUp || SSG.imageDown || !SSG.isFirstImageCentered ) {
-        if ( SSG.landscapeMode && SSG.isFirstImageCentered && !SSG.wasJumpScrollUsed ) {
+        if ( SSG.landscapeMode && SSG.isFirstImageCentered && !SSG.wasJumpScrollUsed && !( SSG.imageUp && SSG.displayedImg == 0 )) {
             SSG.wasJumpScrollUsed = true;
         }
         SSG.jumpScroll();
@@ -1550,12 +1583,12 @@ SSG.countImageIndent = function ( index ) {
     }  
     else {
         marginAfterP = parseInt(jQuery( '#SSG1 #p' + useIndex ).css('marginBottom'));
-    }    
+    }
      
     if ( jQuery( '#SSG1 #f' + index ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
         centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
     } else {
-        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 );        
+        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 + 1 );
     }
     if ( centerPos < 0 ) {
         centerPos = ( centerPos * 2 ) - 2;
@@ -1675,6 +1708,8 @@ SSG.destroyGallery = function (mode) {
     jQuery( window ).off( 'resize', SSG.onResize );
     jQuery( document ).off( 'keydown', SSG.keyFunction );
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
+    jQuery( document ).off( 'touchstart', SSG.slideStart );
+    jQuery( document ).off( 'touchmove', SSG.slideBrowse );
     window.removeEventListener( 'orientationchange', SSG.orientationChanged );
     SSG.userAcceptFs = false;
     if ( window.screen.orientation ) {

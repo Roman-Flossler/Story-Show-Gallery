@@ -607,7 +607,7 @@ iceland = [];
                 </section>
                 <br clear="all"/>
                 <p id="scheme">
-                    <span>Themes:</span>
+                    <span>Theme:</span>
                     <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dim' }})">Dim</a>
                     <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dark' }})">Dark</a>
                     <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'black' }})">Black</a>
@@ -616,7 +616,7 @@ iceland = [];
 
                 <p>
                     &nbsp;&nbsp;⭕
-                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
                     Extreme example of image border, radius and watermark settings</a></p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -639,6 +639,7 @@ iceland = [];
                 <li><a href="#implementation">Implementation + configuration</a></li>
                 <li><a href="#exif">Enable EXIF</a></li>                
                 <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">⚙️Live SSG configuration ⧉</a></li>
+                <li><a href="#">Switch on fancy borders:</a> <input class="toggle" onclick="window.displayBorder(this)" type="checkbox"></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
@@ -726,10 +727,12 @@ SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',th
 SSG.cfg.observeDOM = <em>false;</em>
 
 <span>// image border width in pixels</span>
-SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,33])"> 1 </em><em>;</em>
-SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,13,33])"> 1 </em><em>;</em>
-<span>// image border color - optimally in hex format (eg. #366988), it prevents visual problem with borders</span>
-SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['#ffffff','#000000','rebeccapurple','#747480',''])"> "" </em><em>;</em>
+SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,30])"> 1 </em><em>;</em>
+SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,13,28])"> 1 </em><em>;</em>
+<span>// image border color in CSS format (eg: #366988 or black)</span>
+SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['white','#3A4345','rebeccapurple','#747480',''])"> "" </em><em>;</em>
+<span>// Light effect on image border - it looks good mainly on thicker borders</span>
+SSG.cfg.imgBorderLightFx = <em class="switchable" onclick="switchParam('imgBorderLightFx',this)">false</em><em>;</em>
 <span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
 SSG.cfg.imgBorderRadius = <em class="switchable" onclick="switchParam('imgBorderRadius',this, [0.3,3,50,0])"> 0 </em><em>;</em>
 <span>// display shadow around the image (border) as it is defined in the theme</span>
@@ -742,7 +745,7 @@ SSG.cfg.watermarkText = <em class="switchable" onclick="switchParam('watermarkTe
 SSG.cfg.watermarkFontSize = <em class="switchable" onclick="switchParam('watermarkFontSize',this, [10,50,20])"> 20 </em><em>;</em> <span>// font size in pixels  </span>
 SSG.cfg.watermarkFontColor = <em class="switchable" onclick="switchParam('watermarkFontColor',this, ['','white','black','#ADC9F8','rebeccapurple'])"> "" </em><em>;</em> <span>// text watermark color, it will deactivate dark text-shadow from theme. </span>
 SSG.cfg.watermarkOffsetX = <em class="switchable" onclick="switchParam('watermarkOffsetX',this, [50,98,1.8])">1.8</em><em>;</em> <span>//   watermark horizontal offset from left border in percents of photo, for align to right use value near 100</span>
-SSG.cfg.watermarkOffsetY = <em class="switchable" onclick="switchParam('watermarkOffsetY',this, [-26,49,95,126,1.2])">1.2</em><em>;</em> <span>// vertical offset from bottom border in percents of photo, for align to top use value near 100 </span>
+SSG.cfg.watermarkOffsetY = <em class="switchable" onclick="switchParam('watermarkOffsetY',this, [-26,49,95,126,1.2])">0.6</em><em>;</em> <span>// vertical offset from bottom border in percents of photo, for align to top use value near 100 </span>
 <span>// Watermark can be also positioned inside image border, use negative values to do so. Negative values are in pixels - as border width</span>
 SSG.cfg.watermarkOpacity = <em class="switchable" onclick="switchParam('watermarkOpacity',this, [0.6,1,0.36])">0.42</em><em>;</em> <span>// opacity</span>
 
@@ -947,6 +950,26 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 elem.textContent = space + quotes + SSG.cfg[param] + quotes + space;
                 elem.style.textDecorationStyle = 'wavy';
             }
+
+
+            function displayBorder(checkbox) {
+                if(checkbox.checked) {
+                    SSG.cfg.imgBorderWidthX = 24;
+                    SSG.cfg.imgBorderWidthY = 24;
+                    SSG.cfg.imgBorderColor = "#3A4345";
+                    SSG.cfg.watermarkOffsetY = -15.5;
+                    SSG.cfg.watermarkOffsetX = 3;
+                    SSG.cfg.imgBorderLightFx = true; 
+                    setTimeout(function(){ SSG.run({ initImgID: 5, fs: true}) }, 888);
+                } else {
+                    SSG.cfg.imgBorderWidthX = 1;
+                    SSG.cfg.imgBorderWidthY = 1;
+                    SSG.cfg.imgBorderColor = "";
+                    SSG.cfg.watermarkOffsetY = 0.6;
+                    SSG.cfg.watermarkOffsetX = 1.8;
+                    SSG.cfg.imgBorderLightFx = false;
+                }
+            }
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
@@ -954,11 +977,12 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script>
     SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@3/src/ssg-loaded.html';
     SSG.cfg.observeDOM = true;
-    SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
+    //SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
+    SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
     SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
     SSG.cfg.theme = 'dim';
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
-    SSG.cfg.imgBorderRadius = "0.25";    
+    SSG.cfg.imgBorderRadius = "0.18";    
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : SSG.cfg.captionExif; };
     //SSG.cfg.watermarkText = "<a href=#>Just a test</a>";
