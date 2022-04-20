@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.4 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.5 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -169,7 +169,7 @@
 }
 
 #SSG1 p.title {
-    margin-top: 0.55rem;
+    margin-top: 0.55em;
 }
 
 #SSG1 span.SSG_forlogo {
@@ -1475,7 +1475,6 @@ button#copyLink::first-letter {
         padding-left: 1.5em;
         padding-right: 1.5em;
         min-width: 33vw;
-        margin-top: 0.33rem;
         margin-top: 0.25em;
     }
 
