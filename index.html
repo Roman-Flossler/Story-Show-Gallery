@@ -957,7 +957,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.imgBorderWidthX = 24;
                     SSG.cfg.imgBorderWidthY = 24;
                     SSG.cfg.imgBorderColor = "#3A4345";
-                    SSG.cfg.watermarkOffsetY = -14.5;
+                    SSG.cfg.watermarkOffsetY = -15;
                     SSG.cfg.watermarkOffsetX = 3;
                     SSG.cfg.imgBorderLightFx = true; 
                     setTimeout(function(){ SSG.run({ initImgID: 5, fs: true}) }, 888);
@@ -979,10 +979,10 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.observeDOM = true;
     //SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
-    SSG.cfg.watermarkFontSize = window.screen.width > 933 ? 18 : 20;
+    SSG.cfg.watermarkFontSize = 19;
     SSG.cfg.theme = 'dim';
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
-    SSG.cfg.imgBorderRadius = "0.18";    
+    SSG.cfg.imgBorderRadius = "0.2";    
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : SSG.cfg.captionExif; };
     //SSG.cfg.watermarkText = "<a href=#>Just a test</a>";

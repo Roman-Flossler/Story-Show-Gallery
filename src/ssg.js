@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.5 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.6 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -664,37 +664,10 @@ SSG.initGallery = function ( event ) {
             // window.onorientationchange = SSG.orientationChanged;
         }
     }
-
-    SSG.slideBrowse = function(event) {
-        if (  SSG.running && SSG.landscapeMode && SSG.slide.started == true ) {            
-            SSG.slide.count++;
-            if (  SSG.slide.count >= 4 ) {
-                SSG.slide.started = false;
-                SSG.slide.count = 0;
-
-                if( Math.abs( (event.originalEvent.touches[0].clientX - SSG.slide.startX) / (event.originalEvent.touches[0].clientY - SSG.slide.startY) ) > 2.2 ) {
-                    if ( event.originalEvent.touches[0].clientX < SSG.slide.startX) {
-                        SSG.imageDown = true;        
-                    } else {
-                        SSG.imageUp = true;
-                    }
-                } else {
-                    if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown) {
-                        SSG.showFsTip( 'hint' );
-                    }
-                }
-            }
-        }
-    }
-
-    SSG.slideStart = function (event) {        
-        if (  SSG.running && SSG.landscapeMode ) {
-            SSG.slide = { started: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
-        }
-    }    
-    
+   
     jQuery( document ).on( 'touchstart', SSG.slideStart );
-    jQuery( document ).on( 'touchmove', SSG.slideBrowse );    
+    jQuery( document ).on( 'touchmove', SSG.slideBrowse );
+    SSG.iphoneScrollBlock();
 
     jQuery( document ).on( 'scroll', function removeArrowDown() {
         // in portrait mode, if the gallery is fully scrolled to the first image, on next scroll hide arrow down
@@ -727,8 +700,53 @@ SSG.orientationChanged = function () {
         SSG.onResize();
     }
     SSG.setNotchRight();
+    SSG.iphoneScrollBlock();
 };
 
+// iPhone doesn't support full screen mode, so it is needed to block touch move (scrolling), otherwise toolbar will appear on touch move - annoying.
+SSG.iphoneShit = function(event) {
+    event.preventDefault();
+}
+
+SSG.iphoneScrollBlock = function() {
+    if ( /iPhone/i.test(window.navigator.userAgent) ) {
+        if ( Math.abs(window.orientation) == 90 ) {
+            document.addEventListener( 'touchmove', SSG.iphoneShit, {
+                passive: false, capture: false
+            } );
+        } else {
+            document.removeEventListener( "touchmove", SSG.iphoneShit, false );
+        }
+    }
+}
+
+SSG.slideBrowse = function(event) {
+    if (  SSG.running && SSG.landscapeMode && SSG.slide.started == true ) {            
+        SSG.slide.count++;
+        if (  SSG.slide.count >= 4 ) {
+            SSG.slide.started = false;
+            SSG.slide.count = 0;
+
+            if( Math.abs( (event.originalEvent.touches[0].clientX - SSG.slide.startX) / (event.originalEvent.touches[0].clientY - SSG.slide.startY) ) > 2.2 ) {
+                if ( event.originalEvent.touches[0].clientX < SSG.slide.startX) {
+                    SSG.imageDown = true;        
+                } else {
+                    SSG.imageUp = true;
+                }
+            } else {
+                if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown) {
+                    SSG.showFsTip( 'hint' );
+                }
+            }
+        }
+    }
+}
+
+SSG.slideStart = function (event) {        
+    if (  SSG.running && SSG.landscapeMode ) {
+        SSG.slide = { started: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
+    }
+}
 
 SSG.setNotchRight = function () {
     if ( window.screen.orientation ) {
@@ -1711,6 +1729,7 @@ SSG.destroyGallery = function (mode) {
     jQuery( document ).off( 'touchstart', SSG.slideStart );
     jQuery( document ).off( 'touchmove', SSG.slideBrowse );
     window.removeEventListener( 'orientationchange', SSG.orientationChanged );
+    document.removeEventListener( "touchmove", SSG.iphoneShit, false );
     SSG.userAcceptFs = false;
     if ( window.screen.orientation ) {
         window.screen.orientation.removeEventListener( 'change', SSG.orientationChanged );
