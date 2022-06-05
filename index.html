@@ -615,8 +615,8 @@ iceland = [];
                 </p>                
 
                 <p>
-                    &nbsp;&nbsp;⭕
-                <a href="#" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                &nbsp;⭕ <a href="#" style="text-decoration-style: wavy; text-decoration-color: #777777; text-underline-offset: 2px;"
+                onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
                     Extreme example of image border, radius and watermark settings</a></p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -727,10 +727,12 @@ SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',th
 SSG.cfg.observeDOM = <em>false;</em>
 
 <span>// image border width in pixels</span>
-SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,30])"> 1 </em><em>;</em>
-SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,13,28])"> 1 </em><em>;</em>
+SSG.cfg.imgBorderWidthX = <em class="switchable" onclick="switchParam('imgBorderWidthX',this, [1,0,3,8,13,28])"> 1 </em><em>;</em>
+SSG.cfg.imgBorderWidthY = <em class="switchable" onclick="switchParam('imgBorderWidthY',this, [1,0,3,8,13,28])"> 1 </em><em>;</em>
 <span>// image border color in CSS format (eg: #366988 or black)</span>
-SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['white','#3A4345','rebeccapurple','#747480',''])"> "" </em><em>;</em>
+SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderColor',this, ['white','black','DarkSlateGrey','#747480',''])"> "" </em><em>;</em>
+<span>// image outline color in CSS format - imgBorderWidthX and imgBorderWidthY should be the same, otherwise outline won't fit</span>
+SSG.cfg.imgOutlineColor = <em class="switchable" onclick="switchParam('imgOutlineColor',this, ['white','black','crimson'])"> "" </em><em>;</em>
 <span>// Light effect on image border - it looks good mainly on thicker borders</span>
 SSG.cfg.imgBorderLightFx = <em class="switchable" onclick="switchParam('imgBorderLightFx',this)">false</em><em>;</em>
 <span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
@@ -959,7 +961,8 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.imgBorderColor = "#3A4345";
                     SSG.cfg.watermarkOffsetY = -15;
                     SSG.cfg.watermarkOffsetX = 3;
-                    SSG.cfg.imgBorderLightFx = true; 
+                    SSG.cfg.imgBorderLightFx = true;
+                    SSG.cfg.imgOutlineColor = '#6e0a0a';
                     setTimeout(function(){ SSG.run({ initImgID: 5, fs: true}) }, 888);
                 } else {
                     SSG.cfg.imgBorderWidthX = 1;

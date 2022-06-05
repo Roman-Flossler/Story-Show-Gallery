@@ -182,6 +182,7 @@ ol.text li {
 a {
     color: #d40025;
     background: white;
+    text-underline-offset: 1px;
 }
 
 .column a:hover {

@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.1.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -85,6 +85,8 @@ SSG.cfg.imgBorderWidthX = 1;
 SSG.cfg.imgBorderWidthY = 1;
 // image border color in CSS format (eg: #366988 or black)
 SSG.cfg.imgBorderColor = "";
+// image outline color in CSS format - imgBorderWidthX and imgBorderWidthY should be the same, otherwise outline won't fit
+SSG.cfg.imgOutlineColor = "";
 // Light effect on image border - it looks good mainly on thicker borders
 SSG.cfg.imgBorderLightFx = false;
 // radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
@@ -1246,10 +1248,12 @@ SSG.addImage = function () {
         var bWidth =  "padding:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
         var lightFx =  SSG.cfgFused.imgBorderLightFx ? "background-image: linear-gradient(" + Math.round(Math.random()*359) +"deg, #00000030, #ffffff30,  #00000030); " : "";
         var bColor =  SSG.cfgFused.imgBorderColor ? " background-color:" + SSG.cfgFused.imgBorderColor + "; " : "";
+        var outlineOffset = SSG.cfgFused.imgOutlineColor ? " outline-offset: " + ((SSG.cfgFused.imgBorderWidthX + SSG.cfgFused.imgBorderWidthY + 1) / -2 ) + "px; " : "";
+        var OutlineColor =  SSG.cfgFused.imgOutlineColor ? " outline: 1px solid " + SSG.cfgFused.imgOutlineColor + "; " : "";
         var bRadius =  "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
         var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";
 
-        var imgStyles = "style='" + bWidth + lightFx + bColor + bRadius + bShadow + "'";
+        var imgStyles = "style='" + bWidth + lightFx + bColor + outlineOffset + OutlineColor + bRadius + bShadow + "'";
 
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
@@ -1319,7 +1323,7 @@ SSG.addImage = function () {
 SSG.beyondGallery = function() {
     var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
     var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
-    var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://www.faroeislands.io/#ssg' class='SSG_link'><b>&#xA420;</b>SSG</a>";
+    var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/#play' class='SSG_link'><b>&#xA420;</b>SSG</a>";
     jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
         "</p> <div id='SSG_loadInto'></div></div>" );
     jQuery( '#SSG_menu' ).click( function ( event ) {
