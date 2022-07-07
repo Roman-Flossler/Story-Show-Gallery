@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import jQuery from "jquery";
 import SSG from "./ssg.esm.js";
-import "./ssg.css";
 
 
 function StoryShowGallery({ config }) {

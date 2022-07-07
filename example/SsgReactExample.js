@@ -1,5 +1,6 @@
 import StoryShowGallery, { SSG } from "story-show-gallery/src/react";
 import { useState } from "react";
+import "story-show-gallery/src/ssg.css";
 
 // SsgReactExample is sample React component, which imports and uses StoryShowGallery
 

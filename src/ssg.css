@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.8 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -933,7 +933,7 @@ button#copyLink::first-letter {
     background-color: rgba(0, 0, 0, 0.55);
     cursor: pointer;
     z-index: 9999993;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13px' height='13px'%3E%3Cg fill='none' stroke='%23bbbbbb' stroke-width='1.3' %3E%3Cline x1='0' y1='0' x2='13' y2='13'/%3E%3Cline x1='0' y1='13' x2='13' y2='0'/%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 13px 23px;
     background-size: 14px;
@@ -1370,6 +1370,13 @@ button#copyLink::first-letter {
         margin-bottom: 30vh;
     }
 
+    #SSG_exit {
+        width: 53px;
+        height: 53px;
+        background-position: 15px 26px;
+        background-size: 15px;
+    }
+
     #SSG1 .SSG_uwide p.title,
     #SSG1 .notitle p.title {
         margin: 20vh 0;
@@ -1544,7 +1551,7 @@ button#copyLink::first-letter {
     #SSG_exit {
         top: -6px;
         right: -6px;
-        opacity: 0.49;
+        opacity: 0.5;
         border-radius: 13px;        
         background-position: 11px 26px;
     }
@@ -1670,6 +1677,10 @@ button#copyLink::first-letter {
 
     #SSG_menu #SSGL {
         width: 23%;
+    }
+
+    #SSG_exit {
+        opacity: 0.66;
     }
 
     #SSG1 p.title {

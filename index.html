@@ -530,10 +530,11 @@ iceland = [];
         
         <a name='js-module'></a>
 
-        <h2>StoryShowGallery for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"></h2>
+        <h2>SSG for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"> and Next.js</h2>
         <!-- _____________________________________ -->          
         
-        <p>Story Show Gallery can also work as a React Component. How to use it: 
+        <p>Story Show Gallery can also work as a React Component. It is also compatibile with <strong>Next.js</strong>.
+             How to use it: 
         </p>
         <code> 
            <em>// install npm package: </em><br>
@@ -545,8 +546,12 @@ iceland = [];
            <em>// if you want EXIF support use:</em><br>
            import StoryShowGallery, { SSG } from "story-show-gallery/src/react-exifr"; <br>
            <br>
+           <em>// and also import CSS file: </em><br>
+           import "story-show-gallery/src/ssg.css"; <br>
+           <em>// if you use Next.js, you have to import it into _app.tsx as a global CSS</em><br>
+           <br>
            <em>// use StoryShowGallery component and configure the gallery:</em><br>
-           &lt;StoryShowGallery config={{ theme: 'light' }} /&gt;
+           &lt;StoryShowGallery config={{ theme: 'light', watermarkText: 'xxx' }} /&gt;
                        
         </code>
 
@@ -555,8 +560,9 @@ iceland = [];
             and every image hyperlink on the entire page will be asigned an onclick function, which opens image into the gallery. 
             Image hyperlinks can be controled by CSS classes, as it is described above. 
         </p>
-        <p>
-            StoryShowGallery component has to be rendered in the same view (page) as image hyperlinks, but doesn't have to be inside the same component as image hyperlinks.
+        <p>            
+            You can import story-show-gallery into root component (app.js or _app.js in case of Next.js) so the all aplication can use it. 
+            Or import it just into some component/page with a gallery.
         </p>
         <p>
             If you don't want in your code image hyperlinks, use <strong>SSG.run</strong> command with array which defines urls and captions of photos.
