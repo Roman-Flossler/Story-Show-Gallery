@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.1.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -75,7 +75,8 @@ SSG.cfg.showFirst3ImgsTogether = true;
 // Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
 SSG.cfg.scaleLock1 = false; 
 
-// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render
+// SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
+// if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (only SSG.run will).
 SSG.cfg.observeDOM = false;
 
 // image border width in pixels
@@ -145,15 +146,24 @@ jQuery( document ).ready( function () {
         !SSG.running && SSG.getHash( false );
     }, 10 );
 
-    if ( SSG.cfg.observeDOM ) {
-        SSG.observerCallback = function() {
-            if (SSG.jQueryImgCollection && !SSG.running ) {                
-                SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
-                SSG.jQueryImgCollection.click( SSG.run );
-                SSG.addClasses();
+    if (SSG.cfg.observeDOM) {
+        SSG.observerCallback = function () {
+          if (SSG.jQueryImgCollection && !SSG.running) {
+            SSG.jQueryImgCollection = jQuery(SSG.jQueryImgSelector).filter(
+              jQuery("a:not(.nossg)")
+            );
+            let urlsSum = "";
+            SSG.jQueryImgCollection.toArray().forEach((el) => {
+              urlsSum = urlsSum + el.href;
+            });
+            if (SSG.urlsSum != urlsSum) {
+              SSG.jQueryImgCollection.click(SSG.run);
+              SSG.addClasses();
+              SSG.urlsSum = urlsSum;
             }
-        }
-        SSG.observer = new MutationObserver( SSG.observerCallback );
+          }
+        };
+        SSG.observer = new MutationObserver(SSG.observerCallback);
         SSG.observer.observe(document.body, { childList: true, subtree: true });
     }
 } );
@@ -1289,7 +1299,6 @@ SSG.addImage = function () {
         // decoding the image just after loading, image is completly ready to render, it makes scroll animation more fluent
         // img.decode isn't supported by older browsers (IE11, Edge)
         if (img.decode) {
-            img.decode().catch( function() { console.log('no image to decode') } );
         }
         jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );

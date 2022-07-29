@@ -39,7 +39,8 @@ function SsgReactExample() {
           theme: "dim",
           crossCursor: cross,
           observeDOM: true,
-          // observe DOM changes, so SSG will be aware of dynamicaly added/removed image hyperlinks on the page
+          // SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
+          // If you use routing in React or Next.js, observeDOM should be set to true, otherwise SSG won't work (only SSG.run will).
         }}
       />
 

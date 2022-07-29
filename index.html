@@ -530,10 +530,10 @@ iceland = [];
         
         <a name='js-module'></a>
 
-        <h2>SSG for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"> and Next.js</h2>
+        <h2>Gallery for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"> and Next.js</h2>
         <!-- _____________________________________ -->          
         
-        <p>Story Show Gallery can also work as a React Component. It is also compatibile with <strong>Next.js</strong>.
+        <p>Story Show Gallery can also work as a React Component. It is also compatibile with <strong>Next.js</strong> and Typescript.
              How to use it: 
         </p>
         <code> 
@@ -562,14 +562,25 @@ iceland = [];
         </p>
         <p>            
             You can import story-show-gallery into root component (app.js or _app.js in case of Next.js) so the all aplication can use it. 
-            Or import it just into some component/page with a gallery.
+            Or import it just into some component/page with an image gallery.
         </p>
         <p>
             If you don't want in your code image hyperlinks, use <strong>SSG.run</strong> command with array which defines urls and captions of photos.
             SSG.run parameters and its use is described above.
         </p>
+        <p>
+            <strong style="background:#d40025; color:white">Important:</strong>  if you use routing in React or Next.js, observeDOM should be set to true, 
+            otherwise SSG won't work (only SSG.run will).<br>
+            Routing is changing the whole DOM, so SSG has to use observer to know about the changes. SSG.run don't need any observer, because you call SSG manually with all images specified.
+            But if you use imgsPos:'start'(end) inside SSG.run, observer is also needed.
+        </p>
+            <code> 
+            <em>// setting of observeDOM:</em><br>
+           &lt;StoryShowGallery config={{ theme: 'light', observeDOM: true }} /&gt;
+            </code> 
+        
 
-        <p>There is sample implementation ( <strong>SsgReactExample.js</strong> ) in the example directory.</p>
+        <p>There is sample implementation ( <strong>SsgReactExample.js</strong> ) in the example directory of story-show-gallery npm package.</p>
 
             <br style="clear: both" />
         </article>
@@ -729,7 +740,8 @@ SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('sh
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
 SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',this)">false</em><em>;</em>
 
-<span>// observe DOM for changes, so SSG will know about image hyperlinks that are added into page after page render</span>
+<span>// SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.</span>
+<span>// if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (only SSG.run will).</span>
 SSG.cfg.observeDOM = <em>false;</em>
 
 <span>// image border width in pixels</span>

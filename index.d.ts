@@ -1,3 +1,19 @@
+declare module "react-exifr" {
+    export default StoryShowGallery;
+    export { SSG };
+    function StoryShowGallery({ config }: {
+        config: any;
+    }): null;
+    import SSG from "ssg.esm";
+}
+declare module "react" {
+    export default StoryShowGallery;
+    export { SSG };
+    function StoryShowGallery({ config }: {
+        config: any;
+    }): null;
+    import SSG from "ssg.esm";
+}
 declare module "ssg.esm" {
     export default SSG;
     namespace SSG {
@@ -60,7 +76,7 @@ declare module "ssg.esm" {
         function beforeRun(): void;
         function run(event: any): boolean;
         function setVariables(): void;
-        function getHash(justResult: any): number;
+        function getHash(justResult: any): number | null;
         function FSmode(event: any): void;
         function createGallery(event: any): void;
         function initGallery(event: any): void;
@@ -113,22 +129,6 @@ declare module "ssg.esm" {
         function destroyGallery(mode: any): void;
         function showFsTip(content: any): void;
     }
-}
-declare module "react-exifr" {
-    export default StoryShowGallery;
-    export { SSG };
-    function StoryShowGallery({ config }: {
-        config: any;
-    }): any;
-    import SSG from "ssg.esm";
-}
-declare module "react" {
-    export default StoryShowGallery;
-    export { SSG };
-    function StoryShowGallery({ config }: {
-        config: any;
-    }): any;
-    import SSG from "ssg.esm";
 }
 declare namespace SSG {
     namespace cfg {
@@ -190,7 +190,7 @@ declare namespace SSG {
     function beforeRun(): void;
     function run(event: any): boolean;
     function setVariables(): void;
-    function getHash(justResult: any): number;
+    function getHash(justResult: any): number | null;
     function FSmode(event: any): void;
     function createGallery(event: any): void;
     function initGallery(event: any): void;

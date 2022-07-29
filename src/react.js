@@ -24,8 +24,15 @@ function StoryShowGallery({ config }) {
             SSG.jQueryImgCollection = jQuery(SSG.jQueryImgSelector).filter(
               jQuery("a:not(.nossg)")
             );
-            SSG.jQueryImgCollection.click(SSG.run);
-            SSG.addClasses();
+            let urlsSum = "";
+            SSG.jQueryImgCollection.toArray().forEach((el) => {
+              urlsSum = urlsSum + el.href;
+            });
+            if (SSG.urlsSum != urlsSum) {
+              SSG.jQueryImgCollection.click(SSG.run);
+              SSG.addClasses();
+              SSG.urlsSum = urlsSum;
+            }
           }
         };
         SSG.observer = new MutationObserver(SSG.observerCallback);
@@ -38,7 +45,7 @@ function StoryShowGallery({ config }) {
     Object.assign(SSG.cfg, config);
   }, [configString]);
 
-  return true;
+  return null;
 }
 
 export default StoryShowGallery;
