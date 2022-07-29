@@ -5,6 +5,8 @@
 
 SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing. The gallery is [vertical](https://roman-flossler.github.io/StoryShowGallery/#themes) - optimized for use on smart­phones.
 
+[![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
+
 View demo gallery and documentation at [github.io](https://roman-flossler.github.io/StoryShowGallery/) <br>
 SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
 
@@ -12,7 +14,7 @@ SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io
 
 _Story Show Gallery versus usual gallery lightbox. Do you want more icons or more from a photo? SSG use whole smartphone display - even notch area and even on iPhone._
 
-[![Google Analytics](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
+[![Story Show Gallery is mobile friendly](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
 
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
@@ -20,9 +22,10 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 
 ## Not another photo gallery
 
-- On smartphones, full screen mode works like on You­Tube. It activa­tes after rotating a phone into landscape mode.
+- On smartphones, full screen mode works like on You­Tube. It triggers after rotating a phone into landscape mode.
 - Brand building (image or text), social sharing icon that can be [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand)
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
+- Image frame effects and settings
 - [EXIF](https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins) info inside captions
 - Deeplinking
 - Four visual themes
@@ -98,7 +101,8 @@ import "story-show-gallery/src/ssg.css";
 <StoryShowGallery config={{ theme: 'light', watermarkText: 'xxx' }} />
 
 ```
-You can import story-show-gallery into root component (app.js or _app.js in case of Next.js) so the all aplication can use it. 
+
+You can import story-show-gallery into root component (app.js or \_app.js in case of Next.js) so the all aplication can use it.
 Or import it just into some component/page with a gallery.
 There is sample implementation (**SsgReactExample.js**) in the example directory.
 
