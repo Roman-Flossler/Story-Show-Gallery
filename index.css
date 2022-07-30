@@ -40,7 +40,7 @@ h1, h2, h3 {
 
 strong {
     font-weight: normal;
-    background: #cfe8ec;
+    background: #e8effd;
     color: black;
 /*    font-size: 106%; */
     border-radius: 0.3em;
@@ -345,6 +345,11 @@ code span {
     font-weight: bold;
 }
 
+code:not(.gcfg) em {
+    color: #274675;
+    background: #ffffff9e;
+}
+
 code.active::before {
     content: '';
     border-top: 8px solid transparent;
@@ -450,6 +455,7 @@ code.active {
 
 .ssgafter {
     filter: hue-rotate(181deg) invert(1) contrast(0.66) brightness(1.45) saturate(0.5);
+    filter: hue-rotate(204deg) invert(1) contrast(0.66) brightness(1.42) saturate(0.6)
 }
 
 @media (max-height: 880px) {
@@ -1242,6 +1248,11 @@ footer {
         background: #171e1f;
         box-shadow: none;
         color: #89c5cc;
+    }
+
+    .dark  code:not(.gcfg) em {
+        color: #919fb3;
+        background: none;
     }
 
     .dark footer {

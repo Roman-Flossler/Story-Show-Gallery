@@ -16,6 +16,9 @@ _Story Show Gallery versus usual gallery lightbox. Do you want more icons or mor
 
 [![Story Show Gallery is mobile friendly](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
 
+Portrait mode and four visual themes:
+[![Story Show Gallery visual themes](https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg)](https://roman-flossler.github.io/StoryShowGallery/#themes)
+
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
 <br>

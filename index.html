@@ -56,23 +56,23 @@
 
 <body>
     <main class="row">
-        <article class="column ficol ssg fs ssgdark">
+        <article class="column ficol ssg fs">
 
             <!--  following opening block with mini gallery will be displayed only on small screens  -->
             <div class="mobileonly">
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />                
 
                 <div id="front-gallery">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 5 });" alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 6 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />                    
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 6 });" alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
                 </div>
                 
-                <span onclick="SSG.run({fs:true, initImgID: 5 });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true, initImgID: 6 });"><b>&#xA420;</b> View demo gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -143,7 +143,7 @@
             </p>
             <p>Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
-                <a onclick="SSG.run({initImgID:12,  cfg: { theme:'dim'} })">
+                <a onclick="SSG.run({initImgID:13,  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
                 alt="social share icon" class="limg darken imglink">
                 </a>
@@ -161,8 +161,8 @@
             <h3>Complete your photos with captions</h3>
             <!-- _____________________________________ -->
             <p>With captions you can tell the whole story behind pictures or amuse a spec&shy;tator with some fun fact.
-               Captions can also contain <strong>EXIF data</strong> (camera info, exposure, iso, etc.) with link to EXIF listing.
-               <a href="https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins" target="_blank">Example</a>
+               Captions can also contain <strong>EXIF data</strong> (camera info, exposure, iso, etc.) with link to EXIF listing.               
+               <a data-author="photo by Flor" data-caption="SSG can display camera info (EXIF) - it's clickable" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">EXIF Example</a>
 
             </p><p>
             Google treats captions as a text content. Especially when you haven't much text on your page, captions will help a lot your page to rank higher in Google search.</p><p>
@@ -217,17 +217,17 @@
             </p>
             
             <code>
-                    // ------- inside &lt;head&gt;<br>
+                    <em>// ------- inside &lt;head&gt;<br></em>
                     &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css</span>"&gt;<br><br>
-                    // SSG requires jQuery library at least in version 1.7<br>
+                    <em>// SSG requires jQuery library at least in version 1.7<br></em>
                     &lt;script src="<span>https://code.jquery.com/jquery-3.5.1.min.js</span>"&gt; &lt;/script&gt;<br><br>
-                    // ------- before &lt;/body&gt;<br>
+                    <em>// ------- before &lt;/body&gt;<br></em>
                     &lt;script src="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.js</span>"&gt; &lt;/script&gt;
                     <br><br>
-                    // add also Exifr library if you want to display EXIF data<br>
+                    <em>// add also Exifr library if you want to display EXIF data<br></em>
                     &lt;script src="<span>https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js</span>"&gt; &lt;/script&gt;  
                     <br><br>
-                    // if you need IE11 compatibility, instead of <em>story-show-gallery@3</em> use <em>story-show-gallery@2.10. But it is without the EXIF support.</em>
+                    <em>// if you need IE11 compatibility, instead of story-show-gallery@3 use story-show-gallery@2.10. But it is without the EXIF support.</em>
             </code>            
 
             <p>Story Show Gallery looks for all hyper&shy;links (&lt;a&gt; tags) on the page that points to a picture file 
@@ -244,7 +244,7 @@
                  &lt;a href='<span>BigImage2.jpg</span> data-author='<span>photo by…</span>''&gt; <b>Another caption</b> &lt;/a&gt;<br>
                  &lt;a href='<span>BigImage3.jpg</span>'&gt;&lt;/a&gt;  <i> (an empty link, no caption)</i><br>
                  &lt;a href='<span>BigImage4.jpg</span> data-caption='<span>img caption</span>'&gt; text &lt;/a&gt;<br>
-                 // Hyperlinks with &lt;Picture&gt; tag inside are also supported.
+                 <em>// Hyperlinks with &lt;Picture&gt; tag inside are also supported.</em>
              </code>
 
              <p>
@@ -256,10 +256,13 @@
             </p>            
 
             <a href="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" data-author="by Flor" data-caption="HTML5 example of SSG implementation" >
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example - this alt won't be a caption, it is for seo"></a>
-
+                <picture>
+                    <source media="(max-width:465px)" srcset="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png">
+                    <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example - this alt won't be a caption, it is for seo">
+                </picture>
+            </a>
             <a name='exif'></a>
-            <h2>Enable EXIF</h2>            
+            <h2>Enable EXIF</h2>
             <ol class="text">
                 <li>Add Exifr library as it is shown above.</li>
                 <li>By default EXIF is disabled. Set <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">SSG.cfg.captionExif</a> option to enable it.</li>
@@ -294,8 +297,8 @@
             </p>
 
             <code>
-            <span>npm install</span>   // it will install uglify-JS and uglify-CSS npm modules which are needed for minifying <br>
-            <span>npm run-script dist</span>  // it will minify the source files and put them into the dist directory. 
+            <span>npm install</span>   <em>// it will install uglify-JS and uglify-CSS npm modules which are needed for minifying <br></em>
+            <span>npm run-script dist</span>  <em>// it will minify the source files and put them into the dist directory. </em>
             </code>    
             
 
@@ -308,12 +311,12 @@
             </p>
             
             <code>
-                &lt;a href='<em>outsideImg.jpg</em>' class='<span>fs</span>' &gt; caption &lt;/a&gt;<br>
+                &lt;a href='<span>outsideImg.jpg</span>' class='<span>fs</span>' &gt; caption &lt;/a&gt;<br>
                 &lt;section class='<span>ssg fs vipssg ssgblack</span>'&gt;<br>
                 &nbsp;&nbsp;&lt;div&gt;<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='<em>insideImg.jpg</em>'&gt; caption &lt;/a&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='<span>insideImg.jpg</span>'&gt; caption &lt;/a&gt;<br>
                 &nbsp;&nbsp;&lt;/div&gt;<br>
-                &nbsp;&nbsp;&lt;a href='<em>insideImg2.jpg</em>'&gt; caption &lt;/a&gt;<br>
+                &nbsp;&nbsp;&lt;a href='<span>insideImg2.jpg</span>'&gt; caption &lt;/a&gt;<br>
                 &lt;/section&gt; <br>
             </code>
 
@@ -329,7 +332,7 @@
                only images inside <em>section.ssg</em> will display in the gallery. </p>
 
             <p>SSG will ignore image hyperlinks (or the whole gallery) with <strong>nossg</strong> class. Images will open normally into browser's tab. 
-                <a href="https://roman-flossler.github.io/StoryShowGallery/photos/Reykjadalur.jpg" class="nossg" target="_blank">Example</a>
+                <a href="https://roman-flossler.github.io/StoryShowGallery/photos/reynisdrangar-black-beach.jpg" class="nossg" target="_blank">Example of nossg</a>
             </p>    
 
             <p>Image hyperlinks with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user want to see it and clicks on it. 
@@ -365,18 +368,18 @@ SSG.cfg.onGalleryStart = function(data) {
                  Starting with image: ' + data.imgName);
 };
 
-// data object:
-data.imgCount // count of images in the gallery
-data.imgGalleryId // ID of current Image in the gallery
-data.imgPageId // ID of current image on the page
-data.GalleryId // ID of a gallery which belongs to initial image
-data.imgPath // whole path to current image
-data.imgName  // image name of current image (no extension)
-data.imageCaption // image caption for current image
+<em>// data object:</em>
+data.imgCount <em>// count of images in the gallery</em>
+data.imgGalleryId <em>// ID of current Image in the gallery</em>
+data.imgPageId <em>// ID of current image on the page</em>
+data.GalleryId <em>// ID of a gallery which belongs to initial image</em>
+data.imgPath <em>// whole path to current image</em>
+data.imgName  <em>// image name of current image (no extension)</em>
+data.imageCaption <em>// image caption for current image</em>
 
-// If a user is beyond the gallery data is just true or false. 
-// True if a HTML file (signpost) is displayed behind the gallery. 
-// Otherwise data is false.
+<em>// If a user is beyond the gallery data is just true or false. </em>
+<em>// True if a HTML file (signpost) is displayed behind the gallery. </em>
+<em>// Otherwise data is false.</em>
 
             </code>
             <p>SSG auto&shy;mati&shy;cally numbers image hyperlinks and galleries on the page, so IDs comes from this process. 
@@ -482,8 +485,8 @@ data.imageCaption // image caption for current image
                  Following gallery has photos shaped into ellipse with thick border at its top and bottom.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
-                SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
+            <code class="active" onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
+                SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -496,8 +499,8 @@ data.imageCaption // image caption for current image
             <p>
                 The <strong>initImgID</strong> parameter defines what gallery to put after traelanipa.jpg and at the same time initial image with page id 13.
             </p>
-            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 13 });">
-               SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 13 });</code>
+            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 13, cfg:{theme: 'dark'} });">
+               SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 13, cfg: {theme: 'dark'}  });</code>
 
             <p>
                 Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.                    
@@ -518,8 +521,8 @@ iceland = [];
  };
  iceland[ 2 ] = {
      href: 'img/iceland-horses.jpg'     
- };                        
-                    </code>
+ };
+</code>
                 
             <h3>SSG.restart() method</h3>
             <p>Restart method ends the running SSG gallery and then calls SSG.run with new parameters. It has the same parameters as the SSG.run method. 
@@ -569,13 +572,18 @@ iceland = [];
             SSG.run parameters and its use is described above.
         </p>
         <p>
+            <strong>SSG.run</strong> parameters are local, only for the current gallery run. Into  <strong>&lt;StoryShowGallery/&gt;</strong> component goes global parameters, 
+            which are common for all SSG.run and for galleries activated through image links. 
+        </p>    
+
+        <p>
             <strong style="background:#d40025; color:white">Important:</strong>  if you use routing in React or Next.js, observeDOM should be set to true, 
             otherwise SSG won't work (only SSG.run will).<br>
             Routing is changing the whole DOM, so SSG has to use observer to know about the changes. SSG.run don't need any observer, because you call SSG manually with all images specified.
             But if you use imgsPos:'start'(end) inside SSG.run, observer is also needed.
         </p>
             <code> 
-            <em>// setting of observeDOM:</em><br>
+            <em>// setting of observing DOM:</em><br>
            &lt;StoryShowGallery config={{ theme: 'light', observeDOM: true }} /&gt;
             </code> 
         
@@ -625,15 +633,15 @@ iceland = [];
                 <br clear="all"/>
                 <p id="scheme">
                     <span>Theme:</span>
-                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dim' }})">Dim</a>
-                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'dark' }})">Dark</a>
-                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { theme: 'black' }})">Black</a>
-                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 5, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
+                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'dim' }})">Dim</a>
+                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'dark' }})">Dark</a>
+                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'black' }})">Black</a>
+                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
                 </p>                
 
                 <p>
                 &nbsp;⭕ <a href="#" style="text-decoration-style: wavy; text-decoration-color: #777777; text-underline-offset: 2px;"
-                onclick="SSG.run( { initImgID:7, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
                     Extreme example of image border, radius and watermark settings</a></p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -644,7 +652,7 @@ iceland = [];
                     <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
                      data-caption="This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.<br>">
                         &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
-                    <a data-caption="" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> - with empty data-caption<br>
+                    <a data-caption="" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok_bangkang_cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> - with empty data-caption<br>
                     <a href='some-nice-image.JPEG' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
                     <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
                 </p>
@@ -679,7 +687,7 @@ iceland = [];
 <div id="bigcode"> 
 <p>Global SSG configuration as it is at the begining of ssg.js file: <span onclick="jQuery('#bigcode').toggleClass('visible');" >×</span></p>
 
-<code>
+<code class="gcfg">
 <em>Click on <u class="switchable" style="cursor: auto;">underlined</u> values to <u class="switchable" style="cursor: auto;text-decoration-style: wavy;">change</u> them. It will affect all galleries on this page.</em>
 
 <span>// duration of scroll animation in miliseconds. Set to 0 for no scroll animation.</span>
@@ -838,16 +846,11 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
             //     href: 'https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG',
             //     alt: 'This is a monument of the present, it shows the state of society. The system we nurture is eating us slowly and we don\'t pay attention.<br>',
             //     author: 'sculptor: Adam Trbušek, photog: Roman Flössler'
-            // };
+            //
             demo[ 2 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg',
                 alt: 'SSG vs. usual web gallery. SSG use even notch area of a phone and doesn\'t display bars and icons over a photo.'
             };
-            demo[ 3 ] = {
-                href: 'https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg',
-                alt: 'Captions can be below the image or next to the image according to space on display.'
-            };
-
 
             jQuery(window).on('load', function() {
                 lightInt = setInterval( lightning , 450 );
@@ -981,7 +984,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.watermarkOffsetX = 3;
                     SSG.cfg.imgBorderLightFx = true;
                     SSG.cfg.imgOutlineColor = '#6e0a0a';
-                    setTimeout(function(){ SSG.run({ initImgID: 5, fs: true}) }, 888);
+                    setTimeout(function(){ SSG.run({ initImgID: 6, fs: true}) }, 888);
                 } else {
                     SSG.cfg.imgBorderWidthX = 1;
                     SSG.cfg.imgBorderWidthY = 1;
@@ -996,7 +999,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
     <script src="src/ssg.js"></script>
     <script>
-    SSG.cfg.fileToLoad = 'https://cdn.jsdelivr.net/npm/story-show-gallery@3/src/ssg-loaded.html';
+    SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/dist/ssg-loaded.html';
     SSG.cfg.observeDOM = true;
     //SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
