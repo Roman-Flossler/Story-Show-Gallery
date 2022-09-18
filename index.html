@@ -564,8 +564,8 @@ iceland = [];
             Image hyperlinks can be controled by CSS classes, as it is described above. 
         </p>
         <p>            
-            You can import story-show-gallery into root component (app.js or _app.js in case of Next.js) so the all aplication can use it. 
-            Or import it just into some component/page with an image gallery.
+            You can import story-show-gallery into the root component (app.js or _app.js in case of Next.js) so all aplication can use it. 
+            Or import it just into some component/page where you want an image gallery.
         </p>
         <p>
             If you don't want in your code image hyperlinks, use <strong>SSG.run</strong> command with array which defines urls and captions of photos.
@@ -579,8 +579,8 @@ iceland = [];
         <p>
             <strong style="background:#d40025; color:white">Important:</strong>  if you use routing in React or Next.js, observeDOM should be set to true, 
             otherwise SSG won't work (only SSG.run will).<br>
-            Routing is changing the whole DOM, so SSG has to use observer to know about the changes. SSG.run don't need any observer, because you call SSG manually with all images specified.
-            But if you use imgsPos:'start'(end) inside SSG.run, observer is also needed.
+            Routing is changing the whole DOM, so SSG has to use observer to know about the image link changes. SSG.run don't need any observer, 
+            because you call SSG manually with all images specified. If you use imgsPos:'start'(end) inside SSG.run, observer is also needed.
         </p>
             <code> 
             <em>// setting of observing DOM:</em><br>
@@ -999,24 +999,23 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
     <script src="src/ssg.js"></script>
     <script>
+    var isMobileScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/dist/ssg-loaded.html';
     SSG.cfg.observeDOM = true;
     //SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
     SSG.cfg.watermarkFontSize = 19;
-    SSG.cfg.theme = 'dim';
+    SSG.cfg.theme = (window.screen.width < 1666 && !isMobileScreen) ? 'dark' : 'dim';
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
-    SSG.cfg.imgBorderRadius = "0.2";    
+    SSG.cfg.imgBorderRadius = "0.2";
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : SSG.cfg.captionExif; };
-    //SSG.cfg.watermarkText = "<a href=#>Just a test</a>";
-    //SSG.cfg.globalAuthorCaption = "<a href=#>Just a test</a>";
     
-    // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console    
+    // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;
     var status;
     var signpostReached = false;
-    console.log('A little statistics made via SSG events and a user functions:');
+    console.log('A little statistics made with SSG events and defined callbacks:');
     SSG.cfg.onGalleryStart = function(data) {
         console.log('----------');
         console.log( data.imgCount + ' images in the gallery with ID '+ data.GalleryId + '. Starting with image: ' + data.imgName + ' id: ' + data.imgPageId );

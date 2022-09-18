@@ -14,6 +14,7 @@
     font-family: "Open Sans";
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: url(https://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFW50d.woff) format("woff");
 }
 

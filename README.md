@@ -3,22 +3,25 @@
 [![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)
 [![Known Vulnerabilities](https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg)](https://snyk.io/test/npm/story-show-gallery/2.9.3)
 
-SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing. The gallery is [vertical](https://roman-flossler.github.io/StoryShowGallery/#themes) - optimized for use on smart­phones.
+SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing.
+
+View demo gallery and documentation at [Story Show Gallery homepage](https://roman-flossler.github.io/StoryShowGallery/) <br>
+SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
 
 [![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
 
-View demo gallery and documentation at [github.io](https://roman-flossler.github.io/StoryShowGallery/) <br>
-SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
-
 <br>
+Story Show Gallery is vertical - optimized for use on smart­phones. It has 4 visual themes:
 
-_Story Show Gallery versus usual gallery lightbox. Do you want more icons or more from a photo? SSG use whole smartphone display - even notch area and even on iPhone._
+[![Story Show Gallery visual themes](https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg)](https://roman-flossler.github.io/StoryShowGallery/#themes)
+
+Story Show Gallery versus usual gallery lightbox. Do you want more icons or more from a photo?
 
 [![Story Show Gallery is mobile friendly](https://roman-flossler.github.io/StoryShowGallery/img/gallery-compare.jpg)](https://roman-flossler.github.io/StoryShowGallery/#gallery-compare)
 
-Portrait mode and four visual themes:
-[![Story Show Gallery visual themes](https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg)](https://roman-flossler.github.io/StoryShowGallery/#themes)
+↑ SSG use whole smartphone display - even notch area and even on iPhone.
 
+<br>
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
 <br>
