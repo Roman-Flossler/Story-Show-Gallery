@@ -21,7 +21,6 @@ Story Show Gallery versus usual gallery lightbox. Do you want more icons or more
 
 ↑ SSG use whole smartphone display - even notch area and even on iPhone.
 
-<br>
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
 <br>
