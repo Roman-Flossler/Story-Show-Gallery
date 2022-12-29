@@ -27,8 +27,9 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 
 ## Not another photo gallery
 
-- On smartphones, full screen mode works like on You­Tube. It triggers after rotating a phone into landscape mode.
-- Brand building (image or text), social sharing icon that can be [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand)
+- On smartphones, full screen mode can work like on You­Tube - after rotating a phone into landscape mode.
+- Also is possible to start the gallery in full screen portrait or forced landscape mode.
+- Brand building (image or text), [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand) social sharing icon 
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
 - Image frame effects and settings
 - [EXIF](https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins) info inside captions
