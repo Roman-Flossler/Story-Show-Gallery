@@ -699,6 +699,9 @@ SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFu
 <span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
 SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFullscreen',this)">false</em><em>;</em>
 
+<span>// Force landscape mode on mobile devices. With landscape mode is also activated full screen mode (it's mandatory).</span>
+SSG.cfg.forceLandscapeMode = <em class="switchable" onclick="switchParam('forceLandscapeMode',this)">false</em><em>;</em>
+
 <span>// When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.</span>
 SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false</em><em>;</em>
 
@@ -793,7 +796,7 @@ SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
 
 <span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
 SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true</em><em>;</em>
-SSG.cfg.landscapeHint = <em>'photos look better in landscape mode &lt;span&gt;📱&lt;/span&gt;';</em>
+SSG.cfg.landscapeHint = <em>'&lt;i&gt;↻&lt;i&gt; photos look better in landscape mode &lt;span&gt;📱&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
 SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires on the gallery start before loading and displaying of the first image.</span>

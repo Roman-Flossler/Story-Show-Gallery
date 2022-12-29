@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.1.9 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.1 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -27,7 +27,11 @@ SSG.cfg.alwaysFullscreen = false;
 SSG.cfg.neverFullscreen = false;
 
 // When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.
+// rotating into landscape works better, if mobilePortraitFS is set to true.
 SSG.cfg.mobilePortraitFS = false;
+
+// Force landscape mode on mobile devices. With landscape mode is also activated full screen mode (it's mandatory).
+SSG.cfg.forceLandscapeMode = false;
 
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
 SSG.cfg.theme = 'dark'
@@ -120,7 +124,7 @@ SSG.cfg.linkPaste = "…and you can paste it anywhere via ctrl+v";
 
 // in the portrait mode the gallery suggest to turn phone into landscape mode
 SSG.cfg.showLandscapeHint = true;
-SSG.cfg.landscapeHint = 'photos look better in landscape mode <span>📱</span>';
+SSG.cfg.landscapeHint = '<i>↻</i> photos look better in landscape mode <span>📱</span>';
 
 // SSG events - see complete example of SSG events in the example directory
 SSG.cfg.onGalleryStart = null; // fires on the gallery start before loading and displaying of the first image.
@@ -515,6 +519,8 @@ SSG.FSmode = function ( event ) {
     if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
+    } else if ((SSG.isMobile || SSG.isTablet) && event.fsa === undefined && SSG.cfgFused.forceLandscapeMode) {
+        SSG.forceLandscapeMode();
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
     } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
@@ -669,11 +675,11 @@ SSG.initGallery = function ( event ) {
     if ( SSG.isMobile ) {
         if ( window.screen.orientation ) {
             // new standard - works on Android
-            window.screen.orientation.addEventListener( 'change', SSG.orientationChanged );            
+            window.screen.orientation.addEventListener( 'change', SSG.onOrientationChanged );            
         } else {
             // obsolete works on iOS
-            window.addEventListener( 'orientationchange', SSG.orientationChanged );
-            // window.onorientationchange = SSG.orientationChanged;
+            window.addEventListener( 'orientationchange', SSG.onOrientationChanged );
+            // window.onorientationchange = SSG.onOrientationChanged;
         }
     }
    
@@ -691,7 +697,7 @@ SSG.initGallery = function ( event ) {
     })
 };
 
-SSG.orientationChanged = function () {
+SSG.onOrientationChanged = function () {
     SSG.isOrientationChanged = true;
     SSG.cfgFused.onOrientationChange && SSG.cfgFused.onOrientationChange(SSG.createDataObject( SSG.displayedImg ));
     
@@ -714,6 +720,21 @@ SSG.orientationChanged = function () {
     SSG.setNotchRight();
     SSG.iphoneScrollBlock();
 };
+
+SSG.forceLandscapeMode = function(event) {
+    event && event.stopPropagation();
+    if ( !SSG.inFullscreenMode ) {
+        SSG.openFullscreen();
+    }
+    if ( !SSG.landscapeMode && screen.orientation ) {
+        screen.orientation.lock("landscape-primary").then(() => {
+            // sometimes fullscreen suddenly deactivates after turning into landscape, probably helps
+            setTimeout(SSG.openFullscreen, 1666);
+        }).catch((err) => { console.log(err)} );
+        // just for sure, but not sure, if it helps
+        setTimeout(SSG.onResize, 3333);
+    }
+}
 
 // iPhone doesn't support full screen mode, so it is needed to block touch move (scrolling), otherwise toolbar will appear on touch move - annoying.
 SSG.iphoneShit = function(event) {
@@ -917,6 +938,7 @@ SSG.onFS = function () {
         SSG.inFullscreenMode = false;
         SSG.readyToExitFullScreen = false;
         if ( SSG.isOrientationChanged ) {
+            // gallery won't close if fullscreenChange is caused by OrientationChange
             SSG.isOrientationChanged = false;
             return;
         }
@@ -993,16 +1015,27 @@ SSG.refreshFormat = function () {
 };
 
 SSG.onResize = function () {
-    // onresize event can fire several times, so re-countiong the gallery is conditioned by isImgLocked
-    var fraction = SSG.isOrientationChanged ? 1 : 3;
+    var fraction = 3;
+    var portrait = !SSG.landscapeMode;
+    
+    // when the portrait mode is active and not full screen, switching to landscape needs more time to rerender
+    if (portrait && SSG.inFullscreenMode) {
+        fraction = 3;
+    } else if (portrait && SSG.cfgFused.forceLandscapeMode) {
+        fraction = 0.8;
+    } else if (portrait && !SSG.inFullscreenMode) {
+        fraction = 1;
+    }    
+    // jQuery('#SSG1').css("background-color", "#"+ Math.round(Math.random()*1000));
 
+    // onresize event can fire several times, so re-countiong the gallery is conditioned by isImgLocked
     if ( !SSG.isImgLocked ) {
         SSG.isImgLocked = true;
-        window.setTimeout( SSG.countResize, 600 / fraction );
+        window.setTimeout( SSG.countResize, 750 / fraction );
         // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-        window.setTimeout( SSG.refreshFormat, 690 / fraction );
-        window.setTimeout( SSG.refreshPos, 1110 / fraction );
-        window.setTimeout( SSG.scrollToActualImg, 1200 / fraction );
+        window.setTimeout( SSG.refreshFormat, 864 / fraction );
+        window.setTimeout( SSG.refreshPos, 1242 / fraction );
+        window.setTimeout( SSG.scrollToActualImg, 1332 / fraction );
     }
 };
 
@@ -1346,6 +1379,7 @@ SSG.addImage = function () {
         jQuery( '#SSG1 #p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
         jQuery( '#SSG1 #uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
         SSG.cfgFused.showLandscapeHint && jQuery( '#SSG1 #f0').after("<div class='golandscape'>"+ SSG.cfgFused.landscapeHint +"<div>");
+        jQuery( '#SSG1 .golandscape').click( SSG.forceLandscapeMode )
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( 'hint' );
             event.stopPropagation();
@@ -1741,11 +1775,11 @@ SSG.destroyGallery = function (mode) {
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
     jQuery( document ).off( 'touchstart', SSG.slideStart );
     jQuery( document ).off( 'touchmove', SSG.slideBrowse );
-    window.removeEventListener( 'orientationchange', SSG.orientationChanged );
+    window.removeEventListener( 'orientationchange', SSG.onOrientationChanged );
     document.removeEventListener( "touchmove", SSG.iphoneShit, false );
     SSG.userAcceptFs = false;
     if ( window.screen.orientation ) {
-        window.screen.orientation.removeEventListener( 'change', SSG.orientationChanged );
+        window.screen.orientation.removeEventListener( 'change', SSG.onOrientationChanged );
     }
 
     var restoredPos;    
