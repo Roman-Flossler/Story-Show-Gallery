@@ -10,7 +10,8 @@ SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io
 
 [![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
 
-<br>
+.
+
 Story Show Gallery is vertical - optimized for use on smart­phones. It has 4 visual themes:
 
 [![Story Show Gallery visual themes](https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg)](https://roman-flossler.github.io/StoryShowGallery/#themes)

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.1 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -731,8 +731,6 @@ SSG.forceLandscapeMode = function(event) {
             // sometimes fullscreen suddenly deactivates after turning into landscape, probably helps
             setTimeout(SSG.openFullscreen, 1666);
         }).catch((err) => { console.log(err)} );
-        // just for sure, but not sure, if it helps
-        setTimeout(SSG.onResize, 3333);
     }
 }
 
@@ -1022,10 +1020,10 @@ SSG.onResize = function () {
     if (portrait && SSG.inFullscreenMode) {
         fraction = 3;
     } else if (portrait && SSG.cfgFused.forceLandscapeMode) {
-        fraction = 0.8;
-    } else if (portrait && !SSG.inFullscreenMode) {
+        fraction = 0.75;
+    } else if (portrait && !SSG.inFullscreenMode && SSG.isFirstImageCentered) {
         fraction = 1;
-    }    
+    }
     // jQuery('#SSG1').css("background-color", "#"+ Math.round(Math.random()*1000));
 
     // onresize event can fire several times, so re-countiong the gallery is conditioned by isImgLocked
@@ -1797,7 +1795,7 @@ SSG.destroyGallery = function (mode) {
         if ( SSG.inFullscreenMode || mode == 'fsexit' ) {
             window.setTimeout( function () {
                 window.scrollTo( 0, restoredPos );
-            }, 200 );
+            }, 555 );
         } else {
             window.scrollTo( 0, restoredPos );
         }
