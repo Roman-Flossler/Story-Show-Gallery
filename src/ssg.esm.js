@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.2.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -318,8 +318,11 @@ SSG.setVariables = function () {
     // if the gallery is already created, prevents to create the gallery again
     SSG.isGalleryCreated = false;
 
-    // if a user turn a phone around. Landscape mode activates fullscreen mode (as on YouTube)
-    SSG.isOrientationChanged = false;
+    // is set to true while a user is rotating a phone. Landscape mode activates fullscreen mode (as on YouTube)
+    SSG.isOrientationChanging = false;
+
+    // is set to true while the phone is being turned into forced landscape
+    SSG.isGalleryLandscaping = false;
     
     SSG.location = window.location.href.split( '#', 1 )[ 0 ];
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
@@ -665,7 +668,7 @@ SSG.initGallery = function ( event ) {
 };
 
 SSG.onOrientationChanged = function () {
-    SSG.isOrientationChanged = true;
+    SSG.isOrientationChanging = true;
     SSG.cfgFused.onOrientationChange && SSG.cfgFused.onOrientationChange(SSG.createDataObject( SSG.displayedImg ));
     
     // if the gallery should stay in fullscreen
@@ -682,21 +685,24 @@ SSG.onOrientationChanged = function () {
         // So landscapeMode doesn't depend on a browser speed of actualization present orientation.
         !SSG.landscapeMode ? SSG.openFullscreen() : SSG.closeFullscreen();
     } else {
-        SSG.onResize();
+        // orientation.lock triggers orientationChange, but onResize should run only when orientation.lock resolves
+        !SSG.isGalleryLandscaping && SSG.onResize();
     }
     SSG.setNotchRight();
     SSG.iphoneScrollBlock();
 };
 
 SSG.forceLandscapeMode = function(event) {
+    SSG.isGalleryLandscaping = true;
     event && event.stopPropagation();
     if ( !SSG.inFullscreenMode ) {
         SSG.openFullscreen();
     }
     if ( !SSG.landscapeMode && screen.orientation ) {
-        screen.orientation.lock("landscape-primary").then(() => {
-            // sometimes fullscreen suddenly deactivates after turning into landscape, probably helps
-            setTimeout(SSG.openFullscreen, 1666);
+        screen.orientation.lock("landscape-primary").then((success) => {
+            // onResize runs after gallery is turned into full screen and rotated, so onResize can run without problems and it needs just short time.
+            SSG.onResize();
+            setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
         }).catch((err) => { console.log(err)} );
     }
 }
@@ -895,16 +901,18 @@ SSG.getImgList = function ( event ) {
 
 
 // On Fullscreen Change event handler - creates or destroys the gallery
-SSG.onFS = function () {
-    SSG.isMobile && SSG.onResize();
+SSG.onFS = function () {    
+    if (SSG.isMobile && !SSG.isGalleryLandscaping) {
+        SSG.onResize();
+    }
 
     // readyToExitFullScreen is true, that means than FS mode is ending
     if ( SSG.inFullscreenMode && SSG.readyToExitFullScreen ) {
         SSG.inFullscreenMode = false;
         SSG.readyToExitFullScreen = false;
-        if ( SSG.isOrientationChanged ) {
+        if ( SSG.isOrientationChanging ) {
             // gallery won't close if fullscreenChange is caused by OrientationChange
-            SSG.isOrientationChanged = false;
+            SSG.isOrientationChanging = false;
             return;
         }
         // Destroys gallery on exit from FS (if destroyOnFsChange) or removes exit icon.        
@@ -984,9 +992,11 @@ SSG.onResize = function () {
     var portrait = !SSG.landscapeMode;
     
     // when the portrait mode is active and not full screen, switching to landscape needs more time to rerender
-    if (portrait && SSG.inFullscreenMode) {
+    if (portrait && SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
+        fraction = 1.5;    
+    } else if (portrait && SSG.inFullscreenMode) {
         fraction = 3;
-    } else if (portrait && SSG.cfgFused.forceLandscapeMode) {
+    } else if (portrait && !SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
         fraction = 0.75;
     } else if (portrait && !SSG.inFullscreenMode && SSG.isFirstImageCentered) {
         fraction = 1;
@@ -996,11 +1006,11 @@ SSG.onResize = function () {
     // onresize event can fire several times, so re-countiong the gallery is conditioned by isImgLocked
     if ( !SSG.isImgLocked ) {
         SSG.isImgLocked = true;
-        window.setTimeout( SSG.countResize, 750 / fraction );
+        window.setTimeout( SSG.countResize, 600 / fraction );
         // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-        window.setTimeout( SSG.refreshFormat, 864 / fraction );
-        window.setTimeout( SSG.refreshPos, 1242 / fraction );
-        window.setTimeout( SSG.scrollToActualImg, 1332 / fraction );
+        window.setTimeout( SSG.refreshFormat, 690 / fraction );
+        window.setTimeout( SSG.refreshPos, 900 / fraction );
+        window.setTimeout( SSG.scrollToActualImg, 990 / fraction );
     }
 };
 
@@ -1280,7 +1290,7 @@ SSG.addImage = function () {
         var bWidth =  "padding:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
         var lightFx =  SSG.cfgFused.imgBorderLightFx ? "background-image: linear-gradient(" + Math.round(Math.random()*359) +"deg, #00000030, #ffffff30,  #00000030); " : "";
         var bColor =  SSG.cfgFused.imgBorderColor ? " background-color:" + SSG.cfgFused.imgBorderColor + "; " : "";
-        var outlineOffset = SSG.cfgFused.imgOutlineColor ? " outline-offset: " + ((SSG.cfgFused.imgBorderWidthX + SSG.cfgFused.imgBorderWidthY + 1) / -2 ) + "px; " : "";
+        var outlineOffset = SSG.cfgFused.imgOutlineColor ? " outline-offset: " + ((SSG.cfgFused.imgBorderWidthX + SSG.cfgFused.imgBorderWidthY + 1.2) / -2 ) + "px; " : "";
         var OutlineColor =  SSG.cfgFused.imgOutlineColor ? " outline: 1px solid " + SSG.cfgFused.imgOutlineColor + "; " : "";
         var bRadius =  "border-radius:" + SSG.cfgFused.imgBorderRadius + SSG.radiusUnit + "; ";
         var bShadow = !SSG.cfgFused.imgBorderShadow ? "box-shadow: none !important; " : "";

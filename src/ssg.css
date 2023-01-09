@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -228,6 +228,7 @@
 
 #SSG1 p em {
     font-style: italic;
+    white-space: nowrap;
 }
 
 #SSG1 p q::before, #SSG1 p q::after {
@@ -350,6 +351,7 @@
 #SSG1 p.uwtitle em {
     padding-top: 0.6em;
     display: block;
+    white-space: normal;
 }
 
 #SSG1 p.uwtitle em::before  {    
@@ -775,7 +777,7 @@
     background-position: center;    
     background-size: 18px;
     font-weight: normal;
-    opacity: 0.55;
+    opacity: 1;
     animation-name: arrow-down;
     animation-duration: 3s;
     animation-iteration-count: infinite;
@@ -1431,13 +1433,22 @@ button#copyLink::first-letter {
 }
 
 @media (orientation: landscape) and (pointer: coarse) {
-     /* arrow right in landsape mode on touch devices */
+     /* arrow to right in landsape mode on touch devices */
 
      #SSG1 .SSG_tipCall {        
         animation-name: arrow-right;
         transform: rotate(270deg);
         display: inline-block;
+        padding: 1rem 0 !important;
+        margin: -1rem 0;
+        width: 4rem;
      }
+
+     figure.notitle.arrow.SSG_uwide .SSG_tipCall {
+        transform: rotate(270deg) translateY(-0.66rem) !important;
+     }
+
+
      #SSG1 figure:not(.SSG_uwide):not(.notitle) #p0 .SSG_tipCall {
         animation-name: arrow-trans-right;
      }
