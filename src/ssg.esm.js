@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.2.4 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.5 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -32,7 +32,7 @@ SSG.cfg.neverFullscreen = false;
 // rotating into landscape works better, if mobilePortraitFS is set to true.
 SSG.cfg.mobilePortraitFS = false;
 
-// Force landscape mode on mobile devices. With landscape mode is also activated full screen mode (it's mandatory).
+// Force landscape mode on smartphones. With landscape mode is also activated full screen mode (it's mandatory).
 SSG.cfg.forceLandscapeMode = false;
 
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
@@ -489,7 +489,7 @@ SSG.FSmode = function ( event ) {
     if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
-    } else if ((SSG.isMobile || SSG.isTablet) && event.fsa === undefined && SSG.cfgFused.forceLandscapeMode) {
+    } else if ( SSG.isMobile && event.fsa === undefined && SSG.cfgFused.forceLandscapeMode) {
         SSG.forceLandscapeMode();
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
@@ -990,14 +990,14 @@ SSG.refreshFormat = function () {
 };
 
 SSG.onResize = function () {
-    var fraction = 3;
+    var fraction = 2.5;
     var portrait = !SSG.landscapeMode;
     
     // when the portrait mode is active and not full screen, switching to landscape needs more time to rerender
     if (portrait && SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
         fraction = 0.75;
     } else if (portrait && SSG.inFullscreenMode) {
-        fraction = 3;
+        fraction = 2.5;
     } else if (portrait && !SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
         fraction = 0.75;
     } else if (portrait && !SSG.inFullscreenMode && SSG.isFirstImageCentered) {
@@ -1010,9 +1010,9 @@ SSG.onResize = function () {
         SSG.isImgLocked = true;
         window.setTimeout( SSG.countResize, 600 / fraction );
         // Timeout gives browser time to fully render page. RefreshFormat changes image sizes, it has to run before refreshPos.
-        window.setTimeout( SSG.refreshFormat, 690 / fraction );
+        window.setTimeout( SSG.refreshFormat, 700 / fraction );
         window.setTimeout( SSG.refreshPos, 900 / fraction );
-        window.setTimeout( SSG.scrollToActualImg, 990 / fraction );
+        window.setTimeout( SSG.scrollToActualImg, 1020 / fraction );
     }
 };
 
