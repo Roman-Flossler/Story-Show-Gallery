@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.2.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -698,13 +698,15 @@ SSG.forceLandscapeMode = function(event) {
     if ( !SSG.inFullscreenMode ) {
         SSG.openFullscreen();
     }
-    if ( !SSG.landscapeMode && screen.orientation ) {
-        screen.orientation.lock("landscape-primary").then((success) => {
-            // onResize runs after gallery is turned into full screen and rotated, so onResize can run without problems and it needs just short time.
-            SSG.onResize();
-            setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
-        }).catch((err) => { console.log(err)} );
-    }
+    setTimeout(function() {
+        if ( !SSG.landscapeMode && screen.orientation ) {
+            screen.orientation.lock("landscape-primary").then((success) => {
+                // onResize runs after gallery is turned into full screen and rotated, so onResize can run without problems and it needs just short time.
+                SSG.onResize();
+                setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
+            }).catch((err) => { console.log(err)} );
+        }
+    }, 200)
 }
 
 // iPhone doesn't support full screen mode, so it is needed to block touch move (scrolling), otherwise toolbar will appear on touch move - annoying.
@@ -993,7 +995,7 @@ SSG.onResize = function () {
     
     // when the portrait mode is active and not full screen, switching to landscape needs more time to rerender
     if (portrait && SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
-        fraction = 1.5;    
+        fraction = 0.75;
     } else if (portrait && SSG.inFullscreenMode) {
         fraction = 3;
     } else if (portrait && !SSG.inFullscreenMode && SSG.isGalleryLandscaping) {
