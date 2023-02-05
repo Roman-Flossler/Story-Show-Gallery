@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.2.5 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.6 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -32,7 +32,8 @@ SSG.cfg.neverFullscreen = false;
 // rotating into landscape works better, if mobilePortraitFS is set to true.
 SSG.cfg.mobilePortraitFS = false;
 
-// Force landscape mode on smartphones. With landscape mode is also activated full screen mode (it's mandatory).
+// Force full screen landscape mode on smartphones (if FS is demanded).
+// Even if a user is holding his phone in portrait mode, the gallery will run in FS landscape mode.
 SSG.cfg.forceLandscapeMode = false;
 
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
@@ -58,8 +59,11 @@ SSG.cfg.enlargeImg = false;
 // 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'
 SSG.cfg.captionExif = 'none';
 
-// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
-SSG.cfg.logIntoGA = true;
+// background opacity in range 0-100%
+SSG.cfg.bgOpacity = 100;  
+
+// relative font size - 100% is base font size, you can increase or decrease it.  
+SSG.cfg.fontSize = 100;
 
 // Protect photos from being copied via right click menu - true/false
 SSG.cfg.rightClickProtection = true;
@@ -80,6 +84,9 @@ SSG.cfg.showFirst3ImgsTogether = true;
 
 // Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. 
 SSG.cfg.scaleLock1 = false; 
+
+// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.
+SSG.cfg.logIntoGA = true;
 
 // SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
 // if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (only SSG.run will).
@@ -489,7 +496,7 @@ SSG.FSmode = function ( event ) {
     if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
-    } else if ( SSG.isMobile && event.fsa === undefined && SSG.cfgFused.forceLandscapeMode) {
+    } else if ( mobilePortrait && event.fsa === undefined && SSG.pageFS && SSG.cfgFused.forceLandscapeMode) {
         SSG.forceLandscapeMode();
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
@@ -539,6 +546,8 @@ SSG.createGallery = function ( event ) {
     
     // Append gallery's HTML tags
     jQuery( 'body' ).append( "<div id='SSG1'></div>" );
+    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG1' ).addClass( 'trans' );
+    SSG.cfgFused.fontSize !== 100 && jQuery( '#SSG1' ).css({ fontSize: SSG.cfgFused.fontSize / 100 * 16 + "px" });
     if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'border1' );
     SSG.setNotchRight();
     SSG.inExitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
@@ -612,7 +621,9 @@ SSG.initGallery = function ( event ) {
     } else {
         jQuery( 'head' ).append( "<meta name='theme-color' content='" + themecolor + "'>" );
     }
-    jQuery( 'body' ).append( "<div id='SSG_bg'><b>&#xA420;</b> Story Show Gallery</div>" );    
+    jQuery( 'body' ).append( "<div id='SSG_bg'><span><b>&#xA420;</b> Story Show Gallery</span></div>" );
+    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG_bg' ).addClass( 'trans' );
+    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG_bg' ).css( {opacity: SSG.cfgFused.bgOpacity /100 } );
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
     SSG.jQueryImgCollection.each( function ( index ) {

@@ -700,11 +700,13 @@ SSG.cfg.alwaysFullscreen = <em class="switchable" onclick="switchParam('alwaysFu
 <span>// Force SSG to never display in fullscreen - true/false There is an exception for smartphones and tablets</span>
 SSG.cfg.neverFullscreen = <em class="switchable" onclick="switchParam('neverFullscreen',this)">false</em><em>;</em>
 
-<span>// Force landscape mode on smartphones. Even if a user is holding his phone in portrait mode, the gallery will run in landscape mode.</span>
-SSG.cfg.forceLandscapeMode = <em class="switchable" onclick="switchParam('forceLandscapeMode',this)">false</em><em>;</em>
-
 <span>// When a mobile phone is in portrait mode, start SSG in fullscreen mode. But only if FS is demanded - fs class or fs:true.</span>
+<span>// rotating into landscape works better, if mobilePortraitFS is set to true.</span>
 SSG.cfg.mobilePortraitFS = <em class="switchable" onclick="switchParam('mobilePortraitFS',this)">false</em><em>;</em>
+
+<span>// Force full screen landscape mode on smartphones (only if FS is demanded).</span>
+<span>// Even if a user is holding his phone in portrait mode, the gallery will run in FS landscape mode.</span>
+SSG.cfg.forceLandscapeMode = <em class="switchable" onclick="switchParam('forceLandscapeMode',this)">false</em><em>;</em>
 
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
 SSG.cfg.theme = <em class="switchable" onclick="switchParam('theme',this, [ 'dark', 'dim', 'black', 'light' ])"> "dark" </em><em>;</em>
@@ -729,8 +731,11 @@ SSG.cfg.captionExif = <em class="switchable" onclick="switchParam('captionExif',
 <span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
 SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
 
-<span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
-SSG.cfg.logIntoGA = <em>true;</em>
+<span>// background opacity in range 0-100%</span>
+SSG.cfg.bgOpacity = <em class="switchable" onclick="switchParam('bgOpacity',this, [66 ,88, 93, 100])"> 100 </em><em>;</em>
+
+<span>// relative font size - 100% is base font size, you can increase or decrease it.</span>
+SSG.cfg.fontSize = <em class="switchable" onclick="switchParam('fontSize',this, [92, 100, 108])"> 100 </em><em>;</em>
 
 <span>// Protect photos from being copied via right click menu - true/false</span>
 SSG.cfg.rightClickProtection = <em class="switchable" onclick="switchParam('rightClickProtection',this)">true</em><em>;</em>
@@ -751,6 +756,9 @@ SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('sh
 
 <span>// Locking the scale of mobile viewport at 1. Set it to true if the gallery has scaling problem on your website. </span>
 SSG.cfg.scaleLock1 = <em class="switchable" onclick="switchParam('scaleLock1',this)">false</em><em>;</em>
+
+<span>// log image views into Google Analytics - true/false. SSG supports only ga.js tracking code.</span>
+SSG.cfg.logIntoGA = <em>true;</em>
 
 <span>// SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.</span>
 <span>// if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (only SSG.run will).</span>
