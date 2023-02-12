@@ -77,7 +77,7 @@
             </div>
 
             <header>
-            <h1>Story Show Gallery</h1>            
+            <h1>Story Show Gallery</h1>
                 <em class="subheading">Javascript & React vertical gallery created by Roman Flössler</em>
                 <div id="badges">
                     <a target="_blank" href="https://www.jsdelivr.com/package/npm/story-show-gallery" data-clipboard-text="[![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)" data-original-title="" title=""><img src="https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded"></a>
@@ -86,7 +86,7 @@
             </header>
 
             <p id="opening">
-                Story Show Gallery is vertical gallery lightbox optimized for smart&shy;phones (notch area included). SSG will support your brand and marketing. 
+                Story Show Gallery is a vertical gallery lightbox optimized for smart&shy;phones (including notch area). SSG will support your brand and marketing. 
                     It has optimally placed captions, full screen mode, no ugly arrows, EXIF support.</p>
             <p class="nobg bigger">
                 Download SSG: 
@@ -560,22 +560,26 @@ iceland = [];
         </code>
 
         <p>
-            Story Show Gallery for React works the same way as it is described above. Just put in your React app <strong>StoryShowGallery</strong> component
-            and every image hyperlink on the entire page will be asigned an onclick function, which opens image into the gallery. 
-            Image hyperlinks can be controled by CSS classes, as it is described above. 
+            You can import story-show-gallery into the root component (app.js or _app.js in the case of Next.js) so that the whole application can use it. 
+            Or just import it into any component / page where you want an image gallery.
         </p>
-        <p>            
-            You can import story-show-gallery into the root component (app.js or _app.js in case of Next.js) so all aplication can use it. 
-            Or import it just into some component/page where you want an image gallery.
+
+        <p>There is a sample imple&shy;mentation ( <strong>SsgReact&shy;Example.js</strong> ) in the example directory of the story-show-gallery npm package.</p>
+
+        <p>
+            Story Show Gallery for React works the same way as it is described above. Just add the <strong>Story&shy;Show&shy;Gallery</strong> component into you React app 
+            and every image hyperlink on the entire page will be assigned an onclick function, which opens image into the gallery. 
+            Image hyperlinks can be controlled by CSS classes, as it is described above. 
+        </p>
+        <p> If you don't want to use image hyperlinks in your code, use the <strong>SSG.run</strong> function with an array that defines urls and captions of photos. 
+            SSG.run para&shy;meters and its use are described above. SSG.run parameters are local - only for the current gallery run.
         </p>
         <p>
-            If you don't want in your code image hyperlinks, use <strong>SSG.run</strong> command with array which defines urls and captions of photos.
-            SSG.run parameters and its use is described above.
+            Global parameters go into the <strong>&lt;Story&shy;Show&shy;Gallery/&gt;</strong> component, they are common to all SSG.run and to galleries 
+            activated by image links. Global para&shy;meters can be overridden by ones within the <strong>SSG.run</strong> function or by gallery classes.
+            The <strong>&lt;Story&shy;Show&shy;Gallery/&gt;</strong> compo&shy;nent has one config prop that contains the configuration object with all parameters. 
+            <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');">List of all possible para&shy;meters</a> - use just param name without SSG.cfg prefix.
         </p>
-        <p>
-            <strong>SSG.run</strong> parameters are local, only for the current gallery run. Into  <strong>&lt;StoryShowGallery/&gt;</strong> component goes global parameters, 
-            which are common for all SSG.run and for galleries activated through image links. 
-        </p>    
 
         <p>
             <strong style="background:#d40025; color:white">Important:</strong>  if you use routing in React or Next.js, observeDOM should be set to true, 
@@ -585,12 +589,9 @@ iceland = [];
         </p>
             <code> 
             <em>// setting of observing DOM:</em><br>
-           &lt;StoryShowGallery config={{ theme: 'light', observeDOM: true }} /&gt;
+           &lt;Story&shy;Show&shy;Gallery config={{ theme: 'light', observeDOM: true }} /&gt;
             </code> 
         
-
-        <p>There is sample implementation ( <strong>SsgReactExample.js</strong> ) in the example directory of story-show-gallery npm package.</p>
-
             <br style="clear: both" />
         </article>
 

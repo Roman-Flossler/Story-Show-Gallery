@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -571,7 +571,7 @@
     font-size: 17px;
     background: no-repeat center;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18px' height='18px'%3E%3Cpath fill='%23aaaaaa' stroke='%23000000' d='M14.5,17.5c-3.4-0.3-3-3.3-3-3.3l-5.9-3.1C5.1,11.7,4.3,12,3.5,12c-1.7,0-3.1-1.3-3.1-3 s1.4-3,3.1-3C4.3,6,5,6.3,5.6,6.9l6-3.1c0-2,1.3-3.3,3-3.3c1.7,0,3,1.3,3,3s-1.3,3-3,3c-0.7,0-1.3-0.2-1.8-0.6L6.8,9l5.9,3.1 c0.5-0.4,1.2-0.6,1.9-0.6c1.7,0,3,1.3,3,3C17.5,16,16.3,17.7,14.5,17.5z'/%3E%3C/svg%3E%0A");
-    background-size: 17px;
+    background-size: 18px;
     opacity: 0.66;
 }
 
@@ -1209,6 +1209,7 @@ button#copyLink::first-letter {
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipPlace {
         background: rgb(35, 35, 35);
         position: sticky;
+        z-index: 3;
         bottom: -2px;
         padding: 0.4em 0 0.6em 0;
         margin-top: 1em;
@@ -1373,7 +1374,7 @@ button#copyLink::first-letter {
     }
 }
 
-@media (orientation: landscape) and (min-width: 1333px) {
+@media (orientation: landscape) and (min-width: 1400px) {
 
     /* smaller title block for higher resolutions */
     #SSG1 .SSG_uwide p.uwtitle {
@@ -1388,9 +1389,6 @@ button#copyLink::first-letter {
         width: auto;
     }
 
-    #SSG1 .share .ico {
-        background-size: 18px;
-    }
 }
 
 @media (orientation: landscape) and (min-width: 1800px) {
@@ -1531,6 +1529,10 @@ button#copyLink::first-letter {
         margin-top: 0.25em;
     }
 
+    #SSG1 .share .ico {
+        background-size: 17px;
+    }
+
     #SSG1 p.uwtitle q {
         margin: 0.8em 0 0 0; 
     }
@@ -1555,7 +1557,7 @@ button#copyLink::first-letter {
     }
 
     #SSG1 p {
-        line-height: 1.2em;
+        line-height: 1.25em;
     }
     
     #SSG1 .golandscape {

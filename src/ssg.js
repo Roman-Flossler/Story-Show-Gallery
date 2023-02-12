@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1067,7 +1067,7 @@ SSG.displayFormat = function ( e ) {
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = window.innerHeight;
-    var photoFrameWidth =  vwidth > 1333 ? 0.82 : 0.77;
+    var photoFrameWidth =  vwidth > 1400 ? 0.82 : 0.77;
     // if there are no captions calculate with 90% width (10% is for the arrow next to the first photo)    
     if ( !SSG.imgs[index].alt && !SSG.imgs[index].author && !SSG.imgs[index].exif && !SSG.cfgFused.globalAuthorCaption ) {
         photoFrameWidth = 0.9;
