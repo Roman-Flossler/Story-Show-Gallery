@@ -453,7 +453,7 @@ data.imageCaption <em>// image caption for current image</em>
                Otherwise the ID of this gallery run would be -1. 
             </p>
             <code class="active" onclick="SSG.run( {fs:true, id:'4all8' } );">
-                SSG.run( { fs:true, id:'4all8' } )
+                SSG.run( { <span>fs</span>:true, <span>id</span>:'4all8' } )
             </code>
             
             
@@ -464,7 +464,7 @@ data.imageCaption <em>// image caption for current image</em>
                 starts immediately after a page loads. In this case the fsa parameter is needed for activating full screen mode.
             </p>
             <code style="margin-bottom: 5.5em;">
-                &lt;body onload='<span>SSG.run( { noExit:true, fsa:true  } )</span>'&gt; 
+                &lt;body onload='SSG.run( { <span>noExit</span>:true, <span>fsa</span>:true  } )'&gt; 
             </code>
 
             <p>Use <strong>initImgId</strong> parameter to set the initial image and also the gallery. 
@@ -476,7 +476,7 @@ data.imageCaption <em>// image caption for current image</em>
                 Also the gallery theme is taken from css class of the related gallery. The gallery ID will be 3, because 13th image link is in the third gallery.
             </p>
             <code class="active" onclick="SSG.run({ initImgID: 13 });">
-               SSG.run( { initImgID: 13 } )
+               SSG.run( { <span>initImgID</span>: 13 } )
             </code>
 
             <p>
@@ -487,7 +487,7 @@ data.imageCaption <em>// image caption for current image</em>
             </p>
             
             <code class="active" onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
-                SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
+                SSG.run( { <span>initImgID</span>:8, <span>fs</span>:true, <span>cfg</span>: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -498,16 +498,16 @@ data.imageCaption <em>// image caption for current image</em>
             </p>
 
             <p>
-                The <strong>initImgID</strong> parameter defines what gallery to put after traelanipa.jpg and at the same time initial image with page id 13.
+                The <strong>initImgID</strong> parameter defines, that after traelanipa.jpg will be image with page id 13 and other photos which belongs into the same gallery.
             </p>
             <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 13, cfg:{theme: 'dark'} });">
-               SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 13, cfg: {theme: 'dark'}  });</code>
+               SSG.run( { <span>imgs</span>: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], <span>imgsPos</span>:'start', <span>initImgID</span>: 13, <span>cfg</span>: {theme: 'dark'}  });</code>
 
             <p>
                 Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.                    
             </p>
             <code class="active" style="white-space: pre-wrap; overflow: visible" 
-            onclick="SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });"> SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });
+            onclick="SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });"> SSG.run( { <span>imgs</span>: iceland, <span>id</span>: 'iceland', <span>fs</span>:true, <span>initImgID</span>: 1 });
 --------
 
 iceland = [];
