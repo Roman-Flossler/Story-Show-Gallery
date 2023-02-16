@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -179,6 +179,8 @@
     background-color: black;
     box-shadow: 0 0 8px 0px rgb(12, 12, 12) !important;    
     vertical-align: bottom;
+    /* disable edge visual search */
+    pointer-events: none;
 }
 
 #SSG1 p.title {
