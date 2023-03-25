@@ -558,6 +558,27 @@ ul li {
     position: relative;
 }
 
+.topimg.wider {
+    overflow: visible;    
+}
+
+.topimg.wider:after {
+    content: "";
+    width: 100%;
+    height: 166px;
+    display: block;
+    top: -0.6vw;
+    position: absolute;
+    transform: translateY(-100%) scaleY(-1);
+    background: url(https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg);
+    background-size: cover;
+    filter: brightness(1.3) contrast(0.8) saturate(2);
+}
+
+@media (orientation:portrait) {
+    .topimg.wider:after { content: none; }
+}
+
 .topimg img {
     width: 100%;
     max-width: 788px;
@@ -1116,7 +1137,7 @@ footer {
 		margin-top: 8.8vh;
     }
     #before-menu {
-		margin-top: 8vh;
+		margin-top: 5vh;
     }
 }
 

@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.2.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.10 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -121,7 +121,7 @@ SSG.cfg.watermarkOpacity = 0.42; // opacity
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
 SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
 SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
-SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> or <strong>swipe</strong> to left (right) <br> to browse through Story Show Gallery.";
+SSG.cfg.hintTouch = "<strong>Swipe</strong> left (right) or<br><strong>Tap</strong> the bottom (top) of the screen<br> to browse the <i>Story Show Gallery</i>.";
 SSG.cfg.hintFS = 'For a better experience <br><a><abbr>⎚</abbr> go full screen</a>';
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";

@@ -86,7 +86,7 @@
             </header>
 
             <p id="opening">
-                Story Show Gallery is a vertical gallery lightbox optimized for smart&shy;phones (including notch area). SSG will support your brand and marketing. 
+                Story Show Gallery is a vertical photo gallery lightbox optimized for smart&shy;phones (including notch area). SSG supports your brand and marketing. 
                     It has optimally placed captions, full screen mode, no ugly arrows, EXIF support.</p>
             <p class="nobg bigger">
                 Download SSG: 
@@ -249,8 +249,15 @@
              </code>
 
              <p>
-                Default <strong>SSG configuration</strong> and language localization is at the 
-                <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');" >begining of ssg.js file. Settings are com&shy;mented</a>. 
+                <strong style="background:#d40025; color:white">Important:</strong>  Story Show Gallery doesn't create a layout for gallery thumbnails, 
+                it's mainly lightbox for displaying images in fullscreen. If you want 3D animated effect for thumbnails (which can be seen on this page), 
+                you can get it at <a style="word-wrap: break-word;" href="https://github.com/Roman-Flossler/anim3Defx" target="_blank">https://github.com/Roman-Flossler/anim3Defx</a>
+             </p>
+             <h3>Configuration</h3>
+             <p>
+                Default <strong>SSG configuration</strong> and language localization is at the begining of ssg.js file. 
+                <a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible');" >List of all Story Show Gallery settings</a>
+            </p><p>
                 You can edit settings in ssg.js file and then minify it. Or copy selected settings into your HTML to override 
                 default config&shy;uration. Place it after ssg.min.js, as it is shown on the following picture.<br>
                 Complete example of SSG implementation and configuration:
@@ -262,6 +269,8 @@
                     <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example - this alt won't be a caption, it is for seo">
                 </picture>
             </a>
+
+
             <a name='exif'></a>
             <h2>Enable EXIF</h2>
             <ol class="text">
@@ -948,14 +957,16 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
 
             function initShow() {
                 if (showStarted) return;
-                show = setInterval( showHover, 444);
-                jQuery('.gallery > a').on('mouseover', stopShow );
                 window.setTimeout( function() {
                     jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
                         '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
                         ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
                     }, 3333);
                 showStarted = true;
+                
+                return; // deactivation of the initial thumbnail animation
+                show = setInterval( showHover, 444);
+                jQuery('.gallery > a').on('mouseover', stopShow );
             }
 
             jQuery('.gallery img, .topimg.wider img').on('load', function() {

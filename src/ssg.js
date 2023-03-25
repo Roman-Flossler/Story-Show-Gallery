@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.2.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.2.10 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -119,7 +119,7 @@ SSG.cfg.watermarkOpacity = 0.42; // opacity
 SSG.cfg.hint1 = "Browse through Story Show Gallery by:";
 SSG.cfg.hint2 = "a mouse wheel <strong>⊚</strong> or arrow keys <strong>↓→↑←</strong>";
 SSG.cfg.hint3 = "or <strong>TAP</strong> on the bottom (top) of the screen";
-SSG.cfg.hintTouch = "<strong>TAP</strong> on the bottom (top) of the screen<br> or <strong>swipe</strong> to left (right) <br> to browse through Story Show Gallery.";
+SSG.cfg.hintTouch = "<strong>Swipe</strong> left (right) or<br><strong>Tap</strong> the bottom (top) of the screen<br> to browse the <i>Story Show Gallery</i>.";
 SSG.cfg.hintFS = 'For a better experience <br><a><abbr>⎚</abbr> go full screen</a>';
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
@@ -771,7 +771,7 @@ SSG.iphoneScrollBlock = function() {
 }
 
 SSG.slideBrowse = function(event) {
-    if (  SSG.running && SSG.landscapeMode && SSG.slide.started == true ) {            
+    if (  SSG.running && SSG.slide.started == true ) {            
         SSG.slide.count++;
         if (  SSG.slide.count >= 4 ) {
             SSG.slide.started = false;
@@ -784,7 +784,7 @@ SSG.slideBrowse = function(event) {
                     SSG.imageUp = true;
                 }
             } else {
-                if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown) {
+                if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown && SSG.landscapeMode ) {
                     SSG.showFsTip( 'hint' );
                 }
             }
@@ -792,8 +792,8 @@ SSG.slideBrowse = function(event) {
     }
 }
 
-SSG.slideStart = function (event) {        
-    if (  SSG.running && SSG.landscapeMode ) {
+SSG.slideStart = function (event) {    
+    if (  SSG.running) {
         SSG.slide = { started: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
     }
 }

@@ -3,12 +3,16 @@
 [![](https://data.jsdelivr.com/v1/package/npm/story-show-gallery/badge?style=rounded)](https://www.jsdelivr.com/package/npm/story-show-gallery)
 [![Known Vulnerabilities](https://snyk.io/test/npm/story-show-gallery/2.9.3/badge.svg)](https://snyk.io/test/npm/story-show-gallery/2.9.3)
 
-SSG nicely combines photos and captions to show a whole story in full ­screen, mini­­mal­ist, non-dis­tracting environ­­ment (no ugly arrows). SSG can support your brand and mar­ket­ing.
+Story Show Gallery is a vertical photo **gallery lightbox** optimised for smart­phones (including notch area). It combines photos and captions nicely, it has full screen mode, EXIF support, no ugly arrows. SSG supports your brand and marketing.
 
 View demo gallery and documentation at [Story Show Gallery homepage](https://roman-flossler.github.io/StoryShowGallery/) <br>
 SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
 
 [![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
+
+The gallery can be set color theme, borders, rounding, watermark (image or text). SSG also offers social sharing and EXIF display.
+
+![image with simple framing](https://roman-flossler.github.io/StoryShowGallery/img/framedImage.jpg)
 
 .
 
