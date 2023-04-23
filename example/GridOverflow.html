@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grid Overflow + Story Show Gallery lightbox</title>
+    <!-- CSS styles of Grid Overflow  -->
+    <link rel="stylesheet" href="../dist/GridOverflow3D.min.css" />
+    <!-- Story Show Gallery on click opens images into full screen lightbox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <base href="https://roman-flossler.github.io/StoryShowGallery/photos/" target="_blank" />
+    <style>
+      /* configuration of the Grid Overflow  */
+      .gridOverflow {
+        --gridGap: 0px;
+        --itemMinWidth: 210px;
+        --itemAspectRatio: 1;
+        --itemRounding: 6px;
+        --linkActionIcon: "⤢";
+        --mobileRowItemsCount: 2;
+      }
+
+      /* additional styles for parent element and text styles */
+
+      body {
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        background-image: linear-gradient(to bottom, rgb(255, 255, 255) 10%, hsla(126, 14%, 86%, 0.822) 100%),
+          url(https://www.faroeislands.io/visuals/bg/grass-texture.jpg);
+      }
+      a {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      main {
+        max-width: 880px;
+        margin: auto;
+        padding: 3vw;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+        line-height: 1.33em;
+        color: rgba(255, 255, 255, 0.88);
+      }
+
+      .go_gridItem {
+        box-shadow: 0 0 10px #000000;
+      }
+      .info {
+        background-color: #750015;
+        margin: 0;
+      }
+      .heading {
+        margin: 0;
+        background-color: rgb(47, 54, 63);
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <!-- parent grid element - gridOverflow class creates responsive square grid from grid's direct children (items) -->
+      <!-- go-3Dfx class adds to each grid item 3D animated effect on mouse over  -->
+      <!-- go-actionIcon class adds to top right corner of grid items some symbol, but only if grid item is <a> tag  -->
+      <div class="gridOverflow go-3Dfx go-actionIcon ssg fs ssgdim">
+        <!-- grid item (grid's direct child) should have go_gridItem class. -->
+        <a href="sorvagsvatn-lake.jpg" class="go_gridItem go_gridItem-vertigo">
+          <img
+            src="sorvagsvatn-lake.jpg"
+            alt="Sørvágsvatn lake is placed on the edge of Traelanípa cliff. Incredible view."
+          />
+          <span class="go_caption">.vertigo class</span>
+        </a>
+
+        <a href="faroe-islands-map.jpg" class="go_gridItem">
+          <img
+            src="faroe-islands-map.jpg"
+            alt="According to National Geographic the Faroe Islands are the world's most attractive archipelago."
+          />
+        </a>
+
+        <a href="klaksvik-sheeps.jpg" class="go_gridItem go_gridItem-panorama">
+          <img src="klaksvik-sheeps.jpg" alt="There are more sheeps than people and nature is pristine." />
+          <span class="go_caption">.panorama class</span>
+        </a>
+
+        <a href="puffins.jpg" class="go_gridItem go_gridItem-VIP">
+          <img src="puffins.jpg" alt="Colonies of Puffins are nesting on Mykines island." />
+          <span class="go_caption">.VIP class</span>
+        </a>
+
+        <a href="mykines-lighthouse.jpg" class="go_gridItem">
+          <img src="mykines-lighthouse.jpg" alt="Mykines island - it feels like at the end of the world." />
+        </a>
+
+        <a href="mulafossur-panorama.jpg" class="go_gridItem"><img src="mulafossur-panorama.jpg" /></a>
+        <a href="Seljalandsfoss.jpg" class="go_gridItem">
+          <img src="Seljalandsfoss.jpg" />
+        </a>
+
+        <a
+          href="https://github.com/Roman-Flossler/Grid-Overflow"
+          class="go_gridItem go_gridItem-panorama go_gridItem-centered"
+        >
+          <div class="heading">
+            <div>
+              <h1># Grid Overflow</h1>
+              <p>
+                <span style="font-size: 111%">+ Story Show Gallery lightbox</span> <br />
+                after a click on a thumbnail
+              </p>
+            </div>
+          </div>
+          <span class="go_caption">.panorama class</span>
+        </a>
+
+        <div href="#" class="go_gridItem go_gridItem-centered">
+          <p class="info">
+            <span
+              >CSS layout based on CSS grid with optional animated 3D effect, utility classes and adjustable by CSS
+              variables.
+            </span>
+          </p>
+        </div>
+
+        <div href="#" class="go_gridItem go_gridItem-centered">
+          <p class="info">
+            <span
+              >Grid overflow crea&shy;tes respon&shy;sive square grid, where grid items can be given vertigo,
+              pa&shy;no&shy;rama or VIP class to over&shy;flow into the next cell.
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.js"></script>
+      <script>
+        SSG.cfg.globalAuthorCaption =
+          "<a href='https://roman-flossler.github.io/StoryShowGallery' target='_blank'>Story Show Gallery</a>";
+        SSG.cfg.watermarkText = "🐑 Faroe&#8202;Islands&#8202;.io";
+        SSG.cfg.watermarkFontSize = 18;
+        SSG.cfg.watermarkOffsetX = 98;
+        SSG.cfg.watermarkOpacity = 0.58;
+      </script>
+    </main>
+  </body>
+</html>

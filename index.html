@@ -63,16 +63,16 @@
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />                
 
                 <div id="front-gallery">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 6 });" alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 7 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 7 });" alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 13 });"  alt="SSG galery" />
                 </div>
                 
-                <span onclick="SSG.run({fs:true, initImgID: 6 });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true, initImgID: 7 });"><b>&#xA420;</b> View demo gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -229,7 +229,17 @@
                     &lt;script src="<span>https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js</span>"&gt; &lt;/script&gt;  
                     <br><br>
                     <em>// if you need IE11 compatibility, instead of story-show-gallery@3 use story-show-gallery@2.10. But it is without the EXIF support.</em>
-            </code>            
+            </code>
+
+            <p>
+                <strong style="background:#d40025; color:white">Important:</strong> It is necessary to define the version of the HTML docu&shy;ment cor&shy;rectly, 
+                otherwise the browser will use an old HTML mode, where some features are not supported. For HTML 5, simply use:
+                <code>
+                    &lt;!doctype html&gt;<br>
+                    &lt;html lang="en"&gt;<br>
+                    ...                    
+                </code>
+             </p>
 
             <p>Story Show Gallery looks for all hyper&shy;links (&lt;a&gt; tags) on the page that points to a picture file 
                 (extensions: jpg, jpeg, JPG, JPEG, png, PNG, gif, GIF, webp). And adds to all these hyper&shy;links an <strong>onclick function</strong> 
@@ -248,11 +258,6 @@
                  <em>// Hyperlinks with &lt;Picture&gt; tag inside are also supported.</em>
              </code>
 
-             <p>
-                <strong style="background:#d40025; color:white">Important:</strong>  Story Show Gallery doesn't create a layout for gallery thumbnails, 
-                it's mainly lightbox for displaying images in fullscreen. If you want 3D animated effect for thumbnails (which can be seen on this page), 
-                you can get it at <a style="word-wrap: break-word;" href="https://github.com/Roman-Flossler/anim3Defx" target="_blank">https://github.com/Roman-Flossler/anim3Defx</a>
-             </p>
              <h3>Configuration</h3>
              <p>
                 Default <strong>SSG configuration</strong> and language localization is at the begining of ssg.js file. 
@@ -270,6 +275,25 @@
                 </picture>
             </a>
 
+
+            <a name='layout'></a>
+            <h2>CSS layout for thumbnails</h2>
+            <p>Basic thumbnail's layout can be created via CSS quite easily. If you want something more sophisticated, you can use <strong>Grid Overflow</strong>. 
+                It is fully respo&shy;nsive and offers the same thumbnails 3D efect as can be seen on this page.
+            </p>
+
+            <a href="https://raw.githubusercontent.com/Roman-Flossler/Grid-Overflow/main/gridOverflow.jpg" >
+                <img src="https://raw.githubusercontent.com/Roman-Flossler/Grid-Overflow/main/gridOverflow.jpg" class="imglink darken limg" alt="">
+            </a>
+
+            <p>You can link Grid Overflow CSS directly from CDN (faster loading), just copy this line inside head tag of your HTML document:</p>
+            <code>                
+                &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/GridOverflow3D.min.css</span>"&gt;
+            </code>
+            <p>To use Grid Overflow, simply add the Grid Overflow classes to the parent gallery tag and to the thumbnails. A tutorial is available at 
+                <a href="https://github.com/Roman-Flossler/Grid-Overflow" target="_blank">github.com/Roman-Flossler/Grid-Overflow</a>
+
+            </p>
 
             <a name='exif'></a>
             <h2>Enable EXIF</h2>
@@ -628,7 +652,7 @@ iceland = [];
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
                     </a>
 
-                    <span>Do you like this CSS effect? <a href='https://github.com/Roman-Flossler/anim3Defx' target="_blank">&nbsp;Fork it on GitHub&nbsp;</a></span>
+                    <span><a href='#layout' target="_blank">&nbsp;CSS layout for thumbnails with 3D effect&nbsp;</a></span>
 
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
@@ -648,12 +672,7 @@ iceland = [];
                     <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'dark' }})">Dark</a>
                     <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'black' }})">Black</a>
                     <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
-                </p>                
-
-                <p>
-                &nbsp;⭕ <a href="#" style="text-decoration-style: wavy; text-decoration-color: #777777; text-underline-offset: 2px;"
-                onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
-                    Extreme example of image border, radius and watermark settings</a></p>
+                </p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
                 <p>
@@ -667,15 +686,19 @@ iceland = [];
                     <a href='some-nice-image.JPEG' target="_blank">	&#128279; A broken link - You will notice it before site visitors do</a><br> 
                     <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg"></a> &lArr; <strong>an empty (invisible) link</strong> to the picture with SSG logo.
                 </p>
+
+                <p style="margin-top: 3rem;">
+                    &nbsp;⭕ <a href="#" style="text-decoration-style: wavy; text-decoration-color: #777777; text-underline-offset: 2px;"
+                    onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                        Extreme example of image border, radius and watermark settings</a></p>
             </div>
 
             <ol class="content">
                 <li><a href="#">SSG features, sample gallery</a></li>
                 <li><a href="#license">License</a></li>
                 <li><a href="#implementation">Implementation + configuration</a></li>
-                <li><a href="#exif">Enable EXIF</a></li>                
-                <li><a class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">⚙️Live SSG configuration ⧉</a></li>
-                <li><a href="#">Switch on fancy borders:</a> <input class="toggle" onclick="window.displayBorder(this)" type="checkbox"></li>
+                <li><a href="#layout">CSS layout for thumbnails</a></li>
+                <li><a href="#exif">Enable EXIF</a></li>
                 <li><a href="#minify">SSG files and minifying</a></li>
                 <li><a href="#classes">Controling SSG by CSS classes</a></li>
                 <li><a href="#events">Gallery events</a></li>
@@ -685,6 +708,14 @@ iceland = [];
                 <li><a href="#js-module">StoryShowGallery for React</a>
                     <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"></li>
                 <li class="mobileonli"><a href="#themes">🎨 Visual themes</a></li>
+                <div style="margin-left: -1rem; line-height: 2em;">
+                <hr />
+                <a style="margin-right: 1rem" class="showgal" onclick="jQuery('#bigcode').toggleClass('visible')">⚙️Live SSG config ⧉</a>
+                 
+                <span style="display: inline-block;">
+                Fancy&nbsp;borders:&nbsp;<input class="toggle" onclick="window.displayBorder(this)" type="checkbox">
+                </div>
+            </span>
             </ol>
 
             <div class="topimg ssgafter" > 
@@ -897,7 +928,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 });            
 
             function calcTop () {
-                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 33 });
+                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 44});
             }
 
             function setColorMode () {
@@ -1008,7 +1039,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.watermarkOffsetX = 3;
                     SSG.cfg.imgBorderLightFx = true;
                     SSG.cfg.imgOutlineColor = '#6e0a0a';
-                    setTimeout(function(){ SSG.run({ initImgID: 6, fs: true}) }, 888);
+                    setTimeout(function(){ SSG.run({ initImgID: 7, fs: true}) }, 888);
                 } else {
                     SSG.cfg.imgBorderWidthX = 1;
                     SSG.cfg.imgBorderWidthY = 1;
