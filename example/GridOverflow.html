@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grid Overflow + Story Show Gallery lightbox</title>
     <!-- CSS styles of Grid Overflow  -->
-    <link rel="stylesheet" href="../dist/GridOverflow3D.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/GridOverflow3D.min.css" />
     <!-- Story Show Gallery on click opens images into full screen lightbox -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -19,6 +19,24 @@
         --itemRounding: 6px;
         --linkActionIcon: "⤢";
         --mobileRowItemsCount: 2;
+      }
+      .gridOverflow:not(.go-masonry) .go_gridItem {
+        box-shadow: 0 0 10px #000000;
+      }
+
+      .gridOverflow.go-masonry {
+        --gridGap: 10px;
+        --itemMinWidth: 30%;
+        --itemRounding: 25% 88% 10% 88% / 18% 9px 15% 9px;
+        --linkActionIcon: "»";
+        --masonryItemHeight: 200px;
+      }
+
+      @media (max-width: 600px) {
+        .gridOverflow.go-masonry {
+          --itemMinWidth: 100%;
+          --masonryItemHeight: 39vw;
+        }
       }
 
       /* additional styles for parent element and text styles */
@@ -42,9 +60,6 @@
         color: rgba(255, 255, 255, 0.88);
       }
 
-      .go_gridItem {
-        box-shadow: 0 0 10px #000000;
-      }
       .info {
         background-color: #750015;
         margin: 0;
@@ -62,6 +77,8 @@
       <!-- parent grid element - gridOverflow class creates responsive square grid from grid's direct children (items) -->
       <!-- go-3Dfx class adds to each grid item 3D animated effect on mouse over  -->
       <!-- go-actionIcon class adds to top right corner of grid items some symbol, but only if grid item is <a> tag  -->
+
+      <!-- ____ add go-masonry class to turn the grid layout into masonry mode ____  -->
       <div class="gridOverflow go-3Dfx go-actionIcon ssg fs ssgdim">
         <!-- grid item (grid's direct child) should have go_gridItem class. -->
         <a href="sorvagsvatn-lake.jpg" class="go_gridItem go_gridItem-vertigo">
@@ -86,7 +103,10 @@
 
         <a href="puffins.jpg" class="go_gridItem go_gridItem-VIP">
           <img src="puffins.jpg" alt="Colonies of Puffins are nesting on Mykines island." />
-          <span class="go_caption">.VIP class</span>
+          <span class="go_caption go_caption-full"
+            >.VIP class<br />
+            Colonies of Puffins are nesting on Mykines island.</span
+          >
         </a>
 
         <a href="mykines-lighthouse.jpg" class="go_gridItem">
@@ -117,8 +137,8 @@
         <div href="#" class="go_gridItem go_gridItem-centered">
           <p class="info">
             <span
-              >CSS layout based on CSS grid with optional animated 3D effect, utility classes and adjustable by CSS
-              variables.
+              >Grid Overflow is respon&shy;sive CSS layout with optional animated 3D effect, utility classes and
+              adjustable by CSS variables.
             </span>
           </p>
         </div>
@@ -126,7 +146,7 @@
         <div href="#" class="go_gridItem go_gridItem-centered">
           <p class="info">
             <span
-              >Grid overflow crea&shy;tes respon&shy;sive square grid, where grid items can be given vertigo,
+              >Pure CSS solution for masonry layout and grid layout, where grid items can be given vertigo,
               pa&shy;no&shy;rama or VIP class to over&shy;flow into the next cell.
             </span>
           </p>

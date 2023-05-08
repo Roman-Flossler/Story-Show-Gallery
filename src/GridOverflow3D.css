@@ -1,5 +1,5 @@
 /*!  
-    Grid Overflow ver: 1.1.0 -  https://github.com/Roman-Flossler/Grid-Overflow
+    Grid Overflow ver: 1.2.0 -  https://github.com/Roman-Flossler/
     Copyright (c) 2023 Roman Flössler - Grid Overflow is licensed under MIT license 
 1*/
 
@@ -10,6 +10,7 @@
   --mobileRowItemsCount: 2;
   --linkActionIcon: "⤢";
   --itemRounding: 6px;
+  --masonryItemHeight: 180px;
   margin: auto;
   display: grid;
   grid-gap: var(--gridGap);
@@ -44,7 +45,15 @@
   box-sizing: border-box;
 }
 
-.go_gridItem > .go_caption {
+.go_gridItem-centered > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6%;
+  hyphens: auto;
+}
+
+.go_caption {
   background-color: rgba(0, 0, 0, 0.5);
   top: auto;
   left: auto;
@@ -57,6 +66,13 @@
   padding: 0.15rem 1rem;
   width: auto;
   text-align: center;
+  position: absolute;
+  hyphens: auto;
+}
+
+.go_caption-full {
+  width: 100%;
+  display: block;
 }
 
 .go_gridItem-panorama {
@@ -73,11 +89,33 @@
   grid-row: span 2;
   padding-bottom: calc(((100% - var(--gridGap))) * var(--itemAspectRatio) + var(--gridGap));
 }
-.go_gridItem-centered > * {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+
+/* ---------- Masonry mode ---------- */
+
+.go-masonry {
+  gap: var(--gridGap);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.go-masonry .go_gridItem {
+  padding-bottom: 0;
+  flex-grow: 1;
+  height: var(--masonryItemHeight);
+  flex-basis: fit-content;
+}
+
+.go-masonry .go_gridItem > * {
+  position: static;
+}
+
+.go-masonry .go_gridItem-centered,
+.go-masonry .go_gridItem-noImage {
+  flex-basis: var(--itemMinWidth);
+}
+
+.go-masonry .go_caption {
+  position: absolute;
 }
 
 /* ---------- link action icon ---------- */
@@ -101,9 +139,7 @@
 }
 
 /* ---------- 3D anim effect ---------- */
-
 /* transition definition */
-
 .go-3Dfx > .go_gridItem,
 .go-3Dfx > .go_gridItem > *,
 .go-3Dfx > .go_gridItem::before,
@@ -119,11 +155,22 @@
 }
 
 /* hover definition - skew and shadow */
-
 .go-3Dfx > .go_gridItem:hover {
   box-shadow: 4px 6px 13px 1px rgba(13, 13, 13, 0.73);
   transform: skew(-2deg, -2deg) scale(0.965, 0.965);
   background: rgb(69, 69, 69);
+}
+
+.go-3Dfx > .go_gridItem-panorama:hover {
+  transform: skew(-2deg, -1.22deg) scale(0.983, 0.96) !important;
+}
+
+.go-3Dfx > .go_gridItem-vertigo:hover {
+  transform: skew(-1.2deg, -2deg) scale(0.965, 0.98) !important;
+}
+
+.go-3Dfx > .go_gridItem-VIP:hover {
+  transform: skew(-1.2deg, -1.2deg) scale(0.978, 0.978) !important;
 }
 
 .go-3Dfx > .go_gridItem:hover > * {
@@ -131,7 +178,6 @@
 }
 
 /* gradient overlay imitates a light reflection */
-
 .go-3Dfx > .go_gridItem::before {
   content: "";
   position: absolute;

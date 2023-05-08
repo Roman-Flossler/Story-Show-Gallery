@@ -63,13 +63,13 @@
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />                
 
                 <div id="front-gallery">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 7 });" alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 8 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 13 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 8 });" alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 13 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 14 });"  alt="SSG galery" />
                 </div>
                 
                 <span onclick="SSG.run({fs:true, initImgID: 7 });"><b>&#xA420;</b> View demo gallery</span>
@@ -105,17 +105,68 @@
             <p>
                 
             </p>
+
+            <h2 style="margin-top: 1em; margin-bottom: -1.2em;">Key features:</h2>
+            <h3>Easy implementation</h3>
+            <!-- _____________________________________ -->
+            <p>
+                SSG has very easy setup, it binds onto image hyper&shy;links on the page auto&shy;mati&shy;cally. 
+                You can control this proccess by <a href="#classes">CSS classes</a>.
+                Define sepa&shy;rate galleries, selectively activate full screen mode, selectively deactivate SSG, etc.
+                <br/>
+                Example of SSG implementation and configuration:
+            </p>
+
+            <a href="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" data-author="by Flor" >
+                    <img src="https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png" class="imglink" alt="HTML5 example of SSG implementation">
+            </a>
+            <p>
+                Story Show Gallery has also <a href="#ssg-run">SSG.run</a> method which offers more options how to run the gallery.
+            </p>
+            <p>
+                <strong>No e&times;it mode:</strong> You can write just minimal HTML code and SSG will crea&shy;te a vertical gallery which behaves like a simple webpage.
+                Because there is not much to dis&shy;play without SSG, the gallery can run in the 
+                <a href="https://roman-flossler.github.io/StoryShowGallery/example/#svetlusky" target="_blank">no e×it mode</a>.
+            </p>
+            <p>
+            <!--Story Show Gallery supports <strong>Goo&shy;gle analytics</strong> to measure views of each photo. SSG optionally detects and uses GA tracking code on your site.
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/google-analytics.jpg" alt="Google Analytics" class="limg invert" id="ga">
+            </p-->
             
-            <h2 style="margin-top: 1.6em;">Your photos in the main role</h2>
+            <a name='browsing'></a>
+            <h3>Mobile first, easy browsing</h3>
             <!-- _____________________________________ -->
 
+            <p> 
+                The Story Show Gallery is vertical, making it ideal for use on mobile phones. The user can browse through the gallery by simply scrolling.
+           </p>
            
-            <p>Give your photos maximum space with responsive <strong>SSG full screen lightbox</strong>. There are no ugly ← → arrows next to a photo, 
-                vertical slider is subtle and cursor can be too.
-                <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">SSG has 4 visual themes</a>.</p>
-            <p>On smartphones, full screen mode works like on <strong>YouTube</strong>. It activates after rotating a phone into landscape mode.
-                 Also is possible to start the gallery in full screen portrait or forced landscape mode.</p> 
-            <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, if the gallery will go into full screen.</p>
+            <p>
+                SSG is probably <strong>the only gallery</strong> which can place each caption individually according to image size vs. screen size. 
+                This is really important on smart&shy;phones in landscape mode.
+            </p>
+            
+
+            <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg" >
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg" class="imglink darken limg" 
+                alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
+
+            <p>
+                Captions can contain <strong>EXIF data</strong> (camera info, exposure, iso, etc.) with link to EXIF listing.               
+                    <a data-author="photo by Flor" data-caption="SSG can display camera info (EXIF) - it's clickable" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">EXIF Example</a>
+                </p>
+
+
+            <h3>Advanced fullscreen modes</h3>
+            <!-- _____________________________________ -->                
+
+            <p>On smartphones, full screen mode works like on <strong>YouTube</strong>. It activates after rotating a phone into landscape mode.</p> 
+               
+                
+            <p>But the gallery can be set to launch directly into full-screen mode - portrait or forced landscape.</p> 
+                
+
+            <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, how you configure the fullscreen behaviour of the gallery.</p>
 
 
             <a name='signpost'></a>
@@ -128,14 +179,7 @@
             </a>
             </p>            
             
-            <a name='browsing'></a>
-            <h3>Browsing without clicking and thinking</h3>
-            <!-- _____________________________________ -->
-            <p>Scrolling is the most natural interaction with a webpage. Story Show Gallery works <strong>like Facebook</strong>
-                 - as a user scrolls down new pictures are constantly loading.</p><p>
-                Story Show Gallery is vertical and therefore great for use with mobile phones. In portrait mode a user usually sees a part of the next photo,
-                 so he keeps scroll&shy;ing to see it whole.
-            </p>
+
             <a name='brand'></a>
             <h3>Brand building and social sharing</h3>
             <!-- _____________________________________ -->
@@ -144,7 +188,7 @@
             </p>
             <p>Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
-                <a onclick="SSG.run({initImgID:13,  cfg: { theme:'dim'} })">
+                <a onclick="SSG.run({initImgID:15,  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
                 alt="social share icon" class="limg darken imglink">
                 </a>
@@ -159,39 +203,13 @@
             </p>
 
             
-            <h3>Complete your photos with captions</h3>
+            <h3>Visual settings</h3>
             <!-- _____________________________________ -->
-            <p>With captions you can tell the whole story behind pictures or amuse a spec&shy;tator with some fun fact.
-               Captions can also contain <strong>EXIF data</strong> (camera info, exposure, iso, etc.) with link to EXIF listing.               
-               <a data-author="photo by Flor" data-caption="SSG can display camera info (EXIF) - it's clickable" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">EXIF Example</a>
-
-            </p><p>
-            Google treats captions as a text content. Especially when you haven't much text on your page, captions will help a lot your page to rank higher in Google search.</p><p>
-             SSG is probably <strong>the only gallery</strong> which can place each caption individually according to image size vs. screen size. 
-             It is really important on smartphones.</p>
-                <a href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg" >
-                    <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-responsive-modes-fullscreen.jpg" class="imglink darken limg" 
-                    alt="SSG is fully responsive - it compares image size vs. screen size and place a caption to an optimal position."></a>
-
-            <h3>Easy implementation</h3>
             <p>
-                SSG has very easy setup, it binds onto image hyper&shy;links on the page auto&shy;mati&shy;cally and runs the gallery. 
-                You can control this proccess by <strong>CSS classes</strong>.
-                Define sepa&shy;rate galleries, activate full screen mode, selectively deactivate SSG, etc.
+             <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">
+                SSG has 4 visual themes</a>, you can also configure the image border, set the background opacity or use a visually unobtrusive cross cursor.
             </p>
-            <p>
-                There are <strong>3 ways</strong> how a photo gallery can be created. Auto&shy;matically from images on the page, 
-                    by passing an array of images into SSG, or by combi&shy;nation of both.
-            </p>
-            <p>
-                <strong>No e&times;it mode:</strong> You can write just minimal HTML code and SSG will crea&shy;te a vertical gallery which behaves like a simple webpage.
-                Because there is not much to dis&shy;play without SSG, the gallery can run in the 
-                <a href="https://roman-flossler.github.io/StoryShowGallery/example/#svetlusky" target="_blank">no e×it mode</a>.
-            </p>
-            <p>
-            Story Show Gallery supports <strong>Goo&shy;gle analytics</strong> to measure views of each photo. SSG optionally detects and uses GA tracking code on your site.
-                <img src="https://roman-flossler.github.io/StoryShowGallery/img/google-analytics.jpg" alt="Google Analytics" class="limg invert" id="ga">
-            </p>
+           
 
 
             <a name='license'></a>
@@ -278,19 +296,24 @@
 
             <a name='layout'></a>
             <h2>CSS layout for thumbnails</h2>
-            <p>Basic thumbnail's layout can be created via CSS quite easily. If you want something more sophisticated, you can use <strong>Grid Overflow</strong>. 
-                It is fully respo&shy;nsive and offers the same thumbnails 3D efect as can be seen on this page.
+            <p>The basic CSS thumbnails layout can be quite easily created using CSS. If you want something more sophisticated, you can use <strong>Grid Overflow</strong> CSS layout.
+                It is fully respon&shy;sive and offers the same 3D effect for thumbnails as can be seen on this page.
             </p>
 
-            <a href="https://raw.githubusercontent.com/Roman-Flossler/Grid-Overflow/main/gridOverflow.jpg" >
-                <img src="https://raw.githubusercontent.com/Roman-Flossler/Grid-Overflow/main/gridOverflow.jpg" class="imglink darken limg" alt="">
+            <p>
+                Grid overflow is a pure CSS solution for masonry layout and grid layout, where grid items can be given vertigo, panorama or VIP class to overflow into the next cell.
+            </p>
+
+            <a href="https://roman-flossler.github.io/StoryShowGallery/img/Grid-overflow.jpg" >
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/Grid-overflow.jpg" class="imglink darken limg" alt="">
             </a>
 
             <p>You can link Grid Overflow CSS directly from CDN (faster loading), just copy this line inside head tag of your HTML document:</p>
             <code>                
                 &lt;link rel="stylesheet" href="<span>https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/GridOverflow3D.min.css</span>"&gt;
             </code>
-            <p>To use Grid Overflow, simply add the Grid Overflow classes to the parent gallery tag and to the thumbnails. A tutorial is available at 
+            <p>To use Grid Overflow, simply add the Grid Overflow classes to the parent gallery tag and to the thumbnails. It can be quickly customized via CSS variables.
+                 Short implementation tutorial is available at 
                 <a href="https://github.com/Roman-Flossler/Grid-Overflow" target="_blank">github.com/Roman-Flossler/Grid-Overflow</a>
 
             </p>
@@ -519,8 +542,8 @@ data.imageCaption <em>// image caption for current image</em>
                  Following gallery has photos shaped into ellipse with thick border at its top and bottom.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: 'white', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
-                SSG.run( { <span>initImgID</span>:8, <span>fs</span>:true, <span>cfg</span>: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'#adadad', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: 'white', watermarkOpacity:1 }} )
+            <code class="active" onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: '#b92a58', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
+                SSG.run( { <span>initImgID</span>:8, <span>fs</span>:true, <span>cfg</span>: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: '#b92a58', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -652,7 +675,7 @@ iceland = [];
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
                     </a>
 
-                    <span><a href='#layout' target="_blank">&nbsp;CSS layout for thumbnails with 3D effect&nbsp;</a></span>
+                    <span><a href='#layout'>&nbsp;CSS layout for thumbnails with 3D effect&nbsp;</a></span>
 
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
@@ -668,10 +691,10 @@ iceland = [];
                 <br clear="all"/>
                 <p id="scheme">
                     <span>Theme:</span>
-                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'dim' }})">Dim</a>
-                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'dark' }})">Dark</a>
-                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { theme: 'black' }})">Black</a>
-                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 6, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
+                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'dim' }})">Dim</a>
+                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'dark' }})">Dark</a>
+                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'black' }})">Black</a>
+                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
                 </p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -928,7 +951,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 });            
 
             function calcTop () {
-                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 44});
+                jQuery('.secol').css({'top': - jQuery('#before-menu').outerHeight(true) - 64});
             }
 
             function setColorMode () {

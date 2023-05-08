@@ -1317,7 +1317,7 @@ footer {
 }
 
 .dark hr {
-    border-color: #4d4d4d;
+  border: 1px inset #444444;
 }
 
 .dark h3 {
