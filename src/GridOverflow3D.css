@@ -1,28 +1,20 @@
 /*!  
-    Grid Overflow ver: 1.2.0 -  https://github.com/Roman-Flossler/
+    Grid Overflow ver: 1.2.3 -  https://github.com/Roman-Flossler/
     Copyright (c) 2023 Roman Flössler - Grid Overflow is licensed under MIT license 
-1*/
+*/
 
 .gridOverflow {
   --itemMinWidth: 200px;
   --itemAspectRatio: 1;
   --gridGap: 10px;
-  --mobileRowItemsCount: 2;
   --linkActionIcon: "⤢";
   --itemRounding: 6px;
   --masonryItemHeight: 180px;
   margin: auto;
   display: grid;
   grid-gap: var(--gridGap);
-  grid-template-columns: repeat(auto-fit, minmax(var(--itemMinWidth), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(calc(50% - var(--gridGap)), var(--itemMinWidth)), 1fr));
   grid-auto-flow: dense;
-}
-
-@media (max-width: 600px) {
-  .gridOverflow {
-    grid-gap: calc(var(--gridGap) * 0.75);
-    grid-template-columns: repeat(var(--mobileRowItemsCount), 1fr);
-  }
 }
 
 .go_gridItem {
@@ -100,6 +92,7 @@
 
 .go-masonry .go_gridItem {
   padding-bottom: 0;
+  display: flex;
   flex-grow: 1;
   height: var(--masonryItemHeight);
   flex-basis: fit-content;
@@ -107,6 +100,8 @@
 
 .go-masonry .go_gridItem > * {
   position: static;
+  flex-grow: 1;
+  width: auto;
 }
 
 .go-masonry .go_gridItem-centered,

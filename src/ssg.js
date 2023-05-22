@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.0 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.2 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -322,9 +322,6 @@ SSG.setVariables = function () {
     // if true it will show an offer of fs mode
     SSG.isFullscreenModeWanted = false;
 
-    // True right after entering FS mode, it tells that next onFSchange will be the exit.
-    SSG.readyToExitFullScreen = false;
-
     // If all images are loaded,
     SSG.finito = false;
 
@@ -546,7 +543,6 @@ SSG.FSmode = function ( event ) {
     // if the browser is in FS via F11 key, surprisingly fullscreenRequest will successfuly fire fullscreenchange event
     if( document.fullscreenElement ) {
         SSG.inFullscreenMode = true;
-        SSG.readyToExitFullScreen = true;
         SSG.createGallery( SSG.initEvent );
     }
 
@@ -678,10 +674,7 @@ SSG.initGallery = function ( event ) {
     window.addEventListener("hashchange", SSG.onHashExit );
 
     // passive:false is due to Chrome, it sets the mousewheel event as passive:true by default and then preventDefault cannot be used
-    document.addEventListener( 'mousewheel', SSG.seizeScrolling, {
-        passive: false, capture: true
-    } );
-    document.addEventListener( 'DOMMouseScroll', SSG.seizeScrolling, {
+    document.addEventListener( 'wheel', SSG.seizeScrolling, {
         passive: false, capture: true
     } );
     !SSG.isMobile && jQuery( window ).resize( SSG.onResize );
@@ -947,15 +940,14 @@ SSG.getImgList = function ( event ) {
 
 
 // On Fullscreen Change event handler - creates or destroys the gallery
-SSG.onFS = function () {    
+SSG.onFS = function () {
     if (SSG.isMobile && !SSG.isGalleryLandscaping) {
         SSG.onResize();
     }
 
-    // readyToExitFullScreen is true, that means than FS mode is ending
-    if ( SSG.inFullscreenMode && SSG.readyToExitFullScreen ) {
-        SSG.inFullscreenMode = false;
-        SSG.readyToExitFullScreen = false;
+    // exiting full screen mode
+    if ( document.fullscreenElement === null ) {
+        SSG.inFullscreenMode = false;        
         if ( SSG.isOrientationChanging ) {
             // gallery won't close if fullscreenChange is caused by OrientationChange
             SSG.isOrientationChanging = false;
@@ -968,15 +960,15 @@ SSG.onFS = function () {
             jQuery( '#SSG_exit' ).remove();
         }
         SSG.destroyOnFsChange = true;
-    } else if ( !SSG.readyToExitFullScreen ) {  // browser was just turned into FS
+    } else if ( document.fullscreenElement || document.fullscreenElement === undefined ) {  
+        // entering full screen mode. If fsEl is always undefined (crappy Safari) I prefer createGallery() over exiting the gallery 
         if ( !SSG.isGalleryCreated ) {
             if (SSG.isMobile && SSG.landscapeMode) {
                 setTimeout(function() { SSG.createGallery( SSG.initEvent ); }, 2800 );
             } else {
                 SSG.createGallery( SSG.initEvent );
             }                
-        }
-        SSG.readyToExitFullScreen = true;
+        }        
         SSG.inFullscreenMode = true;
 
         if ( !SSG.inExitMode && !SSG.isMobile ) {
@@ -1688,17 +1680,11 @@ SSG.countImageIndent = function ( index ) {
 SSG.seizeScrolling = function ( e ) {
     e.preventDefault();
     e.stopImmediatePropagation();
-    if ( Math.abs( e.timeStamp - SSG.savedTimeStamp ) > 333 ) {
-        if ( typeof e.detail == 'number' && e.detail !== 0 ) {
-            if ( e.detail > 0 ) {
+    if ( Math.abs( e.timeStamp - SSG.savedTimeStamp ) > 222 ) {
+        if ( typeof e.wheelDeltaY == 'number' ) {
+            if ( e.wheelDeltaY < 0 ) {
                 SSG.imageDown = true;
-            } else if ( e.detail < 0 ) {
-                SSG.imageUp = true;
-            }
-        } else if ( typeof e.wheelDelta == 'number' ) {
-            if ( e.wheelDelta < 0 ) {
-                SSG.imageDown = true;
-            } else if ( e.wheelDelta > 0 ) {
+            } else if ( e.wheelDeltaY > 0 ) {
                 SSG.imageUp = true;
             }
         }
@@ -1788,8 +1774,7 @@ SSG.destroyGallery = function (mode) {
         ga( 'send', 'pageview', location.pathname );
     }
     // DOMMouseScroll event is for FF, mousewheel for other browsers, true means capturing phase
-    document.removeEventListener( "mousewheel", SSG.seizeScrolling, true );
-    document.removeEventListener( "DOMMouseScroll", SSG.seizeScrolling, true );
+    document.removeEventListener( "wheel", SSG.seizeScrolling, true );
     window.removeEventListener('hashChange', SSG.onHashExit );
     jQuery( window ).off( 'resize', SSG.onResize );
     jQuery( document ).off( 'keydown', SSG.keyFunction );

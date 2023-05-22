@@ -1075,6 +1075,10 @@ footer {
     font-size: 251%;
   }
 
+  h3 {
+    font-size: 211%;
+  }
+
   .ficol h1 {
     font-size: 306%;
     margin-left: -16px;
@@ -1296,13 +1300,13 @@ footer {
 .dark a,
 .dark .icons,
 .dark strong {
-  color: #e44d68;
+  color: #ff5d7b;
   background: none;
   text-shadow: 0 0 11px black;
 }
 
 .dark img.imglink {
-  border-bottom: 2px solid #840017;
+  border-bottom: 2px solid #a12d42;
 }
 
 .dark p,

@@ -26,6 +26,14 @@ Story Show Gallery versus usual gallery lightbox. Do you want more icons or more
 
 ↑ SSG use whole smartphone display - even notch area and even on iPhone.
 
+.
+
+Part of Story Show Gallery is Grid overflow - a pure CSS solution for masonry layout and grid layout, where grid items can be given vertigo, panorama or VIP class to overflow into the next cell.
+
+[![Story Show Gallery is mobile friendly](https://roman-flossler.github.io/StoryShowGallery/img/Grid-overflow.jpg)](https://roman-flossler.github.io/StoryShowGallery/#Grid-overflow)
+
+.
+
 Story Show Gallery has **very easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by **CSS classes**. Define sepa­rate galleries, activate full screen mode, selectively deactivate SSG, etc. Story Show Gallery can also work as a React Component.
 
 <br>
@@ -34,7 +42,7 @@ Story Show Gallery has **very easy setup**, it binds onto image hyper­links on 
 
 - On smartphones, full screen mode can work like on You­Tube - after rotating a phone into landscape mode.
 - Also is possible to start the gallery in full screen portrait or forced landscape mode.
-- Brand building (image or text), [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand) social sharing icon 
+- Brand building (image or text), [hardly overlooked](https://roman-flossler.github.io/StoryShowGallery/#brand) social sharing icon
 - Easy browsing without [clicking and thinking](https://roman-flossler.github.io/StoryShowGallery/#browsing)
 - Image frame effects and settings
 - [EXIF](https://roman-flossler.github.io/StoryShowGallery/wordpress/#puffins) info inside captions
@@ -83,6 +91,16 @@ The **ssg class** creates a separate gallery, the **fs class** will activate ful
 The BigImage4.jpg will open normally within a browser because of the **nossg class**. [There are more control classes](https://roman-flossler.github.io/StoryShowGallery/#classes).
 
 You can also run the gallery by calling [SSG.run method](https://roman-flossler.github.io/StoryShowGallery/#ssg-run) and passing an JS array of images into SSG.
+
+## Grid Overflow - CSS layout for thumbnails
+
+To use it just link GridOverflow3D.min.css from CDN:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/GridOverflow3D.min.css" />
+```
+
+Short implementation tutorial is available at https://github.com/Roman-Flossler/Grid-Overflow
 
 <br>
 
