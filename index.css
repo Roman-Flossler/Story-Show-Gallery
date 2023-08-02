@@ -1264,6 +1264,10 @@ footer {
 }
 
 @media screen and (max-width: 550px) {
+  .qrcode {
+    display: none;
+  }
+
   .dark ul li {
     background: radial-gradient(circle farthest-corner at 9% 2em, rgb(86, 28, 43) 0%, #202425 28px);
   }
@@ -1371,7 +1375,8 @@ footer {
 }
 
 .dark img.invert {
-  filter: invert(1) brightness(1.8) contrast(0.8);
+  /* filter: invert(1) brightness(1.8) contrast(0.8); */
+  filter: invert(1) hue-rotate(32deg);
 }
 
 .dark .gallery a img {

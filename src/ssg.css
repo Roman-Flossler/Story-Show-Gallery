@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -571,7 +571,7 @@
     flex-direction: column;
     align-items: flex-end;
     width: 150px;
-    height: 183px;    
+    height: 183px;
 }
 
 #SSG1.notchright figure.title.SSG_uwide .share-menu {
@@ -737,23 +737,15 @@
     padding-bottom: 4vh;
 }
 
+
 #SSG1::after {
     content: '';
-    height: 18vh;
+    background: linear-gradient(to top, rgba(22, 22, 22, 0) 44%, rgba(22, 22, 22, 1) 100%);
+    height: 44vh;
     display: block;
-}
-
-
-@media (pointer: coarse) {
-    #SSG1::after {
-        content: '';
-        background: linear-gradient(0deg, rgba(255,255,255,0) 44%, #131313 100%);
-        height: 44vh;
-        display: block;
-        position: relative;
-        top: 44vh;
-        margin-top: -40vh;
-    }
+    position: relative;
+    top: 44vh;
+    margin-top: -40vh;
 }
 
 #SSG_lastone #SSG_menu a:hover {
@@ -1238,7 +1230,7 @@ button#copyLink::first-letter {
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipPlace {
         background: rgb(35, 35, 35);
         position: sticky;
-        z-index: 3;
+        /* z-index: 3 -> it will overlay share menu, but without this share icon will overlay tipPlace   */
         bottom: -2px;
         padding: 0.4em 0 0.6em 0;
         margin-top: 1em;
@@ -1762,6 +1754,7 @@ button#copyLink::first-letter {
 
     #SSG_exit {
         opacity: 0.69;
+        top: -9px;
     }
 
     #SSG1 p.title {
@@ -1939,13 +1932,21 @@ html.ssg-active .wait {
         overflow: hidden;
     }
 
-    .share-overflow-coarse {
+    .share-visible-coarse {
         overflow: visible !important;
     }
-
-    html #SSG1::after {
-        background: linear-gradient(to top, rgba(22, 22, 22, 0) 44%, rgba(22, 22, 22, 1) 100%);
+    .share-visible-coarse .ico {
+        background-image: none !important;
     }
+
+    .share-visible-coarse .ico::after {
+        content: '×';
+        color: #bbbbbb;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 26px;
+    }
+    
 
     #SSG1 ::-webkit-scrollbar {
         width: 3px;
@@ -2027,10 +2028,8 @@ html.ssg-active .wait {
     background: rgb(43, 43, 43);
 }
 
-@media (pointer: coarse) {
-    .ssgdim #SSG1::after {
-        background: linear-gradient(to top, rgba(43, 43, 43,0) 44%, rgba(43, 43, 43,1) 100%);
-    }
+.ssgdim #SSG1::after {
+background: linear-gradient(to top, rgba(43, 43, 43,0) 44%, rgba(43, 43, 43,1) 100%);
 }
 
 .ssgdim #SSG_bg {
@@ -2095,11 +2094,11 @@ html.ssg-active.ssgdim ::-webkit-scrollbar-thumb:hover {
     color:rgb(188, 188, 188);
 }
 
-@media (pointer: coarse) {
-    .ssgblack #SSG1::after {
-        background: linear-gradient(to top, rgba(0, 0, 0,0) 44%, rgba(0, 0, 0,1) 100%);
-    }
+
+.ssgblack #SSG1::after {
+    background: linear-gradient(to top, rgba(0, 0, 0,0) 44%, rgba(0, 0, 0,1) 100%);
 }
+
 
 .ssgblack #SSG_bg {
     background: rgb(0, 0, 0);
@@ -2151,11 +2150,11 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
     background: rgba(241, 241, 241, 0.8);
 }
 
-@media (pointer: coarse) {
-    .ssglight #SSG1::after {
-        background: linear-gradient(to top, rgba(241, 241, 241,0) 44%, rgba(241, 241, 241,1) 100%);
-    }
+
+.ssglight #SSG1::after {
+    background: linear-gradient(to top, rgba(241, 241, 241,0) 44%, rgba(241, 241, 241,1) 100%);
 }
+
 
 .ssglight #SSG_bg {
     background: rgb(241, 241, 241);

@@ -14,8 +14,8 @@
 
     <style>
         body { background:#d7e8e9; display: flex; justify-content: center; flex-wrap: wrap; 
-               overflow-x: hidden; text-align: center; }
-        p, code { background: #c2dde0; font-family: sans-serif; line-height: 2em; padding: 1em; }
+               overflow-x: hidden; text-align: center; font-family: sans-serif; }
+        p, code { background: #c2dde0; line-height: 2em; padding: 1em; }
         code { display: block; font-family: monospace; cursor: pointer; }        
         .gallery { margin-top: 6em; width: 100%; max-width: 555px; }
         #textcol {  width: 100%; max-width: 600px; }
@@ -28,8 +28,8 @@
 
     <!-- Gallery 1 --------------------------------------------> 
     
-    <section class="gallery ssg fs vipssg">
-        <h2>Gallery #1 (vip):</h2><br clear="all">
+    <section class="gallery ssg fs vipssg ssgdim">
+        <h2>Gallery #1 (vip class):</h2><br clear="all">
         <a href='https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg'  data-author="photo by Flor">
             <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" 
             alt="It's time! For a photo shoot of course." />
@@ -45,6 +45,11 @@
             alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
         </a>
         <br clear='all'/>
+        <br/>
+        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG' class="ssglink gossg">
+        ssglink to the rabbit (ssglink and gossg class)</a>
+        
+        
     </section>
     
 
@@ -71,13 +76,13 @@
         
         <code onclick="SSG.run( { 
             imgs: [ { href: 'https://www.faroeislands.io/photos/sorvagsvatn-lake.jpg', 
-                    alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 4 });">
+                    alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgName: ['rabbit',0] });">
         <!-- The initImgID parameter respects .ssg class and shows only pictures from the gallery related to initImgID picture  -->
-        <a>» SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgID: 4 });</a>        
+        <a>» SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgName: ['rabbit',0] });</a>        
         </code><br>
                 
-        <code onclick="SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});">
-            <a>» SSG.run({ initImgID: 4, cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
+        <code onclick="SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});">
+            <a>» SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
         </code>
 
         <h2>Outsider</h2><br clear="all">

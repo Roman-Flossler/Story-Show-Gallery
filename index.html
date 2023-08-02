@@ -63,16 +63,16 @@
                 <img src="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" alt="Story Show Gallery" />                
 
                 <div id="front-gallery">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgID: 8 });" alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgID: 9 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgID: 10 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgID: 11 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgID: 12 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgID: 13 });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgID: 14 });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" onclick="SSG.run({fs:true, initImgName: ['its-time',0]});" alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" onclick="SSG.run({fs:true, initImgName: ['on-the-hook',0]});"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgName: ['refreshment',0] });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgName: ['in-the-center',0] });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgName: ['engine-room',0] });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgName: ['hook-portrait',0] });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgName: ['fifth-element',0] });"  alt="SSG galery" />
                 </div>
                 
-                <span onclick="SSG.run({fs:true, initImgID: 7 });"><b>&#xA420;</b> View demo gallery</span>
+                <span onclick="SSG.run({fs:true,  initImgName: ['story-show-gallery-logo',0] });"><b>&#xA420;</b> View demo gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -168,6 +168,16 @@
 
             <p>The gallery doesn't have an icon for full screen mode, according to statistics users simply don't use it. So it's up to you, how you configure the fullscreen behaviour of the gallery.</p>
 
+           <div class="qrcode">
+            <img src="https://roman-flossler.github.io/StoryShowGallery/img/QR-mobile.png" class="invert" alt="qr code" width="260" style="float:left; margin: 0 15px 0 -30px;"> 
+            
+            <p style="min-width: 180px;">You can use this QR code to try the Story Show Gallery on your smart&shy;phone. 
+                In the gallery's portrait mode, below the first image is the text <strong>" ↻ photos look better in land&shy;scape mode"</strong> (can be changed or deactiv&shy;ated). 
+                Tap on it and the gallery will switch to full screen, landscape mode. Iphone doesn't support this, the user has to unlock rotation and rotate the phone.  </p>
+            <br clear="all">
+            </div>
+            
+
 
             <a name='signpost'></a>
             <h3>Neverending story</h3>
@@ -188,7 +198,7 @@
             </p>
             <p>Social <strong>sharing icon</strong> is not put aside, it is part of a content, but subtle. 
                 A spectator's eyes will literally crash into the share icon at the end of a caption or in the corner of a photo.  It can be disabled in the settings.
-                <a onclick="SSG.run({initImgID:15,  cfg: { theme:'dim'} })">
+                <a onclick="SSG.run({initImgName: ['massive-pink-rabbit-maneater',0],  cfg: { theme:'dim'} })">
                 <img style="width: auto;" src="https://roman-flossler.github.io/StoryShowGallery/img/share-icon-caption.png" 
                 alt="social share icon" class="limg darken imglink">
                 </a>
@@ -363,7 +373,7 @@
             <h2>Controling SSG by CSS classes</h2>
             <!-- _____________________________________ -->
             <p>By default SSG will make one big gallery from all linked images on the page. CSS classes can change this behaviour. 
-               There are nine classes: ssg, nossg, gossg, vipssg, fs and four themes. Classes have to be assigned to a hyper&shy;link tag or to 
+               There are ten classes: ssg, nossg, gossg, vipssg, fs, ssglink and four themes. Classes have to be assigned to a hyper&shy;link tag or to 
                any tag which contains image hyper&shy;links - they all will be affected:
             </p>
             
@@ -394,6 +404,12 @@
 
             <p>Image hyperlinks with the <strong>gossg</strong> class can be only an initial image of the gallery. If a user want to see it and clicks on it. 
                 Otherwise image hyperlinks with gossg class won't show in the gallery.
+            </p>
+
+            <p>The <strong>ssglink</strong>  class creates a link to the image of the same name that appears on the page. For example,
+                 <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" class="ssglink gossg">this image hyperlink</a>
+                behaves the same way as if you clicked on the hyperlink <u>🐰 Massive pink rabbit man‑eater</u> under the heading <i>Gallery with text links</i>.
+                This image hyperlink has also gossg class, so the image won't show in this first gallery and will only work as a link to another gallery.
             </p>
 
             <p>SSG offers four themes and each has its own class, which you can assign to some gallery:<br> light theme -> class: <strong>ssglight</strong>,
@@ -523,17 +539,27 @@ data.imageCaption <em>// image caption for current image</em>
                 &lt;body onload='SSG.run( { <span>noExit</span>:true, <span>fsa</span>:true  } )'&gt; 
             </code>
 
-            <p>Use <strong>initImgId</strong> parameter to set the initial image and also the gallery. 
+            <p>Use <strong>initImgID</strong> parameter to set the initial image and also the gallery. 
                 SSG auto&shy;mati&shy;cally numbers image hyperlinks on the page, the first image link has ID 0.
-                In this case, the first image will have page ID 13, even if it has gossg class. 
+                In this case, initial image of the gallery run will be image with page ID 13, even if it has gossg class. 
             </p>
             <p>
                 The initImgID parameter respects .ssg classes and shows only pictures from the gallery, which contains initImgID picture. 
-                Also the gallery theme is taken from css class of the related gallery. The gallery ID will be 3, because 13th image link is in the third gallery.
+                Also the gallery theme is taken from css class of the related gallery. The gallery ID will be 3, because 13th image link is in the third SSG gallery on this page.
             </p>
             <code class="active" onclick="SSG.run({ initImgID: 13 });">
                SSG.run( { <span>initImgID</span>: 13 } )
             </code>
+            <p>The <strong>initImgName</strong> parameter allows you to specify the initial image by its file name. The initImgName param is an array, 
+                the first element is the file name of the desired image (it can be only part of the file name, but then it is less specific). The second element is the order of the image, 
+                because several images with the same name can be linked on the page. Order <strong>zero</strong> means the first occurrence of the image with the given name.
+            </p>
+
+            <p>The initImgName parameter also respects .ssg classes and shows only images from the related gallery.</p>
+
+            <code class="active" onclick="SSG.run({ initImgName: ['story-show-gallery-logo.jpg',1] });">
+                SSG.run( { <span>initImgName</span>: ['story-show-gallery-logo.jpg',1] } )
+             </code>
 
             <p>
                 With the <strong>cfg</strong> parameter you can override global configuration, it applies only for the current gallery run.
@@ -542,8 +568,8 @@ data.imageCaption <em>// image caption for current image</em>
                  Following gallery has photos shaped into ellipse with thick border at its top and bottom.
             </p>
             
-            <code class="active" onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: '#b92a58', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
-                SSG.run( { <span>initImgID</span>:8, <span>fs</span>:true, <span>cfg</span>: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: '#b92a58', watermarkOpacity:1 }} )
+            <code class="active" onclick="SSG.run( { initImgName:['its-time',0], fs:true, cfg: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23, watermarkFontColor: '#b92a58', watermarkOpacity:1, watermarkText: 'Story Show Gallery' }})">
+                SSG.run( { <span>initImgName</span>:['its-time',0], <span>fs</span>:true, <span>cfg</span>: { imgBorderWidthX: 32, imgBorderWidthY:0, imgBorderColor:'black', imgBorderRadius:50, watermarkOffsetX:50, watermarkOffsetY:-23,  watermarkFontColor: '#b92a58', watermarkOpacity:1 }} )
             </code>
 
             <p>You can pass into SSG an array of images and captions to show them in the gallery via <strong>imgs</strong> parameter.
@@ -554,13 +580,13 @@ data.imageCaption <em>// image caption for current image</em>
             </p>
 
             <p>
-                The <strong>initImgID</strong> parameter defines, that after traelanipa.jpg will be image with page id 13 and other photos which belongs into the same gallery.
+                The <strong>initImgName</strong> parameter defines, that after traelanipa.jpg will be image with name 'on-the-hook' and other photos which belongs into the same gallery.
             </p>
-            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgID: 13, cfg:{theme: 'dark'} });">
-               SSG.run( { <span>imgs</span>: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], <span>imgsPos</span>:'start', <span>initImgID</span>: 13, <span>cfg</span>: {theme: 'dark'}  });</code>
+            <code class="active" onclick="SSG.run( { imgs: [ { href: 'https://www.flor.cz/blog/wp-content/uploads/traelanipa.jpg', alt: 'Trælanípa (Slave) Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgName:['on-the-hook',0], cfg:{theme: 'dark'} });">
+               SSG.run( { <span>imgs</span>: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], <span>imgsPos</span>:'start', <span>initImgName</span>:['on-the-hook',0], <span>cfg</span>: {theme: 'dark'}  });</code>
 
             <p>
-                Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID works even with arrays.                    
+                Without the imgsPos parameter, in the gallery will be only photos from array iceland. The initImgID param works even with arrays (initImgName not).
             </p>
             <code class="active" style="white-space: pre-wrap; overflow: visible" 
             onclick="SSG.run( { imgs: iceland, id: 'iceland', fs:true, initImgID: 1 });"> SSG.run( { <span>imgs</span>: iceland, <span>id</span>: 'iceland', <span>fs</span>:true, <span>initImgID</span>: 1 });
@@ -691,10 +717,10 @@ iceland = [];
                 <br clear="all"/>
                 <p id="scheme">
                     <span>Theme:</span>
-                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'dim' }})">Dim</a>
-                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'dark' }})">Dark</a>
-                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { theme: 'black' }})">Black</a>
-                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgID: 8, fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
+                    <a class="color" style="background: #262626; color: #b1b1b1;" onclick="SSG.run({ initImgName: ['its-time',0], fs: true, cfg: { theme: 'dim' }})">Dim</a>
+                    <a class="color" style="background: #161616; color: #b1b1b1" onclick="SSG.run({ initImgName: ['its-time',0], fs: true, cfg: { theme: 'dark' }})">Dark</a>
+                    <a class="color" style="background: black;  color: #b1b1b1" onclick="SSG.run({ initImgName: ['its-time',0], fs: true, cfg: { theme: 'black' }})">Black</a>
+                    <a class="color" style="background: #f1f1f1; color: #333333;" onclick="SSG.run({ initImgName: ['its-time',0], fs: true, cfg: { watermarkOpacity: 0.5, theme: 'light' }})">Light</a>
                 </p>
                 
                 <h2 style="margin-top: 2em;">Gallery with text links</h2>
@@ -712,7 +738,7 @@ iceland = [];
 
                 <p style="margin-top: 3rem;">
                     &nbsp;⭕ <a href="#" style="text-decoration-style: wavy; text-decoration-color: #777777; text-underline-offset: 2px;"
-                    onclick="SSG.run( { initImgID:8, fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
+                    onclick="SSG.run( { initImgName: ['its-time',0], fs:true, cfg: { imgBorderWidthX: 24, imgBorderWidthY:0, imgBorderColor:'black', imgOutlineColor:'#891b1b', imgBorderRadius:50, imgBorderLightFx: true, watermarkOffsetX:50, imgBorderShadow: false, watermarkOffsetY:-28, watermarkFontColor: 'white', watermarkOpacity:0.88, watermarkText: '', watermarkImage: 'https://www.flor.cz/img/florcz.png' }})">
                         Extreme example of image border, radius and watermark settings</a></p>
             </div>
 
@@ -1015,7 +1041,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
                         '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
                         ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
-                    }, 3333);
+                    }, 1886);
                 showStarted = true;
                 
                 return; // deactivation of the initial thumbnail animation
@@ -1062,7 +1088,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.watermarkOffsetX = 3;
                     SSG.cfg.imgBorderLightFx = true;
                     SSG.cfg.imgOutlineColor = '#6e0a0a';
-                    setTimeout(function(){ SSG.run({ initImgID: 7, fs: true}) }, 888);
+                    setTimeout(function(){ SSG.run({ initImgName: ['its-time',0], fs: true}) }, 888);
                 } else {
                     SSG.cfg.imgBorderWidthX = 1;
                     SSG.cfg.imgBorderWidthY = 1;
@@ -1070,6 +1096,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.watermarkOffsetY = 0.6;
                     SSG.cfg.watermarkOffsetX = 1.8;
                     SSG.cfg.imgBorderLightFx = false;
+                    SSG.cfg.imgOutlineColor = '';
                 }
             }
     </script>

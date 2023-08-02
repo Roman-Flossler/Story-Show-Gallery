@@ -1,5 +1,5 @@
 /*!  
-    Grid Overflow ver: 1.2.3 -  https://github.com/Roman-Flossler/
+    Grid Overflow ver: 1.2.4 -  https://github.com/Roman-Flossler/Grid-Overflow
     Copyright (c) 2023 Roman Flössler - Grid Overflow is licensed under MIT license 
 */
 
@@ -133,19 +133,25 @@
   opacity: 0.88;
 }
 
+.go-actionIcon > .go_gridItem::after {
+  transition: all 0.13s ease-in;
+}
+
+.go-actionIcon > .go_gridItem:hover:after {
+  transition: all 0.25s ease;
+}
+
 /* ---------- 3D anim effect ---------- */
 /* transition definition */
 .go-3Dfx > .go_gridItem,
 .go-3Dfx > .go_gridItem > *,
-.go-3Dfx > .go_gridItem::before,
-.go-3Dfx > .go_gridItem::after {
+.go-3Dfx > .go_gridItem::before {
   transition: all 0.13s ease-in;
 }
 
 .go-3Dfx > .go_gridItem:hover,
 .go-3Dfx > .go_gridItem:hover > *,
-.go-3Dfx > .go_gridItem:hover::before,
-.go-3Dfx > .go_gridItem:hover:after {
+.go-3Dfx > .go_gridItem:hover::before {
   transition: all 0.25s ease;
 }
 
@@ -192,4 +198,16 @@
 
 .go-3Dfx > .go_gridItem:hover::before {
   transform: translate(-1%, -1%);
+}
+
+/* ---------- zoom effect ---------- */
+.go-zoomFx > .go_gridItem:hover {
+  transform: scale(1.036) !important;
+  z-index: 6;
+  border-radius: 3px;
+  transition: all 0.13s ease-in;
+}
+
+.go-zoomFx > .go_gridItem {
+  transition: all 0.1s ease-in;
 }

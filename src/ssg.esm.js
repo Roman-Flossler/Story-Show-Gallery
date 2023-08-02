@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.3.2 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.3 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -207,15 +207,30 @@ SSG.run = function ( event ) {
     }
     SSG.cfgFused.crossCursor && jQuery( 'html' ).addClass( 'crosscur' );
 
+    
+    if (event && event.initImgName) {
+        // from initImgName is derived initImgID and initImgName is not needed anymore
+        event.initImgID = SSG.findImage( SSG.jQueryImgCollection.toArray(), event.initImgName[0],  event.initImgName[1])
+    }
+
     // setting of Visual theme - also has to be done asap, otherwise there are problems with right coloring of the scrollbar
     var imgClassList, theme;
     theme = SSG.cfgFused.theme;
 
     if ( event && event.currentTarget ) {
         imgClassList =  event.currentTarget.classList
-    } else if (event && event.initImgID && !event.imgs ) {
+        if ( SSG.hasClass( imgClassList, 'ssglink' ))  {
+            // if the hyperlink has ssglink class the whole native event is replaced with made up one. 
+            // It behave like the gallery have been initiated with SSG.run with initImgID
+            event = { initImgID: SSG.findImage( SSG.jQueryImgCollection.toArray(), SSG.getName(event.currentTarget.href) , 0)}
+        }        
+    }
+    if (event && event.initImgID && !event.imgs ) {
+        // if the gallery is started via SSG.run with initImgID
         imgClassList = SSG.jQueryImgCollection[event.initImgID].classList
     }
+
+
     if ( SSG.hasClass( imgClassList, 'ssgdim' ))  theme='dim'
     else if  ( SSG.hasClass( imgClassList, 'ssglight' )) theme='light'
     else if  ( SSG.hasClass( imgClassList, 'ssgblack' )) theme='black'
@@ -434,6 +449,24 @@ SSG.setVariables = function () {
     }
 };
 
+// find an image (searchedImg) in the given array
+// order param defines the order of occurrence of the image with the given name
+SSG.findImage = function(imgArray, searchedImg, order) {
+    var findex;
+    var findCount = 0;
+    for ( var i = 0; i < imgArray.length; i++ ) {
+        var img = SSG.getName( imgArray[ i ].href );
+        if ( img.indexOf( searchedImg ) != -1 ) {
+            // Index of the image which match the searchedImg
+            findex = i;
+            // break causes that no more searching is performed and findex is returned
+            if(findCount >= order  && !SSG.hasClass(imgArray[ i ].classList, 'ssglink') ) break;
+            findCount++;
+        }
+    }
+    return findex;
+}
+
 // Searching for the first image which match the hash in URL.
 SSG.getHash = function ( justResult ) {
     var hash = window.location.hash;
@@ -442,15 +475,7 @@ SSG.getHash = function ( justResult ) {
 
     if ( hash != '' ) {
         hash = hash.substring( 1, hash.length );
-        for ( var i = 0; i < allimgs.length; i++ ) {
-            var imgname = SSG.getName( allimgs[ i ].href );
-            if ( imgname.indexOf( hash ) != -1 ) {
-
-                // Index of the first image which match the hash
-                findex = i;
-                break;
-            }
-        }
+        findex = SSG.findImage(allimgs, hash, 0)        
         
         // If there is an image which match the hash
         if ( typeof findex != 'undefined' ) {
@@ -733,16 +758,17 @@ SSG.iphoneScrollBlock = function() {
 SSG.slideBrowse = function(event) {
     if (  SSG.running && SSG.slide.started == true ) {            
         SSG.slide.count++;
-        if (  SSG.slide.count >= 4 ) {
+        if (  SSG.slide.count >= 6 ) {
             SSG.slide.started = false;
             SSG.slide.count = 0;
 
             if( Math.abs( (event.originalEvent.touches[0].clientX - SSG.slide.startX) / (event.originalEvent.touches[0].clientY - SSG.slide.startY) ) > 2.2 ) {
                 if ( event.originalEvent.touches[0].clientX < SSG.slide.startX) {
-                    SSG.imageDown = true;        
+                    SSG.imageDown = true;
                 } else {
                     SSG.imageUp = true;
                 }
+                SSG.jumpScroll();
             } else {
                 if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown && SSG.landscapeMode ) {
                     SSG.showFsTip( 'hint' );
@@ -794,11 +820,13 @@ SSG.keyFunction = function ( event ) {
         // Arrow up or right sets the property that causes jumping on previos photo.
         SSG.imageUp = true;
     }
+    SSG.jumpScroll();
     event.preventDefault();
 };
 
 SSG.touchScroll = function ( event ) {
     event.clientY < SSG.scrHeight / 2 ? SSG.imageUp = true : SSG.imageDown = true;
+    SSG.jumpScroll();
 };
 
 SSG.getAlt = function ( el ) {
@@ -1312,7 +1340,6 @@ SSG.addImage = function () {
         // decoding the image just after loading, image is completly ready to render, it makes scroll animation more fluent
         // img.decode isn't supported by older browsers (IE11, Edge)
         if (img.decode) {
-            img.decode().catch( function() { console.log('no image to decode') } );
         }
         jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
@@ -1325,16 +1352,14 @@ SSG.addImage = function () {
         jQuery( '#SSG1 #i' + newOne ).on( 'error', {
             imgid: newOne
         }, SSG.onLoadError );
-        jQuery( '.share' ).click( function ( event ) {
-            event.stopPropagation();
-        } );
         jQuery('#SSG1 #f' + newOne + ' .link').click(function() {            
             SSG.showFsTip(jQuery('#SSG1 #f' + newOne + ' .link').attr('data-url'));            
         } );
 
-        //onclick for share menu; onclick a.ico toggles overflow:visible, onclick on a. othericons hides share menu (overflow:hidden)         
-        jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function () {
-            jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-overflow-coarse');
+        //onclick for share menu; onclick a.ico toggles overflow:visible, onclick on a. othericons hides share menu (overflow:hidden)
+        jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function (e) {
+            e.stopPropagation();
+            jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-visible-coarse');
             if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
                 SSG.closeFullscreen();
@@ -1406,7 +1431,7 @@ SSG.beyondGallery = function() {
 
 // Acquire an image name from url address.
 SSG.getName = function ( url ) {
-    return url.slice( url.lastIndexOf( '/' ) + 1, url.lastIndexOf( '.' ) );
+    return url.slice( url.lastIndexOf( '/' ) + 1);
 };
 
 SSG.setHashGA = function ( index ) {
@@ -1504,7 +1529,7 @@ SSG.metronome = function () {
         if ( SSG.landscapeMode && SSG.isFirstImageCentered && !SSG.wasJumpScrollUsed && !( SSG.imageUp && SSG.displayedImg == 0 )) {
             SSG.wasJumpScrollUsed = true;
         }
-        SSG.jumpScroll();
+        !SSG.isFirstImageCentered && SSG.jumpScroll();
     }
 };
 
@@ -1652,8 +1677,10 @@ SSG.seizeScrolling = function ( e ) {
         if ( typeof e.wheelDeltaY == 'number' ) {
             if ( e.wheelDeltaY < 0 ) {
                 SSG.imageDown = true;
+                SSG.jumpScroll();
             } else if ( e.wheelDeltaY > 0 ) {
                 SSG.imageUp = true;
+                SSG.jumpScroll();
             }
         }
     }
