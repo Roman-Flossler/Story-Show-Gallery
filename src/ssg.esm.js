@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.3.3 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.4 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1524,13 +1524,8 @@ SSG.metronome = function () {
     }
 
     SSG.actualPos = actual;
-
-    if ( SSG.imageUp || SSG.imageDown || !SSG.isFirstImageCentered ) {
-        if ( SSG.landscapeMode && SSG.isFirstImageCentered && !SSG.wasJumpScrollUsed && !( SSG.imageUp && SSG.displayedImg == 0 )) {
-            SSG.wasJumpScrollUsed = true;
-        }
-        !SSG.isFirstImageCentered && SSG.jumpScroll();
-    }
+    // initial centering of the first image
+    !SSG.isFirstImageCentered && SSG.jumpScroll();
 };
 
 SSG.ScrollTo = function ( posY, direction ) {
@@ -1633,6 +1628,9 @@ SSG.jumpScroll = function () {
         }
     }
 
+    if ( SSG.landscapeMode && SSG.isFirstImageCentered && !SSG.wasJumpScrollUsed && !( SSG.imageUp && SSG.displayedImg == 0 )) {
+        SSG.wasJumpScrollUsed = true;
+    }
     SSG.imageDown = false;
     SSG.imageUp = false;
 };
