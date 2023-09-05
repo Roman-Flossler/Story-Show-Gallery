@@ -1,6 +1,6 @@
 /*!
     --- ESM module ---
-    Story Show Gallery (SSG) ver: 3.3.4 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.5 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -58,6 +58,11 @@ SSG.cfg.enlargeImg = false;
 // EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing
 // 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'
 SSG.cfg.captionExif = 'none';
+
+// In case of manual lens or empty author field you can fill blank EXIF values with defined default ones:
+// ['lens name', 'short lens name', '35mm EQ focal length', 'real focal length', 'author' ] eg: ['Samyang 12mm, f/2', 'S 12mm, f/2', '18', '12', 'Batman']
+// Of course entering of particular lens works only if there is only one manual lens in the gallery
+SSG.cfg.fillExifBlanks = ['Unknown manual lens', 'manual lens', '', '', '-']
 
 // background opacity in range 0-100%
 SSG.cfg.bgOpacity = 100;  
@@ -217,16 +222,17 @@ SSG.run = function ( event ) {
     var imgClassList, theme;
     theme = SSG.cfgFused.theme;
 
+    // get imgClassList from the currentTarget
     if ( event && event.currentTarget ) {
         imgClassList =  event.currentTarget.classList
         if ( SSG.hasClass( imgClassList, 'ssglink' ))  {
             // if the hyperlink has ssglink class the whole native event is replaced with made up one. 
-            // It behave like the gallery have been initiated with SSG.run with initImgID
+            // It behave like the gallery have been initiated with SSG.run & initImgID, so the next condition also applies
             event = { initImgID: SSG.findImage( SSG.jQueryImgCollection.toArray(), SSG.getName(event.currentTarget.href) , 0)}
         }        
     }
-    if (event && event.initImgID && !event.imgs ) {
-        // if the gallery is started via SSG.run with initImgID
+    // in case of made up event with initImgID, imgClassList is taken from the target photo
+    if (event && event.initImgID !== undefined ) {
         imgClassList = SSG.jQueryImgCollection[event.initImgID].classList
     }
 
@@ -239,12 +245,17 @@ SSG.run = function ( event ) {
     if (event && event.cfg && event.cfg.theme ) {
             theme = event.cfg.theme;
     }
+
+    // if the image link has the fs class, use it, but only if there is no event.fs, it has priority
+    if (event && event.fs == undefined && SSG.hasClass( imgClassList, 'fs' ) ) {
+        event.fs = true;
+    }
     
     SSG.theme = theme;
     (theme != 'dark') && jQuery( 'html' ).addClass( 'ssg' + SSG.theme );
 
     // If there is no start image specified (in the noExit mode), try to get image from hash.
-    if ( event && event.noExit && !event.initImgID ) {
+    if ( event && event.noExit && event.initImgID == undefined ) {
         var initImgID = SSG.getHash( true );
         if ( initImgID != null ) {
          event.initImgID = initImgID;
@@ -518,8 +529,8 @@ SSG.FSmode = function ( event ) {
     if ( event && event.fsa ) {
         SSG.createGallery( SSG.initEvent );
         SSG.isFullscreenModeWanted = true;
-    } else if ( mobilePortrait && event.fsa === undefined && SSG.pageFS && SSG.cfgFused.forceLandscapeMode) {
-        SSG.forceLandscapeMode();
+    } else if ( mobilePortrait && event.fsa === undefined && SSG.pageFS && SSG.cfgFused.forceLandscapeMode && !/iPhone/i.test(window.navigator.userAgent)) {
+        SSG.forceLandscapeMode(false, false);
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
     } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
@@ -714,28 +725,39 @@ SSG.onOrientationChanged = function () {
         // So landscapeMode doesn't depend on a browser speed of actualization present orientation.
         !SSG.landscapeMode ? SSG.openFullscreen() : SSG.closeFullscreen();
     } else {
-        // orientation.lock triggers orientationChange, but onResize should run only when orientation.lock resolves
+        // orientation.lock triggers orientationChange, onResize is already called in orientation.lock
         !SSG.isGalleryLandscaping && SSG.onResize();
     }
     SSG.setNotchRight();
     SSG.iphoneScrollBlock();
 };
 
-SSG.forceLandscapeMode = function(event) {
-    SSG.isGalleryLandscaping = true;
+SSG.forceLandscapeMode = function(event, throwAlert) {
     event && event.stopPropagation();
+    // iPhone has crippled browser, this function doesn't work at all
+    if (/iPhone/i.test(window.navigator.userAgent)) {
+        throwAlert && SSG.showFsTip( 'rotatErr' );
+        return;
+    }
+    
+    // isGalleryLandscaping = true suppress onResize in orientation and onFS event, so onResize runs only once in lock promise
+    SSG.isGalleryLandscaping = true;
+    // without FS mode screen.orientation.lock doesn't work
     if ( !SSG.inFullscreenMode ) {
         SSG.openFullscreen();
     }
+    // setTimeout gives FS some time to render, before the orientation lock runs
     setTimeout(function() {
         if ( !SSG.landscapeMode && screen.orientation ) {
             screen.orientation.lock("landscape-primary").then((success) => {
                 // onResize runs after gallery is turned into full screen and rotated, so onResize can run without problems and it needs just short time.
                 SSG.onResize();
-                setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
-            }).catch((err) => { console.log(err)} );
+            }).catch((err) => { console.log(err);  throwAlert && SSG.showFsTip( 'rotatErr' );} );
+            // if orientation.lock don't resolve, isGalleryLandscaping = true causes that normal orientation change won't be resized, after 2 seconds it will work again
         }
     }, 200)
+
+    setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
 }
 
 // iPhone doesn't support full screen mode, so it is needed to block touch move (scrolling), otherwise toolbar will appear on touch move - annoying.
@@ -1216,21 +1238,36 @@ SSG.getExif = function ( exif, captionInfo ) {
     var iso =  exif.ISO ? " <b class='iso'>▦</b>" + exif.ISO : '';
     var exposureCalc = exif.ExposureTime <= 0.5 ? '1/' + 1/exif.ExposureTime : exif.ExposureTime;
     var exposure = exif.ExposureTime ? " <b>◔</b>" + exposureCalc + 's' : '';
+    var focalReal = exif.FocalLength;
+    var focal35EQ = exif.FocalLengthIn35mmFormat;
+    // in case of manual lens blank values can be filled with default ones 
+    
+    if (exif.ExposureTime && exif.ISO) {
+        // if there is no lens, it can be stated as ---- in the EXIF
+        var trimmedLensName = SSG.cfgFused.fillExifBlanks[1] == '' ? SSG.cfgFused.fillExifBlanks[0] : SSG.cfgFused.fillExifBlanks[1];
+        if (SSG.cfgFused.fillExifBlanks[0] && (!lensExif || lensExif.length <= 4)) lensExif = SSG.cfgFused.fillExifBlanks[0]; 
+        if (SSG.cfgFused.fillExifBlanks[0]) lens = lens || (SSG.cfgFused.captionExif == 'trim' ? trimmedLensName : SSG.cfgFused.fillExifBlanks[0]);
+        if (SSG.cfgFused.fillExifBlanks[2]) focalLength = focalLength || ' <b class="focal">∢</b>' +  SSG.cfgFused.fillExifBlanks[2] + ' mmEQ';
+        if (SSG.cfgFused.fillExifBlanks[2]) focal35EQ = focal35EQ || SSG.cfgFused.fillExifBlanks[2];
+        if (SSG.cfgFused.fillExifBlanks[3]) focalReal = focalReal || SSG.cfgFused.fillExifBlanks[3];
+    }
     var exifLine = (maker? '<u>' : '') + maker + camera + (maker? '</u>' : '') + (lens? ' + ' : '') + lens + focalLength + fNumber + iso + exposure;
     
+    // in captionInfo mode I want to get only one line exif info for caption
     if (SSG.cfgFused.captionExif == 'icon' && captionInfo && exifLine) return 'EXIF';
     if (captionInfo) return exifLine + ( exifLine ? ' …' : "" );
 
+    // if captionInfo === false return whole table for onclick detailed EXIF
     var exifTable = `
     <div id="table-wrap">
     <table class="exif-table">
-        <tr><td>author:</td><td> ${ dash( exif.Artist || exif.Copyright || exif['42032'] ) } </td></tr>
+        <tr><td>author:</td><td> ${ dash( exif.Artist || exif.Copyright || exif['42032'] || SSG.cfgFused.fillExifBlanks[4] ) } </td></tr>
         <tr><td>camera&nbsp;maker:</td><td> ${exif.Make} </td></tr>
         <tr><td>camera model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
         <tr><td>lens:</td><td>  ${ dash(lensExif)}</td></tr>
-        <tr><td>focal length:</td><td> ${ !exif.FocalLengthIn35mmFormat && exif.FocalLength ? '<b>∢</b>' : '' } ${dash(exif.FocalLength + ' mm')}</td></tr>
+        <tr><td>focal length:</td><td> ${ !focal35EQ && focalReal ? '<b>∢</b>' : '' } ${dash(focalReal + ' mm')}</td></tr>
         
-        <tr><td>focal length 35mmEQ:</td><td><b class="focal">∢</b>  ${dash(exif.FocalLengthIn35mmFormat + ' mm') }</td></tr>
+        <tr><td>focal length 35mmEQ:</td><td><b class="focal">∢</b>  ${dash(focal35EQ + ' mm') }</td></tr>
         <tr><td>f-number:</td><td><b>⌬</b>  ${dash('f/'+ Math.round(exif.FNumber*10)/10)}</td></tr>
         <tr><td>ISO speed:</td><td><b class='iso'>▦</b>  ${dash(exif.ISO)}</td></tr>
         <tr><td>exposure time:</td><td><b>◔</b>  ${exposureCalc}s<br></td></tr>
@@ -1385,7 +1422,7 @@ SSG.addImage = function () {
         jQuery( '#SSG1 #p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
         jQuery( '#SSG1 #uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
         SSG.cfgFused.showLandscapeHint && jQuery( '#SSG1 #f0').after("<div class='golandscape'>"+ SSG.cfgFused.landscapeHint +"<div>");
-        jQuery( '#SSG1 .golandscape').click( SSG.forceLandscapeMode )
+        jQuery( '#SSG1 .golandscape').click( (e) => SSG.forceLandscapeMode(e, true) )
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( 'hint' );
             event.stopPropagation();
@@ -1851,6 +1888,8 @@ SSG.showFsTip = function ( content ) {
         } else if (content.length > 33) {
             jQuery( 'body' ).append( begin + content + end );
             jQuery( '.exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
+        } else if (content == 'rotatErr') {
+            jQuery( 'body' ).append( begin + "Your device doesn't support auto-rotate, <br> rotate it manually to landscape." + end );
         }
         
         jQuery( '#SSG_tipClose' ).click( function () {
