@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.5 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.6 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -185,6 +185,11 @@
 
 #SSG1 p.title {
     margin-top: 0.55em;
+    max-width: 1666px;
+}
+
+#SSG1 p.title br {
+    display: none;
 }
 
 #SSG1 span.SSG_forlogo {
@@ -252,6 +257,10 @@
 #SSG1 p em {
     font-style: italic;
     white-space: nowrap;
+}
+
+#SSG1 p strong, #SSG1 p b {
+    font-weight: bold;
 }
 
 #SSG1 p q::before, #SSG1 p q::after {
@@ -509,7 +518,6 @@
     height: 23px;
     display: inline-block;
     position: relative;
-    overflow: hidden;
     margin-bottom: -5px;
     margin-top: -5px;
     margin-right: -11px;
@@ -519,7 +527,8 @@
 
 #SSG1 p.uwtitle span.share {
     top: 3px;
-    z-index: 2;    
+    /* span share has to be above #SSG_tipPlace */
+    z-index: 3;
     margin-right: 0.3em;
     margin-left: 0.3em;
 }
@@ -543,14 +552,6 @@
 
 #SSG1 .SSG_forlogo span.share {
     height: 30px;
-}
-
-#SSG1 .share:hover {
-    overflow: visible;
-}
-
-.share-overflow {
-    overflow: visible !important;
 }
 
 #SSG1 figure.title .SSG_imgWrap .share,
@@ -601,6 +602,33 @@
 
 #SSG1 .share a {
     text-decoration: none !important;
+}
+
+#SSG1 .SSG_short-caption p {
+    /* short caption can be oveflowed by share menu */
+    overflow: visible !important;
+}
+
+/* share menu is show/hide on hover */
+#SSG1 .share:hover .share-menu {
+    display: flex;
+}
+
+#SSG1 .share .share-menu {
+    display: none;
+}
+
+#SSG1 .SSG_scroll-caption p span.share {
+    /* in case of scrollable caption, span share is below #SSG_tipPlace */
+    z-index: 1;
+    display: block;
+    margin: 0.2rem auto;
+}
+
+#SSG1 .SSG_scroll-caption p span.share .share-menu {
+    top: -156px !important;
+    right: auto !important;
+    left: -56px !important;
 }
 
 #SSG1 figure.exif:not(.author) .share .ico,
@@ -693,6 +721,7 @@
     border-radius: 20px;
     width: 28px;
     height: 28px;
+    font-weight: normal;
     margin-top: 11px;
     display: inline-block;
     line-height: 25px;
@@ -1067,7 +1096,11 @@ button#copyLink::first-letter {
         padding-left: 2em;
         padding-right: 2em;
         border-radius: 0;
-        margin-top: 0.7em;
+        margin-top: 0.7em;        
+    }
+
+    #SSG1 p.title br {
+        display: initial;
     }
 
     #SSG1 p,
@@ -1181,6 +1214,11 @@ button#copyLink::first-letter {
         flex-direction: row-reverse;
     }
 
+    #SSG1 .SSG_uwide.chattyCaption .SSG_uwBlock {
+        /* stabilizes height of the uwBlock, so the scroll-caption can be changed its height */
+        height: 98vh;
+    }
+
     /* fixing MS Edge bug */
     @supports (-ms-ime-align:auto) {
         #SSG1 .SSG_uwide .SSG_uwBlock {
@@ -1230,13 +1268,15 @@ button#copyLink::first-letter {
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipPlace {
         background: rgb(35, 35, 35);
         position: sticky;
-        /* z-index: 3 -> it will overlay share menu, but without this share icon will overlay tipPlace   */
+        /* it will overlay share menu when caption si scrollable  */
+        z-index: 2;
         bottom: -2px;
         padding: 0.4em 0 0.6em 0;
         margin-top: 1em;
         display: block;
         text-align: center;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);        
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
     }
 
     #SSG1 .SSG_uwide p.uwtitle .SSG_tipCall:after {
@@ -1261,7 +1301,7 @@ button#copyLink::first-letter {
         margin: 0 0 0 6vw;
     }
 
-    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
+    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle, #SSG1 .SSG_uwide.SSG_scroll-caption p.uwtitle {
        margin: 0 2vw 0 0;
        flex-grow: 1;
        max-width: 288px;
@@ -1273,6 +1313,10 @@ button#copyLink::first-letter {
 
     #SSG1.notchright .SSG_uwide.SSG_captionShift p.uwtitle {
         margin: 0 0 0 2vw;
+    }
+
+    #SSG1 .SSG_uwide.SSG_scroll-caption p.uwtitle {
+        margin: 0 !important;
     }
 
     #SSG1.notchright .SSG_uwide .SSG_imgWrap {
@@ -1398,7 +1442,7 @@ button#copyLink::first-letter {
 @media (orientation: landscape) and (min-width: 1400px) {
 
     /* smaller title block for higher resolutions */
-    #SSG1 .SSG_uwide p.uwtitle {
+    #SSG1 .SSG_uwide p.uwtitle:not(.SSG_scroll-caption) {
         width: 15vw;
     }
 
@@ -1413,7 +1457,7 @@ button#copyLink::first-letter {
 }
 
 @media (orientation: landscape) and (min-width: 1800px) {
-    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
+    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle, #SSG1 .SSG_uwide.SSG_scroll-caption p.uwtitle {
         flex-grow: 0;
         max-width: none;
     }
@@ -1477,7 +1521,7 @@ button#copyLink::first-letter {
     }
 }
 
-@media (orientation: landscape) and (pointer: coarse) {
+@media (orientation: landscape) and (pointer: coarse), (orientation: landscape) and (hover: none) {
      /* arrow to right in landsape mode on touch devices */
 
      #SSG1 .SSG_tipCall {        
@@ -1672,10 +1716,15 @@ button#copyLink::first-letter {
         line-height: 1.1em;
     }
 
-    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle {
+    #SSG1 .SSG_uwide.SSG_captionShift p.uwtitle, #SSG1 .SSG_uwide.SSG_scroll-caption p.uwtitle {
         max-width: 27vw;
         padding: 1em;
      }
+
+     #SSG1 .SSG_uwide .SSG_uwBlock {
+        /* stabilizes height of the uwBlock, so the scroll-caption can be changed its height */
+        height: 98vh;
+    }
 }
 
 
@@ -1775,6 +1824,8 @@ button#copyLink::first-letter {
  */
 
  @supports (-webkit-overflow-scrolling: touch) {
+ /*   @supports (display: flex) { */
+
     
     @media (min-width: 760px) and (max-width: 933px) and (orientation: landscape) {        
         
@@ -1793,7 +1844,7 @@ button#copyLink::first-letter {
 
         #SSG1,
         #SSG_tip {
-            font-size: 18px;
+            font-size: 17px;
         }
 
         #SSG1 {
@@ -1926,27 +1977,29 @@ html.ssg-active .wait {
     cursor: wait;
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (hover: none) {
 
-    #SSG1 .share:hover {
-        overflow: hidden;
+    /* on share icon click is added class .share-visible-coarse, but that click also means hover state */
+
+    #SSG1 .share-visible-coarse .share-menu, #SSG1 .share-visible-coarse:hover .share-menu {
+        display: flex !important;
     }
 
-    .share-visible-coarse {
-        overflow: visible !important;
-    }
-    .share-visible-coarse .ico {
+    #SSG1 .share .share-menu, #SSG1 .share:hover .share-menu {
+        display: none;
+    }    
+
+    #SSG1 .share-visible-coarse .ico {
         background-image: none !important;
     }
 
-    .share-visible-coarse .ico::after {
+    #SSG1 .share-visible-coarse .ico::after {
         content: '×';
         color: #bbbbbb;
         font-weight: normal;
         font-style: normal;
-        font-size: 26px;
+        font-size: 30px;
     }
-    
 
     #SSG1 ::-webkit-scrollbar {
         width: 3px;
@@ -1994,7 +2047,7 @@ html.ssg-active .wait {
 
 }
 
-@media (pointer: coarse) and  (orientation: portrait) {
+@media (pointer: coarse) and (orientation: portrait), (hover: none) and (orientation: portrait) {
         #SSG_tip div.touch {
             padding-top: 55px;
             padding-left: 3px;

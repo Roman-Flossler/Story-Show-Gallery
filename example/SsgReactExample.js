@@ -40,7 +40,7 @@ function SsgReactExample() {
           crossCursor: cross,
           observeDOM: true,
           // SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
-          // If you use routing in React or Next.js, observeDOM should be set to true, otherwise SSG won't work (only SSG.run will).
+          // If you use routing in React or Next.js, observeDOM should be set to true, otherwise SSG won't work (except SSG.run with imgs array).
         }}
       />
 

@@ -62,7 +62,7 @@ SSG.cfg.captionExif = 'none';
 // In case of manual lens or empty author field you can fill blank EXIF values with defined default ones:
 // ['lens name', 'short lens name', '35mm EQ focal length', 'real focal length', 'author' ] eg: ['Samyang 12mm, f/2', 'S 12mm, f/2', '18', '12', 'Batman']
 // Of course entering of particular lens works only if there is only one manual lens in the gallery
-SSG.cfg.fillExifBlanks = ['Unknown manual lens', 'manual lens', '', '', '-']
+SSG.cfg.fillExifBlanks = ['unknown lens, usually manual', 'unknown lens', '', '', '-']
 
 // background opacity in range 0-100%
 SSG.cfg.bgOpacity = 100;  
@@ -94,7 +94,7 @@ SSG.cfg.scaleLock1 = false;
 SSG.cfg.logIntoGA = true;
 
 // SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
-// if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (only SSG.run will).
+// if you use routing in React or Next.js, observeDOM should be true, otherwise SSG won't work  (except SSG.run with imgs array).
 SSG.cfg.observeDOM = false;
 
 // image border width in pixels
@@ -695,6 +695,7 @@ SSG.initGallery = function ( event ) {
    
     jQuery( document ).on( 'touchstart', SSG.slideStart );
     jQuery( document ).on( 'touchmove', SSG.slideBrowse );
+    jQuery( document ).on( 'touchend', SSG.slideEnd );
     SSG.iphoneScrollBlock();
 
     jQuery( document ).on( 'scroll', function removeArrowDown() {
@@ -761,8 +762,11 @@ SSG.forceLandscapeMode = function(event, throwAlert) {
 }
 
 // iPhone doesn't support full screen mode, so it is needed to block touch move (scrolling), otherwise toolbar will appear on touch move - annoying.
+// but scrollable caption has to remain scrollable
 SSG.iphoneShit = function(event) {
+    if ( !SSG.hasClass( event.target.classList, 'SSG_scroll-caption' ) ) {
     event.preventDefault();
+}
 }
 
 SSG.iphoneScrollBlock = function() {
@@ -778,36 +782,50 @@ SSG.iphoneScrollBlock = function() {
 }
 
 SSG.slideBrowse = function(event) {
-    if (  SSG.running && SSG.slide.started == true ) {            
+    // browsing throuh the gallery via gestures, enables to use the gesture before touchend
+    // touches[0] means the first finger, in multitouch gestures there are more fingers
+    SSG.slide.lastX = event.originalEvent.touches[0].clientX;
+    SSG.slide.lastY = event.originalEvent.touches[0].clientY;
+
+    if (  SSG.running && SSG.slide.isCountedOn == true ) {
         SSG.slide.count++;
         if (  SSG.slide.count >= 6 ) {
-            SSG.slide.started = false;
+            SSG.slide.isCountedOn = false;
             SSG.slide.count = 0;
 
-            if( Math.abs( (event.originalEvent.touches[0].clientX - SSG.slide.startX) / (event.originalEvent.touches[0].clientY - SSG.slide.startY) ) > 2.2 ) {
-                if ( event.originalEvent.touches[0].clientX < SSG.slide.startX) {
+            if( Math.abs(( SSG.slide.lastX - SSG.slide.startX) / (SSG.slide.lastY - SSG.slide.startY) ) > 2.2 ) {
+                if ( SSG.slide.lastX < SSG.slide.startX) {
                     SSG.imageDown = true;
                 } else {
                     SSG.imageUp = true;
                 }
                 SSG.jumpScroll();
-            } else {
-                if (!SSG.wasJumpScrollUsed && !SSG.fsTipShown && SSG.landscapeMode ) {
-                    SSG.showFsTip( 'hint' );
-                }
             }
         }
     }
 }
 
+SSG.slideEnd = function(event) {
+    // display the hint, if a user slides up or down in landscape mode
+    // touchend event doesn't have event.touches, so the last touches are stored in SSG.slide object on touchmove event    
+    if (SSG.running && SSG.landscapeMode && !SSG.wasJumpScrollUsed && !SSG.fsTipShown && !SSG.hasClass( event.target.classList, 'SSG_scroll-caption' ) ) {
+        if( Math.abs( (SSG.slide.lastX - SSG.slide.startX) / (SSG.slide.lastY - SSG.slide.startY) ) < 2.2 ) {
+            SSG.showFsTip( 'hint' );
+                }
+            }
+}
+
 SSG.slideStart = function (event) {    
+    // Saves the coordinates of the start point of the current slide
     if (  SSG.running) {
-        SSG.slide = { started: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
+        SSG.slide = { isCountedOn: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
     }
 }
 
 SSG.setNotchRight = function () {
-    if ( window.screen.orientation ) {
+    // iPhone has the opposite screen.orientation to Android, so on iPhone I use the deprecated window.orientation
+    // https://krpano.com/ios/bugs/ios164-screen-orientation/
+    if ( window.screen.orientation && !/iPhone/i.test(window.navigator.userAgent) ) {
         screen.orientation.type === "landscape-secondary" ?
             jQuery( '#SSG1, #SSG_exit' ).addClass( 'notchright' ) :
             jQuery( '#SSG1, #SSG_exit' ).removeClass( 'notchright' );
@@ -1085,15 +1103,6 @@ SSG.displayFormat = function ( e ) {
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
     
-    // if caption frame is smaller than screen Height, overflow is set to visible due to social sharing menu.
-    window.setTimeout( function() {
-        if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.96) {
-            jQuery('#SSG1 #uwp'+ index).addClass('share-overflow');
-        } else {
-            jQuery('#SSG1 #uwp'+ index).removeClass('share-overflow');
-        }
-    }, 666);
-
     // SSG_uwide class can be given to a photo regardless if it has some captions. Empty captions space si hidden via CSS.
     if ( ((imgRatio - imageBoxRatio) * 100 ) + SSG.cfgFused.preferedCaptionLocation < 0 || preferSideCaption ) {
         jQuery( '#SSG1 #f' + index ).addClass( 'SSG_uwide' );
@@ -1102,12 +1111,29 @@ SSG.displayFormat = function ( e ) {
         // jQuery( '#SSG1 #p' + index ).css('minWidth',imgWidth+'px');
     }
 
-    //If the photo is too narrow shift the caption towards the photo.
+    //If the photo is too narrow shift the caption towards the photo and widen the caption
     if ( tooNarrow ) {
         jQuery( '#SSG1 #f' + index ).addClass( 'SSG_captionShift' );
     } else {
         jQuery( '#SSG1 #f' + index ).removeClass( 'SSG_captionShift' );
     }
+
+    // if caption frame is shorter than screen Height, overflow is set to visible due to social sharing menu.
+    // SSG_scroll-caption is wider, there is plenty of content
+    window.setTimeout( function() {
+        if (!SSG.landscapeMode) {
+            jQuery('#SSG1 #f'+ index).removeClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index + ',' + '#SSG1 #uwp'+ index).removeClass('SSG_scroll-caption');
+            return;
+        };
+        if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.94) {
+            jQuery('#SSG1 #f'+ index).addClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index + ',' + '#SSG1 #uwp'+ index).removeClass('SSG_scroll-caption');
+        } else {            
+            jQuery('#SSG1 #f'+ index).removeClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index  + ',' +  '#SSG1 #uwp'+ index).addClass('SSG_scroll-caption');
+        }
+    }, 666);
 };
 
 
@@ -1377,8 +1403,11 @@ SSG.addImage = function () {
         // decoding the image just after loading, image is completly ready to render, it makes scroll animation more fluent
         // img.decode isn't supported by older browsers (IE11, Edge)
         if (img.decode) {
+            img.decode().catch( function() { console.log('no image to decode') } );
         }
-        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + "'><div id='uwb" +
+        // long caption needs some scrolling, and in the lanscape mode SSG_uwBlock has to be set rigid height, it helps when caption is widened
+        chattyCaption = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length > 288 ? " chattyCaption" : "";
+        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + chattyCaption + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
         
         // it would be better to bind onImageLoad and onLoadError to img.decode, but older browsers :(
@@ -1692,12 +1721,16 @@ SSG.countImageIndent = function ( index ) {
     }
      
     if ( jQuery( '#SSG1 #f' + index ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
-        centerPos = Math.round( ( screen - ( img + pIn ) ) / 2 ) + 1;
+        centerPos = ( ( screen - ( img ) ) / 2 ) - 0.4;
     } else {
-        centerPos = Math.round( ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 + 1 );
+        centerPos =  ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 + 1 ;
     }
-    if ( centerPos < 0 ) {
+    if ( centerPos < 0 && SSG.landscapeMode ) {
+        // align view to bottom caption, so the whole caption is visible
         centerPos = ( centerPos * 2 ) - 2;
+    } else if ( centerPos < 0 && !SSG.landscapeMode ) {
+        // in the portrait mode, align view to top of the image, 42px leaves space for close icon 
+        centerPos = 42;
     }
 
     // It prevents fraction of previous image appears above centered image.
@@ -1706,6 +1739,8 @@ SSG.countImageIndent = function ( index ) {
 
 // prevents scrolling, finds out its direction and activates jump scroll
 SSG.seizeScrolling = function ( e ) {
+    // if caption is scrollable don't override default scrolling, so caption can be scrolled normally via mouse wheel
+    if (SSG.hasClass( e.target.classList, 'SSG_scroll-caption' ) && e.target.clientHeight > SSG.scrHeight * 0.95  ) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     if ( Math.abs( e.timeStamp - SSG.savedTimeStamp ) > 222 ) {
@@ -1811,6 +1846,7 @@ SSG.destroyGallery = function (mode) {
     jQuery( document ).off( 'webkitfullscreenchange mozfullscreenchange fullscreenchange', SSG.onFS );
     jQuery( document ).off( 'touchstart', SSG.slideStart );
     jQuery( document ).off( 'touchmove', SSG.slideBrowse );
+    jQuery( document ).off( 'touchend', SSG.slideEnd );
     window.removeEventListener( 'orientationchange', SSG.onOrientationChanged );
     document.removeEventListener( "touchmove", SSG.iphoneShit, false );
     SSG.userAcceptFs = false;

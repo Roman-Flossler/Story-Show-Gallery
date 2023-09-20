@@ -45,8 +45,7 @@ h3 {
 
 strong {
   font-weight: normal;
-  background: #e8effd;
-  color: black;
+  background: #e8effd;  
   /*    font-size: 106%; */
   border-radius: 0.3em;
   padding: 0 0.3em;
@@ -907,7 +906,7 @@ footer {
     overflow: auto;
   }
 
-  ol.content li {
+  ol.content li, ol.content .underline {
     max-width: 440px;
     margin: auto;
   }
@@ -1104,6 +1103,10 @@ footer {
     left: -10%;
     padding: 1em 8% 1em 10%;
     background: radial-gradient(circle farthest-corner at 9% 2em, rgb(255, 255, 255) 0%, rgb(248, 248, 248) 28px);
+  }
+
+  ol.content .underline {
+    margin-left: -1rem; line-height: 2em;
   }
 
   code {
