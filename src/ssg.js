@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.6 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.7 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1440,7 +1440,7 @@ SSG.addImage = function () {
             img.decode().catch( function() { console.log('no image to decode') } );
         }
         // long caption needs some scrolling, and in the lanscape mode SSG_uwBlock has to be set rigid height, it helps when caption is widened
-        chattyCaption = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length > 288 ? " chattyCaption" : "";
+        var chattyCaption = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length > 288 ? " chattyCaption" : "";
         jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + chattyCaption + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
         
