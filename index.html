@@ -68,7 +68,7 @@
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" onclick="SSG.run({fs:true, initImgName: ['refreshment',0] });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center-sq.jpg" onclick="SSG.run({fs:true, initImgName: ['in-the-center',0] });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" onclick="SSG.run({fs:true, initImgName: ['engine-room',0] });"  alt="SSG galery" />
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" onclick="SSG.run({fs:true, initImgName: ['hook-portrait',0] });"  alt="SSG galery" />
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engines.jpg" onclick="SSG.run({fs:true, initImgName: ['engines',0] });"  alt="SSG galery" />
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgName: ['fifth-element',0] });"  alt="SSG galery" />
                 </div>
                 
@@ -383,6 +383,7 @@
             
             <code>
                 &lt;a href='<span>outsideImg.jpg</span>' class='<span>fs</span>' &gt; caption &lt;/a&gt;<br>
+                &lt;a href='<span>insideImg2.jpg</span>' class='<span>ssglink gossg</span>' &gt; caption &lt;/a&gt;<br>
                 &lt;section class='<span>ssg fs vipssg ssgblack</span>'&gt;<br>
                 &nbsp;&nbsp;&lt;div&gt;<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href='<span>insideImg.jpg</span>'&gt; caption &lt;/a&gt;<br>
@@ -410,10 +411,15 @@
                 Otherwise image hyperlinks with gossg class won't show in the gallery.
             </p>
 
-            <p>The <strong>ssglink</strong>  class creates a link to the image of the same name that appears somewhere on the page. For example,
+            <p>The <strong>ssglink</strong>  class creates a link (shortcut) to the image of the same name. From the example above: a click on the first 
+                insideImg2.jpg will behave the same way as if a user clicked on insideImg2.jpg in the separate gallery. 
+                This first insideImg2 also has a gossg class, so the image itself doesn't appear in any gallery and only behaves as a shortcut.
+            </p>    
+            <p>
+                For example,
                  <a href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg" class="ssglink gossg">this image hyperlink</a>
                 behaves the same way as if you clicked on the hyperlink <u>SSG has 4 visual themes</u> under the heading <i>Visual settings</i>.
-                This image hyperlink has also gossg class, so the image won't appear twice in this gallery.<br>                 
+                <br>                 
                  <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" class="ssglink gossg">Another ssglink example</a>
                  behaves the same way as if you clicked on the hyperlink <u>🐰 Massive pink rabbit man‑eater</u> under the heading <i>Gallery with text links</i>.
             </p>
@@ -708,8 +714,8 @@ iceland = [];
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg'  data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" alt="It's time! For a photo shoot of course." />
                     </a>
-                    <a href="https://roman-flossler.github.io/StoryShowGallery/photos/on-the-hook.jpg">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" alt="All the photos are from Michal coal mine in Ostrava city." />
+                    <a href="https://roman-flossler.github.io/StoryShowGallery/photos/on-the-hook.jpg" >
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg"  alt="Suddenly I saw her hanging on a hook, so I climbed up to get closer and took this photo." />
                     </a>
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/refreshment.jpg' class="third" >
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
@@ -719,14 +725,15 @@ iceland = [];
 
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
-                            <img id="checker" src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" alt=""  /></a>
+                            <img id="checker" src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" 
+                            alt="<i>The long caption on larger screens is split <b>into two columns</b>.</i>  All photos in this gallery are from Michal coal mine in Ostrava city. The present technical state of the mine site has been preserved in the original condition from 1912 - 1915.<br><br> You can see here chain dressing rooms, guildhall, lamp house, pithead, lamp house bridge and engine room with the original technical equipment." /></a>
                     </div>
 
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg' data-author="photo by Flor">
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" alt="Engine room with giant winches." />
                     </a>
-                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/hook-portrait.jpg' data-author="photo by Flor">
-                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_hook-portrait.jpg" alt="" /></a>
+                    <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engines.jpg' data-author="photo by Flor">
+                        <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engines.jpg" alt="" /></a>
                 </section>
                 <br clear="all"/>
                 <p id="scheme">
@@ -743,7 +750,7 @@ iceland = [];
                 </p>
                 <p class="ssg ssglight">
                     <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
-                     data-caption="This is a  <strong>monument of the present</strong>, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.                     
+                     data-caption="<em>This is a  <strong>monument of the present</strong>, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.</em>                    
                      <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
                      <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
                      <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam <strong>eRat</strong> volutpat. Duis sapien nunc, commodo etfuck.
@@ -842,7 +849,7 @@ SSG.cfg.captionExif = <em class="switchable" onclick="switchParam('captionExif',
 <span>// In case of manual lens or empty author field you can fill blank EXIF values with defined default ones:</span>
 <span>// ['lens name', 'short lens name', '35mm EQ focal length', 'real focal length', 'author' ] eg: ['Samyang 12mm, f/2', 'S 12mm, f/2', '18', '12', 'Batman']</span>
 <span>// Of course entering of particular lens works only if there is only one manual lens in the gallery</span>
-SSG.cfg.fillExifBlanks = ['Unknown manual lens', 'manual lens', '', '', '-']
+SSG.cfg.fillExifBlanks = ['unknown lens', '?? lens', '', '', '-']
 
 <span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
 SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
@@ -866,6 +873,13 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = <em class="switchable" onclick="swit
 
 <span>// an author signature (or some text), which will appear in every caption. The data-author attribute overrides it.</span>
 SSG.cfg.globalAuthorCaption = <em class="switchable" onclick="switchParam('globalAuthorCaption',this, ['','author: RF'])" > "" </em><em>;</em>
+
+<span>// Centre is the default alignment of the caption text. You can set the number of characters the caption's text must have to be aligned left or right.</span>
+<span>// Use a negative number to align text to the left and a positive number to align it to the right. Align right is not implemented yet !!!</span>
+<span>//  e.g. -120 will align text to the left, if it is equal to or longer than 120 characters.</span>
+SSG.cfg.narrowCaptionsAlignThreshold = <em class="switchable" onclick="switchParam('narrowCaptionsAlignThreshold',this, [-111,-1,-50, -33])" > -111 </em><em>;</em>
+<span>// Narrow captions are side captions and bottom captions in mobile portrait mode. Wide captions are the remaining bottom captions.</span>
+SSG.cfg.wideCaptionsAlignThreshold = <em class="switchable" onclick="switchParam('wideCaptionsAlignThreshold',this, [-222, -111, -1,-50])" > -222 </em><em>;</em>
 
 <span>// Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...</span>
 SSG.cfg.showFirst3ImgsTogether = <em class="switchable" onclick="switchParam('showFirst3ImgsTogether',this)">true</em><em>;</em>
@@ -1067,8 +1081,8 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                 if (showStarted) return;
                 window.setTimeout( function() {
                     jQuery('#squareg').append('<a href="https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg" class="third" data-author="photo by Flor">'+
-                        '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element' + 
-                        ' - cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
+                        '<img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" alt="Inspired by The Fifth Element    ' + 
+                        ' - a cult sci-fi movie with Bruce Willis and Milla Jovovich" /></a>')
                     }, 1886);
                 showStarted = true;
                 
@@ -1134,7 +1148,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script>
     var isMobileScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/dist/ssg-loaded.html';
-    SSG.cfg.fillExifBlanks = ['Samyang 12mm, f/2', 'Samy 12mm, f/2', '18', '12', '© Roman Flössler']
+    SSG.cfg.fillExifBlanks = ['Samyang 12mm, f/2', 'Samy 12mm, f/2', '18', '12', '© Roman Flössler']    
     SSG.cfg.observeDOM = true;
     //SSG.cfg.watermarkText = window.screen.width > 933 ? '<b>ꐠ</b> Story Show Gallery' : '<b>ꐠ</b> SSG';
     SSG.cfg.watermarkText = '<b>ꐠ</b> Story Show Gallery';
@@ -1142,8 +1156,9 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.theme = (window.screen.width < 1666 && !isMobileScreen) ? 'dark' : 'dim';
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
     SSG.cfg.imgBorderRadius = "0.2";
+    SSG.cfg.preferedCaptionLocation = 4.4;
     SSG.cfg.captionExif = 'trim';
-    SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook" ? 'icon' : SSG.cfg.captionExif; };
+    SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook.jpg" ? 'icon' : SSG.cfg.captionExif; };
     
     // example of SSG events, they are part of the configuration. This example writes gallery's stats into JS console
     var counter = 0;

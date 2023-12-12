@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.7 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.8 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -60,7 +60,7 @@ SSG.cfg.captionExif = 'none';
 // In case of manual lens or empty author field you can fill blank EXIF values with defined default ones:
 // ['lens name', 'short lens name', '35mm EQ focal length', 'real focal length', 'author' ] eg: ['Samyang 12mm, f/2', 'S 12mm, f/2', '18', '12', 'Batman']
 // Of course entering of particular lens works only if there is only one manual lens in the gallery
-SSG.cfg.fillExifBlanks = ['unknown lens, usually manual', 'unknown lens', '', '', '-']
+SSG.cfg.fillExifBlanks = ['unknown lens', 'unknown lens', '', '', '-']
 
 // background opacity in range 0-100%
 SSG.cfg.bgOpacity = 100;  
@@ -81,6 +81,13 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 
 // an author signature (or some text), which will appear in every caption. The data-author attribute overrides it.
 SSG.cfg.globalAuthorCaption = "";
+
+// Centre is the default alignment of the caption text. You can set the number of characters the caption's text must have to be aligned left or right.
+// Use a negative number to align text to the left and a positive number to align it to the right. Align right is not implemented yet !!!
+//  e.g. -120 will align text to the left, if it is equal to or longer than 120 characters.
+SSG.cfg.narrowCaptionsAlignThreshold = -111;
+// Narrow captions are side captions and bottom captions in mobile portrait mode. Wide captions are the remaining bottom captions.
+SSG.cfg.wideCaptionsAlignThreshold = -222;
 
 // Show first 3 images of a separate gallery together - e.g. third image clicked - image order will be 3,1,2,4,5,6...
 SSG.cfg.showFirst3ImgsTogether = true;
@@ -565,6 +572,8 @@ SSG.FSmode = function ( event ) {
         SSG.isFullscreenModeWanted = true;
     } else if ( mobilePortrait && event.fsa === undefined && SSG.pageFS && SSG.cfgFused.forceLandscapeMode && !/iPhone/i.test(window.navigator.userAgent)) {
         SSG.forceLandscapeMode(false, false);
+    } else if ( event.altKey ) {
+        SSG.createGallery( SSG.initEvent );
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
     } else if ( mobilePortrait || SSG.cfgFused.neverFullscreen ) {
@@ -612,13 +621,13 @@ SSG.createGallery = function ( event ) {
     
     // Append gallery's HTML tags
     jQuery( 'body' ).append( "<div id='SSG1'></div>" );
-    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG1' ).addClass( 'trans' );
+    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG1' ).addClass( 'SSG_trans' );
     SSG.cfgFused.fontSize !== 100 && jQuery( '#SSG1' ).css({ fontSize: SSG.cfgFused.fontSize / 100 * 16 + "px" });
-    if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'border1' );
+    if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'SSG_border1' );
     SSG.setNotchRight();
-    SSG.inExitMode && jQuery( 'body' ).append( "<div id='SSG_exit'></div>" );
+    SSG.inExitMode && jQuery( 'body' ).append( "<div role='button' id='SSG_exit'></div>" );
     // event listeners for SSG tags    
-    jQuery( '#SSG_exit' ).click( SSG.destroyGallery );
+    jQuery( '#SSG_exit' ).click( () => {SSG.destroyGallery()} );
     jQuery( '#SSG1' ).click( SSG.touchScroll );
     SSG.cfgFused.rightClickProtection && jQuery( '#SSG1, #SSG_exit' ).on( "contextmenu", function ( event ) {
         event.preventDefault();
@@ -688,7 +697,7 @@ SSG.initGallery = function ( event ) {
         jQuery( 'head' ).append( "<meta name='theme-color' content='" + themecolor + "'>" );
     }
     jQuery( 'body' ).append( "<div id='SSG_bg'><span><b>&#xA420;</b> Story Show Gallery</span></div>" );
-    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG_bg' ).addClass( 'trans' );
+    SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG_bg' ).addClass( 'SSG_trans' );
     SSG.cfgFused.bgOpacity < 100 && jQuery( '#SSG_bg' ).css( {opacity: SSG.cfgFused.bgOpacity /100 } );
 
     // SSG adds Id (ssgid) to all finded images and subID (ssgsid) to all finded images within an each gallery
@@ -736,7 +745,7 @@ SSG.initGallery = function ( event ) {
         // in portrait mode, if the gallery is fully scrolled to the first image, on next scroll hide arrow down
         
         if ( !SSG.landscapeMode && SSG.displayedImg >= 0 && SSG.actualPos > SSG.imgs[0].pos ) {
-            jQuery('.SSG_tipCall').addClass('hide');
+            jQuery('.SSG_tipCall').addClass('SSG_hide');
             jQuery( document ).off( 'scroll', removeArrowDown );
         }
     })
@@ -826,16 +835,22 @@ SSG.slideBrowse = function(event) {
         if (  SSG.slide.count >= 6 ) {
             SSG.slide.isCountedOn = false;
             SSG.slide.count = 0;
-
-            if( Math.abs(( SSG.slide.lastX - SSG.slide.startX) / (SSG.slide.lastY - SSG.slide.startY) ) > 2.2 ) {
-                if ( SSG.slide.lastX < SSG.slide.startX) {
-                    SSG.imageDown = true;
-                } else {
-                    SSG.imageUp = true;
-                }
-                SSG.jumpScroll();
-            }
+            SSG.slideScroll();
         }
+    }
+}
+
+SSG.slideScroll = function() {
+    if ( SSG.slide.touchPoints  > 1 ) {
+        return
+    }
+    if( Math.abs(( SSG.slide.lastX - SSG.slide.startX) / (SSG.slide.lastY - SSG.slide.startY) ) > 2.2 ) {
+        if ( SSG.slide.lastX < SSG.slide.startX) {
+            SSG.imageDown = true;
+        } else {
+            SSG.imageUp = true;
+        }
+        SSG.jumpScroll();
     }
 }
 
@@ -847,12 +862,17 @@ SSG.slideEnd = function(event) {
             SSG.showFsTip( 'hint' );
         }
     }
+    // in case of very quick touchmove (<6) scrolling will be called on touchend event
+    if (  SSG.slide.isCountedOn ) {        
+        SSG.slideScroll();
+    }
 }
 
 SSG.slideStart = function (event) {
     // Saves the coordinates of the start point of the current slide
     if (  SSG.running) {
-        SSG.slide = { isCountedOn: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY }
+        SSG.slide = { isCountedOn: true, count: 0, startX: event.originalEvent.touches[0].clientX, startY: event.originalEvent.touches[0].clientY, 
+            touchPoints: event.originalEvent.touches.length }
     }
 }
 
@@ -1212,13 +1232,13 @@ SSG.onImageLoad = async function ( event ) {
             if (SSG.exifTemp) {
                 SSG.imgs[event.data.imgid].exif = true;
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").html(SSG.exifTemp);
-                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").addClass('exif-icon');
-                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg ).addClass('eicon');
+                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").addClass('SSG_exif-icon');
+                SSG.cfgFused.captionExif == 'icon' && jQuery("#SSG1 #f" + SSG.justLoadedImg ).addClass('SSG_eicon');
                 jQuery("#SSG1 #f" + SSG.justLoadedImg + " q").on('click',function(e) {
                     e.stopPropagation(); SSG.showFsTip(SSG.getExif(exif, false));
                 });
-                jQuery("#SSG1 #f" + SSG.justLoadedImg).addClass('exif');
-                jQuery("#SSG1 #f" + SSG.justLoadedImg).removeClass('notitle');
+                jQuery("#SSG1 #f" + SSG.justLoadedImg).addClass('SSG_exif');
+                jQuery("#SSG1 #f" + SSG.justLoadedImg).removeClass('SSG_notitle');
             }
         }
     }
@@ -1300,13 +1320,14 @@ SSG.getExif = function ( exif, captionInfo ) {
     var exposure = exif.ExposureTime ? " <b>◔</b>" + exposureCalc + 's' : '';
     var focalReal = exif.FocalLength;
     var focal35EQ = exif.FocalLengthIn35mmFormat;
-    // in case of manual lens blank values can be filled with default ones 
-    
+
+    // in case of manual lens blank values can be filled with default ones     
     if (exif.ExposureTime && exif.ISO) {
-        // if there is no lens, it can be stated as ---- in the EXIF
         var trimmedLensName = SSG.cfgFused.fillExifBlanks[1] == '' ? SSG.cfgFused.fillExifBlanks[0] : SSG.cfgFused.fillExifBlanks[1];
-        if (SSG.cfgFused.fillExifBlanks[0] && (!lensExif || lensExif.length <= 4)) lensExif = SSG.cfgFused.fillExifBlanks[0]; 
-        if (SSG.cfgFused.fillExifBlanks[0]) lens = lens || (SSG.cfgFused.captionExif == 'trim' ? trimmedLensName : SSG.cfgFused.fillExifBlanks[0]);
+        // if there is no lens, it can be stated as ---- in the EXIF
+        if (!lensExif || lensExif.length <= 4) lensExif = SSG.cfgFused.fillExifBlanks[0];
+        // if there is focal length in the exif (smartphones), the lens is specified by it and and there is no need for some "unknown lens"
+        if (!focalLength) lens = lens || (SSG.cfgFused.captionExif == 'trim' ? trimmedLensName : SSG.cfgFused.fillExifBlanks[0]);
         if (SSG.cfgFused.fillExifBlanks[2]) focalLength = focalLength || ' <b class="focal">∢</b>' +  SSG.cfgFused.fillExifBlanks[2] + ' mmEQ';
         if (SSG.cfgFused.fillExifBlanks[2]) focal35EQ = focal35EQ || SSG.cfgFused.fillExifBlanks[2];
         if (SSG.cfgFused.fillExifBlanks[3]) focalReal = focalReal || SSG.cfgFused.fillExifBlanks[3];
@@ -1319,8 +1340,8 @@ SSG.getExif = function ( exif, captionInfo ) {
 
     // if captionInfo === false return whole table for onclick detailed EXIF
     var exifTable = `
-    <div id="table-wrap">
-    <table class="exif-table">
+    <div id="SSG_exifFrame">
+    <table class="SSG_exif-table">
         <tr><td>author:</td><td> ${ dash( exif.Artist || exif.Copyright || exif['42032'] || SSG.cfgFused.fillExifBlanks[4] ) } </td></tr>
         <tr><td>camera&nbsp;maker:</td><td> ${exif.Make} </td></tr>
         <tr><td>camera model:</td><td> ${fixModel(fixMaker(exif.Model,false))} </td></tr>
@@ -1335,7 +1356,7 @@ SSG.getExif = function ( exif, captionInfo ) {
         <tr><td>compensation:</td><td>  ${ dash(exif.ExposureCompensation).toString().substring(0,5) + ' EV' }<br></td></tr>
         <tr><td>flash:</td><td>  ${dash(exif.Flash)}</td></tr>
         <tr><td>editor:</td><td>   ${dash(exif.Software)}<br></td></tr>
-        <tr><td>date & time:</td><td>  ${exif.DateTimeOriginal.toLocaleString()}</td></tr>
+        <tr><td>creation date & time:</td><td>  ${(exif.DateTimeOriginal || exif.CreateDate).toLocaleString()}</td></tr>
         <tr><td>GPS Lat, Long:</td><td> <a target='_blank' href='https://www.google.com/maps/search/${exif.latitude + ',' + exif.longitude}'>
         ${dash(exif.latitude + ', ' + exif.longitude)}</a></td></tr>
         <tr><td>Altitude:</td><td>  ${dash(Math.round(exif.GPSAltitude) + ' metres' )} </td></tr>
@@ -1351,7 +1372,7 @@ SSG.onLoadError = function ( event ) {
     var ip1 = 'data:image/gif;base64,R0lGODlhUQAKAIABADVsagAAACH5BAEAAAEALAAAAABRAAoAAAJkjI+py+0PYwQyUCpx3bNqDiIANlpkaYr';
     var ip2 = 'GqKHm9R5scrHujZaktfb9x2updrCgT8ZLfopMm/JYRApjxOdu6DsxX65n0oj9iY3V77i8XV5bOdoKpwXHw+ucPYTv5M37vqjLMZNQAAA7';
     jQuery( '#SSG1 #i' + event.data.imgid ).attr( 'src', ip1 + ip2 );
-    jQuery( '#SSG1 #uwb' + event.data.imgid ).addClass( 'serror' );
+    jQuery( '#SSG1 #uwb' + event.data.imgid ).addClass( 'SSG_serror' );
     SSG.onImageLoad( event );
 };
 
@@ -1370,7 +1391,7 @@ SSG.shareMenu = function(newOne, caption) {
     var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
     var windowOpen = ' target="_blank" href="';
     var WindoOpenParams =  '" ';
-    var shareMenu = "<span class='share' " + (SSG.cfgFused.imgBorderRadius > 6 ? ("style='bottom:"+ (SSG.cfgFused.imgBorderRadius-1) + SSG.radiusUnit + "'") : "")  + "'><span class='share-menu'>" +
+    var shareMenu = "<span class='SSG_share' " + (SSG.cfgFused.imgBorderRadius > 6 ? ("style='bottom:"+ (SSG.cfgFused.imgBorderRadius-1) + SSG.radiusUnit + "'") : "")  + "'><span class='SSG_share-menu'>" +
                 "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Linkedin'></a>" + 
                 "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + " title='Share on WhatsApp'></a>" + 
                 "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + " title='Share on Messenger'></a>" + 
@@ -1381,7 +1402,7 @@ SSG.shareMenu = function(newOne, caption) {
                 SSG.imgs[ newOne ].href + "&amp;description=" + textToShareEnc + WindoOpenParams + " title='Share on Pinterest'></a>" +
                 "<a class='email' href='mailto:?subject=" + h1ToShare + "&body=" +  h1ToShare + ' - ' + captionToShare + " " + urlToShare + "' title='Send by email' ><b>@</b></a>" +
                 "<a class='FB' " + windowOpen + "http://www.facebook.com/sharer/sharer.php?u=" + urlToShareEnc + WindoOpenParams + " title='Share on Facebook'></a>" + 
-                "</span><a class='ico'></a></span>";
+                "</span><a role='button' class='ico'></a></span>";
     return shareMenu;
 }
 
@@ -1391,7 +1412,7 @@ SSG.addImage = function () {
     var newOne = SSG.justLoadedImg + 1;
 
     if ( newOne < SSG.imgs.length ) {
-        var author = SSG.imgs[ newOne ].author ? "<em>" + SSG.imgs[ newOne ].author + "</em>" : '';        
+        var author = SSG.imgs[ newOne ].author ? "<span class='SSG_authorsign'>" + SSG.imgs[ newOne ].author + "</span>" : '';
         var caption =  SSG.imgs[ newOne ].alt ?  SSG.imgs[ newOne ].alt : '';
         var shareMenu;
 
@@ -1404,18 +1425,18 @@ SSG.addImage = function () {
         
         var titleClass = '';
         if ( SSG.imgs[ newOne ].alt) {
-            titleClass = 'title';
+            titleClass = 'SSG_title';
         }
         if ( SSG.imgs[ newOne ].author) {
-            titleClass += ' author';
+            titleClass += ' SSG_author';
         }
         if ( !SSG.imgs[ newOne ].alt && !SSG.imgs[ newOne ].author ) {
-            titleClass = 'notitle';
+            titleClass = 'SSG_notitle';
         }
         if ( newOne == 0) {
-            titleClass += ' arrow';
+            titleClass += ' SSG_arrow';
         }       
-        var uwCaption = "<p class='uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
+        var uwCaption = "<p class='SSG_uwtitle' id='uwp" + newOne + "'>" + caption + shareMenu + "<q></q>" + author + "</p>";
         
         var bWidth =  "padding:" + SSG.cfgFused.imgBorderWidthX + "px " + SSG.cfgFused.imgBorderWidthY + "px; ";
         var lightFx =  SSG.cfgFused.imgBorderLightFx ? "background-image: linear-gradient(" + Math.round(Math.random()*359) +"deg, #00000030, #ffffff30,  #00000030); " : "";
@@ -1430,7 +1451,7 @@ SSG.addImage = function () {
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
              SSG.cfgFused.watermarkText +"</span>"+ shareMenu +"</span></div>";
-        var caption = "<p class='title' id='p" + newOne + "'><span>" + caption + "<q></q>" + author + shareMenu + "</span></p>";
+        var caption = "<p class='SSG_title' id='p" + newOne + "'><span>" + caption + "<q></q>" + author + shareMenu + "</span></p>";
                 
         var img = new Image();
         img.src = SSG.imgs[ newOne ].href;
@@ -1440,8 +1461,13 @@ SSG.addImage = function () {
             img.decode().catch( function() { console.log('no image to decode') } );
         }
         // long caption needs some scrolling, and in the lanscape mode SSG_uwBlock has to be set rigid height, it helps when caption is widened
-        var chattyCaption = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length > 288 ? " chattyCaption" : "";
-        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + chattyCaption + "'><div id='uwb" +
+        var captionLenghth = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length;
+
+        var chattyCaption = captionLenghth >= 288 ? " SSG_chattyCaption" : "";
+        var textAlignedLeft = captionLenghth >= Math.abs(SSG.cfgFused.narrowCaptionsAlignThreshold) ? " SSG_textAlignedLeft" : "";
+        textAlignedLeft = captionLenghth >=  Math.abs(SSG.cfgFused.wideCaptionsAlignThreshold) 
+                            ? textAlignedLeft + " SSG_wideTextAlignedLeft" : textAlignedLeft + "";
+        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + chattyCaption + textAlignedLeft + "'><div id='uwb" +
             newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
         
         // it would be better to bind onImageLoad and onLoadError to img.decode, but older browsers :(
@@ -1457,9 +1483,9 @@ SSG.addImage = function () {
         } );
 
         //onclick for share menu; onclick a.ico toggles overflow:visible, onclick on a. othericons hides share menu (overflow:hidden)
-        jQuery( '#SSG1 #f' + newOne + ' .share a' ).click( function (e) {
+        jQuery( '#SSG1 #f' + newOne + ' .SSG_share a' ).click( function (e) {
             e.stopPropagation();
-            jQuery( '#SSG1 #f' + newOne + ' .share' ).toggleClass('share-visible-coarse');
+            jQuery( '#SSG1 #f' + newOne + ' .SSG_share' ).toggleClass('share-visible-coarse');
             if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
                 SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
                 SSG.closeFullscreen();
@@ -1482,10 +1508,10 @@ SSG.addImage = function () {
 
     // Append a little help to the first image.
     if ( newOne == 0 ) {
-        jQuery( '#SSG1 #p0' ).append( '<a class="SSG_tipCall">&nbsp;</a>' );
-        jQuery( '#SSG1 #uwp0' ).append( '<span class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
-        SSG.cfgFused.showLandscapeHint && jQuery( '#SSG1 #f0').after("<div class='golandscape'>"+ SSG.cfgFused.landscapeHint +"<div>");
-        jQuery( '#SSG1 .golandscape').click( (e) => SSG.forceLandscapeMode(e, true) )
+        jQuery( '#SSG1 #p0' ).append( '<a role="button" class="SSG_tipCall">&nbsp;</a>' );
+        jQuery( '#SSG1 #uwp0' ).append( '<span role="button" class="SSG_tipPlace"><a class="SSG_tipCall">&nbsp;</a></span>' );
+        SSG.cfgFused.showLandscapeHint && jQuery( '#SSG1 #f0').after("<div class='SSG_golandscape'>"+ SSG.cfgFused.landscapeHint +"<div>");
+        jQuery( '#SSG1 .SSG_golandscape').click( (e) => { SSG.forceLandscapeMode(e, true) } )
         jQuery( '.SSG_tipCall' ).click( function ( event ) {
             SSG.showFsTip( 'hint' );
             event.stopPropagation();
@@ -1494,8 +1520,8 @@ SSG.addImage = function () {
 };
 
 SSG.beyondGallery = function() {
-    var menuItem1 = "<a id='SSG_first' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
-    var menuItem2 = SSG.inExitMode ? "<a id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
+    var menuItem1 = "<a id='SSG_first' role='button' class='SSG_link'><span>&nbsp;</span> " + SSG.cfgFused.toTheTop + "</a>";
+    var menuItem2 = SSG.inExitMode ? "<a role='button' id='SSG_exit2' class='SSG_link'>&times; " + SSG.cfgFused.exitLink + "</a>" : "";
     var menuItem3 = "<a id='SSGL' target='_blank'  onclick='SSG.preventExit()' href='https://roman-flossler.github.io/StoryShowGallery/#play' class='SSG_link'><b>&#xA420;</b>SSG</a>";
     jQuery( '#SSG1' ).append( "<div id='SSG_lastone'> <p id='SSG_menu'>" + menuItem1 + menuItem2 + menuItem3 +
         "</p> <div id='SSG_loadInto'></div></div>" );
@@ -1577,9 +1603,9 @@ SSG.metronome = function () {
     // If user is close enough to the last loaded image..
     if ( !SSG.finito && ( SSG.justLoadedImg == -1 || ( SSG.imgs[ SSG.justLoadedImg ].pos - actual < SSG.scrHeight * 0.5 ) ) ) {
         // ..wait cursor will appear 
-        jQuery( document.body ).addClass( 'wait' );
+        jQuery( document.body ).addClass( 'SSG_wait' );
     } else {
-        jQuery( document.body ).removeClass( 'wait' );
+        jQuery( document.body ).removeClass( 'SSG_wait' );
     }
    
     // Only if the gallery is scrolled slowly change the URL and send views to GA. 
@@ -1747,14 +1773,14 @@ SSG.countImageIndent = function ( index ) {
     var useIndex = index == 0 ? 0 : index-1;
 
     // if there is no title/caption under the image or title is on the side
-    if ( jQuery( '#SSG1 #f' + useIndex ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_uwide') ) {
+    if ( jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_notitle') ||  jQuery( '#SSG1 #f' + useIndex ).hasClass('SSG_uwide') ) {
         marginAfterP = jQuery( '#SSG1 #p' + ( useIndex ) ).outerHeight( true ) - jQuery( '#SSG1 #p' + ( useIndex ) ).innerHeight();        
     }  
     else {
         marginAfterP = parseInt(jQuery( '#SSG1 #p' + useIndex ).css('marginBottom'));
     }
      
-    if ( jQuery( '#SSG1 #f' + index ).hasClass('notitle') ||  jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
+    if ( jQuery( '#SSG1 #f' + index ).hasClass('SSG_notitle') ||  jQuery( '#SSG1 #f' + index ).hasClass('SSG_uwide') ) {
         centerPos = ( ( screen - ( img ) ) / 2 ) - 0.4;
     } else {
         centerPos =  ( screen - ( img + pIn + parseInt(jQuery( '#SSG1 #p' + index ).css('marginTop')) ) ) / 2 + 1 ;
@@ -1922,7 +1948,7 @@ SSG.destroyGallery = function (mode) {
 
 SSG.showFsTip = function ( content ) {
     if ( jQuery( '#SSG_tip' ).length == 0 ) {
-        var begin = "<div id='SSG_tip'><span class='" + (content.length > 8 ? 'linkShare' : content) + "'><div id='SSG_tipClose'>&times;</div>";
+        var begin = "<div id='SSG_tip'><span class='" + (content.length > 8 ? 'SSG_tipFrame' : content) + "'><div id='SSG_tipClose'>&times;</div>";
         var end = "</span></div>";
         var fs =  SSG.cfgFused.hintFS + "<br>";
         var gofs = function() {
@@ -1942,9 +1968,9 @@ SSG.showFsTip = function ( content ) {
                 document.execCommand("copy");
             });
         } else if (content == 'hint') {
-            var man1 = "<div class='classic'>" + SSG.cfgFused.hint1 + "<br>" + SSG.cfgFused.hint2 + "<br>";
+            var man1 = "<div class='SSG_hintClassic'>" + SSG.cfgFused.hint1 + "<br>" + SSG.cfgFused.hint2 + "<br>";
             var man2 =  SSG.cfgFused.hint3 + "</div>";
-            var touch = "<div class='touch'>" + SSG.cfgFused.hintTouch + "</div>";
+            var touch = "<div class='SSG_hintTouch'>" + SSG.cfgFused.hintTouch + "</div>";
             var hr = "<hr>";
 
             if ( !SSG.inFullscreenMode && SSG.fullScreenSupport ) {
@@ -1957,7 +1983,7 @@ SSG.showFsTip = function ( content ) {
             }
         } else if (content.length > 33) {
             jQuery( 'body' ).append( begin + content + end );
-            jQuery( '.exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
+            jQuery( '.SSG_exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
         } else if (content == 'rotatErr') {
             jQuery( 'body' ).append( begin + "Your device doesn't support auto-rotate, <br> rotate it manually to landscape." + end );
         } 
