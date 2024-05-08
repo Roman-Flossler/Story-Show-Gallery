@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -83,7 +83,7 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 SSG.cfg.globalAuthorCaption = "";
 
 // Centre is the default alignment of the caption text. You can set the number of characters the caption's text must have to be aligned left or right.
-// Use a negative number to align text to the left and a positive number to align it to the right. Align right is not implemented yet !!!
+// Use a negative number to align text to the left and a positive number to align it to the right. Align right is not implemented yet.
 //  e.g. -120 will align text to the left, if it is equal to or longer than 120 characters.
 SSG.cfg.narrowCaptionsAlignThreshold = -111;
 // Narrow captions are side captions and bottom captions in mobile portrait mode. Wide captions are the remaining bottom captions.

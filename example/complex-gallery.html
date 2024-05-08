@@ -4,20 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Story Show Gallery - minimal example</title>
+    <title>Story Show Gallery - minimal example</title>    
     
-    <!-- Animated thumbnails --> 
-    <link rel='stylesheet' href='https://roman-flossler.github.io/anim3Defx/anim3Defx.css' media='all'>
     <!-- ssg.js and jquery have to be in the head --> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css">    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"> </script>
+    <base href="https://roman-flossler.github.io/StoryShowGallery/" target="_blank" />
 
     <style>
         body { background:#d7e8e9; display: flex; justify-content: center; flex-wrap: wrap; 
                overflow-x: hidden; text-align: center; font-family: sans-serif; }
         p, code { background: #c2dde0; line-height: 2em; padding: 1em; }
         code { display: block; font-family: monospace; cursor: pointer; }        
-        .gallery { margin-top: 6em; width: 100%; max-width: 555px; }
+        section.ssg { margin-top: 6em; width: 100%; max-width: 555px; }
         #textcol {  width: 100%; max-width: 600px; }
         h2 { margin: 1.3em 0 -0.4em 0; color: #ac0025; font-family: monospace; }
         #outsider {width: 500px; position: relative; left: 200px;}
@@ -28,71 +27,71 @@
 
     <!-- Gallery 1 --------------------------------------------> 
     
-    <section class="gallery ssg fs vipssg ssgdim">
+    <section class="ssg fs vipssg ssgdim">
         <h2>Gallery #1 (vip class):</h2><br clear="all">
-        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg'  data-author="photo by Flor">
-            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg" 
-            alt="It's time! For a photo shoot of course." />
+
+        <a href='photos/its-time.jpg'  data-author="photo by Flor">
+            <img src="thumbs/thumb_its-time.jpg" alt="It's time! For a photo shoot of course." />
         </a>
-        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/on-the-hook.jpg" data-author="photo by Flor">
-            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_on-the-hook.jpg" alt="" />
+        <a href="photos/on-the-hook.jpg" data-author="photo by Flor">
+            <img src="thumbs/thumb_on-the-hook.jpg" alt="" />
         </a>
-        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg'>
-            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_engine-room.jpg" alt="" />
+        <a href='photos/engine-room.jpg'>
+            <img src="thumbs/thumb_engine-room.jpg" alt="" />
         </a>
-        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/fifth-element.jpg' class="third">
-            <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" 
+        <a href='photos/fifth-element.jpg' class="third">
+            <img src="thumbs/thumb_fifth-element.jpg" 
             alt="Inspired by The Fifth Element - cult sci-fi movie with Bruce Willis and Milla Jovovich" />
         </a>
         <br clear='all'/>
         <br/>
-        <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG' class="ssglink gossg">
+        <a href='photos/massive-pink-rabbit-maneater.JPG' class="ssglink gossg">
         ssglink to the rabbit (ssglink and gossg class)</a>
-        
-        
     </section>
     
 
-    <div id="textcol">
+    <section id="textcol">
 
         <!-- Gallery 2 --------------------------------------------> 
         <h2>Gallery #2:</h2><br clear="all">
         <p class="ssg ssglight" >    
-            <a href='https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG'>
+            <a href='photos/massive-pink-rabbit-maneater.JPG'
+            data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
+            data-caption="This is a <i>monument of the present</i>, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.">
                 &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
-            <a href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok-bangkang-cave.jpeg" target="_blank">
+            <a href="photos/lombok-bangkang-cave.jpeg" target="_blank">
                 Enlightment inside Bankang cave</a> <br>
             <a href='some-nice-image.JPEG' target="_blank">	&#128279; 
                 A broken link - You will notice it before site visitors do</a><br> 
-            <a target="_blank" href="https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg" class="nossg">
+            <a target="_blank" href="img/story-show-gallery-logo.jpg" class="nossg">
                 🚫 link with nossg class, image will open into new tab</a>
         </p>
         
-        <!-- SSG.run examples --------------------------------------------> 
+        <!-- SSG.run examples -------------------------------------------->         
         <h2>SSG.run method examples:</h2><br clear="all">
+
         <code onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });">
             <a> » SSG.run( { imgs: iceland, fs:true, initImgID: 1 }); </a>            
-        </code><br>
-        
+        </code>
+        <br>        
         <code onclick="SSG.run( { 
             imgs: [ { href: 'https://www.faroeislands.io/photos/sorvagsvatn-lake.jpg', 
                     alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgName: ['rabbit',0] });">
         <!-- The initImgID parameter respects .ssg class and shows only pictures from the gallery related to initImgID picture  -->
         <a>» SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgName: ['rabbit',0] });</a>        
-        </code><br>
-                
+        </code>
+        <br>                
         <code onclick="SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});">
             <a>» SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
         </code>
 
+         <!-- outside image -------------------------------------------->     
         <h2>Outsider</h2><br clear="all">
             <!-- This image isn't inside in any gallery, but it will display together with the first gallery because of the vipssg class -->
-            <a  href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg" data-author="photo by Flor" class="fs">
-                <img id="outsider" src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" 
-                alt="I like steampunk style, so this is my dream place for shooting."  /></a>
-    </div>
-
-
+            <a  href="photos/in-the-center.jpg" data-author="photo by Flor" class="fs">
+                <img id="outsider" src="thumbs/thumb_in-the-center.jpg" alt="If you like steampunk style, this is the dream place for shooting."  />
+            </a>
+    </section>
 
     <!-- ssg.css goes before body tag -->
     <script src="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.js"> </script>
@@ -101,7 +100,7 @@
         // after loading ssg.js you can override default settings inside ssg.js and customize the gallery:
         // the complete list of possible settings: https://roman-flossler.github.io/StoryShowGallery/#SSGconfig
         
-        SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/example/ssg-loaded.html';  // html file (signpost) to load behind the gallery
+        SSG.cfg.fileToLoad = 'example/ssg-loaded.html';  // html file (signpost) to load behind the gallery
         SSG.cfg.watermarkText = 'ꐠ Story Show Gallery';  // watermark - logo
         SSG.cfg.watermarkFontSize = 18;        
 
@@ -122,23 +121,23 @@
             signpostReached = false;
         };
 
-            // definition of Iceland image gallery - it is an array of objects
+        // definition of Iceland image gallery - it is an array of objects
         iceland = [];
 
         iceland[ 0 ] = {
-            href: 'https://roman-flossler.github.io/StoryShowGallery/photos/reynisdrangar-black-beach.jpg',
-            alt: 'Black beach Reynisfjara with Reynisdrangar rocks. There are sneaker waves which can easily pull you off into the sea.'
-        };
-        iceland[ 1 ] = {
-            href: 'https://roman-flossler.github.io/StoryShowGallery/photos/Seljalandsfoss.jpg',
+            href: 'photos/Seljalandsfoss.jpg',
             alt: 'Northern lights behind Seljalandsfoss waterfall',
             author: 'photo by Flor'
         };
-        iceland[ 2 ] = {
-            href: 'https://roman-flossler.github.io/StoryShowGallery/photos/iceland-horses.jpg'
+        iceland[ 1 ] = {
+            href: 'photos/reynisdrangar-black-beach.jpg',
+            alt: `Black beach Reynisfjara with Reynisdrangar rocks. There are sneaker waves which can easily pull you off into the sea. <ins>🞠</ins>
+                Legend says that the stacks originated when two trolls dragged a three-masted ship to land unsuccessfully and when daylight broke they became needles of rock.<ins>🞠</ins>
+                Reynisdrangar appears several times throughout Netflix's Icelandic original series Katla, and is particularly significant to the series' protagonist Gríma as the site of her mother's death.`
         };
-
+        iceland[ 2 ] = {
+            href: 'photos/iceland-horses.jpg'
+        };
      </script>
-
 </body>
 </html>

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.8 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.9 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -39,6 +39,7 @@
     vertical-align: initial;
     font-style: normal;
     -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     text-align: inherit;
     line-height: inherit;
     text-decoration: unset;
@@ -192,6 +193,19 @@
     display: none;
 }
 
+#SSG1 p.SSG_title ins {
+    padding-inline: 0.5rem;
+    text-decoration: none;
+    opacity: 0.81;
+}
+
+#SSG1 p.SSG_uwtitle ins {
+    display: block;
+    height: 1rem;
+    line-height: 1rem;
+    opacity: 0;
+}
+
 #SSG1 figure.SSG_title.SSG_textAlignedLeft .SSG_uwBlock p { 
     text-align: left;
 }
@@ -205,6 +219,7 @@
     vertical-align: bottom;
     display: inline-block;
     -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 #SSG1 div.SSG_imgWrap {
@@ -254,7 +269,7 @@
 #SSG_lastone p {
     display: block;
     margin: auto;
-    line-height: 1.44em;
+    line-height: 1.4em;
     color:rgb(191, 191, 191);
     text-align: center;
     background: rgb(35, 35, 35);
@@ -1144,6 +1159,13 @@ button#copyLink::first-letter {
         display: initial;
     }
 
+    #SSG1 p.SSG_title ins {
+        display: block;
+        height: 0.75rem;
+        line-height: 0.75rem;
+        opacity: 0;
+    }
+
     #SSG1 p,
     #SSG_lastone p {
         margin-bottom: 8.8vh;
@@ -1186,6 +1208,7 @@ button#copyLink::first-letter {
     
     #SSG1 p.SSG_title q.SSG_exif-icon {
         display: inline-block;
+        padding: 0.25em 0;
         padding-right: 0.5em;
     }
 
@@ -1873,7 +1896,7 @@ button#copyLink::first-letter {
 
     #SSG1 p,
     #SSG_lastone p {
-        line-height: 1.44em;
+        line-height: 1.4em;
         margin-bottom: 4em;
     }
     
@@ -1988,11 +2011,13 @@ html.ssg-active body, html.ssg-active {
     scroll-behavior: auto !important;
 }
 
-/* Firefox scrollbar */
-html.ssg-active {
-    scrollbar-color: #393939 #0F0F0F; 
-    scrollbar-width: thin;
-    overflow-x: hidden;
+/* Firefox scrollbar, use it only if a browser doesn't support -webkit-scrollbar  */
+@supports not selector(::-webkit-scrollbar) {
+    html.ssg-active {
+        scrollbar-color: #393939 #0F0F0F; 
+        scrollbar-width: thin;
+        overflow-x: hidden;
+    }
 }
 
 /* Webkit scrollbar */
@@ -2003,19 +2028,19 @@ html.ssg-active ::-webkit-scrollbar {
 }
 
 html.ssg-active ::-webkit-scrollbar:hover  {
-    border-left: 2px dashed #555555;
+    border-left: 2px dashed #888888;
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 3px;
-    background: rgb(26, 26, 26);
+    background: rgb(33, 33, 33);
     background-size: 100%;
     margin-top: 6px;
     min-height: 81px;
 }
 
 html.ssg-active ::-webkit-scrollbar-thumb:hover {
-    background: #555555 !important;
+    background: #696969 !important;
 }
 
 html.ssg-active ::-webkit-scrollbar-button {
@@ -2031,29 +2056,6 @@ html.ssg-active ::-webkit-scrollbar-button {
     height: auto;
 }
 
-/* IE11 scrollbar */
-html.ssg-active {
-    scrollbar-base-color: #393939;
-    scrollbar-track-color: #0F0F0F;
-    scrollbar-3dlight-color: #505050;
-    scrollbar-highlight-color: #505050;
-    /* prev #191919; */
-    scrollbar-arrow-color: #191919;
-    scrollbar-shadow-color: black;
-}
-
-/* 
-No scrollbar for Edge in landscape mode, 'cause it can't paint it black
-and it is realy irritating. Set !important to overwrite site's styles. 
- */
-@supports (-ms-ime-align:auto) {
-    @media (orientation: landscape) {
-        html.ssg-active body,
-        html.ssg-active {
-            overflow: hidden !important;
-        }
-    }
-}
 
 /* cursors */
 
@@ -2199,8 +2201,10 @@ background: linear-gradient(to top, rgba(43, 43, 43,0) 0%, rgba(43, 43, 43,1) 81
 
     /* scrollbar color */
 
-html.ssg-active.ssgdim {
+@supports not selector(::-webkit-scrollbar) {
+    html.ssg-active.ssgdim {
     scrollbar-color: rgb(66, 66, 66) rgb(33, 33, 33);
+    }
 }
 
 html.ssg-active.ssgdim {
@@ -2213,15 +2217,7 @@ html.ssg-active.ssgdim ::-webkit-scrollbar, html.ssg-active.ssgdim ::-webkit-scr
 }
 
 html.ssg-active.ssgdim ::-webkit-scrollbar-thumb {
-    background: rgb(41, 41, 41);
-}
-
-html.ssg-active.ssgdim ::-webkit-scrollbar:hover  {
-    border-left: 2px dashed #888888;
-}
-
-html.ssg-active.ssgdim ::-webkit-scrollbar-thumb:hover {
-    background: #696969 !important;
+    background: rgb(48, 48, 48);
 }
 
 
@@ -2267,9 +2263,11 @@ html.ssg-active.ssgdim ::-webkit-scrollbar-thumb:hover {
 
     /* scrollbar color */
 
-html.ssg-active.ssgblack {
-    scrollbar-color: rgb(39, 39, 39) black; 
-}    
+@supports not selector(::-webkit-scrollbar) {
+    html.ssg-active.ssgblack {
+        scrollbar-color: rgb(39, 39, 39) black; 
+    }
+}
 
 html.ssg-active.ssgblack {
     scrollbar-base-color: rgb(39, 39, 39);
@@ -2281,7 +2279,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar, html.ssg-active.ssgblack ::-webkit
 }
 
 html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
-    background: rgb(15, 15, 15);
+    background: rgb(24, 24, 24);
 }
 
 
@@ -2338,7 +2336,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 }
 
 .ssglight #SSG1 p, .ssglight #SSG1 p.SSG_title span, .ssglight #SSG1 .SSG_golandscape {
-    color:#222222;
+    color:#131313;
     text-shadow: none;
 }
 
@@ -2357,7 +2355,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 
 .ssglight #SSG_tip span, .ssglight #SSG_tip textarea {
     background: #f1f1f1;
-    color:#222222;
+    color:#131313;
 }
 .ssglight #SSG_tip textarea {
     border: 1px dashed #adadad;
@@ -2384,7 +2382,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
     background: linear-gradient(90deg, transparent, white, white, transparent);
 }
 .ssglight #SSG_tip .SSG_exif-table td {
-    color:#222222;
+    color:#131313;
 }
 
 .ssglight #SSG_tip .SSG_exif-table tr td:nth-child(odd) {
@@ -2392,7 +2390,7 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 }
 
 .ssglight #SSG1 p q.SSG_exif-icon {
-    color: #1d6577;
+    color: #0d4857;
 }
 
 .ssglight #SSG1 p q:hover {
@@ -2431,9 +2429,11 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 
     /* scrollbar color */
 
-html.ssg-active.ssglight {
-    scrollbar-color: rgb(188, 188, 188) #F5F5F5; 
-}    
+@supports not selector(::-webkit-scrollbar) {
+    html.ssg-active.ssglight {
+        scrollbar-color: rgb(188, 188, 188) #F5F5F5; 
+    }
+}
 
 html.ssg-active.ssglight {
     scrollbar-base-color: white;

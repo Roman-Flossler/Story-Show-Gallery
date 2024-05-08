@@ -16,6 +16,10 @@
       format("woff");
 }
 
+:root {
+  --highlightedColorLight: #d40025;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -45,7 +49,7 @@ h3 {
 
 strong {
   font-weight: normal;
-  background: #e8effd;  
+  background: #e8effd;
   /*    font-size: 106%; */
   border-radius: 0.3em;
   padding: 0 0.3em;
@@ -193,7 +197,7 @@ ol.text li {
 }
 
 a {
-  color: #d40025;
+  color: var(--highlightedColorLight);
   background: white;
   text-underline-offset: 1px;
 }
@@ -209,7 +213,7 @@ h2 .react {
 
 #badges img {
   height: 24px;
-  filter: hue-rotate(-13deg) contrast(1.3) saturate(0.81);
+  filter: hue-rotate(-18deg) contrast(1.3) saturate(0.81);
 }
 
 li .react {
@@ -223,7 +227,7 @@ li .react {
 }
 
 .icons {
-  color: #d40025;
+  color: var(--highlightedColorLight);
   font-weight: 600;
 }
 
@@ -354,7 +358,7 @@ code {
 }
 
 code span {
-  color: #d40025;
+  color: var(--highlightedColorLight);
   background: rgba(255, 255, 255, 0.9);
   font-weight: bold;
 }
@@ -368,7 +372,7 @@ code.active::before {
   content: "";
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-left: 12px solid #d40025;
+  border-left: 12px solid var(--highlightedColorLight);
   border-radius: 3px;
   height: 0px;
   width: 0;
@@ -494,7 +498,7 @@ ol.content li {
 
 ol.content li:nth-child(even) {
   background: rgb(246, 250, 252);
-  color: #d40025;
+  color: var(--highlightedColorLight);
 }
 
 ol.content li a {
@@ -811,7 +815,7 @@ ul li {
 }
 
 #deepurl:hover span {
-  background: #d40025;
+  background: var(--highlightedColorLight);
 }
 
 footer {
@@ -906,7 +910,8 @@ footer {
     overflow: auto;
   }
 
-  ol.content li, ol.content .underline {
+  ol.content li,
+  ol.content .underline {
     max-width: 440px;
     margin: auto;
   }
@@ -923,6 +928,7 @@ footer {
     z-index: 10;
     background: black;
     opacity: 0.5;
+    font-size: 18px;
   }
 
   .mobileonly #menuicon::before {
@@ -960,13 +966,13 @@ footer {
     background-color: #000d0c;
   }
 
-  .column .mobileonly span {
+  .column .mobileonly .sampleGallery {
     display: block;
     line-height: 2.2em;
     text-decoration: none;
     cursor: pointer;
-    color: #b8b8b8;
-    text-shadow: 0 0 11px #57e2ff;
+    color: #d16d6d;
+    text-shadow: 0 0 8px #d16d6d;
     background-image: url(https://roman-flossler.github.io/StoryShowGallery/img/story-show-gallery-logo.jpg);
     background-size: 99.3%;
     filter: brightness(1.2) saturate(1.8) hue-rotate(-8deg);
@@ -986,7 +992,7 @@ footer {
     white-space: nowrap;
     width: 100%;
     overflow: auto;
-    scrollbar-color: #183d44 #0e0e0e;
+    scrollbar-color: #183844 #0e0e0e;
     scrollbar-width: thin;
   }
 
@@ -1048,8 +1054,13 @@ footer {
   }
 
   #front-gallery img {
-    width: 97px;
+    width: 27vw;
     margin: 2px;
+  }
+
+  #badges {
+    margin-left: -20px;
+    text-align: center;
   }
 
   #bigcode p span {
@@ -1106,7 +1117,8 @@ footer {
   }
 
   ol.content .underline {
-    margin-left: -1rem; line-height: 2em;
+    margin-left: -1rem;
+    line-height: 2em;
   }
 
   code {
@@ -1437,7 +1449,7 @@ footer {
 }
 
 .dark #badges img {
-  filter: brightness(0.8) contrast(1.4) saturate(0.6);
+  filter: brightness(0.8) contrast(1.4) saturate(0.6) hue-rotate(-22deg);
   box-shadow: 0 0 7px #282828;
   margin-left: 3px;
 }

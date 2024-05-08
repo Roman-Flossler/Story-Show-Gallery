@@ -117,10 +117,10 @@ How to install and use StoryShowGallery React component:
 npm i story-show-gallery
 
 // import into React app:
-import StoryShowGallery, { SSG } from "story-show-gallery/src/react";
+import StoryShowGallery, { SSG } from "story-show-gallery/src/modules/react";
 
 // if you want EXIF support use:
-import StoryShowGallery, { SSG } from "story-show-gallery/src/react-exifr";
+import StoryShowGallery, { SSG } from "story-show-gallery/src/modules/react-exifr";
 
 // and also import CSS file:
 import "story-show-gallery/src/ssg.css";

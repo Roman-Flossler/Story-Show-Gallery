@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grid Overflow + Story Show Gallery lightbox</title>
-    <!-- CSS styles of Grid Overflow  -->
+
+    <!-- ~~~~ Grid Overflow CSS library, it creates responsive grid layout for thumbnails ~~~~  -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/GridOverflow3D.min.css" />
     <!-- Story Show Gallery on click opens images into full screen lightbox -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/story-show-gallery@3/dist/ssg.min.css" />
@@ -13,23 +14,26 @@
     <style>
       /* configuration of the Grid Overflow  */
       .gridOverflow {
-        --gridGap: 0px;
+        --gridGap: 1px;
         --itemMinWidth: 210px;
         --itemAspectRatio: 1;
         --itemRounding: 6px;
         --linkActionIcon: "⤢";
         --mobileRowItemsCount: 2;
-      }
-      .gridOverflow:not(.go-masonry) .go_gridItem {
-        box-shadow: 0 0 10px #000000;
+        .go_gridItem {
+          box-shadow: 0 0 3px #00253b;
+        }
       }
 
       .gridOverflow.go-masonry {
-        --gridGap: 10px;
+        --gridGap: 8px;
         --itemMinWidth: 30%;
         --itemRounding: 25% 88% 10% 88% / 18% 9px 15% 9px;
         --linkActionIcon: "»";
         --masonryItemHeight: 200px;
+        .go_gridItem {
+          box-shadow: none;
+        }
       }
 
       @media (max-width: 600px) {
@@ -41,45 +45,41 @@
 
       /* additional styles for parent element and text styles */
 
-      body {
-        padding: 0;
+      * {
         margin: 0;
-        min-height: 100vh;
-        background-image: linear-gradient(to bottom, rgb(255, 255, 255) 10%, hsla(126, 14%, 86%, 0.822) 100%),
-          url(https://www.faroeislands.io/visuals/bg/grass-texture.jpg);
+        color: #ffffffe0;
       }
-      a {
-        color: rgba(255, 255, 255, 0.88);
+      body {
+        min-height: 100vh;
+        background: #d4ddd1;
       }
       main {
         max-width: 880px;
         margin: auto;
-        padding: 3vw;
-        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+        padding: 1.5vw 3vw 3vw 3vw;
+        font-family: "Trebuchet MS", sans-serif;
         line-height: 1.33em;
-        color: rgba(255, 255, 255, 0.88);
       }
-
       .info {
         background-color: #750015;
-        margin: 0;
       }
       .heading {
-        margin: 0;
         background-color: rgb(47, 54, 63);
-        text-align: center;
       }
     </style>
   </head>
 
   <body>
     <main>
+      <h3 onclick="getElementById('grid').classList.toggle('go-masonry')"><u>🔄 Toggle gallery mode</u></h3>
+      <br />
+
       <!-- parent grid element - gridOverflow class creates responsive square grid from grid's direct children (items) -->
       <!-- go-3Dfx class adds to each grid item 3D animated effect on mouse over  -->
       <!-- go-actionIcon class adds to top right corner of grid items some symbol, but only if grid item is <a> tag  -->
+      <!-- go-masonry class switch the layout into masonry mode -->
 
-      <!-- ____ add go-masonry class to turn the grid layout into masonry mode ____  -->
-      <div class="gridOverflow go-3Dfx go-actionIcon ssg fs ssgdim">
+      <div class="gridOverflow go-3Dfx go-actionIcon ssg fs ssgdim" id="grid">
         <!-- grid item (grid's direct child) should have go_gridItem class. -->
         <a href="sorvagsvatn-lake.jpg" class="go_gridItem go_gridItem-vertigo">
           <img
@@ -125,6 +125,7 @@
           <div class="heading">
             <div>
               <h1># Grid Overflow</h1>
+              <br />
               <p>
                 <span style="font-size: 111%">+ Story Show Gallery lightbox</span> <br />
                 after a click on a thumbnail

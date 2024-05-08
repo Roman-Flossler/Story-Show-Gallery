@@ -1,8 +1,10 @@
-import StoryShowGallery, { SSG } from "story-show-gallery/src/react";
 import { useState } from "react";
+import StoryShowGallery, { SSG } from "story-show-gallery/src/react";
 import "story-show-gallery/src/ssg.css";
 
-// SsgReactExample is sample React component, which imports and uses StoryShowGallery
+// SsgReactExample is a sample React page/component, which imports and uses StoryShowGallery
+// you have to copy and import it into your React project, to try it 
+// short React tutorial is at https://roman-flossler.github.io/StoryShowGallery/#react-nextjs 
 
 function SsgReactExample() {
   // useState is here only as an example, how the SSG parameters can be switched using React

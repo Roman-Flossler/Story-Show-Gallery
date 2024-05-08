@@ -41,9 +41,6 @@
     <link rel="stylesheet" href="src/ssg.css" type="text/css" media="all">
     <script src="https://code.jquery.com/jquery-1.7.min.js" ></script>
     <script>
-        (window.jQuery || document.write('<script src="jQuery/jquery36.min.js"><\/script>'));
-    </script>
-    <script>
         var colorMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';        
         if ( localStorage && "colorMode" in localStorage ) {
             colorMode = localStorage.getItem("colorMode");
@@ -72,7 +69,7 @@
                         <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_fifth-element.jpg" onclick="SSG.run({fs:true, initImgName: ['fifth-element',0] });"  alt="SSG galery" />
                 </div>
                 
-                <span onclick="SSG.run({fs:true,  initImgName: ['story-show-gallery-logo',0] });"><b>&#xA420;</b> View demo gallery</span>
+                <span class="sampleGallery" onclick="SSG.run({fs:true,  initImgName: ['its-time',0] });"><b>&#xA420;</b> sample gallery</span>
                 <div id="menuicon"></div>
             </div>
 
@@ -242,7 +239,10 @@
 
 
             <p>
-               You can link files directly from CDN (faster loading), just copy these lines into your HTML:
+               It is better to <strong>link files from CDN</strong> - if a user has previously visited some webpage with jQuery or SSG library, 
+               files are already cached inside user's browser and don't need to be loaded again.
+                
+               Copy these lines into your HTML:
             </p>
             
             <code>
@@ -274,8 +274,8 @@
                 which runs the gallery. Unless nossg class is used. </p>   
  
              <p>A <strong>photo caption</strong> is taken from a thumbnail's <em>alt</em> att&shy;ribute, link text or <em>data-caption</em> attribute. 
-             The <strong>data-caption</strong> has top priority, if it is empty then no caption will appear. If you want to divide text in the caption into several parts use 
-             <strong>&lt;br&gt;&lt;br&gt;</strong> as a sepa&shy;rator. But it will only appear in the side caption, there is not enough space in the bottom caption. </p>
+             The <strong>data-caption</strong> has top priority, if it is empty then no caption will appear.</p>
+
              <p>You can also add author's name - enter it into <em>data-author</em> attribute of hyperlink.
                  SSG will create a gallery from all these four images (BigImage1~4):</p>
              
@@ -286,6 +286,14 @@
                  &lt;a href='<span>BigImage4.jpg</span> data-caption='<span>img caption</span>'&gt; text &lt;/a&gt;<br>
                  <em>// Hyperlinks with &lt;Picture&gt; tag inside are also supported.</em>
              </code>
+             
+             <p>If you want to divide text in the caption into several parts use &lt;ins&gt;◈&lt;/ins&gt; with some graphic symbol (or just space) as the separator. 
+                The graphic symbol will only appear in the bottom caption in landscape mode, in the side caption or in portrait mode will be spacing between text parts.
+             </p>
+
+             <p>An alternative is to simply use <strong>&lt;br&gt;&lt;br&gt;</strong>, which creates spacing between text parts.
+                Except for the bottom caption in landscape mode - there is not enough space for a full line spacing. </p>
+             
 
              <h3>Configuration</h3>
              <p>
@@ -351,14 +359,17 @@
                     <li><strong>ssg-loaded.html</strong> (optional) - a html file to load behind the last photo, typically a signpost to other galleries. 
                         Edit it to your liking.
                     </li>
+                    <li><strong>GridOverflow3D.css</strong> (extra) - CSS <a href="#layout">grid layout</a> for image thumbnails</li>
                 </ul>
                 <br>
-            <p>There are other three files which are for React: </p>
+            <p>The <strong>src/modules</strong> directory contains files ready to use with React, Next.js and Typescript:</p>
 
                 <ul>
                     <li><strong>ssg.esm.js</strong> - ssg.js in the form of ESM module, it can be imported.</li>
                     <li><strong>react.js</strong> - StoryShowGallery component for use in React app.</li>
                     <li><strong>react-exifr.js</strong> - same as the react.js, in addition it imports Exifr library to read EXIF data.</li>
+                    <li><strong>*.d.ts files</strong> - Typescript declaration files, which contain type information for JS files.</li>
+                    <li><strong>ssg-params.ts</strong> - Typescript type that defines SSG parameters used in the React component prop.</li>
 
                 </ul>            
             <p>
@@ -633,9 +644,7 @@ iceland = [];
                On this page the restart method is used in singpost after the gallery. It runs another gallery without exit fullscreen mode or reloading a page.
             </p>
 
-  
-        
-        <a name='js-module'></a>
+        <a name='react-nextjs'></a>
 
         <h2>Gallery for React <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"> and Next.js</h2>
         <!-- _____________________________________ -->          
@@ -648,10 +657,10 @@ iceland = [];
            npm i story-show-gallery<br>
            <br>
            <em>// import into React app: </em><br>
-           import StoryShowGallery, { SSG } from "story-show-gallery/src/react"; <br>
+           import StoryShowGallery, { SSG } <br> from "story-show-gallery/src/modules/react"; <br>
            <br>
            <em>// if you want EXIF support use:</em><br>
-           import StoryShowGallery, { SSG } from "story-show-gallery/src/react-exifr"; <br>
+           import StoryShowGallery, { SSG } <br> from "story-show-gallery/src/modules/react-exifr"; <br>
            <br>
            <em>// and also import CSS file: </em><br>
            import "story-show-gallery/src/ssg.css"; <br>
@@ -726,7 +735,7 @@ iceland = [];
                     <div class="topimg">
                         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/in-the-center.jpg">
                             <img id="checker" src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_in-the-center.jpg" 
-                            alt="<i>The long caption on larger screens is split <b>into two columns</b>.</i>  All photos in this gallery are from Michal coal mine in Ostrava city. The present technical state of the mine site has been preserved in the original condition from 1912 - 1915.<br><br> You can see here chain dressing rooms, guildhall, lamp house, pithead, lamp house bridge and engine room with the original technical equipment." /></a>
+                            alt="<i>The long caption on larger screens is split <b>into two columns</b>.</i><ins>•</ins>  All photos in this gallery are from Michal coal mine in Ostrava city. The present technical state of the mine site has been preserved in the original condition from 1912 - 1915.<ins>•</ins> You can see here chain dressing rooms, guildhall, lamp house, pithead, lamp house bridge and engine room with the original technical equipment." /></a>
                     </div>
 
                     <a href='https://roman-flossler.github.io/StoryShowGallery/photos/engine-room.jpg' data-author="photo by Flor">
@@ -751,11 +760,11 @@ iceland = [];
                 <p class="ssg ssglight">
                     <a href="https://roman-flossler.github.io/StoryShowGallery/photos/massive-pink-rabbit-maneater.JPG" data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
                      data-caption="<em>This is a  <strong>monument of the present</strong>, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.</em>                    
-                     <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
-                     <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
-                     <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam <strong>eRat</strong> volutpat. Duis sapien nunc, commodo etfuck.
-                     <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
-                     <br><br>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
+                     <ins>★</ins>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
+                     <ins>★</ins>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
+                     <ins>★</ins>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam <strong>eRat</strong> volutpat. Duis sapien nunc, commodo etfuck.
+                     <ins>★</ins>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
+                     <ins>★</ins>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc auctor. Etiam quis quam. Aliquam eRat volutpat. Duis sapien nunc, commodo etfuck.
                      ">
                         &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
                     <a data-caption="" href="https://roman-flossler.github.io/StoryShowGallery/photos/lombok_bangkang_cave.jpeg" target="_blank">Enlightment inside Bankang cave</a> - with empty data-caption<br>
@@ -781,7 +790,7 @@ iceland = [];
                 <li><a href="#order">Order of photos in the gallery</a></li>
                 <li><a href="#deeplinking">Deep linking, scrolling</a></li>                
                 <li><a href="#ssg-run">SSG.run & SSG.restart method</a></li>
-                <li><a href="#js-module">StoryShowGallery for React</a>
+                <li><a href="#react-nextjs">StoryShowGallery for React</a>
                     <img class='react' src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"></li>
                 <li class="mobileonli"><a href="#themes">🎨 Visual themes</a></li>
                 <div class="underline" >
@@ -957,8 +966,8 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
 
             iceland[ 0 ] = {
                 href: 'https://roman-flossler.github.io/StoryShowGallery/photos/reynisdrangar-black-beach.jpg',
-                alt: `Black beach Reynisfjara with Reynisdrangar rocks. There are sneaker waves which can easily pull you off into the sea. <br><br>
-                Legend says that the stacks originated when two trolls dragged a three-masted ship to land unsuccessfully and when daylight broke they became needles of rock.<br><br>
+                alt: `Black beach Reynisfjara with Reynisdrangar rocks. There are sneaker waves which can easily pull you off into the sea. <ins>🞠</ins>
+                Legend says that the stacks originated when two trolls dragged a three-masted ship to land unsuccessfully and when daylight broke they became needles of rock.<ins>🞠</ins>
                 Reynisdrangar appears several times throughout Netflix's Icelandic original series Katla, and is particularly significant to the series' protagonist Gríma as the site of her mother's death.`
             };
             iceland[ 1 ] = {
