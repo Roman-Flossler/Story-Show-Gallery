@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.9 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.10 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -2009,6 +2009,8 @@ button#copyLink::first-letter {
 
 html.ssg-active body, html.ssg-active {
     scroll-behavior: auto !important;
+    scrollbar-color: auto !important;
+    scrollbar-width: auto !important;
 }
 
 /* Firefox scrollbar, use it only if a browser doesn't support -webkit-scrollbar  */
@@ -2207,11 +2209,6 @@ background: linear-gradient(to top, rgba(43, 43, 43,0) 0%, rgba(43, 43, 43,1) 81
     }
 }
 
-html.ssg-active.ssgdim {
-    scrollbar-base-color: rgb(66, 66, 66);
-    scrollbar-track-color: rgb(33, 33, 33);
-}
-
 html.ssg-active.ssgdim ::-webkit-scrollbar, html.ssg-active.ssgdim ::-webkit-scrollbar-button {
     background: rgb(33, 33, 33);
 }
@@ -2267,11 +2264,6 @@ html.ssg-active.ssgdim ::-webkit-scrollbar-thumb {
     html.ssg-active.ssgblack {
         scrollbar-color: rgb(39, 39, 39) black; 
     }
-}
-
-html.ssg-active.ssgblack {
-    scrollbar-base-color: rgb(39, 39, 39);
-    scrollbar-track-color: black;
 }
 
 html.ssg-active.ssgblack ::-webkit-scrollbar, html.ssg-active.ssgblack ::-webkit-scrollbar-button {
@@ -2434,12 +2426,6 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
         scrollbar-color: rgb(188, 188, 188) #F5F5F5; 
     }
 }
-
-html.ssg-active.ssglight {
-    scrollbar-base-color: white;
-    scrollbar-track-color:#F5F5F5;
-}
-
 
 html.ssg-active.ssglight ::-webkit-scrollbar, html.ssg-active.ssglight ::-webkit-scrollbar-button {
     background:#F5F5F5;

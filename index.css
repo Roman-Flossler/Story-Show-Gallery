@@ -35,6 +35,8 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-color:#e26d7f #eeeeee;
+  scrollbar-width: thin;
 }
 
 h1,
@@ -1483,25 +1485,20 @@ footer {
   }
 }
 
-@media screen and (min-width: 950px) {
-  html.dark:not(.ssg-active) {
+
+  html.dark {
     scrollbar-color: #125266 #252929;
   }
 
-  html.dark:not(.ssg-active) {
-    scrollbar-base-color: #226677;
-    scrollbar-track-color: #252929;
-  }
-
-  html.dark:not(.ssg-active) ::-webkit-scrollbar {
+  html.dark ::-webkit-scrollbar {
     background: #252929;
   }
 
-  html.dark:not(.ssg-active) ::-webkit-scrollbar-thumb {
+  html.dark ::-webkit-scrollbar-thumb {
     background: #226677;
   }
 
-  html.dark:not(.ssg-active) ::-webkit-scrollbar-button {
+  html.dark ::-webkit-scrollbar-button {
     background: #3f4b4b;
   }
-}
+

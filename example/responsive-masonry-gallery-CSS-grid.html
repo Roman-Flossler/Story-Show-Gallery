@@ -20,9 +20,6 @@
         --itemRounding: 6px;
         --linkActionIcon: "⤢";
         --mobileRowItemsCount: 2;
-        .go_gridItem {
-          box-shadow: 0 0 3px #00253b;
-        }
       }
 
       .gridOverflow.go-masonry {
@@ -30,10 +27,7 @@
         --itemMinWidth: 30%;
         --itemRounding: 25% 88% 10% 88% / 18% 9px 15% 9px;
         --linkActionIcon: "»";
-        --masonryItemHeight: 200px;
-        .go_gridItem {
-          box-shadow: none;
-        }
+        --masonryItemHeight: 200px;        
       }
 
       @media (max-width: 600px) {
@@ -49,10 +43,6 @@
         margin: 0;
         color: #ffffffe0;
       }
-      body {
-        min-height: 100vh;
-        background: #d4ddd1;
-      }
       main {
         max-width: 880px;
         margin: auto;
@@ -63,15 +53,14 @@
       .info {
         background-color: #750015;
       }
-      .heading {
-        background-color: rgb(47, 54, 63);
-      }
     </style>
   </head>
 
-  <body>
+  <body style="min-height: 100vh; background: #d4ddd1">
     <main>
-      <h3 onclick="getElementById('grid').classList.toggle('go-masonry')"><u>🔄 Toggle gallery mode</u></h3>
+      <h3 onclick="getElementById('grid').classList.toggle('go-masonry')">
+        <u style="color: white; font-variant: small-caps; cursor: pointer">🔄 Toggle Masonry / Grid mode</u>
+      </h3>
       <br />
 
       <!-- parent grid element - gridOverflow class creates responsive square grid from grid's direct children (items) -->
@@ -122,7 +111,7 @@
           href="https://github.com/Roman-Flossler/Grid-Overflow"
           class="go_gridItem go_gridItem-panorama go_gridItem-centered"
         >
-          <div class="heading">
+          <div class="heading" style="background-color: rgb(47, 54, 63)">
             <div>
               <h1># Grid Overflow</h1>
               <br />
