@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.10 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.11 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1172,19 +1172,19 @@ SSG.displayFormat = function ( e ) {
         jQuery( '#SSG1 #f' + index ).removeClass( 'SSG_captionShift' );
     }
 
-    // if caption frame is shorter than screen Height, overflow is set to visible due to social sharing menu.
+    // if caption frame is lower than screen Height, overflow is set to visible due to social sharing menu.
     // SSG_scroll-caption is wider, there is plenty of content
     window.setTimeout( function() {
         if (!SSG.landscapeMode) {
-            jQuery('#SSG1 #f'+ index).removeClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index).removeClass('SSG_low-caption');
             jQuery('#SSG1 #f'+ index + ',' + '#SSG1 #uwp'+ index).removeClass('SSG_scroll-caption');
             return;
         };
         if ( jQuery('#SSG1 #uwp'+ index).outerHeight() < SSG.scrHeight * 0.94) {
-            jQuery('#SSG1 #f'+ index).addClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index).addClass('SSG_low-caption');
             jQuery('#SSG1 #f'+ index + ',' + '#SSG1 #uwp'+ index).removeClass('SSG_scroll-caption');
         } else {            
-            jQuery('#SSG1 #f'+ index).removeClass('SSG_short-caption');
+            jQuery('#SSG1 #f'+ index).removeClass('SSG_low-caption');
             jQuery('#SSG1 #f'+ index  + ',' +  '#SSG1 #uwp'+ index).addClass('SSG_scroll-caption');
         }
     }, 666);
@@ -1336,7 +1336,7 @@ SSG.getExif = function ( exif, captionInfo ) {
     
     // in captionInfo mode I want to get only one line exif info for caption
     if (SSG.cfgFused.captionExif == 'icon' && captionInfo && exifLine) return 'EXIF';
-    if (captionInfo) return exifLine + ( exifLine ? ' …' : "" );
+    if (captionInfo) return exifLine + ( exifLine ? '&nbsp;…' : "" );
 
     // if captionInfo === false return whole table for onclick detailed EXIF
     var exifTable = `
@@ -1391,7 +1391,7 @@ SSG.shareMenu = function(newOne, caption) {
     var textToShareEnc =  SSG.escapeHtml(encodeURIComponent( jQuery('h1').first().text() + ' - ' + caption ));
     var windowOpen = ' target="_blank" href="';
     var WindoOpenParams =  '" ';
-    var shareMenu = "<span class='SSG_share' " + (SSG.cfgFused.imgBorderRadius > 6 ? ("style='bottom:"+ (SSG.cfgFused.imgBorderRadius-1) + SSG.radiusUnit + "'") : "")  + "'><span class='SSG_share-menu'>" +
+    var shareMenu = "<span class='SSG_share' " + (SSG.cfgFused.imgBorderRadius > 6 ? ("style='bottom:"+ (SSG.cfgFused.imgBorderRadius-1) + SSG.radiusUnit + "'") : "")  + "><span class='SSG_share-menu'>" +
                 "<a class='linkedin' " + windowOpen + "https://www.linkedin.com/shareArticle?mini=true&url=" + urlToShareEnc + WindoOpenParams + " title='Share on Linkedin'></a>" + 
                 "<a class='whatsapp'  " + windowOpen + "https://wa.me/?text=" + urlToShareEnc + " - " + textToShareEnc + WindoOpenParams + " title='Share on WhatsApp'></a>" + 
                 "<a class='mess' " + windowOpen + "fb-messenger://share/?link=" + urlToShareEnc + WindoOpenParams + " title='Share on Messenger'></a>" + 
@@ -1451,7 +1451,9 @@ SSG.addImage = function () {
         var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
             newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
              SSG.cfgFused.watermarkText +"</span>"+ shareMenu +"</span></div>";
-        var caption = "<p class='SSG_title' id='p" + newOne + "'><span>" + caption + "<q></q>" + author + shareMenu + "</span></p>";
+         // wbr is optinal line break, it is conditioned so it appears only in case there are realy some content. Otherwise it would screw thin lines between images    
+        var caption = "<p class='SSG_title' id='p" + newOne + "'><span>" + caption + (caption ?  "<wbr>" : "") + "<q></q>" 
+                        + (author ?  "<wbr>" : "") + author  + shareMenu + "</span></p>";
                 
         var img = new Image();
         img.src = SSG.imgs[ newOne ].href;
@@ -1485,14 +1487,23 @@ SSG.addImage = function () {
         //onclick for share menu; onclick a.ico toggles overflow:visible, onclick on a. othericons hides share menu (overflow:hidden)
         jQuery( '#SSG1 #f' + newOne + ' .SSG_share a' ).click( function (e) {
             e.stopPropagation();
-            jQuery( '#SSG1 #f' + newOne + ' .SSG_share' ).toggleClass('share-visible-coarse');
-            if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
-                SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
-                SSG.closeFullscreen();
-            } else if (this.classList[0] == 'email') {
-                SSG.destroyOnFsChange = false; // opening email window could close FS mode and it would exit even the gallery
-                // in case that browser stays in FS mode (email client on Windows) set destroyOnFsChange back
-                setTimeout(function(){ SSG.destroyOnFsChange = true }, 1500);
+
+            if (navigator.share && (SSG.isMobile || SSG.isTablet)) {
+                const shareData = {
+                    url: window.location.href.split("#")[0] + '#' + SSG.getName(SSG.imgs[ newOne ].href),
+                    text: SSG.imgs[newOne].alt
+                  };
+                navigator.share(shareData);
+            } else {
+                jQuery( '#SSG1 #f' + newOne + ' .SSG_share' ).toggleClass('share-visible-coarse');
+                if( this.classList[0] != 'ico' && this.classList[0] != 'email' && SSG.inFullscreenMode ) {
+                    SSG.destroyOnFsChange = false; // prevents to close the gallery when onfullscreenchange event happens
+                    SSG.closeFullscreen();
+                } else if (this.classList[0] == 'email') {
+                    SSG.destroyOnFsChange = false; // opening email window could close FS mode and it would exit even the gallery
+                    // in case that browser stays in FS mode (email client on Windows) set destroyOnFsChange back
+                    setTimeout(function(){ SSG.destroyOnFsChange = true }, 1500);
+                }
             }
         } );
 

@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.10 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.11 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -281,6 +281,10 @@
 
 #SSG1 p .SSG_authorsign {
     font-style: italic;
+    white-space: nowrap;
+}
+
+#SSG1 :not(.SSG_chattyCaption) p.SSG_title q {
     white-space: nowrap;
 }
 
@@ -585,6 +589,10 @@
 
 #SSG1 .SSG_forlogo span.SSG_share {
     height: 30px;
+
+    a {
+        line-height: 24px;
+    }
 }
 
 #SSG1 figure.SSG_title .SSG_imgWrap .SSG_share,
@@ -637,8 +645,8 @@
     text-decoration: none !important;
 }
 
-#SSG1 .SSG_short-caption p {
-    /* short caption can be oveflowed by share menu */
+#SSG1 .SSG_low-caption p {
+    /* caption lower than screen height can be oveflown by share menu */
     overflow: visible !important;
 }
 
@@ -1175,6 +1183,10 @@ button#copyLink::first-letter {
         white-space: normal;
     }
     
+    #SSG1 p q {
+        white-space: normal !important;
+    }
+    
     #SSG1 .SSG_notitle p.SSG_title {
         margin: 5.8vh 0;
     }
@@ -1524,7 +1536,7 @@ button#copyLink::first-letter {
     }    
 }
 
-@media (orientation: landscape) and (min-width: 1000px) {
+@media (min-width: 1000px) {
     /* two colummns for long captions */
 
     #SSG1 figure.SSG_title.SSG_chattyCaption:not(.SSG_uwide) p > span {
@@ -2006,11 +2018,11 @@ button#copyLink::first-letter {
  * media query for touch devices, no scrollbar for IE and FF
  */
 
-
+/* set the gallery's scrollbars to default, so it doesn't take scrollbars style from the page  */
 html.ssg-active body, html.ssg-active {
     scroll-behavior: auto !important;
-    scrollbar-color: auto !important;
-    scrollbar-width: auto !important;
+    scrollbar-color: auto;
+    scrollbar-width: auto;
 }
 
 /* Firefox scrollbar, use it only if a browser doesn't support -webkit-scrollbar  */
@@ -2126,7 +2138,7 @@ html.ssg-active .SSG_wait {
         padding-left: 55px;
         background: no-repeat url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAABVCAMAAAArMteoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABhQTFRF/f39RklLr6+v3d3dfd3+Z6rAcHV3Nzc3Ry55RQAAAAh0Uk5T/////////wDeg71ZAAACLklEQVR42tSW22LlIAhFASv5/z+uF4LGG9h5Gl7anLjCBgWEZzBEjskY8TkaDFj8UYvoBnvMQnuQfyZjBzi6M5w2sHE5Oe3BAl+dKZ/FP8ez2hdEWdYpW/y0AOMiIok6nkBcfhwPLqF3OK3AvUs4L4hblz24yB8bYP8emUIg4vMXBYxNKQaoRji8OYPKCekGOROc5Ka/fAOGuv55Ekk2qMnJSmuOkutgJwcVTMtnEO0DMILWAZBQcAQxGkeuutyBaJXVBoxmIW9ANFvHGmS7WS3B6GiPK9DRHtPaGWTnCJhA/9AZTs7/AgJlY7wHxfivIPBtjJwtvP98NdvJQXUc+A4MS80+jyW9WTNm83usPxXXIVkZDxdgbrWtyfukNjA5LHnCLYi1kw8e001NxsMWfHTfWEZeAXU87MHZFMxh/BuIKusI4lspAnLZH7lQncCPLtAyKAP4AszbFKg4xSuQylKkSl6A7+wuivkPYCXpSirJCamF5wVZz7CUrDurQV1qivz7yB3pBp/PYi0FB9iL9ZmAH7Eu0+rwRfapr1rIpQNegEFbx53Y0r5AnYerEPVKduOynFJoD+DMD5a6gO6JLkLsrmRusbXHQ6/ct5m1S8JHOrmV9kPHKVamEXw1OMRKy4Ahz+TbjGGwesSyyIJRhiX2bW4wZYxcSsdRztbJ08EOc6kdxWobhsUX2aF0Ao38sL6F1TcJd9YGBizDPxnvwO4CtTTcgkjhYG/mfgUYAIPOZqKpW0DKAAAAAElFTkSuQmCC');
         background-size: 28px;
-        background-position-y: 10px;                
+        background-position-y: 10px;
     }
 
     #SSG_tip div.SSG_hintClassic {

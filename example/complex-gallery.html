@@ -12,14 +12,15 @@
     <base href="https://roman-flossler.github.io/StoryShowGallery/" target="_blank" />
 
     <style>
-        body { background:#d7e8e9; display: flex; justify-content: center; flex-wrap: wrap; 
-               overflow-x: hidden; text-align: center; font-family: sans-serif; }
-        p, code { background: #c2dde0; line-height: 2em; padding: 1em; }
-        code { display: block; font-family: monospace; cursor: pointer; }        
-        section.ssg { margin-top: 6em; width: 100%; max-width: 555px; }
-        #textcol {  width: 100%; max-width: 600px; }
-        h2 { margin: 1.3em 0 -0.4em 0; color: #ac0025; font-family: monospace; }
-        #outsider {width: 500px; position: relative; left: 200px;}
+        html {overflow-x: hidden;}
+        body { background:repeating-linear-gradient(55deg, #d8dcde 0%, #d7dada 10%); display: flex; justify-content: center; margin: 0; 
+        gap: 2rem; flex-wrap: wrap; overflow-x: hidden; text-align: center; font-family: sans-serif; min-height: 98vh; margin-left: -10vw; }
+        section p, code { background: #ebeeda; line-height: 2em; padding: 1em; border-bottom: 8px solid white; }
+        code { display: block; font-family: monospace; cursor: pointer; a { color: black; } }        
+        section.ssg { margin-top: 14.44vh; width: 100%; max-width: 555px; img { max-width: calc( 50% - 4px ); } }
+        #textcol {  width: 100%; max-width: clamp(500px, 39vw, 616px) ; } h2 { margin: 1.8em 0 0 0; color: #ac0025; font-family: monospace; }
+        a {color:#004797; padding: 0.25rem; background: inherit; &:hover {filter: hue-rotate(180deg);} } 
+        h2 + div {color: #ac0025;} #outsider {width: 500px; position: relative; left: 18vw;}
     </style>
 </head>
 
@@ -28,7 +29,10 @@
     <!-- Gallery 1 --------------------------------------------> 
     
     <section class="ssg fs vipssg ssgdim">
-        <h2>Gallery #1 (vip class):</h2><br clear="all">
+        <h2>Gallery #1:</h2>
+        <div>classes: ssg fs vipssg ssgdim</div>
+        <br clear="all">
+        
 
         <a href='photos/its-time.jpg'  data-author="photo by Flor">
             <img src="thumbs/thumb_its-time.jpg" alt="It's time! For a photo shoot of course." />
@@ -46,21 +50,23 @@
         <br clear='all'/>
         <br/>
         <a href='photos/massive-pink-rabbit-maneater.JPG' class="ssglink gossg">
-        ssglink to the rabbit (ssglink and gossg class)</a>
+        ssglink to the rabbit &#128048; (ssglink and gossg class)</a>
     </section>
     
 
     <section id="textcol">
+        <br>
 
         <!-- Gallery 2 --------------------------------------------> 
-        <h2>Gallery #2:</h2><br clear="all">
+        <h2>Gallery #2 - textlinks:</h2>
+        <div>classes: ssg ssglight</div>
         <p class="ssg ssglight" >    
             <a href='photos/massive-pink-rabbit-maneater.JPG'
             data-author="sculptor: Adam Trbušek, photog: Roman Flössler"
             data-caption="This is a <i>monument of the present</i>, it shows the state of society. The system we nurture is eating us slowly and we don't pay attention.">
-                &#128048; Massive pink rabbit man&#x2011;eater</a> - a text link to a photo. <br>
+                &#128048; Massive pink rabbit man&#x2011;eater</a> - it is happening!<br>
             <a href="photos/lombok-bangkang-cave.jpeg" target="_blank">
-                Enlightment inside Bankang cave</a> <br>
+                Enlightment inside Bankang cave</a> - Lombok experience <br>
             <a href='some-nice-image.JPEG' target="_blank">	&#128279; 
                 A broken link - You will notice it before site visitors do</a><br> 
             <a target="_blank" href="img/story-show-gallery-logo.jpg" class="nossg">

@@ -1,11 +1,12 @@
 {
   "name": "story-show-gallery",
-  "version": "3.3.10",
+  "version": "3.3.11",
   "author": "Roman Flössler",
   "license": "GPL-3.0",
   "description": "Vertical photo gallery lightbox optimized for smartphones. Optimally placed captions, fullscreen mode, EXIF, no ugly arrows. SSG supports your brand and marketing",
   "homepage": "https://roman-flossler.github.io/StoryShowGallery/",
-  "main": "./src/react.js",
+  "main": "./src/modules/react.js",
+  "types": "./src/modules/react.d.ts",
   "type": "module",
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
