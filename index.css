@@ -35,7 +35,7 @@
 
 html {
   scroll-behavior: smooth;
-  scrollbar-color:#e26d7f #eeeeee;
+  scrollbar-color: #e26d7f #eeeeee;
   scrollbar-width: thin;
 }
 
@@ -83,6 +83,10 @@ body {
 @media (min-width: 2500px) {
   body {
     font-size: 19px;
+  }
+
+  .ficol {
+    margin-left: calc((100% - (808px + 13% + 666px)) / 2) !important;
   }
 }
 
@@ -453,10 +457,12 @@ code.active {
 .ficol {
   width: 33%;
   margin-left: 14%;
+  max-width: 808px;
 }
 
 .secol {
   width: 30%;
+  max-width: 666px;
 }
 
 .column .mobileonly,
@@ -1230,6 +1236,7 @@ footer {
 @media (min-resolution: 120dpi), (-webkit-min-device-pixel-ratio: 1.25) {
   #SSG1 img[src*="html5-sample"] {
     image-rendering: pixelated !important;
+    filter: none !important;
   }
 }
 
@@ -1485,20 +1492,18 @@ footer {
   }
 }
 
+html.dark {
+  scrollbar-color: #125266 #252929;
+}
 
-  html.dark {
-    scrollbar-color: #125266 #252929;
-  }
+html.dark ::-webkit-scrollbar {
+  background: #252929;
+}
 
-  html.dark ::-webkit-scrollbar {
-    background: #252929;
-  }
+html.dark ::-webkit-scrollbar-thumb {
+  background: #226677;
+}
 
-  html.dark ::-webkit-scrollbar-thumb {
-    background: #226677;
-  }
-
-  html.dark ::-webkit-scrollbar-button {
-    background: #3f4b4b;
-  }
-
+html.dark ::-webkit-scrollbar-button {
+  background: #3f4b4b;
+}

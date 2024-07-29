@@ -866,6 +866,10 @@ SSG.cfg.fillExifBlanks = ['unknown lens', '?? lens', '', '', '-']
 <span>// Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.</span>
 SSG.cfg.enlargeImg = <em class="switchable" onclick="switchParam('enlargeImg',this)">false</em><em>;</em>
 
+<span>// Images are slightly sharpened when enlarged due to SSG settings or high resolution display (scaling in Windows is larger then 100%). </span>
+<span>// it doesnt't apply on Mac platform, because the sharpening looks really ugly there. </span>
+SSG.cfg.sharpenEnlargedImg = <em class="switchable" onclick="switchParam('sharpenEnlargedImg',this)">true</em><em>;</em>
+
 <span>// background opacity in range 0-100%</span>
 SSG.cfg.bgOpacity = <em class="switchable" onclick="switchParam('bgOpacity',this, [66 ,88, 93, 100])"> 100 </em><em>;</em>
 

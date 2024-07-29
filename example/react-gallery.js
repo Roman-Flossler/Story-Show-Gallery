@@ -3,14 +3,13 @@ import StoryShowGallery, { SSG } from "story-show-gallery/src/modules/react";
 import "story-show-gallery/src/ssg.css";
 
 // SsgReactExample is a sample React page/component, which imports and uses StoryShowGallery
-// you have to copy and import it into your React project, to try it 
-// short React tutorial is at https://roman-flossler.github.io/StoryShowGallery/#react-nextjs 
+// you have to copy and import it into your React project, to try it
+// short React tutorial is at https://roman-flossler.github.io/StoryShowGallery/#react-nextjs
 
 function SsgReactExample() {
   // useState is here only as an example, how the SSG parameters can be switched using React
-  // cross state is used for switching normal cursor to cross cursor inside the gallery
-  const [cross, setCross] = useState(false);
-
+  // theme defines visual theme of the gallery - black, dark, dim or light
+  const [themeDark, setThemeDark] = useState(true);
 
   // iceland array defines url, caption and author of photos
   const iceland = [];
@@ -38,15 +37,14 @@ function SsgReactExample() {
           fileToLoad: "https://roman-flossler.github.io/StoryShowGallery/play.html",
           watermarkText: "ꐠ Story Show Gallery",
           watermarkOpacity: 0.44,
-          theme: "dim",
-          crossCursor: cross,
+          theme: themeDark ? "dark" : "light",
           observeDOM: true,
           // SSG will observe DOM for changes, to know about image hyperlinks changes after page loads / render.
           // If you use routing in React or Next.js, observeDOM should be set to true, otherwise SSG won't work (except SSG.run with imgs array).
         }}
       />
 
-      <div className="butts" style={{ margin: "6em 0 2em 0", textAlign: 'center' }}>
+      <div className="butts" style={{ margin: "6em 0 2em 0", textAlign: "center" }}>
         <button
           onClick={() => {
             SSG.run({
@@ -65,10 +63,10 @@ function SsgReactExample() {
         ____
         <button
           onClick={() => {
-            setCross(!cross);
+            setThemeDark(!themeDark);
           }}
         >
-          gallery crossCursor = {cross.toString()}
+          gallery theme = {themeDark ? "dark" : "light"}
         </button>
         ____
         <button
@@ -80,12 +78,8 @@ function SsgReactExample() {
         </button>
       </div>
 
-
-      <div style={{ textAlign: "center", marginBottom: '6em' }} className="ssg fs ssglight">
-        <a
-          href="https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg"
-          data-author="photo by Flor"
-        >
+      <div style={{ textAlign: "center", marginBottom: "6em" }} className="ssg fs">
+        <a href="https://roman-flossler.github.io/StoryShowGallery/photos/its-time.jpg" data-author="photo by Flor">
           <img
             src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_its-time.jpg"
             alt="It's time! For a foto shoot of course."
@@ -100,10 +94,7 @@ function SsgReactExample() {
         </a>
         &nbsp;
         <a href="https://roman-flossler.github.io/StoryShowGallery/photos/refreshment.jpg">
-          <img
-            src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg"
-            alt=""
-          />
+          <img src="https://roman-flossler.github.io/StoryShowGallery/thumbs/thumb_refreshment.jpg" alt="" />
         </a>
       </div>
     </div>

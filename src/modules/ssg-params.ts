@@ -10,6 +10,7 @@ export type SsgParams = {
   socialShare?: boolean;
   hideImgCaptions?: boolean;
   enlargeImg?: boolean;
+  sharpenEnlargedImg?: boolean;
   captionExif?: string;
   fillExifBlanks?: string[];
   bgOpacity?: number;

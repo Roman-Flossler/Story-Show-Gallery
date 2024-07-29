@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.11 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.12 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -500,6 +500,7 @@
 #SSG1 figure .SSG_serror img {
     border: 0;
     height: 40px !important;
+    width: 324px !important;    
     max-width: 83vw;
     padding: 28vh 13vw !important;
     box-shadow: 0 0 2px 0px #10334d !important;
@@ -2442,6 +2443,11 @@ html.ssg-active.ssgblack ::-webkit-scrollbar-thumb {
 html.ssg-active.ssglight ::-webkit-scrollbar, html.ssg-active.ssglight ::-webkit-scrollbar-button {
     background:#F5F5F5;
 }
+
+html.ssg-active.ssglight .SSG_scroll-caption {
+    scrollbar-width: thin;
+}
+
 
 html.ssg-active.ssglight ::-webkit-scrollbar-thumb {
     background: rgb(222, 222, 222);

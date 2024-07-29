@@ -14,12 +14,12 @@
     <style>
         html {overflow-x: hidden;}
         body { background:repeating-linear-gradient(55deg, #d8dcde 0%, #d7dada 10%); display: flex; justify-content: center; margin: 0; 
-        gap: 2rem; flex-wrap: wrap; overflow-x: hidden; text-align: center; font-family: sans-serif; min-height: 98vh; margin-left: -10vw; }
+        gap: 2rem; flex-wrap: wrap; text-align: center; font-family: sans-serif; min-height: 98vh; overflow: hidden; }
         section p, code { background: #ebeeda; line-height: 2em; padding: 1em; border-bottom: 8px solid white; }
         code { display: block; font-family: monospace; cursor: pointer; a { color: black; } }        
-        section.ssg { margin-top: 14.44vh; width: 100%; max-width: 555px; img { max-width: calc( 50% - 4px ); } }
+        section.ssg { margin-top: 14.44vh; width: 100%; max-width: 555px; img { max-width: calc( 50% - 5px ); } }
         #textcol {  width: 100%; max-width: clamp(500px, 39vw, 616px) ; } h2 { margin: 1.8em 0 0 0; color: #ac0025; font-family: monospace; }
-        a {color:#004797; padding: 0.25rem; background: inherit; &:hover {filter: hue-rotate(180deg);} } 
+        section a {color:#004797; background: inherit; &:hover {filter: hue-rotate(180deg);} } 
         h2 + div {color: #ac0025;} #outsider {width: 500px; position: relative; left: 18vw;}
     </style>
 </head>
@@ -77,22 +77,22 @@
         <h2>SSG.run method examples:</h2><br clear="all">
 
         <code onclick="SSG.run( { imgs: iceland, fs:true, initImgID: 1 });">
-            <a> » SSG.run( { imgs: iceland, fs:true, initImgID: 1 }); </a>            
+            <a>⫸ SSG.run( { imgs: iceland, fs:true, initImgID: 1 }); </a>            
         </code>
         <br>        
         <code onclick="SSG.run( { 
             imgs: [ { href: 'https://www.faroeislands.io/photos/sorvagsvatn-lake.jpg', 
                     alt: 'Trælanípa Cliff - in Viking age slaves were pushed off the cliff.' } ], imgsPos:'start', initImgName: ['rabbit',0] });">
         <!-- The initImgID parameter respects .ssg class and shows only pictures from the gallery related to initImgID picture  -->
-        <a>» SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgName: ['rabbit',0] });</a>        
+        <a>⫸ SSG.run( { imgs: [ { href: 'traelanipa.jpg', alt: 'Trælanípa Cliff' } ], imgsPos:'start', initImgName: ['rabbit',0] });</a>        
         </code>
         <br>                
         <code onclick="SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});">
-            <a>» SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
+            <a>⫸ SSG.run({ initImgName: ['rabbit',0], cfg: { scrollDuration: 999, theme:'black', watermarkText: '🌋 Blackened'}});</a>
         </code>
 
          <!-- outside image -------------------------------------------->     
-        <h2>Outsider</h2><br clear="all">
+        <h2>Outsider >></h2><br clear="all">
             <!-- This image isn't inside in any gallery, but it will display together with the first gallery because of the vipssg class -->
             <a  href="photos/in-the-center.jpg" data-author="photo by Flor" class="fs">
                 <img id="outsider" src="thumbs/thumb_in-the-center.jpg" alt="If you like steampunk style, this is the dream place for shooting."  />

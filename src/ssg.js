@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.11 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.12 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -52,6 +52,10 @@ SSG.cfg.hideImgCaptions = false;
 
 // Enlarge image above its original resolution. But only if the image is smaller than two third of screen. It doesn't work on mobiles and tablets.
 SSG.cfg.enlargeImg = false; 
+
+// Images are slightly sharpened when enlarged due to SSG settings or high resolution display (scaling in Windows is larger then 100%). 
+// it doesnt't apply on Mac platform, because the sharpening looks really ugly there. 
+SSG.cfg.sharpenEnlargedImg = true;
 
 // EXIF info (or just the EXIF icon) appears as a part of the caption with link to full EXIF listing
 // 4 possible values: 'none' (no exif, default), 'standard', 'trim' (reduced lens info to save space), 'icon'
@@ -225,6 +229,7 @@ SSG.beforeRun = function () {
     var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase());
     var newIpads = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     SSG.isTablet = isTablet || newIpads;
+    SSG.isMac = window.navigator.userAgent.indexOf("Mac") != -1;
 
     // collection of all img hypelinks which can be in the gallery
     SSG.jQueryImgCollection = jQuery( SSG.jQueryImgSelector ).filter( jQuery( 'a:not(.nossg)' ) );
@@ -572,7 +577,7 @@ SSG.FSmode = function ( event ) {
         SSG.isFullscreenModeWanted = true;
     } else if ( mobilePortrait && event.fsa === undefined && SSG.pageFS && SSG.cfgFused.forceLandscapeMode && !/iPhone/i.test(window.navigator.userAgent)) {
         SSG.forceLandscapeMode(false, false);
-    } else if ( event.altKey ) {
+    } else if ( event && event.altKey ) {
         SSG.createGallery( SSG.initEvent );
     } else if ( mobileLandscape || SSG.isTablet || mobilePortraitFS || SSG.cfgFused.alwaysFullscreen ) {
         SSG.openFullscreen();
@@ -626,6 +631,8 @@ SSG.createGallery = function ( event ) {
     if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'SSG_border1' );
     SSG.setNotchRight();
     SSG.inExitMode && jQuery( 'body' ).append( "<div role='button' id='SSG_exit'></div>" );
+    jQuery( 'body' ).append( '<svg><filter id="SSGsharpen"><feConvolveMatrix color-interpolation-filters="sRGB" order="3" preserveAlpha="true" kernelMatrix="0 -1 0 -1 8.8 -1 0 -1 0" /></filter></svg>' );    
+
     // event listeners for SSG tags    
     jQuery( '#SSG_exit' ).click( () => {SSG.destroyGallery()} );
     jQuery( '#SSG1' ).click( SSG.touchScroll );
@@ -1195,27 +1202,38 @@ SSG.displayFormat = function ( e ) {
 SSG.onImageLoad = async function ( event ) {
 
     // Index of the newest loaded image
-    SSG.justLoadedImg = event.data.imgid;
-    SSG.imgs[event.data.imgid].exif = false;
+    var imgid = event.data.imgid
+    SSG.justLoadedImg = imgid;
+    SSG.imgs[imgid].exif = false;
     SSG.cfgFused.onImgLoad && SSG.cfgFused.onImgLoad(SSG.createDataObject(SSG.justLoadedImg));
 
     if ( SSG.cfgFused.enlargeImg && !SSG.isTablet && !SSG.isMobile ) {
-        var cImgH = jQuery('#SSG1 #i'+ event.data.imgid).innerHeight();
-        var cImgW = jQuery('#SSG1 #i'+ event.data.imgid).innerWidth();
+        var cImgH = jQuery('#SSG1 #i'+ imgid).height();
+        var cImgW = jQuery('#SSG1 #i'+ imgid).width();
         var ww = window.innerWidth;
         var wh = window.innerHeight;
         var imgRatio = cImgW / cImgH;
         var scrRatio = ww / wh;
         
-        //console.log('img: ' + cImgW + ' x ' + cImgH + ' - screen: '  + ww + ' x ' + wh );
+        // enlarge image only if it is smaller than two third of the screen
         if ( cImgH < wh * 0.66 && cImgW < ww * 0.66 ) {
                 if (imgRatio < scrRatio) {
-                    jQuery('#SSG1 #i'+ event.data.imgid).css( {'height':'81vh'}); 
+                    jQuery('#SSG1 #i'+ imgid).css( {'height':'81vh'}); 
                 } else {
-                    jQuery('#SSG1 #i'+ event.data.imgid).css( {'width':'83vw'}); 
+                    jQuery('#SSG1 #i'+ imgid).css( {'width':'83vw'}); 
                 }
         }
     }
+
+    var imgNaturalWidth = document.querySelector("#SSG1 #i" + imgid).naturalWidth;
+    var imgRenderedWidth = jQuery('#SSG1 #i'+ imgid).width();
+    // sharpen image, typically when image is upscaled due to devicePixelRatio > 1 or when image is enlarged. But it also depend if the image has sufficient resolution    
+    // rendered width in CSS pixels means CSS pixels * devicePixelRatio
+    if ((imgNaturalWidth < Math.min(window.devicePixelRatio,2) * imgRenderedWidth) && !SSG.isMac && SSG.cfgFused.sharpenEnlargedImg ) {
+        jQuery('#SSG1 #i'+ imgid).css( {'filter':'url(#SSGsharpen)'});
+    }
+    //console.log(imgNaturalWidth,imgRenderedWidth, window.devicePixelRatio)
+
 
     
     // if captionExif = icon run EXIF parsing only if the image caption isn't empty
