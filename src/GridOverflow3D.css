@@ -1,5 +1,5 @@
 /*!  
-    Grid Overflow ver: 1.2.4 -  https://github.com/Roman-Flossler/Grid-Overflow
+    Grid Overflow ver: 1.2.7 -  https://github.com/Roman-Flossler/Grid-Overflow
     Copyright (c) 2023 Roman Flössler - Grid Overflow is licensed under MIT license 
 */
 
@@ -55,7 +55,7 @@
   color: white;
   box-sizing: border-box;
   line-height: 1.33em;
-  padding: 0.15rem 1rem;
+  padding: 0.15rem 4%;
   width: auto;
   text-align: center;
   position: absolute;
@@ -63,7 +63,7 @@
 }
 
 .go_caption-full {
-  width: 100%;
+  width: 100% !important;
   display: block;
 }
 

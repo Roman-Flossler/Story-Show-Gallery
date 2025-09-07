@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.12 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.13 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -1155,16 +1155,17 @@ SSG.displayFormat = function ( e ) {
     var imgRatio = imgWidth / imgHeight;
     var vwidth = jQuery( window ).width();
     var vheight = window.innerHeight;
-    var photoFrameWidth =  vwidth > 1400 ? 0.82 : 0.77;
-    // if there are no captions calculate with 90% width (10% is for the arrow next to the first photo)    
+    var photoFrameWidth = 0.83;
+    // var photoFrameWidth =  vwidth > 1400 ? 0.83 : 0.81; // width is 83vw, so in 81vw the possible space wont be used at maximum and caption wont be so compressed
+    // if there are no captions calculate with 98% width
     if ( !SSG.imgs[index].alt && !SSG.imgs[index].author && !SSG.imgs[index].exif && !SSG.cfgFused.globalAuthorCaption ) {
-        photoFrameWidth = 0.9;
+        photoFrameWidth = 0.98;
     }
     var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
     var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
 
-    // SSG_uwide class can be given to a photo regardless if it has some captions. Empty captions space si hidden via CSS.
+    // SSG_uwide class can be given to a photo regardless if it has some captions. Empty captions space is hidden via CSS.
     if ( ((imgRatio - imageBoxRatio) * 100 ) + SSG.cfgFused.preferedCaptionLocation < 0 || preferSideCaption ) {
         jQuery( '#SSG1 #f' + index ).addClass( 'SSG_uwide' );
     } else {
@@ -1466,13 +1467,14 @@ SSG.addImage = function () {
 
         var imgStyles = "style='" + bWidth + lightFx + bColor + outlineOffset + OutlineColor + bRadius + bShadow + "'";
 
-        var imgWrap = "<div class='SSG_imgWrap'><span class='SSG_forlogo'><img id='i" +
-            newOne + "' src='" + SSG.imgs[ newOne ].href + "' " + imgStyles + " ><span class='SSG_logo' style='" + SSG.watermarkStyle + "'>" +
-             SSG.cfgFused.watermarkText +"</span>"+ shareMenu +"</span></div>";
+        var imgWrap = `<div class='SSG_imgWrap'><span class='SSG_forlogo'>
+                        <img id='i${newOne}' src='${SSG.imgs[newOne].href}' ${imgStyles} >
+                        <span class='SSG_logo' style='${SSG.watermarkStyle}'>${SSG.cfgFused.watermarkText}</span>
+                        ${shareMenu}</span></div>`;
          // wbr is optinal line break, it is conditioned so it appears only in case there are realy some content. Otherwise it would screw thin lines between images    
-        var caption = "<p class='SSG_title' id='p" + newOne + "'><span>" + caption + (caption ?  "<wbr>" : "") + "<q></q>" 
-                        + (author ?  "<wbr>" : "") + author  + shareMenu + "</span></p>";
-                
+        var caption = `<p class='SSG_title' id='p${newOne}'>
+                       <span>${caption}${caption ? "<wbr>" : ""}<q></q>${author ? "<wbr>" : ""}${author}${shareMenu}</span>
+                       </p>`;
         var img = new Image();
         img.src = SSG.imgs[ newOne ].href;
         // decoding the image just after loading, image is completly ready to render, it makes scroll animation more fluent
@@ -1481,15 +1483,19 @@ SSG.addImage = function () {
             img.decode().catch( function() { console.log('no image to decode') } );
         }
         // long caption needs some scrolling, and in the lanscape mode SSG_uwBlock has to be set rigid height, it helps when caption is widened
-        var captionLenghth = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length;
+        var captionLength = SSG.imgs[ newOne ].alt && SSG.imgs[ newOne ].alt.length;
 
-        var chattyCaption = captionLenghth >= 288 ? " SSG_chattyCaption" : "";
-        var textAlignedLeft = captionLenghth >= Math.abs(SSG.cfgFused.narrowCaptionsAlignThreshold) ? " SSG_textAlignedLeft" : "";
-        textAlignedLeft = captionLenghth >=  Math.abs(SSG.cfgFused.wideCaptionsAlignThreshold) 
-                            ? textAlignedLeft + " SSG_wideTextAlignedLeft" : textAlignedLeft + "";
-        jQuery( "#SSG1" ).append( "<figure id='f" + newOne + "' class='" + titleClass + chattyCaption + textAlignedLeft + "'><div id='uwb" +
-            newOne + "' class='SSG_uwBlock'>" + uwCaption + imgWrap + "</div>" + caption + "</figure>" );
-        
+        var chattyCaption = captionLength >= 288 ? " SSG_chattyCaption" : "";
+        var textAlign = "";
+        alignWhere = SSG.cfgFused.narrowCaptionsAlignThreshold < 0 ? "Left" : "Right";
+        if (captionLength >= Math.abs(SSG.cfgFused.narrowCaptionsAlignThreshold)) {
+          textAlign = "SSG_textAligned" + alignWhere;
+        }
+        if (captionLength >= Math.abs(SSG.cfgFused.wideCaptionsAlignThreshold)) {
+          textAlign = `SSG_textAligned${alignWhere} SSG_wideTextAligned${alignWhere}`;
+        }
+        jQuery( "#SSG1" ).append( `<figure id='f${newOne}' class='${titleClass} ${chattyCaption} ${textAlign}'>
+            <div id='uwb${newOne}' class='SSG_uwBlock'>${uwCaption}${imgWrap}</div>${caption}</figure>`);
         // it would be better to bind onImageLoad and onLoadError to img.decode, but older browsers :(
         // Imgid is an argument passed into SSG.onImageLoad.
         jQuery( '#SSG1 #i' + newOne ).on( 'load', {
