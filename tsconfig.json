@@ -1,8 +1,8 @@
 {
   // to generate d.ts files run npx tsc
 
-  // generate d.ts only for .js files in the following directory
-  "include": ["src/modules/*.js"],
+  // generate d.ts only for .js + jsx files in the following directory
+  "include": ["src/modules/*.js", "src/modules/*.jsx"],
 
   "compilerOptions": {
     // Tells TypeScript to read JS files, as

@@ -5,7 +5,7 @@ export type SsgParams = {
   mobilePortraitFS?: boolean;
   forceLandscapeMode?: boolean;
   theme?: string;
-  crossCursor?: boolean;
+  hideCursorTimer?: number;
   fileToLoad?: string;
   socialShare?: boolean;
   hideImgCaptions?: boolean;

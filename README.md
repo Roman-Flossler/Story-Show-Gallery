@@ -5,12 +5,16 @@
 
 Story Show Gallery is a vertical photo **gallery lightbox** optimised for smart­phones (including notch area). It combines photos and captions nicely, it has full screen mode, EXIF support, no ugly arrows. SSG supports your brand and marketing.
 
+SSG has very **easy setup**, it binds onto image hyper­links on the page auto­mati­cally. You can control this proccess by CSS classes.
+
+[![HTML5 example of SSG implementation](https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png)](https://roman-flossler.github.io/StoryShowGallery/#html5)
+
 View demo gallery and documentation at [Story Show Gallery homepage](https://roman-flossler.github.io/StoryShowGallery/) <br>
 SSG is also in the form of a [Wordpress plugin](https://roman-flossler.github.io/StoryShowGallery/wordpress/)
 
-[![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
-
 The gallery can be set color theme, borders, rounding, watermark (image or text). SSG also offers social sharing and EXIF display.
+
+[![Story Show Gallery - fullscreen](https://roman-flossler.github.io/StoryShowGallery/img/fullscreen-gallery-SSG.jpg)](https://roman-flossler.github.io/StoryShowGallery/#lombok-bangkang-cave)
 
 ![image with simple framing](https://roman-flossler.github.io/StoryShowGallery/img/framedImage.jpg)
 
@@ -88,7 +92,7 @@ SSG binds onto image hyper­links on the page auto­mati­cally, BigImage1-4 wil
 ```
 
 The **ssg class** creates a separate gallery, the **fs class** will activate full screen mode.
-The BigImage4.jpg will open normally within a browser because of the **nossg class**. [There are more control classes](https://roman-flossler.github.io/StoryShowGallery/#classes).
+The BigImage5.jpg will open normally within a browser because of the **nossg class**. [There are more control classes](https://roman-flossler.github.io/StoryShowGallery/#classes).
 
 You can also run the gallery by calling [SSG.run method](https://roman-flossler.github.io/StoryShowGallery/#ssg-run) and passing an JS array of images into SSG.
 
@@ -152,10 +156,6 @@ Or copy selected settings into your document to override default configuration. 
   SSG.cfg.captionExif = 'trim'; // show EXIF with reduced lens info
 </script>
 ```
-
-Complete HTML5 example of SSG implementation and configuration:
-
-[![HTML5 example of SSG implementation](https://roman-flossler.github.io/StoryShowGallery/img/html5-sample-source-code-ssg.png)](https://roman-flossler.github.io/StoryShowGallery/#html5)
 
 Part of the configuration are also [SSG events](https://roman-flossler.github.io/StoryShowGallery/#events), you can use them to run your functions on the gallery start, on an image change, etc.
 

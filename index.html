@@ -215,11 +215,12 @@
             
             <h3>Visual settings</h3>
             <!-- _____________________________________ -->
-            <p>
-             <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">
-                SSG has 4 visual themes</a>, you can also configure the image border, set the background opacity or use a visually unobtrusive cross cursor.
+            <p>             
+                SSG has 4 visual themes, you can also configure the image border, set the background opacity or set hiding of the cursor on inactivity.
             </p>
-           
+            <a data-caption="SSG has 4 visual themes: dim, dark, black and light" href="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg">
+                <img src="https://roman-flossler.github.io/StoryShowGallery/img/themes.jpg" alt="SSG themes" class="imglink darken limg">
+            </a>
 
 
             <a name='license'></a>
@@ -840,8 +841,8 @@ SSG.cfg.forceLandscapeMode = <em class="switchable" onclick="switchParam('forceL
 <span>// Visual theme of the gallery - four possible values: dim, light, black, dark (default)</span>
 SSG.cfg.theme = <em class="switchable" onclick="switchParam('theme',this, [ 'dark', 'dim', 'black', 'light' ])"> "dark" </em><em>;</em>
 
-<span>// unobtrusive cross cursor</span>
-SSG.cfg.crossCursor = <em class="switchable" onclick="switchParam('crossCursor',this)">false</em><em>;</em>
+<span>// hide cursor after defined miliseconds of inactivity, set to 0 to disable hiding of cursor</span>
+SSG.cfg.hideCursorTimer = <em class="switchable" onclick="switchParam('hideCursorTimer',this, [0, 1234, 2345, 3456])"> 0 </em><em>;</em>
 
 <span>// URL of the HTML file to load behind the gallery (usually a signpost to other galleries). </span>
 <span>// HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.</span>

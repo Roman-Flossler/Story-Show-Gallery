@@ -2107,16 +2107,12 @@ html.ssg-active ::-webkit-scrollbar-button {
 
 /* cursors */
 
-html.ssg-active.crosscur {
-    cursor: url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs='), url(https://www.flor.cz/js/SSG/cross-ssg.cur), text;
-    cursor: -webkit-image-set(
-        url('data:image/gif;base64,R0lGODlhEwATAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAATABMAAAInlH+AyxcNU4xvNmVZzQhz93UREJBmiZ7mGIKt4IVbGH/zV3M3lx8FADs=') 1x,
-        url('data:image/gif;base64,R0lGODlhJgAmAJECAAAAALW1tQAAAAAAACH5BAEAAAIALAAAAAAmACYAAAJklI95AOoPFYu0nhCshnj7NH1iKHpdaWboRq5V60ZnTM00BN9So3Nq77ABEbmhoEhhYJQBphOwhDalz2h1Gs1it1dkxNsD64RGAdkovqVp52EbuI7FXe9eXTdf5VH3W5+2VxJYAAA7') 2x
-), auto;    
-}
-
 html.ssg-active .SSG_wait {
     cursor: wait;
+}
+
+html.ssg-active.hideCursor {
+    cursor: none;
 }
 
 @media (pointer: coarse), (hover: none) {

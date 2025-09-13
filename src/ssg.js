@@ -37,8 +37,8 @@ SSG.cfg.forceLandscapeMode = false;
 // Visual theme of the gallery - four possible values: dim, light, black, dark (default)
 SSG.cfg.theme = 'dark'
 
-// unobtrusive cross cursor
-SSG.cfg.crossCursor = false;
+// hide cursor after defined miliseconds of inactivity, set to 0 to disable hiding of cursor
+SSG.cfg.hideCursorTimer = 0;
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). 
 // HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.
@@ -254,11 +254,11 @@ SSG.run = function ( event ) {
     if( event && event.cfg && Object.assign ) {
         Object.assign(SSG.cfgFused, SSG.cfg, event.cfg );
     } else {
-        Object.assign(SSG.cfgFused, SSG.cfg);        
+        Object.assign(SSG.cfgFused, SSG.cfg);
     }
-    SSG.cfgFused.crossCursor && jQuery( 'html' ).addClass( 'crosscur' );
+    // instead of obsolete crossCursor use hideCursorTimeout
+    if (SSG.cfgFused.crossCursor) SSG.cfgFused.hideCursorTimer = 1234;
 
-    
     if (event && event.initImgName) {
         // from initImgName is derived initImgID and initImgName is not needed anymore
         event.initImgID = SSG.findImage( SSG.jQueryImgCollection.toArray(), event.initImgName[0],  event.initImgName[1])
@@ -747,6 +747,7 @@ SSG.initGallery = function ( event ) {
     jQuery( document ).on( 'touchmove', SSG.slideBrowse );
     jQuery( document ).on( 'touchend', SSG.slideEnd );
     SSG.iphoneScrollBlock();
+    if ( SSG.cfgFused.hideCursorTimer > 0 ) jQuery( document ).on( 'mousemove', SSG.mouseMoveHandler );
 
     jQuery( document ).on( 'scroll', function removeArrowDown() {
         // in portrait mode, if the gallery is fully scrolled to the first image, on next scroll hide arrow down
@@ -756,6 +757,16 @@ SSG.initGallery = function ( event ) {
             jQuery( document ).off( 'scroll', removeArrowDown );
         }
     })
+};
+
+SSG.mouseMoveHandler = function(e) {
+  clearTimeout(SSG.hideCursorTimeout);
+  if ( jQuery('html').hasClass('hideCursor') ) {
+    jQuery( 'html' ).removeClass( 'hideCursor' );
+  }
+  SSG.hideCursorTimeout = setTimeout(() => {
+    jQuery( 'html' ).addClass( 'hideCursor' )
+  },  SSG.cfgFused.hideCursorTimer); 
 };
 
 SSG.onOrientationChanged = function () {
@@ -1487,7 +1498,7 @@ SSG.addImage = function () {
 
         var chattyCaption = captionLength >= 288 ? " SSG_chattyCaption" : "";
         var textAlign = "";
-        alignWhere = SSG.cfgFused.narrowCaptionsAlignThreshold < 0 ? "Left" : "Right";
+        var alignWhere = SSG.cfgFused.narrowCaptionsAlignThreshold < 0 ? "Left" : "Right";
         if (captionLength >= Math.abs(SSG.cfgFused.narrowCaptionsAlignThreshold)) {
           textAlign = "SSG_textAligned" + alignWhere;
         }
@@ -1942,6 +1953,7 @@ SSG.destroyGallery = function (mode) {
     jQuery( document ).off( 'touchstart', SSG.slideStart );
     jQuery( document ).off( 'touchmove', SSG.slideBrowse );
     jQuery( document ).off( 'touchend', SSG.slideEnd );
+    jQuery( document ).off( 'mousemove', SSG.mouseMoveHandler );
     window.removeEventListener( 'orientationchange', SSG.onOrientationChanged );
     document.removeEventListener( "touchmove", SSG.iphoneShit, false );
     SSG.userAcceptFs = false;
@@ -1971,7 +1983,7 @@ SSG.destroyGallery = function (mode) {
     }
 
     jQuery( '#SSG_bg, #SSG1, #SSG_exit, #SSG_lastone, #SSG_tip' ).remove();
-    jQuery( 'html' ).removeClass( 'ssg-active crosscur ssgdim ssglight ssgblack' );
+    jQuery( 'html' ).removeClass( 'ssg-active hideCursor ssgdim ssglight ssgblack' );
     jQuery( "meta[name='viewport']" ).attr( 'content', SSG.viewport );
     jQuery( "meta[name='theme-color']" ).attr( 'content', SSG.themeColor ? SSG.themeColor : '' );
 
