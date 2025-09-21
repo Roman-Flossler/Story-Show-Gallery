@@ -137,7 +137,7 @@ import "story-show-gallery/src/ssg.css";
 
 You can import story-show-gallery into root component (app.js or \_app.js in case of Next.js) so the all aplication can use it.
 Or import it just into some component/page with a gallery.
-There is sample implementation (**SsgReactExample.js**) in the example directory.
+There is sample implementation (**SsgReactExample.jsx**) in the example directory.
 
 <br>
 

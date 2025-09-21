@@ -29,21 +29,19 @@
     "uglifycss": "latest"
   },
   "keywords": [
-    "gallery",
-    "photo",
-    "image",
+    "image gallery",
+    "photo-gallery",
+    "react-gallery",
+    "gallery thumbnails",
     "lightbox",
-    "vertical",
-    "jquery",
+    "react-lightbox",
     "fullscreen",
+    "mobile-first",
+    "responsive",
     "jquery-plugin",
     "ecosystem:jquery",
-    "responsive",
-    "minimalist",
-    "photo gallery",
-    "scroll",
-    "touch",
-    "mobile"
+    "ecosystem:react",
+    "deep-linking"
   ],
   "bugs": {
     "url": "https://github.com/Roman-Flossler/Simple-Scroll-Gallery/issues"

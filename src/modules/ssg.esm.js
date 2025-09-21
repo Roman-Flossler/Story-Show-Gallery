@@ -39,7 +39,7 @@ SSG.cfg.forceLandscapeMode = false;
 SSG.cfg.theme = 'dark'
 
 // hide cursor after defined miliseconds of inactivity, set to 0 to disable hiding of cursor
-SSG.cfg.hideCursorTimer = 0;
+SSG.cfg.hideCursorTimer = 1111;
 
 // URL of the HTML file to load behind the gallery (usually a signpost to other galleries). 
 // HTML file has to be loaded over http(s) due to a browser's CORS policy. Set to null if you don't want it.
@@ -220,9 +220,7 @@ SSG.run = function ( event ) {
         Object.assign(SSG.cfgFused, SSG.cfg, event.cfg );
     } else {
         Object.assign(SSG.cfgFused, SSG.cfg);
-    }
-    // instead of obsolete crossCursor use hideCursorTimeout
-    if (SSG.cfgFused.crossCursor) SSG.cfgFused.hideCursorTimer = 1234;
+    }    
 
     if (event && event.initImgName) {
         // from initImgName is derived initImgID and initImgName is not needed anymore
@@ -658,9 +656,9 @@ SSG.initGallery = function ( event ) {
 
     // Adding meta tags for mobile browsers to maximize viewport and dye an address bar into the dark color
     if (!SSG.cfgFused.scaleLock1) {
-        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover' );
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'width=device-width, initial-scale=1, viewport-fit=cover' );
     } else {
-        jQuery( "meta[name='viewport']" ).attr( 'content', 'initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no, ' );
+        jQuery( "meta[name='viewport']" ).attr( 'content', 'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no, ' );
     }    
     var themecolor = SSG.theme == 'light' ? '#fafafa' : '#131313';
     if ( SSG.themeColor ) {
@@ -725,13 +723,15 @@ SSG.initGallery = function ( event ) {
 };
 
 SSG.mouseMoveHandler = function(e) {
+  
   clearTimeout(SSG.hideCursorTimeout);
-  if ( jQuery('html').hasClass('hideCursor') ) {
+  if ( jQuery('html').hasClass('hideCursor') && Math.abs(SSG.cursorPosX - e.clientX) > 33 ) {
     jQuery( 'html' ).removeClass( 'hideCursor' );
   }
   SSG.hideCursorTimeout = setTimeout(() => {
+    SSG.cursorPosX = e.clientX;
     jQuery( 'html' ).addClass( 'hideCursor' )
-  },  SSG.cfgFused.hideCursorTimer); 
+  },  SSG.cfgFused.hideCursorTimer || 999999); 
 };
 
 SSG.onOrientationChanged = function () {
@@ -1138,7 +1138,7 @@ SSG.displayFormat = function ( e ) {
         photoFrameWidth = 0.98;
     }
     var imageBoxRatio = ( vwidth * photoFrameWidth ) / (vheight*0.97 - 30);
-    var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.38);
+    var tooNarrow = (vwidth * photoFrameWidth > imgWidth * 1.44);
     var preferSideCaption = tooNarrow && SSG.cfgFused.sideCaptionforSmallerLandscapeImg;
 
     // SSG_uwide class can be given to a photo regardless if it has some captions. Empty captions space is hidden via CSS.

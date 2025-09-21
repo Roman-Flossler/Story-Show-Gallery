@@ -503,13 +503,13 @@
     overflow: hidden; /* bug fix */
 }
 
-#SSG1 figure .SSG_serror img {
+#SSG1 figure .SSG_serror .SSG_imgWrap  img {
     border: 0;
     height: 40px !important;
     width: 324px !important;    
     max-width: 83vw;
     padding: 28vh 13vw !important;
-    box-shadow: 0 0 2px 0px #10334d !important;
+    box-shadow: none !important;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
@@ -1603,7 +1603,7 @@ button#copyLink::first-letter {
     }
 }
 
-@media (orientation: landscape) and (min-width: 1400px) {
+@media (orientation: landscape) and (min-width: 1444px) {
 
     /* smaller title block for higher resolutions */
     #SSG1 .SSG_uwide p.SSG_uwtitle:not(.SSG_scroll-caption) {
