@@ -47,6 +47,7 @@ export type SsgParams = {
   hintFS?: string;
   toTheTop?: string;
   exitLink?: string;
+  noAutoRotate?: string;
   imageLink?: string;
   copyButton?: string;
   linkPaste?: string;

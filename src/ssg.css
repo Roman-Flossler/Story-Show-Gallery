@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.13 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.14 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  
 */
 /*   
@@ -922,10 +922,10 @@
 @keyframes arrow-trans-down {
     0% { transform: translate(0,0);  }
     69% { transform: translate(0,0);  }
-    77% {  opacity: 0.55; }
+    77% {  opacity: 0.66; }
     84% { transform: translate(0,0.4em); opacity: 0; }
     85% { transform: translate(0,-0.4em); opacity: 0; }
-    91% {  opacity: 0.55; }
+    91% {  opacity: 0.66; }
     100% { transform: translate(0,0);   }
 }
 
@@ -1121,10 +1121,11 @@ button#copyLink::first-letter {
         margin-top: -4.3vh;
         font-style: italic;
         opacity: 0.8;
-        text-shadow: 1px 1px 2px black, 0px 0px 4px black;
+        text-shadow: 1px 1px 2px black, 0px 0px 4px black, 0px 0px 4px black;
         text-decoration: underline;
         text-decoration-style: dotted;
-        text-underline-offset: 3px;
+        text-underline-offset: 5px;
+        letter-spacing: 0.03em;
     }
 
     #SSG1 .SSG_golandscape i {
@@ -1150,12 +1151,13 @@ button#copyLink::first-letter {
     #SSG1 .SSG_tipCall {
         display: block;
         position: fixed ;
-        left: calc( 50vw - 16px );
+        left: calc( 50vw - 22px );
         top: auto;
         bottom: 1vh;
-        height: 32px;
-        width: 32px;
+        height: 44px;
+        width: 44px;
         background-color: rgb(22, 22, 22);
+        background-position: center 16px;
         border-radius: 50%;
         z-index: 6;
         opacity: 0.8;
@@ -1658,7 +1660,7 @@ button#copyLink::first-letter {
 }
 
 
-@media (orientation: landscape) and (max-width: 933px) {
+@media (orientation: landscape) and (max-width: 999px) {
 
     #SSG1 figure.SSG_notitle:not(.SSG_uwide) #p0 {
         margin-bottom: 6em;
@@ -1735,7 +1737,7 @@ button#copyLink::first-letter {
  * Media query for all smartphones
  */
 
-@media (max-width: 933px) and (orientation: landscape),
+@media (max-width: 999px) and (orientation: landscape),
 (max-width: 550px) and (orientation: portrait) {
 
     #SSG1 .SSG_imgWrap img,
@@ -1791,8 +1793,8 @@ button#copyLink::first-letter {
     }
     
     #SSG1 .SSG_golandscape {
-        margin-bottom: 2.2em;        
-        margin-top: -3.3vh;
+        margin-bottom: 3.7em;
+        margin-top: -2em;
     }
 
     #SSG1 p,
@@ -1859,7 +1861,7 @@ button#copyLink::first-letter {
     }
 }
 
-@media (max-width: 933px) and (orientation: landscape) {
+@media (max-width: 999px) and (orientation: landscape) {
 
     #SSG1 :not(.SSG_notitle) #p0 > span {
         padding-right: 4em;
@@ -1979,16 +1981,14 @@ button#copyLink::first-letter {
 
 
 /****************************************************************
- * 9. Iphone X
+ * 9. Iphone X and newer models
  *
  * secure safe area for Iphone X, media query for Iphone X models
  */
 
  @supports (-webkit-overflow-scrolling: touch) {
- /*   @supports (display: flex) { */
-
     
-    @media (min-width: 760px) and (max-width: 933px) and (orientation: landscape) {        
+    @media (min-width: 760px) and (max-width: 999px) and (orientation: landscape) {        
         
         #SSG1 figure:not(.SSG_uwide):not(.SSG_notitle) p.SSG_title {
             padding-bottom: 1em;
@@ -2000,7 +2000,7 @@ button#copyLink::first-letter {
 
     }
 
-    @media (min-width: 660px) and (max-width: 933px) and (orientation: landscape), 
+    @media (min-width: 660px) and (max-width: 999px) and (orientation: landscape), 
     (min-width: 350px) and (max-width: 480px) and (orientation: portrait)  {
 
         #SSG1,
@@ -2013,9 +2013,9 @@ button#copyLink::first-letter {
         }
 
         #SSG_exit {
-            top: -4px;
-            right: -4px;
-            background-position: 11px 25px;
+            top: 0px;
+            right: 0px;
+            background-position: 10px 26px;
             background-size: 15.5px;
         }
         
@@ -2175,7 +2175,7 @@ html.ssg-active.hideCursor {
         display: none;
     }
 
-	@media (max-width: 933px) and (orientation: landscape),
+	@media (max-width: 999px) and (orientation: landscape),
             (max-width: 550px) and (orientation: portrait) {
 	    html.ssg-active body.SSG_wait::after {
 			width: 14px;

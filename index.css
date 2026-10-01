@@ -972,6 +972,7 @@ footer {
     color: white;
     text-align: center;
     background-color: #000d0c;
+    box-shadow: 0px -30px 0px 30px #000808
   }
 
   .column .mobileonly .sampleGallery {

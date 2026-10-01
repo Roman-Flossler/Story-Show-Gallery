@@ -172,7 +172,7 @@
             <img src="https://roman-flossler.github.io/StoryShowGallery/img/QR-mobile.png" class="invert" alt="qr code" width="260" style="float:left; margin: 0 15px 0 -30px;"> 
             
             <p style="min-width: 180px;">You can use this QR code to try the Story Show Gallery on your smart&shy;phone. 
-                In the gallery's portrait mode, below the first image is the text <strong>" ↻ photos look better in land&shy;scape mode"</strong> (can be changed or deactiv&shy;ated). 
+                In the gallery's portrait mode, below the first image is the text <strong>" ↻ switch to land&shy;scape mode"</strong> (can be changed or deactiv&shy;ated). 
                 Tap on it and the gallery will switch to full screen, landscape mode. Iphone doesn't support this, the user has to unlock rotation and rotate the phone.  </p>
             <br clear="all">
             </div>
@@ -920,8 +920,8 @@ SSG.cfg.imgBorderColor = <em class="switchable" onclick="switchParam('imgBorderC
 SSG.cfg.imgOutlineColor = <em class="switchable" onclick="switchParam('imgOutlineColor',this, ['white','black','crimson'])"> "" </em><em>;</em>
 <span>// Light effect on image border - it looks good mainly on thicker borders</span>
 SSG.cfg.imgBorderLightFx = <em class="switchable" onclick="switchParam('imgBorderLightFx',this)">false</em><em>;</em>
-<span>// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
-SSG.cfg.imgBorderRadius = <em class="switchable" onclick="switchParam('imgBorderRadius',this, [0.3,3,50,0])"> 0 </em><em>;</em>
+<span>// radius is in vmax unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)</span>
+SSG.cfg.imgBorderRadius = <em class="switchable" onclick="switchParam('imgBorderRadius',this, [0.2,0,1,3,50])"> 0.2 </em><em>;</em>
 <span>// display shadow around the image (border) as it is defined in the theme</span>
 SSG.cfg.imgBorderShadow =  <em class="switchable" onclick="switchParam('imgBorderShadow',this)">true</em><em>;</em>
 
@@ -936,6 +936,10 @@ SSG.cfg.watermarkOffsetY = <em class="switchable" onclick="switchParam('watermar
 <span>// Watermark can be also positioned inside image border, use negative values to do so. Negative values are in pixels - as border width</span>
 SSG.cfg.watermarkOpacity = <em class="switchable" onclick="switchParam('watermarkOpacity',this, [0.6,1,0.36])">0.42</em><em>;</em> <span>// opacity</span>
 
+<span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
+SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true</em><em>;</em>
+SSG.cfg.landscapeHint = <em>"&lt;i&gt;↻&lt;/i&gt; switch to landscape mode"</em>
+
 <span>// Here you can translate SSG into other language. Leave tags &lt;&gt; and "" as they are.</span>
 SSG.cfg.hint1 = <em>"Browse through Story Show Gallery by:";</em>
 SSG.cfg.hint2 = <em>"a mouse wheel &lt;strong&gt;⊚&lt;/strong&gt; or arrow keys &lt;strong&gt;↓→↑←&lt;/strong&gt;";</em>
@@ -949,10 +953,6 @@ SSG.cfg.exitLink = <em>"Exit the Gallery";</em>
 SSG.cfg.imageLink = <em>"The link to selected image:";</em>
 SSG.cfg.copyButton  = <em>"⎘ Copy the link to clipboard";</em>
 SSG.cfg.linkPaste = <em>"…and you can paste it anywhere via ctrl+v";</em>
-
-<span>// in the portrait mode the gallery suggest to turn phone into landscape mode</span>
-SSG.cfg.showLandscapeHint = <em class="switchable" onclick="switchParam('showLandscapeHint',this)" >true</em><em>;</em>
-SSG.cfg.landscapeHint = <em>'&lt;i&gt;↻&lt;/i&gt; photos look better in landscape mode &lt;span&gt;📱&lt;/span&gt;';</em>
 
 <span>// SSG events - see complete example of SSG events in the example directory</span>
 SSG.cfg.onGalleryStart = <em>null;</em> <span>// fires on the gallery start before loading and displaying of the first image.</span>
@@ -1143,7 +1143,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
                     SSG.cfg.imgBorderWidthX = 24;
                     SSG.cfg.imgBorderWidthY = 24;
                     SSG.cfg.imgBorderColor = "#3A4345";
-                    SSG.cfg.watermarkOffsetY = -15;
+                    SSG.cfg.watermarkOffsetY = -17;
                     SSG.cfg.watermarkOffsetX = 3;
                     SSG.cfg.imgBorderLightFx = true;
                     SSG.cfg.imgOutlineColor = '#6e0a0a';
@@ -1163,7 +1163,7 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/lite.umd.js"> </script>
     <script src="src/ssg.js"></script>
     <script>
-    var isMobileScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
+    var isMobileScreen = window.matchMedia( '(max-width: 999px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.cfg.fileToLoad = 'https://roman-flossler.github.io/StoryShowGallery/dist/ssg-loaded.html';
     SSG.cfg.fillExifBlanks = ['Samyang 12mm, f/2', 'Samy 12mm, f/2', '18', '12', '© Roman Flössler']    
     SSG.cfg.observeDOM = true;
@@ -1172,7 +1172,6 @@ SSG.cfg.onGalleryExit = <em>null;</em>  <span>// fires on the gallery exit</span
     SSG.cfg.watermarkFontSize = 19;
     SSG.cfg.theme = (window.screen.width < 1666 && !isMobileScreen) ? 'dark' : 'dim';
     SSG.cfg.enlargeImg = window.innerWidth > 2500 ? true : false;
-    SSG.cfg.imgBorderRadius = "0.2";
     SSG.cfg.preferedCaptionLocation = 4.4;
     SSG.cfg.captionExif = 'trim';
     SSG.cfg.onImgLoad = function(data) { SSG.cfgFused.captionExif = data.imgName == "on-the-hook.jpg" ? 'icon' : SSG.cfg.captionExif; };

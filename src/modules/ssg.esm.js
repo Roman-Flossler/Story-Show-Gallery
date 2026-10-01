@@ -1,5 +1,5 @@
 /*!  
-    Story Show Gallery (SSG) ver: 3.3.13 - https://roman-flossler.github.io/StoryShowGallery/
+    Story Show Gallery (SSG) ver: 3.3.14 - https://roman-flossler.github.io/StoryShowGallery/
     Copyright (C) 2020 Roman Flossler - SSG is Licensed under GPLv3  */
 
 /*   
@@ -88,9 +88,9 @@ SSG.cfg.sideCaptionforSmallerLandscapeImg = false;  // false means caption below
 SSG.cfg.globalAuthorCaption = "";
 
 // Centre is the default alignment of the caption text. You can set the number of characters the caption's text must have to be aligned left or right.
-// Use a negative number to align text to the left and a positive number to align it to the right. Align right is not implemented yet.
+// Use a negative number to align text to the left and a positive number to align it to the right.
 //  e.g. -120 will align text to the left, if it is equal to or longer than 120 characters.
-SSG.cfg.narrowCaptionsAlignThreshold = -111;
+SSG.cfg.narrowCaptionsAlignThreshold = -86;
 // Narrow captions are side captions and bottom captions in mobile portrait mode. Wide captions are the remaining bottom captions.
 SSG.cfg.wideCaptionsAlignThreshold = -222;
 
@@ -116,8 +116,8 @@ SSG.cfg.imgBorderColor = "";
 SSG.cfg.imgOutlineColor = "";
 // Light effect on image border - it looks good mainly on thicker borders
 SSG.cfg.imgBorderLightFx = false;
-// radius is in vh unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
-SSG.cfg.imgBorderRadius = 0;
+// radius is in vmax unit, but above 33 is in percent of image size, so it is possible to achieve circle/ellipse (50)
+SSG.cfg.imgBorderRadius = 0.2;
 // display shadow around the image (border) as it is defined in the theme
 SSG.cfg.imgBorderShadow = true;
 
@@ -140,6 +140,7 @@ SSG.cfg.hintTouch = "<strong>Swipe</strong> left (right) or<br><strong>Tap</stro
 SSG.cfg.hintFS = 'For a better experience <br><a><abbr>⎚</abbr> go full screen</a>';
 SSG.cfg.toTheTop = "Scroll to top";
 SSG.cfg.exitLink = "Exit the Gallery";
+SSG.cfg.noAutoRotate = "Your device doesn't support auto-rotate, <br> rotate it manually to landscape.";
 
 // share link dialog
 SSG.cfg.imageLink = "The link to selected image:";
@@ -148,7 +149,7 @@ SSG.cfg.linkPaste = "…and you can paste it anywhere via ctrl+v";
 
 // in the portrait mode the gallery suggest to turn phone into landscape mode
 SSG.cfg.showLandscapeHint = true;
-SSG.cfg.landscapeHint = '<i>↻</i> photos look better in landscape mode <span>📱</span>';
+SSG.cfg.landscapeHint = '<i>↻</i> switch to landscape mode';
 
 // SSG events - see complete example of SSG events in the example directory
 SSG.cfg.onGalleryStart = null; // fires on the gallery start before loading and displaying of the first image.
@@ -190,7 +191,7 @@ SSG.beforeRun = function () {
 
     SSG.addClasses();
     
-    SSG.isMobile = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;    
+    SSG.isMobile = window.matchMedia( '(max-width: 999px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;    
     var isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase());
     var newIpads = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     SSG.isTablet = isTablet || newIpads;
@@ -366,7 +367,8 @@ SSG.setVariables = function () {
     SSG.location = window.location.href.split( '#', 1 )[ 0 ];
     SSG.viewport = jQuery( "meta[name='viewport']" ).attr( 'content' );
     SSG.themeColor = jQuery( "meta[name='theme-color']" ).attr( 'content' );
-    SSG.smallScreen = window.matchMedia( '(max-width: 933px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
+    // refresh isMobile so it is up to date with the current screen dimensions
+    SSG.isMobile = window.matchMedia( '(max-width: 999px) and (orientation: landscape), (max-width: 500px) and (orientation: portrait) ' ).matches;
     SSG.landscapeMode = window.matchMedia( '(orientation: landscape)' ).matches;
     SSG.actualPos = window.pageYOffset || document.documentElement.scrollTop;
     SSG.slide = {};  // touchmove data
@@ -387,7 +389,7 @@ SSG.setVariables = function () {
     if ( SSG.cfgFused.watermarkOffsetX === "") SSG.cfgFused.watermarkOffsetX = 1;
     
     // size adjustments for small screens
-    if (SSG.smallScreen) {
+    if (SSG.isMobile) {
         
         if( SSG.cfgFused.watermarkOffsetY < 0 ) {
             SSG.cfgFused.watermarkOffsetY *= 0.8;
@@ -410,8 +412,9 @@ SSG.setVariables = function () {
         SSG.cfgFused.watermarkFontSize *= 0.8;
         if (SSG.cfgFused.imgBorderRadius < 2) SSG.cfgFused.imgBorderRadius =  SSG.cfgFused.imgBorderRadius * ( SSG.cfgFused.imgBorderRadius * -0.4 + 1.8 );
         
-    } else {        
-        if (SSG.cfgFused.imgBorderRadius < 0.5) SSG.cfgFused.imgBorderRadius *= Math.pow( 1920 / window.innerWidth, 0.7 );
+    } else {
+        // normalize imgBorderRadius across different screen sizes
+        if (SSG.cfgFused.imgBorderRadius < 33) SSG.cfgFused.imgBorderRadius *= Math.pow( 1920 / window.screen.width, 0.7 );
     }
 
     // Styles for watermark
@@ -594,7 +597,7 @@ SSG.createGallery = function ( event ) {
     if ( SSG.cfgFused.imgBorderWidthY == 1) jQuery( '#SSG1' ).addClass( 'SSG_border1' );
     SSG.setNotchRight();
     SSG.inExitMode && jQuery( 'body' ).append( "<div role='button' id='SSG_exit'></div>" );
-    jQuery( 'body' ).append( '<svg><filter id="SSGsharpen"><feConvolveMatrix color-interpolation-filters="sRGB" order="3" preserveAlpha="true" kernelMatrix="0 -1 0 -1 8.8 -1 0 -1 0" /></filter></svg>' );    
+    jQuery( 'body' ).append( '<svg><filter id="SSGConvolveM"><feConvolveMatrix color-interpolation-filters="sRGB" order="3" preserveAlpha="true" kernelMatrix="0 -1 0 -1 8.8 -1 0 -1 0" /></filter></svg>' );    
 
     // event listeners for SSG tags    
     jQuery( '#SSG_exit' ).click( () => {SSG.destroyGallery()} );
@@ -725,11 +728,12 @@ SSG.initGallery = function ( event ) {
 SSG.mouseMoveHandler = function(e) {
   
   clearTimeout(SSG.hideCursorTimeout);
-  if ( jQuery('html').hasClass('hideCursor') && Math.abs(SSG.cursorPosX - e.clientX) > 33 ) {
+  if ( jQuery('html').hasClass('hideCursor') && (Math.abs(SSG.cursorPosX - e.clientX) > 33 || Math.abs(SSG.cursorPosY - e.clientY) > 33) ) {
     jQuery( 'html' ).removeClass( 'hideCursor' );
   }
   SSG.hideCursorTimeout = setTimeout(() => {
     SSG.cursorPosX = e.clientX;
+    SSG.cursorPosY = e.clientY;
     jQuery( 'html' ).addClass( 'hideCursor' )
   },  SSG.cfgFused.hideCursorTimer || 999999); 
 };
@@ -759,31 +763,37 @@ SSG.onOrientationChanged = function () {
     SSG.iphoneScrollBlock();
 };
 
-SSG.forceLandscapeMode = function(event, throwAlert) {
+SSG.forceLandscapeMode = async function(event, throwAlert) {
     event && event.stopPropagation();
-    // iPhone has crippled browser, this function doesn't work at all
-    if (/iPhone/i.test(window.navigator.userAgent)) {
+    // isLockSupported is false for an iPhone, it has crippled browser, doesn't support this feature
+    const isLockSupported = typeof screen?.orientation?.lock === 'function';
+    
+    if (!isLockSupported) {
         throwAlert && SSG.showFsTip( 'rotatErr' );
         return;
     }
-    
-    // isGalleryLandscaping = true suppress onResize in orientation and onFS event, so onResize runs only once in lock promise
-    SSG.isGalleryLandscaping = true;
-    // without FS mode screen.orientation.lock doesn't work
-    if ( !SSG.inFullscreenMode ) {
-        SSG.openFullscreen();
-    }
-    // setTimeout gives FS some time to render, before the orientation lock runs
-    setTimeout(function() {
-        if ( !SSG.landscapeMode && screen.orientation ) {
-            screen.orientation.lock("landscape-primary").then((success) => {
-                // onResize runs after gallery is turned into full screen and rotated, so onResize can run without problems and it needs just short time.
-                SSG.onResize();                
-            }).catch((err) => { console.log(err);  throwAlert && SSG.showFsTip( 'rotatErr' );} );
-            // if orientation.lock don't resolve, isGalleryLandscaping = true causes that normal orientation change won't be resized, after 2 seconds it will work again
-        }
-    }, 200)
 
+    // isGalleryLandscaping = true suppress onResize in orientation and onFS event, so onResize runs only once in lock promise
+    SSG.isGalleryLandscaping = true;    
+    
+    try {
+        // without FS mode screen.orientation.lock doesn't work
+        if ( !SSG.inFullscreenMode ) {
+            await SSG.openFullscreen();
+        }
+        if ( !SSG.landscapeMode && screen.orientation ) {
+            // this should be awaited, but the Android's Chrome has a bug: 
+            // Chrome will rotate the screen, but also throw an error which would (if awaited) end in a catch block and SSG.onResize wouldn't run.
+            // Catch block is executed only after the FS mode is closed, it is too late for running remedial SSG.onResize.
+            // without await the promise is uncaugt and won't end up in catch block (wont throw alert), SSG.onResize() will run in every situation. 
+            screen.orientation.lock("landscape");
+        }
+        SSG.onResize();
+    } catch (err) {
+        console.log(err);
+    }
+
+    // return to normal state, so onResize will run normally on orientation change and onFS event
     setTimeout(function () {SSG.isGalleryLandscaping = false;}, 2000);
 }
 
@@ -914,13 +924,16 @@ SSG.getAlt = function ( el ) {
     // If A tag has a children (img tag) with an alt atribute.
     } else if ( el.children[ 0 ] && el.children[ 0 ].alt )
         return el.children[ 0 ].alt;
-    // if A tag has Picture tag as a children        
+    // if A tag has Picture tag as a children
     else if ( el.children[ 0 ] && el.children[ 0 ].tagName == 'PICTURE') {
         return el.children[ 0 ].children[el.children[ 0 ].children.length-1].alt;
     }    
     // If A tag has inner text.
     else if ( el.innerText && el.innerText != ' ' )
         return el.innerText;
+    // if A tag has a title
+    else if ( el.title)
+        return el.title;
     else
         // There is no caption under image.
         return '';
@@ -1207,7 +1220,7 @@ SSG.onImageLoad = async function ( event ) {
     // sharpen image, typically when image is upscaled due to devicePixelRatio > 1 or when image is enlarged. But it also depend if the image has sufficient resolution    
     // rendered width in CSS pixels means CSS pixels * devicePixelRatio
     if ((imgNaturalWidth < Math.min(window.devicePixelRatio,2) * imgRenderedWidth) && !SSG.isMac && SSG.cfgFused.sharpenEnlargedImg ) {
-        jQuery('#SSG1 #i'+ imgid).css( {'filter':'url(#SSGsharpen)'});
+        jQuery('#SSG1 #i'+ imgid).css( {'filter':'url(#SSGConvolveM)'});
     }
     //console.log(imgNaturalWidth,imgRenderedWidth, window.devicePixelRatio)
 
@@ -1828,18 +1841,18 @@ SSG.seizeScrolling = function ( e ) {
     SSG.savedTimeStamp = e.timeStamp;
 };
 
-SSG.openFullscreen = function () {
+SSG.openFullscreen = async function () {
     var elem = document.documentElement;
     if ( elem.requestFullscreen ) {
-        elem.requestFullscreen({ navigationUI: "hide" });
+        await elem.requestFullscreen({ navigationUI: "hide" });
     } else if ( elem.mozRequestFullScreen ) {
 
         // Firefox
-        elem.mozRequestFullScreen({ navigationUI: "hide" });
+        await elem.mozRequestFullScreen({ navigationUI: "hide" });
     } else if ( elem.webkitRequestFullscreen ) {
 
         // Chrome, Safari and Opera
-        elem.webkitRequestFullscreen({ navigationUI: "hide" });
+        await elem.webkitRequestFullscreen({ navigationUI: "hide" });
     }
 };
 
@@ -1997,7 +2010,7 @@ SSG.showFsTip = function ( content ) {
             jQuery( 'body' ).append( begin + content + end );
             jQuery( '.SSG_exif-table' ).on( 'touchmove', function (e) { e.stopPropagation(); } );
         } else if (content == 'rotatErr') {
-            jQuery( 'body' ).append( begin + "Your device doesn't support auto-rotate, <br> rotate it manually to landscape." + end );
+            jQuery( 'body' ).append( begin + SSG.cfgFused.noAutoRotate + end );
         } 
         
         jQuery( '#SSG_tipClose' ).click( function () {
